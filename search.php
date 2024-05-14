@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-lg-4 mb-3">
                         <div class="bg-white p-4 dashboardCard ">
-                            <h5>Community Hashtags</h5>
+                            <h5>Interests</h5>
                             <div class="d-flex align-items-center gap-2 flex-wrap hashtag">
                                 <span># Happiness</span>
                                 <span># Worklife</span>

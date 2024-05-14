@@ -174,9 +174,9 @@
                                 <span><span></span>Online</span>
                             </div>
                         </div>
-                        <a class="btn d-flex gap-1 align-items-center" href="">
-                            <img src="assets/icon19.svg" alt="">
-                            Call
+                        <a type="button" class="btn d-flex gap-1 align-items-center" data-bs-toggle="modal" data-bs-target="#groupMemberModal">
+<!--                            <img src="assets/icon19.svg" alt="">-->
+                            Group Members
                         </a>
                     </div>
                     <div class="p-4">
@@ -189,7 +189,6 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-start justify-content-end message reply gap-2 py-3">
-
                             <div>
                                 <div class="mb-3  text-end"><span class="p-2">How are you?</span></div>
                             </div>
@@ -237,7 +236,85 @@
         </div>
     </div>
 
-
+    <div class="modal fade" id="groupMemberModal" tabindex="-1" aria-labelledby="groupMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="groupMemberModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body group-members">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>John Doe</span>
+                        <span>+1234567890</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <?php include_once 'includes/footerLinks.php'; ?>
 <script>

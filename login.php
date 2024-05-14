@@ -12,8 +12,8 @@
                     </div>
                     <div class="loginCard bg-white p-3 p-md-3 p-lg-5 mt-4">
                         <div class="form-group mb-3">
-                            <label class="mb-1">Email</label>
-                            <input class="form-control form-control-lg" type="email" placeholder="i.e. john@mail.com">
+                            <label class="mb-1">Username</label>
+                            <input class="form-control form-control-lg" type="email" placeholder="Username">
                         </div>
                         <div class="form-group mb-2">
                             <label class="mb-1">Password</label>
@@ -30,9 +30,9 @@
                                 <span class="mt-1">Remember me</span>
                             </label>
                         </div>
-                        <button class="btn btn-primary w-100 mt-3">
+                        <a href="visitors" class="btn btn-primary w-100 mt-3">
                             Sign in
-                        </button>
+                        </a>
 
                         <div class="linkText mt-3">
                             <span>Don’t have an account? <a class="text-decoration-none" href="register">Create an account</a></span>
@@ -43,5 +43,8 @@
         </div>
     </div>
 </main>
+
+
+
 <?php include_once 'includes/footer.php'; ?>
 

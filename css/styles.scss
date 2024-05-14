@@ -335,6 +335,8 @@ body {
     box-shadow: 0px 2px 12px 0px rgba(20, 20, 43, 0.08);
     padding-left: 2.3rem;
     padding-right: 2.3rem;
+    transition: 0.2s all ease-in-out;
+    cursor: pointer;
 
     .text-end {
       .badge {
@@ -417,6 +419,7 @@ body {
 
     &:hover, &.active {
       background-color: var(--primary-color);
+      transition: 0.2s all ease-in-out;
 
       .d-flex {
         .icon {
@@ -642,7 +645,12 @@ body {
                 font-weight: 300;
               }
             }
-
+            .arrow{
+              position: absolute !important;
+              z-index: 99;
+              right: 10px;
+              top: 39px;
+            }
             input, .form-select {
               color: var(--text-color);
               font-weight: 300;
@@ -1457,9 +1465,75 @@ body {
           }
 
 
+
         }
       }
+      .profile {
+        top: 4rem;
+        width: -webkit-fill-available;
 
+        .avatar-upload {
+          position: relative;
+          max-width: 145px;
+          margin: auto;
+          margin-bottom: 20px;
+
+          .avatar-edit {
+            position: absolute;
+            right: -6px;
+            z-index: 1;
+            bottom: 20px;
+
+
+            input {
+              display: none;
+
+              + label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                margin-bottom: 0;
+                border-radius: 100%;
+                background: #F4F4F4;
+                cursor: pointer;
+                font-weight: normal;
+                transition: all .2s ease-in-out;
+
+                &:hover {
+                  background: #f1f1f1;
+                  border-color: #d6d6d6;
+                }
+              }
+            }
+          }
+
+          .avatar-preview {
+            img {
+              width: 145px;
+              height: 145px;
+              border-radius: 50%;
+            }
+          }
+        }
+
+        .form-check-input {
+          border-color: var(--primary-color) !important;
+
+          &:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+          }
+
+          &:focus-visible, &:focus {
+            outline: unset !important;
+            border-color: var(--primary-color);
+            box-shadow: unset !important;
+          }
+        }
+
+      }
       h5 {
         color: var(--primary-color);
         font-size: 18px;
@@ -2051,7 +2125,7 @@ body {
 
       .row {
         .col-lg-6 {
-          .announcementCard {
+          .announcementCard , .marketPlaceCard {
             border-radius: 8px;
             border: 1px solid #E7E9ED;
 
@@ -3020,8 +3094,46 @@ body {
   overflow-y: scroll;
   transition: 0.2s left ease-in-out;
 }
+select.custom-select-styling{
+  background-image: unset !important;
+  color: var(--text-color) !important;
+  font-size: 14px !important;
+  font-weight: 300 !important;
+  option{
+    color: var(--text-color) !important;
+    font-size: 14px !important;
+    font-weight: 300 !important;
+    &:hover{
+      background-color: var(--primary-color) !important;
+      color: var(--white-color) !important;
+      font-size: 14px !important;
+      font-weight: 300 !important;
+    }
+  }
+  &:focus-visible , &:focus , &:active{
+    box-shadow: unset !important;
+    border: unset !important;
+    outline: unset !important;
+  }
+}
+.marketHeading , .modal-title{
+  font-weight: 700;
+  color: var(--primary-color)
+}
+.group-members{
+  max-height: 500px;
+  overflow-y: scroll;
+  cursor: pointer;
+  .d-flex{
+    margin-bottom: 0.6rem !important;
+    span{
+      color: var(--text-color) !important;
+      font-size: 14px !important;
+      font-weight: 300 !important;
+    }
+  }
 
-
+}
 
 
 

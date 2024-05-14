@@ -13,11 +13,17 @@
                     <div class="registerCard bg-white p-3 p-md-3 p-lg-5 mt-4">
                         <div class="form-group mb-3">
                             <label class="mb-1">Name</label>
-                            <input class="form-control form-control-lg" type="text" placeholder="i.e. John Doe">
+                            <input class="form-control form-control-lg" type="text" placeholder="John Doe">
                         </div>
                         <div class="form-group mb-3">
+                            <label class="mb-1">Username</label>
+                            <input class="form-control form-control-lg" type="text" placeholder="i.e. John_Doe466">
+                        </div>
+                        <div class="form-group mb-3 position-relative">
                             <label class="mb-1">Interest <span>(from 1 to 5)</span></label>
+                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div>
                             <select class="multipleChosen form-select" multiple=>
+
                                 <option value="1">Happiness</option>
                                 <option value="2">Worklife</option>
                                 <option value="3">Good</option>
@@ -33,13 +39,9 @@
                             <label class="mb-1">Password</label>
                             <input class="form-control form-control-lg" type="password" placeholder="**********">
                         </div>
-                        <button class="btn btn-primary w-100 mt-3">
+                        <a href="visitors" class="btn btn-primary w-100 mt-3">
                             Register
-                        </button>
-                        <button class="btn btn-outline-primary w-100 mt-3 d-flex justify-content-center align-items-center gap-2">
-                            <img src="assets/google.svg">
-                            <span>Sign up with Google</span>
-                        </button>
+                        </a>
                         <div class="linkText mt-3">
                             <span>Already have an account? <a class="text-decoration-none" href="login">Login</a></span>
                         </div>

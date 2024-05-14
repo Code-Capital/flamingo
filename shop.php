@@ -50,21 +50,21 @@
                                             <img src="assets/icon13.svg">
                                             <span>14</span>
                                         </div>
-                                        <div class="text d-flex align-items-center gap-3">
-                                            <img src="assets/icon14.svg">
-                                            <span>52</span>
-                                        </div>
+<!--                                        <div class="text d-flex align-items-center gap-3">-->
+<!--                                            <img src="assets/icon14.svg">-->
+<!--                                            <span>52</span>-->
+<!--                                        </div>-->
                                     </div>
-                                    <div class="svg">
-                                        <a class="btn p-0 text-decoration-none" href="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                                 viewBox="0 0 28 28" fill="none">
-                                                <path d="M10.4998 4.66663H17.4998C18.1187 4.66663 18.7122 4.91246 19.1498 5.35004C19.5873 5.78763 19.8332 6.38112 19.8332 6.99996V23.3333L13.9998 19.8333L8.1665 23.3333V6.99996C8.1665 6.38112 8.41234 5.78763 8.84992 5.35004C9.28751 4.91246 9.881 4.66663 10.4998 4.66663Z"
-                                                      fill="#fff" stroke="#FBB03B" stroke-width="1.5"
-                                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+<!--                                    <div class="svg">-->
+<!--                                        <a class="btn p-0 text-decoration-none" href="">-->
+<!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"-->
+<!--                                                 viewBox="0 0 28 28" fill="none">-->
+<!--                                                <path d="M10.4998 4.66663H17.4998C18.1187 4.66663 18.7122 4.91246 19.1498 5.35004C19.5873 5.78763 19.8332 6.38112 19.8332 6.99996V23.3333L13.9998 19.8333L8.1665 23.3333V6.99996C8.1665 6.38112 8.41234 5.78763 8.84992 5.35004C9.28751 4.91246 9.881 4.66663 10.4998 4.66663Z"-->
+<!--                                                      fill="#fff" stroke="#FBB03B" stroke-width="1.5"-->
+<!--                                                      stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
                                 </div>
 
                             </div>
@@ -145,21 +145,21 @@
                                             <img src="assets/icon13.svg">
                                             <span>14</span>
                                         </div>
-                                        <div class="text d-flex align-items-center gap-3">
-                                            <img src="assets/icon14.svg">
-                                            <span>52</span>
-                                        </div>
+<!--                                        <div class="text d-flex align-items-center gap-3">-->
+<!--                                            <img src="assets/icon14.svg">-->
+<!--                                            <span>52</span>-->
+<!--                                        </div>-->
                                     </div>
-                                    <div class="svg">
-                                        <a class="btn p-0 text-decoration-none" href="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                                 viewBox="0 0 28 28" fill="none">
-                                                <path d="M10.4998 4.66663H17.4998C18.1187 4.66663 18.7122 4.91246 19.1498 5.35004C19.5873 5.78763 19.8332 6.38112 19.8332 6.99996V23.3333L13.9998 19.8333L8.1665 23.3333V6.99996C8.1665 6.38112 8.41234 5.78763 8.84992 5.35004C9.28751 4.91246 9.881 4.66663 10.4998 4.66663Z"
-                                                      fill="#fff" stroke="#FBB03B" stroke-width="1.5"
-                                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+<!--                                    <div class="svg">-->
+<!--                                        <a class="btn p-0 text-decoration-none" href="">-->
+<!--                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"-->
+<!--                                                 viewBox="0 0 28 28" fill="none">-->
+<!--                                                <path d="M10.4998 4.66663H17.4998C18.1187 4.66663 18.7122 4.91246 19.1498 5.35004C19.5873 5.78763 19.8332 6.38112 19.8332 6.99996V23.3333L13.9998 19.8333L8.1665 23.3333V6.99996C8.1665 6.38112 8.41234 5.78763 8.84992 5.35004C9.28751 4.91246 9.881 4.66663 10.4998 4.66663Z"-->
+<!--                                                      fill="#fff" stroke="#FBB03B" stroke-width="1.5"-->
+<!--                                                      stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
                                 </div>
 
                             </div>
