@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -44,4 +45,36 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // ======================================================================
+    // Relationships
+    // ======================================================================
+
+    /**
+     * @return BelongsToMany
+     */
+    public function interests(): BelongsToMany
+    {
+        return $this->belongsToMany(Interest::class);
+    }
+
+    // ======================================================================
+    // Accessors
+    // ======================================================================
+
+
+    // ======================================================================
+    // Mutators
+    // ======================================================================
+
+
+    // ======================================================================
+    // Custom Functions
+    // ======================================================================
+
+
+    // ======================================================================
+    // Scopes
+    // ======================================================================
+
 }
