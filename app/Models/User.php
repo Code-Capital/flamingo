@@ -19,8 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'user_name',
     ];
 
     /**
@@ -60,7 +62,14 @@ class User extends Authenticatable
 
     // ======================================================================
     // Accessors
-    // ======================================================================
+    // ======================================================================\
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->name} {$this->last_name}";
+    }
 
 
     // ======================================================================

@@ -30,7 +30,7 @@
             <div class="row mx-0 align-items-stretch">
                 <div class="col-lg-4 mb-3">
                     <div class="content bg-white px-4 py-5 h-100">
-                        <img class="img-fluid" src="assets/icon1.svg">
+                        <img class="img-fluid" src="assets/icon1.svg" alt="">
                         <h4 class="mb-0 py-3">Profile Creation</h4>
                         <p class="pe-0 pe-md-3 pe-lg-5">Craft a vibrant, personalized profile to connect with
                             like-minded individuals.</p>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <div class="content bg-white px-4 py-5 h-100">
-                        <img class="img-fluid" src="assets/icon2.svg">
+                        <img class="img-fluid" src="assets/icon2.svg" alt="">
                         <h4 class="mb-0 py-3">Communicate & Connect</h4>
                         <p class="pe-0 pe-md-3 pe-lg-5">Engage actively, connect effortlessly, and build meaningful
                             relationships with others</p>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <div class="content bg-white px-4 py-5 h-100">
-                        <img class="img-fluid" src="assets/icon3.svg">
+                        <img class="img-fluid" src="assets/icon3.svg" alt="">
                         <h4 class="mb-0 py-3">Content Sharing</h4>
                         <p class="pe-0 pe-md-3 pe-lg-5">Share captivating stories, spark engaging conversations, and
                             inspire others' creativity.</p>

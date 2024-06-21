@@ -3,7 +3,7 @@
         <div class="row mx-0 pb-4">
             <div class="col-lg-3">
                 <div class="image">
-                    <img src=" assets/whiteLogo.png">
+                    <img src=" {{ asset('assets/whiteLogo.png') }} ">
                 </div>
             </div>
             <div class="col-lg-2">
@@ -88,6 +88,3 @@
         </div>
     </div>
 </footer>
-
-
-<?php include_once 'includes/footerLinks.php'; ?>

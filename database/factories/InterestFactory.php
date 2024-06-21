@@ -18,7 +18,7 @@ class InterestFactory extends Factory
      */
     public function definition(): array
     {
-        $word = $this->faker->unique()->word;
+        $word = ucfirst($this->faker->unique()->word);
         return [
             'name' => $word,
             'slug' => Str::slug($word),

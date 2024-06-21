@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('interest_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('interest_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('user_name')->after('id')->unique();
+            $table->string('last_name')->after('name')->nullable();
         });
     }
 
@@ -24,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('interest_user');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('user_name');
+            $table->dropColumn('last_name');
+        });
     }
 };
