@@ -15,12 +15,12 @@
     <link rel="manifest" href=" {{ asset('assets/favicon/site.webmanifest') }} ">
     <meta name="{{ config('app.name', 'Flamingo') }}" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <!-- Fonts -->
     {{-- <link rel="preconnect" href="https://fonts.googleapis.com">--}}
     {{-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--}}
     {{-- <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">--}}
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">--}}
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">--}}
-    <!-- Fonts -->
     {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
     {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>--}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,8 +34,6 @@
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 
-    <!-- Scripts -->
-    {{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
     @yield('styles')
 
 </head>

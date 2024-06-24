@@ -21,6 +21,13 @@ class ProfileController extends Controller
         ]);
     }
 
+
+    public function force(Request $request): View
+    {
+        return view('profile.edit-bkp', [
+            'user' => $request->user(),
+        ]);
+    }
     /**
      * Update the user's profile information.
      */
@@ -56,5 +63,16 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function upload(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'avatar' => ['required', 'image'],
+        ]);
+
+        $request->user()->updateAvatar($request->file('avatar'));
+
+        return Redirect::route('profile.edit')->with('success', 'Avatar Updated!');
     }
 }

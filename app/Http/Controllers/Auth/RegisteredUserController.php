@@ -50,6 +50,8 @@ class RegisteredUserController extends Controller
             'user_name' => $request->user_name,
         ]);
 
+        $user->assignRole('user');
+
         $user->interests()->attach($request->interests);
 
         event(new Registered($user));

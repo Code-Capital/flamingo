@@ -166,8 +166,6 @@
             </div>
         </div>
     </div>
-
-
 </main>
 <?php include_once 'includes/footerLinks.php'; ?>
 <script>

@@ -8,6 +8,6 @@ class HomeController extends Controller
 {
     public function dashboard(): View
     {
-        return view('dashboard');
+        return view('user.dashboard');
     }
 }

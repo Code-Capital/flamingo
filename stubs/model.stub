@@ -15,9 +15,7 @@ class {{ class }} extends Model
      * @var array
      */
     protected $fillable = [
-        {% for field in fields %}
-        '{{ field.name }}',
-        {% endfor %}
+       //
     ];
 
     /**
@@ -26,19 +24,7 @@ class {{ class }} extends Model
      * @var array
      */
     protected $casts = [
-        {% for field in fields %}
-        {% if field.type == 'boolean' %}
-        '{{ field.name }}' => 'boolean',
-        {% elseif field.type == 'integer' %}
-        '{{ field.name }}' => 'integer',
-        {% elseif field.type == 'float' %}
-        '{{ field.name }}' => 'float',
-        {% elseif field.type == 'date' %}
-        '{{ field.name }}' => 'date',
-        {% else %}
-        '{{ field.name }}' => 'string',
-        {% endif %}
-        {% endfor %}
+        //
     ];
 
 
