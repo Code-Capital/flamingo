@@ -19,8 +19,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+            rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -41,6 +41,22 @@
             @include('layouts.dashboard.navbar')
             @include('layouts.partial.show-error')
             @yield('content')
+        </div>
+    </div>
+    <div class="modal fade" id="joinCommunity" tabindex="-1" aria-labelledby="joinCommunityLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-3 p-md-3 p-lg-5">
+                    <div class="text-center px-0 px-md-0 px-lg-5">
+                        <img src="assets/icon8.svg">
+                        <h1 class="my-4">Join Our Community</h1>
+                        <p>Ready to dive in? Join our community today to start connecting, sharing, and discovering with
+                            individuals who share your interests and passions. Subscribe now to become part of our
+                            growing community!</p>
+                        <a href="friends-feed" type="button" class="btn btn-primary mt-5 px-4">Subscribe Now</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>

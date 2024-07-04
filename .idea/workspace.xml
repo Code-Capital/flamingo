@@ -4,7 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e334ef8f-1d4b-4df6-a2e5-63a4e9fca84a" name="Changes" comment="" />
+    <list default="true" id="e334ef8f-1d4b-4df6-a2e5-63a4e9fca84a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/event/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/event/friends.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/event/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/marketplace/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/product/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/profile/info.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/test/billing.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/test/confirmation.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/test/logs.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/test/pricing.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/announcement.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/feed.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/friend-feed.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/gallery.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/messages.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/notification.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/search.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/settings.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/shop.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/user/suggestions.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CountryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CountryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StateController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreCityRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreCityRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreCountryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreCountryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreStateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreStateRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateCityRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateCityRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateCountryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateCountryRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateStateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateStateRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/City.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/City.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Country.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Country.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/State.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/State.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/CityPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CityPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/CountryPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/CountryPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/StatePolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/StatePolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/CityFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/CityFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/CountryFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/CountryFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/StateFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/StateFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_06_24_135050_create_countries_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_06_24_135050_create_countries_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_06_24_135157_create_states_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_06_24_135157_create_states_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_06_24_135227_create_cities_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_06_24_135227_create_cities_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/CitySeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/CitySeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/CountrySeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/CountrySeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/StateSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/StateSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +68,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php">
     <include_path>
@@ -133,6 +185,22 @@
       <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-buttons" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-oracle" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-html" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-editor" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-export" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-fractal" />
+      <path value="$PROJECT_DIR$/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/vendor/league/fractal" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
+      <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/openspout/openspout" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -159,7 +227,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -217,11 +285,16 @@
       <workItem from="1719040587868" duration="53000" />
       <workItem from="1719041340277" duration="18000" />
       <workItem from="1719208063246" duration="9007000" />
+      <workItem from="1720097138044" duration="1798000" />
+      <workItem from="1720098974952" duration="2833000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -241,5 +314,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
