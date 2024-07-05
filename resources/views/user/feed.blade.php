@@ -1,6 +1,12 @@
 @extends('layouts.dashboard')
 @section('title', 'User feed')
 @section('styles')
+    <style>
+        .file-container {
+            max-height: 250px;
+            overflow: auto;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="container px-0 px-md-2 px-lg-3 ">
@@ -8,142 +14,129 @@
             <div class="col-lg-8 mb-3">
                 <div class="bg-white p-4 dashboardCard">
                     <div class="innerCard p-3 bg-white">
-                        <div class="avatar align-items-center gap-3 py-4">
-                            <img class="rounded-circle" src="assets/profile.png">
-                            <input class="border-0 form-control " type="text" placeholder="What's on your mind?">
-                        </div>
-                        <div class="border-top d-flex align-items-center justify-content-between pt-3">
-
-                            <div class="d-flex align-items-center gap-4">
-                                <div class="text">
-                                    <img src="assets/icon9.svg">
-                                    <span>Photo</span>
-                                </div>
-                                <div class="text">
-                                    <div class="d-flex align-items-center gap-1">
-                                        <img src="assets/icon11.svg">
-                                        <select class="form-select border-0 p-0 custom-select-styling">
-                                            <option value="">Public</option>
-                                            <option value="">Private</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
-                                <button class="btn btn-primary px-4">Post</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="innerCard p-3 bg-white mt-4">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="avatar align-items-center gap-3 py-4">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <div class="details">
-                                    <span class="d-block">Muhammad Usama</span>
-                                    <span class="d-block">UI/UX Designer</span>
-                                    <span class="d-block small">25 Nov at 12:24 PM</span>
+                                <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
+                                <input class="border-0 form-control" name="body" type="text"
+                                       placeholder="What's on your mind?">
+                            </div>
+                            <div class="file-container bg-primary" id="myDropzone"></div>
+                            <div class="border-top d-flex align-items-center justify-content-between pt-3">
+                                <div class="d-flex align-items-center gap-4">
+                                    <div class="text " role="button">
+                                        <img class="img-upload img-fluid" src="{{ asset('assets/icon9.svg') }}"
+                                             alt="pic image">
+                                        <span>Photo</span>
+                                        <input type="file" name="media[]" multiple hidden accept="image/*">
+                                    </div>
+                                    <div class="text" role="button">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <img src=" {{ asset('assets/icon11.svg') }} ">
+                                            <select class="form-select border-0 p-1 custom-select-styling"
+                                                    role="button" name="is_private">
+                                                <option value="0">Public</option>
+                                                <option value="1">Private</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary px-4" type="submit">Post</button>
                                 </div>
                             </div>
-                            <div class="">
-
-                            </div>
-                        </div>
-                        <p class="detailsText">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has been the industry's standard dummy text ever since the 1500s.
-                        </p>
-                        <img class="img-fluid" src="assets/feedImage1.png">
-                        <div class="likes align-items-center justify-content-between pt-4">
-                            <div class="d-flex align-items-center gap-4 ">
-                                <div class="text d-flex align-items-center gap-3">
-                                    <img src="assets/icon12.svg">
-                                    <span>14</span>
-                                </div>
-                                <div class="text d-flex align-items-center gap-3">
-                                    <img src="assets/icon13.svg">
-                                    <span>14</span>
-                                </div>
-                            </div>
-                        </div>
-
+                        </form>
                     </div>
-                    <div class="innerCard p-3 bg-white mt-4">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="avatar align-items-center gap-3 py-4">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <div class="details">
-                                    <span class="d-block">Muhammad Usama</span>
-                                    <span class="d-block">UI/UX Designer</span>
-                                    <span class="d-block small">25 Nov at 12:24 PM</span>
-                                </div>
-                            </div>
-                            <div class="">
 
-                            </div>
-                        </div>
-                        <p class="detailsText">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                            Ipsum has been the industry's standard dummy text ever since the 1500s.
-                        </p>
-                        <div class="likes align-items-center justify-content-between pt-4">
-                            <div class="d-flex align-items-center gap-4 ">
-                                <div class="text d-flex align-items-center gap-3">
-                                    <img src="assets/icon12.svg">
-                                    <span>14</span>
+                    @forelse($feeds as $post)
+                        <div class="innerCard p-3 bg-white mt-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="avatar align-items-center gap-3 py-4">
+                                    <img class="rounded-circle" src=" {{ asset($post->user->avatar_url) }}">
+                                    <div class="details">
+                                        <span class="d-block">{{ $post->user->full_name }}</span>
+                                        <span class="d-block">{{ $post->user->designation }}</span>
+                                        <span class="d-block small">{{ $post->formatted_created_at }}</span>
+                                    </div>
                                 </div>
-                                <div class="text d-flex align-items-center gap-3">
-                                    <img src="assets/icon13.svg">
-                                    <span>14</span>
-                                </div>
-                            </div>
-                        </div>
+                                <div class="">
 
-                    </div>
-                    <div class="comments">
-                        <h5 class="py-3">Comments:</h5>
-                        <div class="commentbox p-3">
-                            <div class="d-flex align-items-start gap-2">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <div class="content">
-                                    <h5 class="mb-1">Elon Musk</h5>
-                                    <p class="mb-3">Nice idea!! keep up the great work!</p>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <a class="text-decoration-none" href=""><span>14</span> Likes</a>
-                                        <a class="text-decoration-none" href="">Like</a>
-                                        <a class="text-decoration-none" href="">Reply</a>
+                                </div>
+                            </div>
+                            <p class="detailsText">
+                                {{ $post->body }}
+                            </p>
+                            <div class="likes align-items-center justify-content-between pt-4">
+                                <div class="d-flex align-items-center gap-4 ">
+                                    <div class="text d-flex align-items-center gap-3" role="button">
+                                        <img src=" {{ asset('assets/icon12.svg') }}" alt="like">
+                                        <span>{{ $post->likes_count }}</span>
+                                    </div>
+                                    <div class="text d-flex align-items-center gap-3" role="button">
+                                        <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
+                                        <span>{{ $post->comments_count }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="position-relative">
-                            <div class="position-absolute">
-                                <img src="assets/commentImg.svg" >
-                            </div>
-                        </div>
-                        <div class="reply p-3 ms-5 mt-4">
-                            <div class="d-flex align-items-start gap-2">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <div class="content">
-                                    <h5 class="mb-1">Muhammad Usama</h5>
-                                    <p class="mb-3">Thanks Musk!!</p>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <a class="text-decoration-none" href="">Like</a>
-                                        <a class="text-decoration-none" href="">Reply</a>
+                        @if($post->comments_count > 0)
+                            <div class="comments">
+                                <h5 class="py-3">Comments:</h5>
+                                <div class="commentbox p-3">
+                                    <div class="d-flex align-items-start gap-2">
+                                        <img class="rounded-circle" src="assets/profile.png">
+                                        <div class="content">
+                                            <h5 class="mb-1">Elon Musk</h5>
+                                            <p class="mb-3">Nice idea!! keep up the great work!</p>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <a class="text-decoration-none" href=""><span>14</span> Likes</a>
+                                                <a class="text-decoration-none" href="">Like</a>
+                                                <a class="text-decoration-none" href="">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-relative">
+                                    <div class="position-absolute">
+                                        <img src="assets/commentImg.svg">
+                                    </div>
+                                </div>
+                                <div class="reply p-3 ms-5 mt-4">
+                                    <div class="d-flex align-items-start gap-2">
+                                        <img class="rounded-circle" src="assets/profile.png">
+                                        <div class="content">
+                                            <h5 class="mb-1">Muhammad Usama</h5>
+                                            <p class="mb-3">Thanks Musk!!</p>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <a class="text-decoration-none" href="">Like</a>
+                                                <a class="text-decoration-none" href="">Reply</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        @endif
+                    @empty
+                        <div class="bg-white p-4 dashboardCard mt-4">
+                            <div class="d-flex align-items-center flex-column justify-content-center noResult">
+                                <img src="{{ asset('assets/no-result.svg') }}">
+                                <h2 class="mb-0 py-3">No Posts Found</h2>
+                                <p>There are no posts available to show</p>
+                            </div>
                         </div>
-                    </div>
-
+                    @endforelse
                 </div>
 
-                <div class="bg-white p-4 dashboardCard mt-4">
-                    <div class="d-flex align-items-center flex-column justify-content-center noResult">
-                        <img src="assets/secure.svg">
-                        <h2 class="mb-0 py-3">This Account is Private</h2>
-                        <p>Follow this account to see their Friends and Photos</p>
+                {{-- Show private account notification --}}
+                @if($user->isPrivate())
+                    <div class="bg-white p-4 dashboardCard mt-4">
+                        <div class="d-flex align-items-center flex-column justify-content-center noResult">
+                            <img src="{{ asset('assets/secure.svg') }}">
+                            <h2 class="mb-0 py-3">This Account is Private</h2>
+                            <p>Follow this account to see their Friends and Photos</p>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="bg-white p-4 dashboardCard ">
@@ -371,4 +364,41 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function () {
+            let fileInput = $('input[type="file"]');
+            $('.img-upload').click(function () {
+                fileInput.click();
+            });
+
+            fileInput.change(function (event) {
+                const files = event.target.files;
+                const container = $('.file-container');
+                container.empty(); // Clear previous previews
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+
+                    // Check if the file type is an image
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const img = $('<img>').attr('src', e.target.result);
+                            const fileItem = $('<div>').addClass('file-item p-1');
+                            fileItem.append(img);
+                            container.append(fileItem);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Handle non-image files (e.g., display file name)
+                        const fileItem = $('<div>').addClass('file-item p-1');
+                        const fileType = $('<span>').text(file.type);
+                        const fileName = $('<span>').text(file.name);
+                        fileItem.append(fileType).append(fileName);
+                        container.append(fileItem);
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

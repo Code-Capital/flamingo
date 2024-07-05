@@ -24,12 +24,14 @@
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                     <div class="notifications position-relative">
-                        <a class="text-decoration-none" href="notification">
+                        <a class="text-decoration-none" href="{{ route('notifications.index') }}">
                             <img src="{{ asset('assets/bell.svg') }}" alt="notification bell">
                             <span class="position-absolute dot"></span>
                         </a>
                     </div>
-                    <a href="createEvent" class="btn btn-primary">Create Event</a>
+                    @if( request()->routeIs('events.index') )
+                        <a href="createEvent" class="btn btn-primary">Create Event</a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -23,6 +23,12 @@ class Interest extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function events(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
+
     // ======================================================================
     // Accessors
     // ======================================================================

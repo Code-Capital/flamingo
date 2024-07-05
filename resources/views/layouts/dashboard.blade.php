@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
     @yield('styles')
 </head>
 <body>
@@ -66,6 +68,8 @@
 <script src=" {{ asset('js/bootstrap.min.js') }} "></script>
 <script src=" {{ asset('js/select2.min.js') }} "></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+<script src="{{ asset('js/toastr.js') }}"></script>
 <script>
     $("#imageUpload").change(function () {
         const fileName = this.files[0]?.name; // Get the first selected file's name

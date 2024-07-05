@@ -6,6 +6,8 @@ namespace App\Models;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
@@ -70,6 +72,74 @@ class User extends Authenticatable
         return $this->belongsToMany(Interest::class);
     }
 
+    public function feed(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'friends', 'user_id', 'friend_id')
+            ->where('published', true)
+            ->orWhere('user_id', $this->id)
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments(): BelongsToMany
+    {
+        return $this->belongsToMany(Comment::class);
+    }
+
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(Like::class);
+    }
+
+    public function friends(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+    }
+
+    public function friendRequests(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friend_requests', 'user_id', 'friend_id');
+    }
+
+    public function friendRequestsSent(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friend_requests', 'friend_id', 'user_id');
+    }
+
+    public function messages(): BelongsToMany
+    {
+        return $this->belongsToMany(Message::class);
+    }
+
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
+
+    public function events(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================\
@@ -99,10 +169,13 @@ class User extends Authenticatable
         }
 
         $path = Storage::putFile($path, $file);
-        Log::info("Avatar path: $path");
         // Update the image column
-        $this->update(['avatar' => $path]);
-        return true;
+        return $this->update(['avatar' => $path]);
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->is_private === true;
     }
 
     // ======================================================================

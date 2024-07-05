@@ -4,10 +4,12 @@ namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\DateFormattingTrait;
 
 class {{ class }} extends Model
 {
     use HasFactory;
+    use DateFormattingTrait;
 
     /**
      * The attributes that are mass assignable.
