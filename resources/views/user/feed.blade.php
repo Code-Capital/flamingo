@@ -65,6 +65,14 @@
                             </div>
                             <p class="detailsText">
                                 {{ $post->body }}
+                                <ul class="bg-light list-unstyled p-2">
+                                    @forelse($post->media as $media)
+                                        <li>
+                                            <img src="{{ ($media->file_path) }}" alt="post image" class="img-fluid">
+                                        </li>
+                                    @empty
+                                    @endforelse
+                                </ul>
                             </p>
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
