@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -31,10 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::get('feed', [PostController::class, 'index'])->name('feed');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
 
+    Route::get('search', [SearchController::class, 'index'])->name('search');
+    Route::post('add-friend', [UserController::class, 'addFriend'])->name('add-friend');
+
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('gallery', 'user.gallery')->name('gallery');
     Route::view('messages', 'user.messages')->name('messages');
-    Route::view('search', 'user.search')->name('search');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
     Route::view('shop', 'user.shop')->name('shop');

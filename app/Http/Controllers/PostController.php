@@ -21,9 +21,7 @@ class PostController extends Controller
             ->with('user:id,name,avatar')
             ->withCount(['comments', 'likes'])
             ->latest()
-            ->get();
-//            ->paginate(getPaginated());
-//        dd($feeds->toArray());
+            ->paginate(getPaginated());
         return view('user.feed', get_defined_vars());
     }
 
@@ -48,16 +46,6 @@ class PostController extends Controller
                     ]);
                 }
             }
-
-            $post->comments()->create([
-                'body' => 'Post created',
-                'user_id' => $user->id,
-            ]);
-
-            $post->likes()->create([
-                'user_id' => $user->id,
-                'is_liked' => true
-            ]);
 
             $post->notifications()->create([
                 'type' => 'post',

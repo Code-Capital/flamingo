@@ -1,6 +1,6 @@
 <?php
 if (!function_exists('getPaginated')) {
-    function getPaginated($limit = 15): int
+    function getPaginated($limit = 2): int
     {
         return $limit;
     }

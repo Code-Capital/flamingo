@@ -19,7 +19,7 @@
             </div>
             <div class="d-flex justify-content-between align-items-center flex-grow-1 pt-4">
                 <div class="name">
-                    <span class="d-block">{{ $user->full_name }}</span>
+                    <span class="d-block">{{ $user->full_name }} ({{ $user->user_name }}) </span>
                     <span class="d-block pt-2">Visitor</span>
                 </div>
                 <div class="d-flex gap-3 align-items-center">

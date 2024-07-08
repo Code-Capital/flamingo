@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
@@ -26,7 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'user_name',
-        'name',
+        'first_name',
         'last_name',
         'email',
         'avatar',
@@ -145,7 +146,7 @@ class User extends Authenticatable
     // ======================================================================\
     public function getFullNameAttribute(): string
     {
-        return "{$this->name} {$this->last_name}";
+        return "{$this->first_name} {$this->last_name}";
     }
 
     public function getAvatarUrlAttribute(): string
@@ -181,5 +182,27 @@ class User extends Authenticatable
     // ======================================================================
     // Scopes
     // ======================================================================
+    public function scopeBySearch($query)
+    {
+        return $query->where('first_name', 'like', '%' . request('q') . '%')
+            ->orWhere('last_name', 'like', '%' . request('q') . '%')
+            ->orWhere('user_name', 'like', '%' . request('q') . '%')
+            ->orWhere('email', 'like', '%' . request('q') . '%')
+            ->where('id', '!=', Auth::user()->id);
+    }
+
+    public function scopeByInterests($query, $interests)
+    {
+        return $query->when($interests, function ($q) use ($interests) {
+            $q->whereHas('interests', function ($q) use ($interests) {
+                $q->whereIn('interest_id', $interests);
+            });
+        });
+    }
+
+    public function scopeByNotAuthUser()
+    {
+        return $this->where('id', '!=', Auth::user()->id);
+    }
 
 }

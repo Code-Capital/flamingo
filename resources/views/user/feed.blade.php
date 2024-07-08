@@ -6,6 +6,44 @@
             max-height: 250px;
             overflow: auto;
         }
+
+        .post_gallery {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-auto-rows: 200px;
+            grid-auto-flow: dense;
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 0 10px;
+            max-height: 50vh;
+            overflow-y: scroll;
+        }
+
+        .gallery__item {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .gallery__item > img {
+            height: 100%;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .gallery__item--hor {
+            grid-column: span 2;
+        }
+
+        .gallery__item--vert {
+            grid-row: span 2;
+        }
+
+        .gallery__item--lg {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
     </style>
 @endsection
 @section('content')
@@ -21,7 +59,7 @@
                                 <input class="border-0 form-control" name="body" type="text"
                                        placeholder="What's on your mind?">
                             </div>
-                            <div class="file-container bg-primary" id="myDropzone"></div>
+                            <div class="file-container bg-light"></div>
                             <div class="border-top d-flex align-items-center justify-content-between pt-3">
                                 <div class="d-flex align-items-center gap-4">
                                     <div class="text " role="button">
@@ -65,15 +103,15 @@
                             </div>
                             <p class="detailsText">
                                 {{ $post->body }}
-                                <ul class="bg-light list-unstyled p-2">
-                                    @forelse($post->media as $media)
-                                        <li>
-                                            <img src="{{ ($media->file_path) }}" alt="post image" class="img-fluid">
-                                        </li>
-                                    @empty
-                                    @endforelse
-                                </ul>
                             </p>
+                            <div class="post_gallery bg-light">
+                                @forelse($post->media as $media)
+                                    <div class="gallery__item gallery__item--hor">
+                                        <img src="{{ ($media->file_path) }}" alt="Post image">
+                                    </div>
+                                @empty
+                                @endforelse
+                            </div>
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
                                     <div class="text d-flex align-items-center gap-3" role="button">
@@ -92,7 +130,7 @@
                                 <h5 class="py-3">Comments:</h5>
                                 <div class="commentbox p-3">
                                     <div class="d-flex align-items-start gap-2">
-                                        <img class="rounded-circle" src="assets/profile.png">
+                                        <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
                                         <div class="content">
                                             <h5 class="mb-1">Elon Musk</h5>
                                             <p class="mb-3">Nice idea!! keep up the great work!</p>
@@ -106,12 +144,12 @@
                                 </div>
                                 <div class="position-relative">
                                     <div class="position-absolute">
-                                        <img src="assets/commentImg.svg">
+                                        <img src="{{ asset('assets/commentImg.svg') }} ">
                                     </div>
                                 </div>
                                 <div class="reply p-3 ms-5 mt-4">
                                     <div class="d-flex align-items-start gap-2">
-                                        <img class="rounded-circle" src="assets/profile.png">
+                                        <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
                                         <div class="content">
                                             <h5 class="mb-1">Muhammad Usama</h5>
                                             <p class="mb-3">Thanks Musk!!</p>
@@ -133,6 +171,10 @@
                             </div>
                         </div>
                     @endforelse
+
+                    <div class="mt-3 d-flex justify-content-center">
+                        {{ $feeds->links() }}
+                    </div>
                 </div>
 
                 {{-- Show private account notification --}}
@@ -360,13 +402,11 @@
                         </div>
                     </div>
                     <h5 class="mb-0 mt-3">See more...</h5>
-
-
                 </div>
-                <div class="bg-white p-4 dashboardCard mt-4">
-                    <h5>Advertizement</h5>
-                    <img class="img-fluid" src="assets/feedImage.png">
-                </div>
+                {{-- <div class="bg-white p-4 dashboardCard mt-4">--}}
+                {{--     <h5>Advertizement</h5>--}}
+                {{--     <img class="img-fluid" src=" {{ asset('assets/feedImage.png') }}">--}}
+                {{-- </div>--}}
             </div>
         </div>
     </div>
