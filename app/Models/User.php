@@ -101,16 +101,6 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
 
-    public function friendRequests(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'friend_requests', 'user_id', 'friend_id');
-    }
-
-    public function friendRequestsSent(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'friend_requests', 'friend_id', 'user_id');
-    }
-
     public function messages(): BelongsToMany
     {
         return $this->belongsToMany(Message::class);
@@ -179,20 +169,30 @@ class User extends Authenticatable
         return $this->is_private === true;
     }
 
+    public function isFriendsWith(User $user): bool
+    {
+        return $this->friends()->where('friend_id', $user->id)->exists();
+    }
+
     // ======================================================================
     // Scopes
     // ======================================================================
-    public function scopeBySearch($query)
+    public function scopeBySearch($query, string $search = null)
     {
-        return $query->where('first_name', 'like', '%' . request('q') . '%')
-            ->orWhere('last_name', 'like', '%' . request('q') . '%')
-            ->orWhere('user_name', 'like', '%' . request('q') . '%')
-            ->orWhere('email', 'like', '%' . request('q') . '%')
-            ->where('id', '!=', Auth::user()->id);
+        if(!$search){
+
+        }
+        return $query->where('first_name', 'like', '%' . $search . '%')
+            ->orWhere('last_name', 'like', '%' . $search . '%')
+            ->orWhere('user_name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%');
     }
 
-    public function scopeByInterests($query, $interests)
+    public function scopeByInterests($query, array $interests = [])
     {
+        if(empty($interests)){
+            return $query;
+        }
         return $query->when($interests, function ($q) use ($interests) {
             $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
@@ -200,9 +200,24 @@ class User extends Authenticatable
         });
     }
 
-    public function scopeByNotAuthUser()
+    public function scopeByUser($query, int $id)
     {
-        return $this->where('id', '!=', Auth::user()->id);
+        return $query->where('id', $id);
+    }
+
+    public function scopeByUsers($query, array $ids)
+    {
+        return $query->whereIn('id', $ids);
+    }
+
+    public function scopeByNotUser($query, int $id)
+    {
+        return $query->where('id', '!=', $id);
+    }
+
+    public function scopeByNotUsers($query, array $ids)
+    {
+        return $query->whereIn('id', '!=', $ids);
     }
 
 }

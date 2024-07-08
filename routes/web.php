@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
+
     Route::view('profile/info', 'profile.info')->name('profile.info');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
@@ -34,10 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::post('post', [PostController::class, 'store'])->name('post.store');
 
     Route::get('search', [SearchController::class, 'index'])->name('search');
-    Route::post('add-friend', [UserController::class, 'addFriend'])->name('add-friend');
+    Route::get('add-friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
+    Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
+    Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
 
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
-    Route::view('gallery', 'user.gallery')->name('gallery');
     Route::view('messages', 'user.messages')->name('messages');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');

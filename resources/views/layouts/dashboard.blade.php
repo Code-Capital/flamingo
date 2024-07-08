@@ -70,6 +70,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 <script src="{{ asset('js/toastr.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}" ></script>
 <script>
     $("#imageUpload").change(function () {
         const fileName = this.files[0]?.name; // Get the first selected file's name

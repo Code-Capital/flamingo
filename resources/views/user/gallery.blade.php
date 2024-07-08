@@ -8,57 +8,31 @@
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">
                     <div class="gallery">
-                        <div class="d-flex align-items-center justify-content-between pb-4 ">
+                        <div class="d-flex align-items-center justify-content-between pb-4">
                             <button class="btn btn-primary px-4">Gallery</button>
                             <label for="upload">
                                 <input id="upload" type="file" class="px-4 d-none">
-                                <div class="btn btn-outline-primary">Upload</div>
+                                <div class="btn btn-outline-primary" id="uploadButton">Upload</div>
                             </label>
-
-                        </div>
-                        <div class="d-flex align-items-center pt-4 gap-4 flex-wrap">
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
-                            <div class="galleryCard text-center d-flex flex-column mb-3">
-                                <img src="assets/galleryImage.png">
-                                <span class="pt-1">Shine</span>
-                            </div>
                         </div>
 
+                        <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap bg-light">
+                            @forelse($media as $item)
+                                <div class="galleryCard text-center d-flex flex-column mb-3 ">
+                                    @if(in_array($item->file_type, ['png', 'jpg', 'jpeg', 'svg']))
+                                        <img src="{{ $item->file_path }}" alt="gallery image">
+                                    @endif
+                                    <span class="pt-1">{{ $item->name }}</span>
+                                </div>
+                            @empty
+                                <div class="d-flex align-items-center flex-column justify-content-center noResult">
+                                    <img src="{{ asset('assets/emoji.svg') }}">
+                                    <h2 class="mb-0 py-3">No Results Found</h2>
+                                    <p>You couldn’t find what you searched for. Try searching again.</p>
+                                </div>
+                            @endforelse
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,43 +42,84 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            // Toggle upload form visibility
-            $("#toggleUpload").click(function () {
-                $("#uploadForm").toggle();
-            });
+            // Handle file selection
+            $('#upload').on('change', function () {
+                var fileInput = $('#upload')[0];
 
-            // Display a preview when an image is selected
-            $("#fileInput").change(function (event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        $("#previewImg").attr("src", e.target.result);
-                        $("#imagePreview").show();
-                    };
-                    reader.readAsDataURL(file);
+                if (fileInput.files.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please select files to upload!'
+                    });
+                    return;
                 }
-            });
 
-            // Handle the upload action
-            $("#uploadButton").click(function () {
-                const formData = new FormData($("#fileUploadForm")[0]);
+                var formData = new FormData();
+                formData.append('_token', '{{ csrf_token() }}');
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    formData.append('media[]', fileInput.files[i]);
+                }
+
+                Swal.fire({
+                    title: 'Uploading...',
+                    html: '<progress id="progressBar" value="0" max="100" style="width: 100%;"></progress>',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
                 $.ajax({
-                    url: "uploadImage.php", // Endpoint to handle the file upload
-                    type: "POST",
+                    url: "{{ route('media.upload') }}", // Replace with your server-side upload URL
+                    type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (response) {
-                        console.log("Upload success:", response);
-                        // Optionally, hide the form or reset it after a successful upload
-                        $("#uploadForm").hide();
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function (event) {
+                            if (event.lengthComputable) {
+                                var percentComplete = event.loaded / event.total;
+                                percentComplete = parseInt(percentComplete * 100);
+                                $('#progressBar').attr('value', percentComplete);
+                            }
+                        }, false);
+                        return xhr;
                     },
-                    error: function (err) {
-                        console.error("Upload failed:", err);
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success == true) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Files uploaded successfully!'
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Upload Failed',
+                                text: 'An error occurred while uploading the files.'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Upload Failed',
+                            text: 'An error occurred while uploading the files.'
+                        });
                     }
                 });
+
             });
         });
     </script>

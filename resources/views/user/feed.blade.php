@@ -165,7 +165,7 @@
                     @empty
                         <div class="bg-white p-4 dashboardCard mt-4">
                             <div class="d-flex align-items-center flex-column justify-content-center noResult">
-                                <img src="{{ asset('assets/no-result.svg') }}">
+                                <img src="{{ asset('assets/emoji.svg')}}" alt="no post found">
                                 <h2 class="mb-0 py-3">No Posts Found</h2>
                                 <p>There are no posts available to show</p>
                             </div>

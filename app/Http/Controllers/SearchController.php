@@ -6,6 +6,7 @@ use App\Models\Interest;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -17,9 +18,10 @@ class SearchController extends Controller
 
         // Fetch users based on the filters if any of the filters are present
         $users = [];
-        if (($request->find == 'submit') && ($request->has('q') || $request->has('interests'))) {
+        if (($request->find == 'submit') && ($searchTerm || $selectedInterests)) {
             $users = User::bySearch($searchTerm)
                 ->byInterests($selectedInterests)
+                ->byNotUser(Auth::user()->id)
                 ->get();
         }
 

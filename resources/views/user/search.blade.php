@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 @extends('layouts.dashboard')
 @section('title', 'Search')
 @section('styles')
@@ -25,7 +26,6 @@
                             </div>
                             <div class="col-5 form-group flex-grow-1">
                                 <select class="form-control form-control-lg w-100" name="interests[]" multiple>
-                                    <option value="">Please Select Interests</option>
                                     @forelse($interests as $interest)
                                         .select2 .select2-container .select2-container--default{
                                         <option value="{{ $interest->id }}" {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>{{ $interest->name }}</option>
@@ -53,12 +53,19 @@
                                         <div class="d-flex align-items-center gap-3">
                                             <img src=" {{ $user->avatar_url }}" class="rounded-circle">
                                             <div>
-                                                <span class="d-block">{{ $user->full_name }} ({{ $user->user_name }})</span>
+                                                <span class="d-block">{{ $user->full_name }}</span>
                                                 <span class="d-block">{{ $user->designation }}</span>
                                             </div>
                                         </div>
-                                        <h6 class="mb-0"><a class="text-decoration-none" href="javascript:void(0)">Add friend</a>
-                                        </h6>
+                                        @unless(auth()->user()->isFriendsWith($user))
+                                            <h6 class="mb-0">
+                                                <a class="text-decoration-none add-friend"
+                                                   data-id="{{ $user->id }}"
+                                                   href="javascript:void(0)">
+                                                    Add friend
+                                                </a>
+                                            </h6>
+                                        @endunless
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +102,25 @@
                 placeholder: "Please Select Interests",
                 allowClear: true
             });
+            let body = $('body');
+
+            body.on('click', '.add-friend', function () {
+                let name = $(this).data('id');
+                let url = '{{ route('add-friend', ':slug') }}'.replace(':slug', name);
+                this.remove();
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success == true) {
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    }
+                });
+            });
+
         });
     </script>
 @endsection

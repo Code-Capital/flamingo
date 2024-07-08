@@ -18,7 +18,7 @@ class PostController extends Controller
             ->byPublished()
             ->byPublic()
             ->with(['media', 'comments', 'likes'])
-            ->with('user:id,name,avatar')
+            ->with('user')
             ->withCount(['comments', 'likes'])
             ->latest()
             ->paginate(getPaginated());
