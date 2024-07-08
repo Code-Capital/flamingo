@@ -29,9 +29,9 @@
                             <span class="position-absolute dot"></span>
                         </a>
                     </div>
-                    @if( request()->routeIs('events.index') )
-                        <a href="{{ route('events.create') }}" class="btn btn-primary">Create Event</a>
-                    @endif
+                    {{-- @if( request()->routeIs('events.index') ) --}}
+                    {{--     <a href="{{ route('events.create') }}" class="btn btn-primary">Create Event</a> --}}
+                    {{-- @endif --}}
                 </div>
             </div>
         </div>

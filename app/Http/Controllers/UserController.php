@@ -17,6 +17,17 @@ class UserController extends Controller
         return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
     }
 
+    public function acceptFriend(Request $request, User $user): JsonResponse
+    {
+        try {
+            $request->user()->friends()->updateExistingPivot($user->id, ['accepted' => true]);
+            return $this->sendSuccessResponse(null, 'Friend request accepted successfully', Response::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->sendErrorResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     public function gallery(): View
     {
         $user = auth()->user();

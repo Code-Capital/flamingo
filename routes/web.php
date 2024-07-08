@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::view('products/create', 'product.create')->name('products.create');
 
     Route::view('events', 'event.index')->name('events.index');
+    Route::view('events/show', 'event.show')->name('events.show');
     Route::view('events/create', 'event.create')->name('events.create');
     Route::view('events/friends', 'event.friends')->name('events.friends');
 

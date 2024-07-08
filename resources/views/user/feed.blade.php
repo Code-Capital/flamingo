@@ -114,10 +114,22 @@
                             </div>
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
-                                    <div class="text d-flex align-items-center gap-3" role="button">
-                                        <img src=" {{ asset('assets/icon12.svg') }}" alt="like">
-                                        <span>{{ $post->likes_count }}</span>
+                                    {{-- <div class="text d-flex align-items-center gap-3" role="button">--}}
+                                    {{--     <img src=" {{ asset('assets/icon12.svg') }}" alt="like">--}}
+                                    {{--     <span>{{ $post->likes_count }}</span>--}}
+                                    {{-- </div>--}}
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="likeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ asset('assets/icon12.svg') }}" alt="like">
+                                            <span>{{ $post->likes_count }}</span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="likeDropdown">
+                                            <li><a class="dropdown-item like-btn" href="#">Like</a></li>
+                                            <li><a class="dropdown-item unlike-btn" href="#">Unlike</a></li>
+                                        </ul>
                                     </div>
+
                                     <div class="text d-flex align-items-center gap-3" role="button">
                                         <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
                                         <span>{{ $post->comments_count }}</span>

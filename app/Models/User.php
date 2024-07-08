@@ -98,7 +98,39 @@ class User extends Authenticatable
 
     public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('accepted', 'blocked', 'favorite', 'close_friend', 'family')
+            ->withTimestamps();
+    }
+
+    public function acceptedFriends(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('accepted', true);
+    }
+
+    public function blockedFriends(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('blocked', true);
+    }
+
+    public function favoriteFriends(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('favorite', true);
+    }
+
+    public function closeFriends(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('close_friend', true);
+    }
+
+    public function familyFriends(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('family', true);
+    }
+
+    public function friendRequests(): BelongsToMany
+    {
+        return $this->friends()->wherePivot('accepted', false);
     }
 
     public function messages(): BelongsToMany
@@ -179,7 +211,7 @@ class User extends Authenticatable
     // ======================================================================
     public function scopeBySearch($query, string $search = null)
     {
-        if(!$search){
+        if (!$search) {
 
         }
         return $query->where('first_name', 'like', '%' . $search . '%')
@@ -190,7 +222,7 @@ class User extends Authenticatable
 
     public function scopeByInterests($query, array $interests = [])
     {
-        if(empty($interests)){
+        if (empty($interests)) {
             return $query;
         }
         return $query->when($interests, function ($q) use ($interests) {

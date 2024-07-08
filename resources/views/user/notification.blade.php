@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Messages')
+@section('title', 'Notifications')
 @section('styles')
 @endsection
 @section('content')
@@ -12,36 +12,24 @@
                             <button class="btn btn-primary">Notifications</button>
                             <button class="btn btn-outline-primary">Mark all as read</button>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between singleMessage py-4 border-top px-4">
-                            <div class="d-flex align-items-start gap-3 ">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <p class="mb-0">Hey Usama, we’ve got a new opportunity for you. Ahmad Ali from the
-                                    CodeCapital Office is looking for people like you.</p>
+                        @forelse($allNotifications as $notification)
+                            <div class="d-flex align-items-center justify-content-between singleMessage py-4 border px-4">
+                                <div class="d-flex align-items-start gap-3 ">
+                                    <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
+                                    @php
+                                        $dataArray = json_decode($notification->data, true);
+                                    @endphp
+                                    <p class="mb-0">{{ $dataArray['message'] ?? '' }}</p>
+                                </div>
+                                @if(empty($notification->read_at))
+                                    <a class="text-decoration-none" href="javasctipt:void(0)">
+                                        <img src="{{ asset('assets/cross.svg') }}" alt="Cross image">
+                                    </a>
+                                @endif
                             </div>
-                            <a class="text-decoration-none" href="">
-                                <img src="assets/cross.svg">
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between singleMessage py-4 border-top px-4">
-                            <div class="d-flex align-items-start gap-3 ">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <p class="mb-0">Hey Usama, we’ve got a new opportunity for you. Ahmad Ali from the
-                                    CodeCapital Office is looking for people like you.</p>
-                            </div>
-                            <a class="text-decoration-none" href="">
-                                <img src="assets/cross.svg">
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between singleMessage py-4 border-top px-4">
-                            <div class="d-flex align-items-start gap-3 ">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <p class="mb-0">Hey Usama, we’ve got a new opportunity for you. Ahmad Ali from the
-                                    CodeCapital Office is looking for people like you.</p>
-                            </div>
-                            <a class="text-decoration-none" href="">
-                                <img src="assets/cross.svg">
-                            </a>
-                        </div>
+                        @empty
+                            <x-no-data-found/>
+                        @endforelse
                     </div>
                 </div>
             </div>
