@@ -16,10 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('friend_id')->constrained('users')->onDelete('cascade');
             $table->boolean('accepted')->default(false);
+            $table->boolean('rejected')->default(false);
             $table->boolean('blocked')->default(false);
-            $table->boolean('favorite')->default(false);
-            $table->boolean('close_friend')->default(false);
-            $table->boolean('family')->default(false);
             $table->timestamps();
         });
     }

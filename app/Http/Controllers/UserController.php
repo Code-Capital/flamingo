@@ -17,6 +17,24 @@ class UserController extends Controller
         return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
     }
 
+    public function statusUpdate(Request $request, User $user)
+    {
+        $authUser = $request->user();
+
+        $friend = $authUser->friends()->where('friend_id', $user->id)->first();
+
+        if ($friend) {
+            // Update pivot columns
+            $authUser->friends()->updateExistingPivot($user->id, [
+                'accepted' => $request->input('accepted', $friend->pivot->accepted),
+                'rejected' => $request->input('rejected', $friend->pivot->rejected),
+                'blocked' => $request->input('blocked', $friend->pivot->blocked),
+            ]);
+
+            return response()->json(['message' => 'Friend status updated successfully.'], 200);
+        }
+    }
+
     public function acceptFriend(Request $request, User $user): JsonResponse
     {
         try {
@@ -55,7 +73,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
+            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

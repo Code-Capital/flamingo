@@ -50,7 +50,7 @@
             <div class="modal-content">
                 <div class="modal-body p-3 p-md-3 p-lg-5">
                     <div class="text-center px-0 px-md-0 px-lg-5">
-                        <img src="assets/icon8.svg">
+                        <img src=" {{ asset('assets/icon8.svg') }}">
                         <h1 class="my-4">Join Our Community</h1>
                         <p>Ready to dive in? Join our community today to start connecting, sharing, and discovering with
                             individuals who share your interests and passions. Subscribe now to become part of our

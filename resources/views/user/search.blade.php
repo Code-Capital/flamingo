@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                         @empty
-                            <x-no-data-found />
+                            <x-no-data-found/>
                         @endforelse
                     </div>
 
@@ -110,8 +110,10 @@
                     success: function (response) {
                         if (response.success == true) {
                             toastr.success(response.message);
+                            newNotificationSound();
                         } else {
                             toastr.error(response.message);
+                            errorNotificationSound();
                         }
                     }
                 });

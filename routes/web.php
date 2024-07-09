@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
 
-    Route::view('profile/info', 'profile.info')->name('profile.info');
+    Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
     Route::view('announcements', 'user.announcement')->name('announcements');
@@ -42,9 +42,13 @@ Route::middleware('auth')->group(function () {
     Route::post('reply/{post}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
     Route::get('search', [SearchController::class, 'index'])->name('search');
-    Route::get('add-friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
+    Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
+
+    Route::get('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
+
     Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
+
 
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('messages', 'user.messages')->name('messages');

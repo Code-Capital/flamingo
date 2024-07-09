@@ -75,4 +75,17 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('success', 'Avatar Updated!');
     }
+
+    public function info(): View
+    {
+        $user = Auth::user();
+        $userMedia = $user->media()->orderBy('created_at', 'desc')->get();
+        $postMedia = $user->posts()->with('media')->latest()->get()->pluck('media')->flatten();
+        $media = $userMedia->merge($postMedia);
+
+        $friends = $user->acceptedRequests;
+        $requests = $user->pendingRequests;
+
+        return view('profile.info', get_defined_vars());
+    }
 }

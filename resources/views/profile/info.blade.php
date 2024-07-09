@@ -18,7 +18,7 @@
                                         class="px-1 px-md-2 px-lg-3">Photos</span></button>
                             <button class="nav-link" id="Friends-tab" data-bs-toggle="tab"
                                     data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Contact</span>
+                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Friends</span>
                             </button>
                             <button class="nav-link" id="Requests-tab" data-bs-toggle="tab"
                                     data-bs-target="#Requests" type="button" role="tab" aria-controls="Requests"
@@ -42,36 +42,7 @@
                                 <div class="bg-white p-4 dashboardCard">
                                     <div class="aboutCard">
                                         <h6 class="mb-4">About</h6>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing er and
-                                            typesetting industry.
-                                            Lorem Ipsum has been Lorem Ipsum is simply dummy text of the
-                                            printing er and
-                                            typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply
-                                            dummy text of
-                                            the printing er and typesetting industry. Lorem Ipsum has been
-                                            Lorem Ipsum is
-                                            simply dummy text of the printing er and typesetting industry.
-                                            Lorem Ipsum has
-                                            been Lorem Ipsum is simply dummy text of the printing er and
-                                            typesetting
-                                            industry. Lorem Ipsum has been
-                                        </p>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing er and
-                                            typesetting industry.
-                                            Lorem Ipsum has been Lorem Ipsum is simply dummy text of the
-                                            printing er and
-                                            typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply
-                                            dummy text of
-                                            the printing er and typesetting industry. Lorem Ipsum has been
-                                            Lorem Ipsum is
-                                            simply dummy text of the printing er and typesetting industry.
-                                            Lorem Ipsum has
-                                            been Lorem Ipsum is simply dummy text of the printing er and
-                                            typesetting
-                                            industry. Lorem Ipsum has been
-                                        </p>
+                                        <p> {{ $user->about }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +55,7 @@
                                                 <div class="avatarWrapper">
                                                     <div class="d-flex align-items-center gap-3">
                                                         <div class="image position-relative">
-                                                            <img src="assets/profile.png">
+                                                            <img src=" {{ asset('assets/profile.png')  }} ">
                                                             <span class="position-absolute"></span>
                                                         </div>
 
@@ -99,196 +70,7 @@
                                                         <a data-bs-toggle="modal"
                                                            data-bs-target="#joinCommunity"
                                                            class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src="assets/profile.png">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
-                                                            <img src="assets/icon7.svg">
+                                                            <img src=" {{ asset('assets/icon7.svg') }} ">
                                                         </a>
                                                         <span class="d-block">Join</span>
                                                     </div>
@@ -297,8 +79,6 @@
                                         </div>
                                     </div>
                                     <h5 class="mb-0 mt-3">See more...</h5>
-
-
                                 </div>
                             </div>
                         </div>
@@ -314,47 +94,15 @@
                                         <div class="btn btn-outline-primary">Upload</div>
                                     </label>
                                 </div>
-                                <div class="d-flex align-items-center pt-4 gap-4 flex-wrap">
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
-                                    <div class="galleryCard text-center d-flex flex-column mb-3">
-                                        <img src="assets/galleryImage.png">
-                                        <span class="pt-1">Shine</span>
-                                    </div>
+                                <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap">
+                                    @forelse($media as $item)
+                                        <div class="galleryCard text-center d-flex flex-column mb-3">
+                                            <img src="{{ asset('assets/galleryImage.png') }}">
+                                            <span class="pt-1">Shine</span>
+                                        </div>
+                                    @empty
+                                        <x-no-data-found/>
+                                    @endforelse
                                 </div>
 
                             </div>
@@ -364,138 +112,31 @@
                         <div class="bg-white p-4 dashboardCard">
                             <div class="row mx-0">
                                 <div class="col-lg-12">
-                                    <div class="heading pb-4">Friends <span>(16)</span></div>
+                                    <div class="heading pb-4">Friends <span>{{ $friends->count() }}</span></div>
                                 </div>
                             </div>
                             <div class="row mx-0">
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
+                                @forelse($friends as $friends)
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="eventCardInner p-3">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="{{ asset('assets/profile.png') }} "
+                                                         class="rounded-circle">
+                                                    <div>
+                                                        <span class="d-block">Muhammad Asad</span>
+                                                        <span class="d-block">Designer</span>
+                                                    </div>
                                                 </div>
+                                                <h6 class="mb-0">
+                                                    <a class="text-decoration-none" href="">Unfriend</a>
+                                                </h6>
                                             </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                    <span class="d-block">Designer</span>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0"><a class="text-decoration-none"
-                                                                href="">Unfriend</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
+                                @empty
+                                    <x-no-data-found/>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -503,124 +144,37 @@
                         <div class="bg-white p-4 dashboardCard">
                             <div class="row mx-0">
                                 <div class="col-lg-12">
-                                    <div class="heading pb-4">Friend Requests <span>(16)</span></div>
+                                    <div class="heading pb-4">Friend Requests <span>{{ $requests->count() }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mx-0">
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
+                                @forelse($requests as $user)
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="eventCardInner p-3 friendRequest">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="{{ $user->avatar_url }}" class="rounded-circle">
+                                                    <div>
+                                                        <span class="d-block">{{ $user->full_name }}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="text-decoration-none approve" data-id="{{ $user->id }}"
+                                                       href="javascript:void(0)">
+                                                        <img src="{{ asset('assets/done.svg') }} ">
+                                                    </a>
+                                                    <a class="text-decoration-none reject" data-id="{{ $user->id }}"
+                                                       href="javascript:void(0)">
+                                                        <img src="{{ asset('assets/trash.svg') }} " alt="">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="eventCardInner p-3 friendRequest">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <img src="assets/profile.png" class="rounded-circle">
-                                                <div>
-                                                    <span class="d-block">Muhammad Asad</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/done.svg"></a>
-                                                <a class="text-decoration-none" href=""><img
-                                                            src="assets/trash.svg"
-                                                            alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @empty
+                                    <x-no-data-found/>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -645,7 +199,7 @@
                                         <div class="pricingCard p-5 h-100">
                                             <div class="d-flex gap-3">
                                                 <div class="icon d-flex align-items-center justify-content-center">
-                                                    <img src="assets/icon4.svg">
+                                                    <img src="{{ asset('assets/icon4.svg') }} ">
                                                 </div>
                                                 <div class="text">
                                                     <p class="mb-2">For individuals</p>
@@ -721,7 +275,7 @@
                                             </div>
                                             <div class="d-flex gap-3">
                                                 <div class="icon d-flex align-items-center justify-content-center">
-                                                    <img src="assets/icon5.svg">
+                                                    <img src="{{ asset('assets/icon5.svg') }} ">
                                                 </div>
                                                 <div class="text">
                                                     <p class="mb-2">For startups</p>
@@ -794,7 +348,7 @@
                                         <div class="pricingCard p-5 h-100">
                                             <div class="d-flex gap-3">
                                                 <div class="icon d-flex align-items-center justify-content-center">
-                                                    <img src="assets/icon6.svg">
+                                                    <img src="{{ asset('assets/icon6.svg') }} ">
                                                 </div>
                                                 <div class="text">
                                                     <p class="mb-2">For big companies</p>
@@ -875,4 +429,39 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function () {
+                let body = $('body');
+                body.on('click', '.approve', function (event) {
+                    let id = $(this).data('id');
+
+                    sendRequest(id, 'approve');
+                });
+
+                body.on('click', '.reject', function (event) {
+                    let id = $(this).data('id');
+                    sendRequest(id, 'reject');
+                });
+
+                function sendRequest(id, type) {
+                    $.ajax({
+                        url: '{{ route('friend.request.status', ':id') }}'.replace(':id', id),
+                        type: 'PUT',
+                        data: {
+                            "accept": type === 'approve' ? 1 : 0,
+                            "reject": type === 'reject' ? 1 : 0,
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            }
+        )
+        ;
+    </script>
 @endsection
