@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
@@ -17,7 +18,7 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'user_id'
+        'body', 'user_id', 'type'
     ];
 
     /**
@@ -34,6 +35,9 @@ class Comment extends Model
     // Relationships
     // ======================================================================
 
+    /**
+     * Get the user that owns the comment.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -49,9 +53,14 @@ class Comment extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function likes(): MorphOne
+    public function post(): BelongsTo
     {
-        return $this->morphOne(Like::class, 'likeable');
+        return $this->belongsTo(Post::class, 'commentable_id');
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
     }
 
 

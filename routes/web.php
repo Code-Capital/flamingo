@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('feed', [PostController::class, 'index'])->name('feed');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
+
+    Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
 
     Route::get('search', [SearchController::class, 'index'])->name('search');
     Route::get('add-friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');

@@ -146,6 +146,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-4 mb-3">
                         <div class="bg-white p-4 dashboardCard ">
                             <h5>People you may know</h5>

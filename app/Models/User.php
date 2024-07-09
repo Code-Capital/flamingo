@@ -41,6 +41,11 @@ class User extends Authenticatable
         'bio',
     ];
 
+    protected $appends = [
+        'full_name',
+        'avatar_url'
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -86,9 +91,9 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function comments(): BelongsToMany
+    public function comments(): HasMany
     {
-        return $this->belongsToMany(Comment::class);
+        return $this->hasMany(Comment::class);
     }
 
     public function likes(): BelongsToMany
@@ -170,6 +175,7 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
 
     public function getAvatarUrlAttribute(): string
     {

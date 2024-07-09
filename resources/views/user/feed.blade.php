@@ -36,14 +36,6 @@
             grid-column: span 2;
         }
 
-        .gallery__item--vert {
-            grid-row: span 2;
-        }
-
-        .gallery__item--lg {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
     </style>
 @endsection
 @section('content')
@@ -97,9 +89,6 @@
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
                                 </div>
-                                <div class="">
-
-                                </div>
                             </div>
                             <p class="detailsText">
                                 {{ $post->body }}
@@ -114,12 +103,8 @@
                             </div>
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
-                                    {{-- <div class="text d-flex align-items-center gap-3" role="button">--}}
-                                    {{--     <img src=" {{ asset('assets/icon12.svg') }}" alt="like">--}}
-                                    {{--     <span>{{ $post->likes_count }}</span>--}}
-                                    {{-- </div>--}}
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        <button class="btn dropdown-toggle" type="button"
                                                 id="likeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img src="{{ asset('assets/icon12.svg') }}" alt="like">
                                             <span>{{ $post->likes_count }}</span>
@@ -129,51 +114,31 @@
                                             <li><a class="dropdown-item unlike-btn" href="#">Unlike</a></li>
                                         </ul>
                                     </div>
-
                                     <div class="text d-flex align-items-center gap-3" role="button">
                                         <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
-                                        <span>{{ $post->comments_count }}</span>
+                                        <span id="comment_count_{{ $post->id }}">{{ $post->comments_count }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @if($post->comments_count > 0)
-                            <div class="comments">
-                                <h5 class="py-3">Comments:</h5>
-                                <div class="commentbox p-3">
-                                    <div class="d-flex align-items-start gap-2">
-                                        <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
-                                        <div class="content">
-                                            <h5 class="mb-1">Elon Musk</h5>
-                                            <p class="mb-3">Nice idea!! keep up the great work!</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <a class="text-decoration-none" href=""><span>14</span> Likes</a>
-                                                <a class="text-decoration-none" href="">Like</a>
-                                                <a class="text-decoration-none" href="">Reply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="position-relative">
-                                    <div class="position-absolute">
-                                        <img src="{{ asset('assets/commentImg.svg') }} ">
-                                    </div>
-                                </div>
-                                <div class="reply p-3 ms-5 mt-4">
-                                    <div class="d-flex align-items-start gap-2">
-                                        <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
-                                        <div class="content">
-                                            <h5 class="mb-1">Muhammad Usama</h5>
-                                            <p class="mb-3">Thanks Musk!!</p>
-                                            <div class="d-flex align-items-center gap-3">
-                                                <a class="text-decoration-none" href="">Like</a>
-                                                <a class="text-decoration-none" href="">Reply</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="comments">
+                            <h5 class="py-3">Comments:</h5>
+                            <div class="comment-container">
+                                @if($post->comments_count > 0)
+                                    @include('user.partials.comments', ['comments' => $post->comments])
+                                @endif
                             </div>
-                        @endif
+                            <div class="commentInput bg-light p-2 mt-2">
+                                <form id="commentForm-{{ $post->id }}" action="{{ route('comment.store', $post->id) }}"
+                                      method="POST" class="d-flex align-items-center gap-3 ajax-comment-form">
+                                    @csrf
+                                    <textarea class="form-control me-2" name="body"></textarea>
+                                    <button class="btn" type="submit">
+                                        <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid"/>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     @empty
                         <div class="bg-white p-4 dashboardCard mt-4">
                             <div class="d-flex align-items-center flex-column justify-content-center noResult">
@@ -427,6 +392,8 @@
     <script>
         $(document).ready(function () {
             let fileInput = $('input[type="file"]');
+            let commentContainer = $('.comment-container');
+
             $('.img-upload').click(function () {
                 fileInput.click();
             });
@@ -459,6 +426,58 @@
                     }
                 }
             });
+
+            $('body').on('submit', '.ajax-comment-form', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                let form = $(this);
+                let formData = form.serialize(); // Serialize the form data
+                let actionUrl = form.attr('action'); // Get the form action URL
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log(response);
+                        // Handle the success response
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                        }
+
+                        toastr.success(response.message);
+
+                        let html = generateCommentHtml(response.data);
+                        commentContainer.append(html);
+
+                        form.trigger('reset'); // Clear the form input fields
+                        // Optionally, you can update the UI to show the new comment
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle the error response
+                        console.error('Error submitting comment:', error);
+                    }
+                });
+            });
+
+            function generateCommentHtml(comment) {
+                return `
+                <div class="commentbox p-3 mt-2">
+                    <div class="d-flex align-items-start gap-2">
+                        <img class="rounded-circle" src="${comment.user.avatar_url}">
+                        <div class="content">
+                            <h5 class="mb-1">${comment.user.full_name}</h5>
+                            <p class="mb-3">${comment.body}</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
+                                <a class="text-decoration-none" href="javascript:void(0)">Like</a>
+                                <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
         });
     </script>
 @endsection

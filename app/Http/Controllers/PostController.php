@@ -17,8 +17,7 @@ class PostController extends Controller
         $feeds = Post::byUser($user)
             ->byPublished()
             ->byPublic()
-            ->with(['media', 'comments', 'likes'])
-            ->with('user')
+            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
             ->latest()
             ->paginate(getPaginated());
