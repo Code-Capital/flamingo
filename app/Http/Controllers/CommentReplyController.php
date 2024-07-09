@@ -15,7 +15,7 @@ class CommentReplyController extends Controller
     public function store(Request $request, Comment $comment): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'body' => 'required|string|max:255'
+            'body' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -26,7 +26,7 @@ class CommentReplyController extends Controller
         $comment = $comment->replies()->create([
             'body' => $request->body,
             'type' => CommentTypeEnum::Reply,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         // Load specific columns for user and post, and load count of likes
@@ -37,5 +37,4 @@ class CommentReplyController extends Controller
         // Return the response with the combined data object
         return $this->sendSuccessResponse($comment, 'Comment Posted', Response::HTTP_CREATED);
     }
-
 }

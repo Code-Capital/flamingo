@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class Media extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
-
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +19,7 @@ class Media extends Model
      * @var array
      */
     protected $fillable = [
-        'file_path', 'file_type', 'mediable_id', 'mediable_type'
+        'file_path', 'file_type', 'mediable_id', 'mediable_type',
     ];
 
     /**
@@ -55,16 +54,13 @@ class Media extends Model
         return Storage::url($value);
     }
 
-
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

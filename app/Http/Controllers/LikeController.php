@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LikeController extends Controller
@@ -23,14 +22,14 @@ class LikeController extends Controller
             // User has not liked the post, so like it
             $post->likes()->create([
                 'user_id' => $user->id,
-                'is_liked' => true // assuming 'is_liked' is a boolean column
+                'is_liked' => true, // assuming 'is_liked' is a boolean column
             ]);
         }
 
         // Retrieve the count of likes for the post
         $response = [
             'likeCount' => $post->load('user')->likes()->count(),
-            'post' => $post
+            'post' => $post,
         ];
 
         return $this->sendSuccessResponse($response, 'Post like status updated successfully.', Response::HTTP_OK);

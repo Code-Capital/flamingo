@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,6 +13,7 @@ class UserController extends Controller
     public function addFriend(Request $request, User $user): JsonResponse
     {
         $request->user()->friends()->attach($user->id);
+
         return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
     }
 
@@ -21,12 +21,12 @@ class UserController extends Controller
     {
         try {
             $request->user()->friends()->updateExistingPivot($user->id, ['accepted' => true]);
+
             return $this->sendSuccessResponse(null, 'Friend request accepted successfully', Response::HTTP_OK);
         } catch (Exception $e) {
             return $this->sendErrorResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 
     public function gallery(): View
     {
@@ -40,6 +40,7 @@ class UserController extends Controller
 
         // Combine the media collections
         $media = $userMedia->merge($postMedia);
+
         return view('user.gallery', compact('media'));
     }
 
@@ -54,7 +55,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

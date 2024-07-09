@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +34,6 @@ class Post extends Model
         //
     ];
 
-
     // ======================================================================
     // Relationships
     // ======================================================================
@@ -55,7 +54,8 @@ class Post extends Model
 
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->where('type', 'comment');
+        return $this->morphMany(Comment::class, 'commentable')
+            ->where('type', 'comment');
     }
 
     public function likes(): MorphMany
@@ -63,17 +63,13 @@ class Post extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-
-
     // ======================================================================
     // Accessors
     // ======================================================================
 
-
     // ======================================================================
     // Mutators
     // ======================================================================
-
 
     // ======================================================================
     // Custom Functions
@@ -81,14 +77,12 @@ class Post extends Model
 
     /**
      * Check if the current user has liked the post.
-     *
-     * @return bool
      */
     public function likedByCurrentUser(): bool
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return false; // If user is not authenticated, return false
         }
 
@@ -99,7 +93,6 @@ class Post extends Model
     {
         return $this->likes()->where('user_id', $id)->where('is_liked', true);
     }
-
 
     // ======================================================================
     // Scopes
@@ -133,5 +126,4 @@ class Post extends Model
     {
         return $query->whereIn('user_id', $users->pluck('id'));
     }
-
 }

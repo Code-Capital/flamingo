@@ -21,13 +21,13 @@ class ProfileController extends Controller
         ]);
     }
 
-
     public function force(Request $request): View
     {
         return view('profile.edit-bkp', [
             'user' => $request->user(),
         ]);
     }
+
     /**
      * Update the user's profile information.
      */

@@ -27,6 +27,7 @@ class SearchController extends Controller
 
         // Fetch all interests
         $interests = Interest::get();
+
         return view('user.search', get_defined_vars());
     }
 }

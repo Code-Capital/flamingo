@@ -8,7 +8,6 @@ use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller
@@ -35,7 +34,7 @@ class CommentController extends Controller
     public function store(Request $request, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'body' => 'required|string|max:255'
+            'body' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +45,7 @@ class CommentController extends Controller
         $comment = $post->comments()->create([
             'body' => $request->body,
             'type' => CommentTypeEnum::Comment,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         // Load specific columns for user and post, and load count of likes
@@ -60,14 +59,12 @@ class CommentController extends Controller
         // Package comment details and current comment count into a single data object
         $responseData = [
             'comment' => $comment,
-            'current_comment_count' => $currentCommentCount
+            'current_comment_count' => $currentCommentCount,
         ];
 
         // Return the response with the combined data object
         return $this->sendSuccessResponse($responseData, 'Comment Posted', Response::HTTP_CREATED);
     }
-
-
 
     /**
      * Display the specified resource.

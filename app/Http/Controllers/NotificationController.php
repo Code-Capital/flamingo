@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
@@ -23,5 +22,4 @@ class NotificationController extends Controller
 
         return view('user.notification', get_defined_vars());
     }
-
 }

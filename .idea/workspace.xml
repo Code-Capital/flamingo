@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e334ef8f-1d4b-4df6-a2e5-63a4e9fca84a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/audio/error.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/audio/livechat.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/audio/new-notification.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/audio/notification.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/audio/system-notification.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CommentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CommentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LikeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LikeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_07_05_123050_create_likes_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_07_05_123050_create_likes_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-resources/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-resources/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/custom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/feed.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/feed.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/partials/comments.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/partials/comments.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,7 +263,8 @@
       <workItem from="1720160328968" duration="20588000" />
       <workItem from="1720417478159" duration="23737000" />
       <workItem from="1720507275376" duration="15597000" />
-      <workItem from="1720523791733" duration="4025000" />
+      <workItem from="1720523791733" duration="4395000" />
+      <workItem from="1720528246127" duration="344000" />
     </task>
     <servers />
   </component>

@@ -18,7 +18,7 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'user_id', 'type'
+        'body', 'user_id', 'type',
     ];
 
     /**
@@ -29,7 +29,6 @@ class Comment extends Model
     protected $casts = [
         //
     ];
-
 
     // ======================================================================
     // Relationships
@@ -50,7 +49,8 @@ class Comment extends Model
 
     public function replies(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')
+            ->where('type', CommentTypeEnum::Reply);
     }
 
     public function post(): BelongsTo
@@ -63,22 +63,17 @@ class Comment extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-
-
     // ======================================================================
     // Accessors
     // ======================================================================
-
 
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

@@ -12,7 +12,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -67,11 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::view('events/create', 'event.create')->name('events.create');
     Route::view('events/friends', 'event.friends')->name('events.friends');
 
-
-//    Route::get('/notifications', function () {
-//        $user = auth()->user();
-//        return view('notifications.index', ['notifications' => $user->notifications]);
-//    })->name('notifications.index');
+    //    Route::get('/notifications', function () {
+    //        $user = auth()->user();
+    //        return view('notifications.index', ['notifications' => $user->notifications]);
+    //    })->name('notifications.index');
 });
-
-

@@ -3,15 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -43,7 +40,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'full_name',
-        'avatar_url'
+        'avatar_url',
     ];
 
     /**
@@ -197,6 +194,7 @@ class User extends Authenticatable
         }
 
         $path = Storage::putFile($path, $file);
+
         // Update the image column
         return $this->update(['avatar' => $path]);
     }
@@ -219,15 +217,16 @@ class User extends Authenticatable
     // ======================================================================
     // Scopes
     // ======================================================================
-    public function scopeBySearch($query, string $search = null)
+    public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
 
         }
-        return $query->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orWhere('user_name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+
+        return $query->where('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
+            ->orWhere('user_name', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])
@@ -235,6 +234,7 @@ class User extends Authenticatable
         if (empty($interests)) {
             return $query;
         }
+
         return $query->when($interests, function ($q) use ($interests) {
             $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
@@ -261,5 +261,4 @@ class User extends Authenticatable
     {
         return $query->whereIn('id', '!=', $ids);
     }
-
 }
