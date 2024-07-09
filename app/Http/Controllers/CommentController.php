@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\CommentTypeEnum;
+use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller
@@ -29,7 +32,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Post $post)
+    public function store(Request $request, Post $post): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'body' => 'required|string|max:255'
@@ -39,16 +42,31 @@ class CommentController extends Controller
             return $this->sendErrorResponse($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        // Create a new comment
         $comment = $post->comments()->create([
             'body' => $request->body,
             'type' => CommentTypeEnum::Comment,
             'user_id' => auth()->id()
         ]);
 
-        $comment->load('user', 'post')->loadCount('replies', 'likes');
+        // Load specific columns for user and post, and load count of likes
+        $comment->load(['user', 'post' => function ($query) {
+            return $query->select('id', 'body');
+        }])->loadCount('likes');
 
-        return $this->sendSuccessResponse($comment, 'Comment created successfully', Response::HTTP_CREATED);
+        // Retrieve the current count of comments for the post
+        $currentCommentCount = $post->comments()->count();
+
+        // Package comment details and current comment count into a single data object
+        $responseData = [
+            'comment' => $comment,
+            'current_comment_count' => $currentCommentCount
+        ];
+
+        // Return the response with the combined data object
+        return $this->sendSuccessResponse($responseData, 'Comment Posted', Response::HTTP_CREATED);
     }
+
 
 
     /**

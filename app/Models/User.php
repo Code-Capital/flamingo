@@ -170,12 +170,11 @@ class User extends Authenticatable
 
     // ======================================================================
     // Accessors
-    // ======================================================================\
+    // ======================================================================
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }
-
 
     public function getAvatarUrlAttribute(): string
     {
@@ -210,6 +209,11 @@ class User extends Authenticatable
     public function isFriendsWith(User $user): bool
     {
         return $this->friends()->where('friend_id', $user->id)->exists();
+    }
+
+    public function isLikedBy(User $user): bool
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 
     // ======================================================================

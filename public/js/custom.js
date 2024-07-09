@@ -79,3 +79,35 @@ function formatTimestampHumanReadable(timestamp) {
 
     return "Just now";
 }
+
+
+function errorNotificationSound() {
+    let audio = new Audio('/audio/error.mp3');
+    audio.play();
+}
+
+function liveChatSound() {
+    let audio = new Audio('/audio/livechat.mp3');
+    audio.play();
+}
+
+function newNotificationSound() {
+    let audio = new Audio('/audio/new-notification.mp3');
+    audio.play();
+}
+
+function notificationSound() {
+    let audio = new Audio('/audio/notification.mp3');
+    audio.play();
+}
+
+function systemNotificationSound() {
+    let audio = new Audio('/audio/system-notification.mp3');
+    audio.play();
+}
+
+function typingSound() {
+    let audio = new Audio('/audio/whatsapp-typing.mp3');
+    audio.play();
+}
+

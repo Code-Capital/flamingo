@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -36,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::post('post', [PostController::class, 'store'])->name('post.store');
 
     Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
+    Route::post('reply/{post}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
     Route::get('search', [SearchController::class, 'index'])->name('search');
     Route::get('add-friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');

@@ -64,6 +64,7 @@ class Post extends Model
     }
 
 
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -77,6 +78,27 @@ class Post extends Model
     // ======================================================================
     // Custom Functions
     // ======================================================================
+
+    /**
+     * Check if the current user has liked the post.
+     *
+     * @return bool
+     */
+    public function likedByCurrentUser(): bool
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return false; // If user is not authenticated, return false
+        }
+
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function likedByUser($id)
+    {
+        return $this->likes()->where('user_id', $id)->where('is_liked', true);
+    }
 
 
     // ======================================================================

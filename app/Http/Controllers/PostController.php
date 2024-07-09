@@ -14,12 +14,12 @@ class PostController extends Controller
     public function index(): View
     {
         $user = Auth::user();
-        $feeds = Post::byUser($user)
-            ->byPublished()
+        $feeds = Post::byPublished()
             ->byPublic()
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
             ->latest()
+            // byUser($user)
             ->paginate(getPaginated());
         return view('user.feed', get_defined_vars());
     }

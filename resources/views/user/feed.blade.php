@@ -103,18 +103,19 @@
                             </div>
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
-                                    <div class="dropdown">
-                                        <button class="btn dropdown-toggle" type="button"
-                                                id="likeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ asset('assets/icon12.svg') }}" alt="like">
-                                            <span>{{ $post->likes_count }}</span>
+                                    <form action="{{ route('post.like-or-unlike', $post->id) }}"
+                                          id="likeForm-{{ $post->id }}" class="ajax-like-form" method="post">
+                                        @csrf
+                                        <button class="btn" type="submit">
+                                            {{-- <img src="{{ asset('assets/like.svg') }}" alt="like">--}}
+                                            <img src="{{ asset($post->likedByCurrentUser() ? 'assets/icon12.svg' : 'assets/like.svg') }}"
+                                                 alt="like">
+                                            <span id="like_count_{{ $post->id }}">{{ $post->likes_count }}</span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="likeDropdown">
-                                            <li><a class="dropdown-item like-btn" href="#">Like</a></li>
-                                            <li><a class="dropdown-item unlike-btn" href="#">Unlike</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="text d-flex align-items-center gap-3" role="button">
+                                    </form>
+
+                                    <div class="text d-flex align-items-center gap-3 show-comment-form"
+                                         data-id="{{ $post->id }}" role="button">
                                         <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
                                         <span id="comment_count_{{ $post->id }}">{{ $post->comments_count }}</span>
                                     </div>
@@ -123,16 +124,17 @@
                         </div>
                         <div class="comments">
                             <h5 class="py-3">Comments:</h5>
-                            <div class="comment-container">
+                            <div class="comment-container-{{ $post->id }}">
                                 @if($post->comments_count > 0)
                                     @include('user.partials.comments', ['comments' => $post->comments])
                                 @endif
                             </div>
-                            <div class="commentInput bg-light p-2 mt-2">
+                            <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
                                 <form id="commentForm-{{ $post->id }}" action="{{ route('comment.store', $post->id) }}"
                                       method="POST" class="d-flex align-items-center gap-3 ajax-comment-form">
                                     @csrf
-                                    <textarea class="form-control me-2" name="body"></textarea>
+                                    <textarea class="form-control me-2" name="body"
+                                              placeholder="please write comment"></textarea>
                                     <button class="btn" type="submit">
                                         <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid"/>
                                     </button>
@@ -195,188 +197,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <h5 class="mb-0 mt-3">See more...</h5>
                 </div>
@@ -392,7 +212,9 @@
     <script>
         $(document).ready(function () {
             let fileInput = $('input[type="file"]');
-            let commentContainer = $('.comment-container');
+            let likedImage = "{{  asset('assets/icon12.svg') }}";
+            let likeImage = "{{  asset('assets/like.svg') }}";
+            let errorMessage = 'Error Occured! Please try again.';
 
             $('.img-upload').click(function () {
                 fileInput.click();
@@ -439,19 +261,28 @@
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-                        console.log(response);
                         // Handle the success response
                         if (response.success == false) {
                             toastr.error(response.message);
+                            return;
                         }
+                        let postId = response.data.comment.post.id;
+                        let commentContainer = $('.comment-container-' + postId);
 
-                        toastr.success(response.message);
+                        // toastr.success(response.message);
+                        let html = generateCommentHtml(response.data.comment);
+                        // commentContainer.append(html);
 
-                        let html = generateCommentHtml(response.data);
-                        commentContainer.append(html);
+                        let newComment = $(html).hide();
+                        commentContainer.append(newComment);
+                        newComment.slideDown('fast');
 
                         form.trigger('reset'); // Clear the form input fields
+
+                        $("#comment_count_" + postId).html(response.data.current_comment_count);
                         // Optionally, you can update the UI to show the new comment
+
+                        newNotificationSound();
                     },
                     error: function (xhr, status, error) {
                         // Handle the error response
@@ -478,6 +309,78 @@
                 </div>
             `;
             }
+
+            $('body').on('submit', '.ajax-like-form', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                let form = $(this);
+                let formData = form.serialize(); // Serialize the form data
+                let actionUrl = form.attr('action'); // Get the form action URL
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        // Handle the success response
+                        if (response.success == false) {
+                            toastr.error(response.message ?? errorMessage);
+                            errorNotificationSound();
+                            return;
+                        }
+                        // toastr.success(response.message);
+
+                        if (response.data.likeCount == 0) {
+                            $("#likeForm-" + response.data.post.id + " button img")
+                                .fadeOut('fast', function () {
+                                    $(this).attr('src', likeImage).fadeIn('fast');
+                                });
+                        } else {
+                            $("#likeForm-" + response.data.post.id + " button img")
+                                .fadeOut('fast', function () {
+                                    $(this).attr('src', likedImage).fadeIn('fast');
+                                });
+                        }
+
+
+                        $("#like_count_" + response.data.post.id).html(response.data.likeCount);
+                        newNotificationSound();
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle the error response
+                        errorNotificationSound()
+                        console.error('Error submitting comment:', error);
+                    }
+                });
+            });
+
+            $('.show-comment-form').click(function () {
+                let id = $(this).data('id');
+                let commentInput = $('.comment-input-' + id);
+
+                if (commentInput.hasClass('d-none')) {
+                    commentInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
+                } else {
+                    commentInput.slideUp(300, function () {
+                        $(this).addClass('d-none');
+                    });
+                }
+            });
+
+            $('.show-reply-form').click(function () {
+                let id = $(this).data('id');
+                let replyInput = $('.reply-input-' + id);
+
+                if (replyInput.hasClass('d-none')) {
+                    replyInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
+                } else {
+                    replyInput.slideUp(300, function () {
+                        $(this).addClass('d-none');
+                    });
+                }
+            });
+
+
         });
     </script>
 @endsection
