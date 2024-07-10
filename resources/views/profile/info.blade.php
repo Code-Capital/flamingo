@@ -15,14 +15,19 @@
                             <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab"
                                     data-bs-target="#Photos" type="button" role="tab"
                                     aria-controls="Photos" aria-selected="false"><span
-                                        class="px-1 px-md-2 px-lg-3">Photos</span></button>
-                            <button class="nav-link" id="Friends-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Friends</span>
+                                        class="px-1 px-md-2 px-lg-3">Photos</span>
                             </button>
                             <button class="nav-link" id="Requests-tab" data-bs-toggle="tab"
                                     data-bs-target="#Requests" type="button" role="tab" aria-controls="Requests"
                                     aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Requests</span>
+                            </button>
+                            <button class="nav-link" id="Friends-tab" data-bs-toggle="tab"
+                                    data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends"
+                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Friends</span>
+                            </button>
+                            <button class="nav-link" id="Blocked-tab" data-bs-toggle="tab"
+                                    data-bs-target="#Blocked" type="button" role="tab" aria-controls="Requests"
+                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Blocked</span>
                             </button>
                             <button class="nav-link" id="Subscription-tab" data-bs-toggle="tab"
                                     data-bs-target="#Subscription" type="button" role="tab"
@@ -116,21 +121,28 @@
                                 </div>
                             </div>
                             <div class="row mx-0">
-                                @forelse($friends as $friends)
-                                    <div class="col-lg-6 mb-3">
-                                        <div class="eventCardInner p-3">
+                                @forelse($friends as $friend)
+                                    <div class="col-lg-6 mb-3 friend-request-{{ $friend->id }}">
+                                        <div class="eventCardInner p-3 friendRequest">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center gap-3">
-                                                    <img src="{{ asset('assets/profile.png') }} "
-                                                         class="rounded-circle">
+                                                    <img src="{{ $friend->avatar_url }}" class="rounded-circle">
                                                     <div>
-                                                        <span class="d-block">Muhammad Asad</span>
-                                                        <span class="d-block">Designer</span>
+                                                        <span class="d-block">{{ $friend->full_name }}</span>
                                                     </div>
                                                 </div>
-                                                <h6 class="mb-0">
-                                                    <a class="text-decoration-none" href="">Unfriend</a>
-                                                </h6>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="text-decoration-none block" data-id="{{ $friend->id }}"
+                                                       tooltip="Block"
+                                                       href="javascript:void(0)">
+                                                        <img src="{{ asset('assets/secure.svg') }} ">
+                                                    </a>
+                                                    <a class="text-decoration-none unfriend" data-id="{{ $friend->id }}"
+                                                       tooltip="Unfriend"
+                                                       href="javascript:void(0)">
+                                                        <img src="{{ asset('assets/trash.svg') }} " alt="">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +162,7 @@
                             </div>
                             <div class="row mx-0">
                                 @forelse($requests as $user)
-                                    <div class="col-lg-6 mb-3">
+                                    <div class="col-lg-6 mb-3 friend-request-{{ $user->id }}">
                                         <div class="eventCardInner p-3 friendRequest">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center gap-3">
@@ -167,6 +179,41 @@
                                                     <a class="text-decoration-none reject" data-id="{{ $user->id }}"
                                                        href="javascript:void(0)">
                                                         <img src="{{ asset('assets/trash.svg') }} " alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <x-no-data-found/>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Blocked" role="tabpanel" aria-labelledby="blocked-tab">
+                        <div class="bg-white p-4 dashboardCard">
+                            <div class="row mx-0">
+                                <div class="col-lg-12">
+                                    <div class="heading pb-4">Blocked Users <span>{{ $blockedUsers->count() }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mx-0">
+                                @forelse($blockedUsers as $blockUser)
+                                    <div class="col-lg-6 mb-3 friend-request-{{ $blockUser->id }}">
+                                        <div class="eventCardInner p-3 friendRequest">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="{{ $blockUser->avatar_url }}" class="rounded-circle">
+                                                    <div>
+                                                        <span class="d-block">{{ $blockUser->full_name }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <a class="text-decoration-none approve"
+                                                       data-id="{{ $blockUser->id }}" tooltip="Unblock"
+                                                       href="javascript:void(0)">
+                                                        <img src="{{ asset('assets/done.svg') }} ">
                                                     </a>
                                                 </div>
                                             </div>
@@ -207,8 +254,10 @@
                                                 </div>
                                             </div>
                                             <p class="text pe-5 pt-3">Ideal for individuals and small teams</p>
-                                            <div class="heading mb-4"><span class="h2">$99</span><span
-                                                        class="month">/monthly</span></div>
+                                            <div class="heading mb-4">
+                                                <span class="h2">$99</span>
+                                                <span class="month">/monthly</span>
+                                            </div>
                                             <h5 class="mb-3">What’s included</h5>
                                             <ul class="list-unstyled">
                                                 <li class="mb-4">
@@ -431,37 +480,86 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-                let body = $('body');
-                body.on('click', '.approve', function (event) {
-                    let id = $(this).data('id');
+            let body = $('body');
 
-                    sendRequest(id, 'approve');
-                });
+            body.on('click', '.approve', function (event) {
+                event.preventDefault();
+                let id = $(this).data('id');
+                sendRequest(id, 'approve', $(this));
+            });
 
-                body.on('click', '.reject', function (event) {
-                    let id = $(this).data('id');
-                    sendRequest(id, 'reject');
-                });
+            body.on('click', '.reject', function (event) {
+                event.preventDefault();
+                let id = $(this).data('id');
+                sendRequest(id, 'reject', $(this));
+            });
 
-                function sendRequest(id, type) {
-                    $.ajax({
-                        url: '{{ route('friend.request.status', ':id') }}'.replace(':id', id),
-                        type: 'PUT',
-                        data: {
-                            "accept": type === 'approve' ? 1 : 0,
-                            "reject": type === 'reject' ? 1 : 0,
-                            "_token": "{{ csrf_token() }}"
-                        },
-                        success: function (response) {
-                            console.log(response);
-                        },
-                        error: function (error) {
-                            console.log(error);
+            body.on('click', '.block', function (event) {
+                event.preventDefault();
+                let id = $(this).data('id');
+                sendRequest(id, 'block', $(this));
+            });
+
+            body.on('click', '.unfriend', function (event) {
+                event.preventDefault();
+                let id = $(this).data('id');
+                unfriendUser(id, $(this));
+            });
+
+            function sendRequest(id, type, button) {
+                $.ajax({
+                    url: '{{ route('friend.request.status', ':id') }}'.replace(':id', id),
+                    type: 'PUT',
+                    data: {
+                        "accepted": type === 'approve' ? 1 : 0,
+                        "rejected": type === 'reject' ? 1 : 0,
+                        "blocked": type === 'block' ? 1 : 0,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                            return false;
                         }
-                    });
-                }
+
+                        toastr.success(response.message);
+                        newNotificationSound();
+                        button.closest('.friend-request-' + id).fadeOut(300).hide(); // Hide the parent element of the button
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        errorNotificationSound();
+                    }
+                });
             }
-        )
-        ;
+
+            function unfriendUser(id, button) {
+                $.ajax({
+                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        cosole.log(response);
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                            return false;
+                        }
+
+                        toastr.success(response.message);
+                        newNotificationSound();
+                        button.closest('.friend-request-' + id).fadeOut(300).hide(); // Hide the parent element of the button
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        errorNotificationSound();
+                    }
+                });
+            }
+        });
+
     </script>
 @endsection

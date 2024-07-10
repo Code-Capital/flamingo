@@ -105,14 +105,46 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function acceptedUsers(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('accepted', true);
+    }
+
+    public function blockedUsers(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('blocked', true);
+    }
+
+    public function rejectedUsers(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('rejected', true);
+    }
+
     public function acceptedRequests(): BelongsToMany
     {
-        return $this->friends()->wherePivot('accepted', true);
+        return $this->friends()
+            ->wherePivot('accepted', true)
+            ->wherePivot('rejected', false)
+            ->wherePivot('blocked', false);
     }
 
     public function pendingRequests(): BelongsToMany
     {
-        return $this->friends()->wherePivot('accepted', false);
+        return $this->friends()
+            ->wherePivot('accepted', false)
+            ->wherePivot('rejected', false)
+            ->wherePivot('blocked', false);
+    }
+
+    public function blockedRequests(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('accepted', false)
+            ->wherePivot('rejected', false)
+            ->wherePivot('blocked', true);
     }
 
     public function messages(): BelongsToMany

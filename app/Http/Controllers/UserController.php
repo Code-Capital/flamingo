@@ -17,7 +17,7 @@ class UserController extends Controller
         return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
     }
 
-    public function statusUpdate(Request $request, User $user)
+    public function statusUpdate(Request $request, User $user): JsonResponse
     {
         $authUser = $request->user();
 
@@ -30,9 +30,30 @@ class UserController extends Controller
                 'rejected' => $request->input('rejected', $friend->pivot->rejected),
                 'blocked' => $request->input('blocked', $friend->pivot->blocked),
             ]);
+            $accepted = $request->input('accepted', $friend->pivot->accepted);
+            $rejected = $request->input('rejected', $friend->pivot->rejected);
+            $blocked = $request->input('blocked', $friend->pivot->blocked);
 
-            return response()->json(['message' => 'Friend status updated successfully.'], 200);
+            $message = 'Friend status updated successfully.';
+            if ($accepted) {
+                $message = 'Friend request accepted successfully.';
+            } elseif ($rejected) {
+                $message = 'Friend request rejected successfully.';
+            } elseif ($blocked) {
+                $message = 'Friend blocked successfully.';
+            }
+
+            return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
         }
+
+        return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
+    }
+
+    public function removeFriend(Request $request, User $user): JsonResponse
+    {
+        $request->user()->friends()->detach($user->id);
+
+        return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
     }
 
     public function acceptFriend(Request $request, User $user): JsonResponse

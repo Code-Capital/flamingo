@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('search', [SearchController::class, 'index'])->name('search');
     Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
-
-    Route::get('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
+    Route::put('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
+    Route::delete('/friend/{user}/remove', [UserController::class, 'removeFriend'])->name('friend.remove');
 
     Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');

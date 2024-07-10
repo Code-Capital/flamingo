@@ -85,6 +85,7 @@ class ProfileController extends Controller
 
         $friends = $user->acceptedRequests;
         $requests = $user->pendingRequests;
+        $blockedUsers = $user->blockedRequests;
 
         return view('profile.info', get_defined_vars());
     }
