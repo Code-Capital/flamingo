@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e334ef8f-1d4b-4df6-a2e5-63a4e9fca84a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/assets/Unfriend.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/assets/block.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/assets/unblock.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard/navbar.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/profile/info.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/profile/info.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user/messages.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/messages.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +21,9 @@
   </component>
   <component name="ComposerSettings" notifyAboutMissingVendor="false" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <executable path="composer" />
+    </execution>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -198,7 +198,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/var/www/flamingo/public/js&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/var/www/timepeja&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -272,7 +272,9 @@
       <workItem from="1720507275376" duration="15597000" />
       <workItem from="1720523791733" duration="4395000" />
       <workItem from="1720528246127" duration="6043000" />
-      <workItem from="1720592067258" duration="6063000" />
+      <workItem from="1720592067258" duration="8646000" />
+      <workItem from="1720631948735" duration="28000" />
+      <workItem from="1720680149782" duration="1593000" />
     </task>
     <servers />
   </component>

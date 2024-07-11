@@ -1,14 +1,14 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar h-100 bg-white p-4">
         <div class="logo pb-4 text-center">
-            <a class="text-decoration-none" href="#">
+            <a class="text-decoration-none" href="{{ route('home') }}">
                 <img src="{{ asset('assets/logo.png') }}" alt="">
             </a>
         </div>
         <ul class="list-unstyled px-2">
             <li>
                 <a id="profileInfo" href="{{ route('profile.info') }}"
-                   class="text-decoration-none d-flex align-items-center {{ request()->is('profile.info') ? 'active' : ''}}">
+                   class="text-decoration-none d-flex align-items-center  {{ request()->is('profile.info') ? 'active' : '' }}">
                     <svg class="profile" width="24" height="25" viewBox="0 0 24 25" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path

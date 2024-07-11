@@ -1,6 +1,13 @@
 @extends('layouts.dashboard')
 @section('title', 'Messages')
 @section('styles')
+    <style>
+        .typing {
+            font-size: 12px;
+            color: #68D391;
+            font-weight: 700;
+        }
+    </style>
 @endsection
 @section('content')
     <div id="content-wrapper" class="contentWrapper h-100">
@@ -27,135 +34,41 @@
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </div>
-                            <span>02</span>
+                            <span>{{ $friends->count() }}</span>
                         </div>
                         <a href="">
-                            <img src="assets/icon17.svg">
+                            <img src="{{ asset('assets/icon17.svg') }}">
                         </a>
                     </div>
                     <div class="searchInput p-3">
                         <input class="form-control form-control-lg" type="search"
                                placeholder="Search by name or message ">
                     </div>
-                    <div class="singleMessage mx-3 px-2 py-1 mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded-circle"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
+                    @forelse($friends as $friend)
+                        <div class="singleMessage mx-3 px-2 py-1 mb-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="image position-relative">
+                                    <img class="rounded-circle" src="{{ asset('assets/profile.png') }}">
+                                    <span class="position-absolute rounded-circle"></span>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Haha oh man </span>
-                                    <span>2</span>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center justify-content-between time">
+                                        <span>{{ $friend->full_name }}</span>
+                                        <span>12m</span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between message">
+                                        <span>Haha oh man </span>
+                                        <span>2</span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between typing">
+                                        <span>Typing...</span>
+                                    </div>
                                 </div>
 
                             </div>
-
                         </div>
-                    </div>
-                    <div class="singleMessage mx-3 px-2 py-1 active mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Typing...</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="singleMessage mx-3 px-2 py-1 mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded-circle"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Haha oh man </span>
-                                    <span>2</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="singleMessage mx-3 px-2 py-1 mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded-circle"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Haha oh man </span>
-                                    <span>2</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="singleMessage mx-3 px-2 py-1 mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded-circle"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Haha oh man </span>
-                                    <span>2</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="singleMessage mx-3 px-2 py-1 mb-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="image position-relative">
-                                <img class="rounded-circle" src="assets/profile.png">
-                                <span class="position-absolute rounded-circle"></span>
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between time">
-                                    <span>Umer Umair</span>
-                                    <span>12m</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between message">
-                                    <span>Haha oh man </span>
-                                    <span>2</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
+                    @empty
+                    @endforelse
                 </div>
             </div>
             <div class="col-lg-9 px-0 h-100 border-start chatWrapper">

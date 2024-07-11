@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\MessageEvent;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\FrontendController;
@@ -31,8 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
-    Route::view('announcements', 'user.announcement')->name('announcements');
-
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('feed', [PostController::class, 'index'])->name('feed');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
@@ -49,9 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
 
+    Route::get('messages', [ChatController::class, 'index'])->name('messages');
 
+
+    Route::view('announcements', 'user.announcement')->name('announcements');
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
-    Route::view('messages', 'user.messages')->name('messages');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
     Route::view('shop', 'user.shop')->name('shop');
@@ -75,4 +77,9 @@ Route::middleware('auth')->group(function () {
     //        $user = auth()->user();
     //        return view('notifications.index', ['notifications' => $user->notifications]);
     //    })->name('notifications.index');
+
+    Route::get('message/event', function (){
+        event(new MessageEvent('Hello World'));
+        dd('Message Sent!');
+    });
 });
