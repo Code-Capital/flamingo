@@ -26,7 +26,7 @@
             justify-content: center;
         }
 
-        .gallery__item > img {
+        .gallery__item>img {
             height: 100%;
             object-fit: cover;
             width: 100%;
@@ -35,7 +35,6 @@
         .gallery__item--hor {
             grid-column: span 2;
         }
-
     </style>
 @endsection
 @section('content')
@@ -49,22 +48,22 @@
                             <div class="avatar align-items-center gap-3 py-4">
                                 <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
-                                       placeholder="What's on your mind?">
+                                    placeholder="What's on your mind?" required>
                             </div>
                             <div class="file-container bg-light"></div>
                             <div class="border-top d-flex align-items-center justify-content-between pt-3">
                                 <div class="d-flex align-items-center gap-4">
                                     <div class="text " role="button">
                                         <img class="img-upload img-fluid" src="{{ asset('assets/icon9.svg') }}"
-                                             alt="pic image">
+                                            alt="pic image">
                                         <span>Photo</span>
                                         <input type="file" name="media[]" multiple hidden accept="image/*">
                                     </div>
                                     <div class="text" role="button">
                                         <div class="d-flex align-items-center gap-1">
                                             <img src=" {{ asset('assets/icon11.svg') }} ">
-                                            <select class="form-select border-0 p-1 custom-select-styling"
-                                                    role="button" name="is_private">
+                                            <select class="form-select border-0 p-1 custom-select-styling" role="button"
+                                                name="is_private">
                                                 <option value="0">Public</option>
                                                 <option value="1">Private</option>
                                             </select>
@@ -96,7 +95,7 @@
                             <div class="post_gallery bg-light">
                                 @forelse($post->media as $media)
                                     <div class="gallery__item gallery__item--hor">
-                                        <img src="{{ ($media->file_path) }}" alt="Post image">
+                                        <img src="{{ $media->file_path }}" alt="Post image">
                                     </div>
                                 @empty
                                 @endforelse
@@ -104,18 +103,18 @@
                             <div class="likes align-items-center justify-content-between pt-4">
                                 <div class="d-flex align-items-center gap-4 ">
                                     <form action="{{ route('post.like-or-unlike', $post->id) }}"
-                                          id="likeForm-{{ $post->id }}" class="ajax-like-form" method="post">
+                                        id="likeForm-{{ $post->id }}" class="ajax-like-form" method="post">
                                         @csrf
                                         <button class="btn" type="submit">
-                                            {{-- <img src="{{ asset('assets/like.svg') }}" alt="like">--}}
+                                            {{-- <img src="{{ asset('assets/like.svg') }}" alt="like"> --}}
                                             <img src="{{ asset($post->likedByCurrentUser() ? 'assets/icon12.svg' : 'assets/like.svg') }}"
-                                                 alt="like">
+                                                alt="like">
                                             <span id="like_count_{{ $post->id }}">{{ $post->likes_count }}</span>
                                         </button>
                                     </form>
 
                                     <div class="text d-flex align-items-center gap-3 show-comment-form"
-                                         data-id="{{ $post->id }}" role="button">
+                                        data-id="{{ $post->id }}" role="button">
                                         <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
                                         <span id="comment_count_{{ $post->id }}">{{ $post->comments_count }}</span>
                                     </div>
@@ -125,18 +124,18 @@
                         <div class="comments">
                             <h5 class="py-3">Comments:</h5>
                             <div class="comment-container-{{ $post->id }}">
-                                @if($post->comments_count > 0)
+                                @if ($post->comments_count > 0)
                                     @include('user.partials.comments', ['comments' => $post->comments])
                                 @endif
                             </div>
                             <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
-                                <form id="commentForm-{{ $post->id }}" action="{{ route('comment.store', $post->id) }}"
-                                      method="POST" class="d-flex align-items-center gap-3 ajax-comment-form">
+                                <form id="commentForm-{{ $post->id }}"
+                                    action="{{ route('comment.store', $post->id) }}" method="POST"
+                                    class="d-flex align-items-center gap-3 ajax-comment-form">
                                     @csrf
-                                    <textarea class="form-control me-2" name="body"
-                                              placeholder="please write comment"></textarea>
+                                    <textarea class="form-control me-2" name="body" placeholder="please write comment"></textarea>
                                     <button class="btn" type="submit">
-                                        <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid"/>
+                                        <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid" />
                                     </button>
                                 </form>
                             </div>
@@ -144,7 +143,7 @@
                     @empty
                         <div class="bg-white p-4 dashboardCard mt-4">
                             <div class="d-flex align-items-center flex-column justify-content-center noResult">
-                                <img src="{{ asset('assets/emoji.svg')}}" alt="no post found">
+                                <img src="{{ asset('assets/emoji.svg') }}" alt="no post found">
                                 <h2 class="mb-0 py-3">No Posts Found</h2>
                                 <p>There are no posts available to show</p>
                             </div>
@@ -157,7 +156,7 @@
                 </div>
 
                 {{-- Show private account notification --}}
-                @if($user->isPrivate())
+                @if ($user->isPrivate())
                     <div class="bg-white p-4 dashboardCard mt-4">
                         <div class="d-flex align-items-center flex-column justify-content-center noResult">
                             <img src="{{ asset('assets/secure.svg') }}">
@@ -189,7 +188,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -200,27 +199,27 @@
                     </div>
                     <h5 class="mb-0 mt-3">See more...</h5>
                 </div>
-                {{-- <div class="bg-white p-4 dashboardCard mt-4">--}}
-                {{--     <h5>Advertizement</h5>--}}
-                {{--     <img class="img-fluid" src=" {{ asset('assets/feedImage.png') }}">--}}
-                {{-- </div>--}}
+                {{-- <div class="bg-white p-4 dashboardCard mt-4"> --}}
+                {{--     <h5>Advertizement</h5> --}}
+                {{--     <img class="img-fluid" src=" {{ asset('assets/feedImage.png') }}"> --}}
+                {{-- </div> --}}
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let fileInput = $('input[type="file"]');
-            let likedImage = "{{  asset('assets/icon12.svg') }}";
-            let likeImage = "{{  asset('assets/like.svg') }}";
+            let likedImage = "{{ asset('assets/icon12.svg') }}";
+            let likeImage = "{{ asset('assets/like.svg') }}";
             let errorMessage = 'Error Occured! Please try again.';
 
-            $('.img-upload').click(function () {
+            $('.img-upload').click(function() {
                 fileInput.click();
             });
 
-            fileInput.change(function (event) {
+            fileInput.change(function(event) {
                 const files = event.target.files;
                 const container = $('.file-container');
                 container.empty(); // Clear previous previews
@@ -231,7 +230,7 @@
                     // Check if the file type is an image
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
-                        reader.onload = function (e) {
+                        reader.onload = function(e) {
                             const img = $('<img>').attr('src', e.target.result);
                             const fileItem = $('<div>').addClass('file-item p-1');
                             fileItem.append(img);
@@ -249,7 +248,7 @@
                 }
             });
 
-            $('body').on('submit', '.ajax-comment-form', function (event) {
+            $('body').on('submit', '.ajax-comment-form', function(event) {
                 event.preventDefault(); // Prevent the default form submission
 
                 let form = $(this);
@@ -260,7 +259,7 @@
                     url: actionUrl,
                     type: 'POST',
                     data: formData,
-                    success: function (response) {
+                    success: function(response) {
                         // Handle the success response
                         if (response.success == false) {
                             toastr.error(response.message);
@@ -284,7 +283,7 @@
 
                         newNotificationSound();
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle the error response
                         console.error('Error submitting comment:', error);
                     }
@@ -310,7 +309,7 @@
             `;
             }
 
-            $('body').on('submit', '.ajax-like-form', function (event) {
+            $('body').on('submit', '.ajax-like-form', function(event) {
                 event.preventDefault(); // Prevent the default form submission
 
                 let form = $(this);
@@ -321,7 +320,7 @@
                     url: actionUrl,
                     type: 'POST',
                     data: formData,
-                    success: function (response) {
+                    success: function(response) {
                         // Handle the success response
                         if (response.success == false) {
                             toastr.error(response.message ?? errorMessage);
@@ -332,12 +331,12 @@
 
                         if (response.data.likeCount == 0) {
                             $("#likeForm-" + response.data.post.id + " button img")
-                                .fadeOut('fast', function () {
+                                .fadeOut('fast', function() {
                                     $(this).attr('src', likeImage).fadeIn('fast');
                                 });
                         } else {
                             $("#likeForm-" + response.data.post.id + " button img")
-                                .fadeOut('fast', function () {
+                                .fadeOut('fast', function() {
                                     $(this).attr('src', likedImage).fadeIn('fast');
                                 });
                         }
@@ -346,7 +345,7 @@
                         $("#like_count_" + response.data.post.id).html(response.data.likeCount);
                         newNotificationSound();
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         // Handle the error response
                         errorNotificationSound()
                         console.error('Error submitting comment:', error);
@@ -354,27 +353,27 @@
                 });
             });
 
-            $('.show-comment-form').click(function () {
+            $('.show-comment-form').click(function() {
                 let id = $(this).data('id');
                 let commentInput = $('.comment-input-' + id);
 
                 if (commentInput.hasClass('d-none')) {
                     commentInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
                 } else {
-                    commentInput.slideUp(300, function () {
+                    commentInput.slideUp(300, function() {
                         $(this).addClass('d-none');
                     });
                 }
             });
 
-            $('.show-reply-form').click(function () {
+            $('.show-reply-form').click(function() {
                 let id = $(this).data('id');
                 let replyInput = $('.reply-input-' + id);
 
                 if (replyInput.hasClass('d-none')) {
                     replyInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
                 } else {
-                    replyInput.slideUp(300, function () {
+                    replyInput.slideUp(300, function() {
                         $(this).addClass('d-none');
                     });
                 }
