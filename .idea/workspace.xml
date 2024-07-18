@@ -5,14 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e334ef8f-1d4b-4df6-a2e5-63a4e9fca84a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard/navbar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/messages.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/messages.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/CommentTypeEnum.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/CommentTypeEnum.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/MessageEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/MessageEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CommentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CommentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CommentReplyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CommentReplyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LikeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LikeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreEventRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreEventRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateEventRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateEventRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Announcement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Announcement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Event.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Event.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Policies/EventPolicy.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Policies/EventPolicy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/View/Components/NoDataFound.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/View/Components/NoDataFound.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/EventFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/EventFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_07_08_122124_create_announcements_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_07_08_122124_create_announcements_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2024_07_08_133051_create_events_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_07_08_133051_create_events_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/EventSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/EventSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/Unfriend.svg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/Unfriend.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/block.svg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/block.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/like.svg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/like.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/unblock.svg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/unblock.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/error.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/error.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/livechat.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/livechat.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/new-notification.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/new-notification.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/notification.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/notification.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/system-notification.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/system-notification.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/audio/whatsapp-typing.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/public/audio/whatsapp-typing.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/no-data-found.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/no-data-found.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/event/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/event/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/event/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/event/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user/partials/comments.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/partials/comments.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,6 +299,8 @@
       <workItem from="1720592067258" duration="8646000" />
       <workItem from="1720631948735" duration="28000" />
       <workItem from="1720680149782" duration="1593000" />
+      <workItem from="1720696975049" duration="3048000" />
+      <workItem from="1721030345496" duration="127000" />
     </task>
     <servers />
   </component>
