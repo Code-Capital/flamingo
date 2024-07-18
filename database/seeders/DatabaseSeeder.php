@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             StateSeeder::class,
             UserSeeder::class,
+            EventSeeder::class,
         ]);
     }
 }

@@ -16,70 +16,30 @@
                         </div>
                     </div>
                     <div class="row mx-0">
-                        <div class="col-lg-6 mb-3">
-                            <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                <img src="{{ asset('assets/galleryImage.png') }}">
-                                <div class="content">
-                                    <span>25 Nov at 12:24 PM</span>
-                                    <h5 class="mb-1">Lorem Ipsum</h5>
-                                    <p class="mb-2">Lorem Ipsum is simply dummy text of the printing er and typesetting
-                                        industry. Lorem Ipsum has been </p>
-                                    <div class="text mb-2"># Tags</div>
-                                    <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                        <span class="px-2 py-1">Happiness</span>
-                                        <span class="px-2 py-1">Worklife</span>
+                        @forelse ($events as $event)
+                            <div class="col-lg-6 mb-3">
+                                <a href="{{ route('events.show', $event->slug) }}" class="text-decoration-none">
+                                    <div class="announcementCard p-3 d-flex align-items-start gap-4">
+                                        <img src="{{ $event->thumbnail_url }}">
+                                        <div class="content">
+                                            <span> {{ $event->formatted_created_at }} </span>
+                                            <h5 class="mb-1"> {{ $event->title }} </h5>
+                                            <p class="mb-2"> {{ limitString($event->description, 50) }} </p>
+                                            <div class="text mb-2"># Interests</div>
+                                            <div class="tags d-flex gap-3 align-items-center flex-wrap">
+                                                @forelse ($event->interests as $interest)
+                                                    <span class="px-2 py-1">{{ $interest->name }}</span>
+                                                @empty
+                                                    <span class="px-2 py-1">No interests</span>
+                                                @endforelse
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                <img src="assets/galleryImage.png">
-                                <div class="content">
-                                    <span>25 Nov at 12:24 PM</span>
-                                    <h5 class="mb-1">Lorem Ipsum</h5>
-                                    <p class="mb-2">Lorem Ipsum is simply dummy text of the printing er and typesetting
-                                        industry. Lorem Ipsum has been </p>
-                                    <div class="text mb-2"># Tags</div>
-                                    <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                        <span class="px-2 py-1">Happiness</span>
-                                        <span class="px-2 py-1">Worklife</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                <img src="assets/galleryImage.png">
-                                <div class="content">
-                                    <span>25 Nov at 12:24 PM</span>
-                                    <h5 class="mb-1">Lorem Ipsum</h5>
-                                    <p class="mb-2">Lorem Ipsum is simply dummy text of the printing er and typesetting
-                                        industry. Lorem Ipsum has been </p>
-                                    <div class="text mb-2"># Tags</div>
-                                    <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                        <span class="px-2 py-1">Happiness</span>
-                                        <span class="px-2 py-1">Worklife</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                <img src="assets/galleryImage.png">
-                                <div class="content">
-                                    <span>25 Nov at 12:24 PM</span>
-                                    <h5 class="mb-1">Lorem Ipsum</h5>
-                                    <p class="mb-2">Lorem Ipsum is simply dummy text of the printing er and typesetting
-                                        industry. Lorem Ipsum has been </p>
-                                    <div class="text mb-2"># Tags</div>
-                                    <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                        <span class="px-2 py-1">Happiness</span>
-                                        <span class="px-2 py-1">Worklife</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @empty
+                            <x-no-data-found />
+                        @endforelse
                     </div>
                 </div>
             </div>

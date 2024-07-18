@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CommentTypeEnum;
-use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Enums\CommentTypeEnum;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 

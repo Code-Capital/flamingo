@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Media extends Model
 {

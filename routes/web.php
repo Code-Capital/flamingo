@@ -4,6 +4,7 @@ use App\Events\MessageEvent;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
@@ -68,10 +69,14 @@ Route::middleware('auth')->group(function () {
 
     Route::view('products/create', 'product.create')->name('products.create');
 
-    Route::view('events', 'event.index')->name('events.index');
-    Route::view('events/show', 'event.show')->name('events.show');
-    Route::view('events/create', 'event.create')->name('events.create');
-    Route::view('events/friends', 'event.friends')->name('events.friends');
+    Route::get('events', [EventController::class, 'index'])->name('events.index');
+    Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
+    Route::get('events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('events/store', [EventController::class, 'store'])->name('events.store');
+
+    // Enable this resouce when all the code for the events done
+    // Route::resource('events', EventController::class);
+    Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
 
     //    Route::get('/notifications', function () {
     //        $user = auth()->user();

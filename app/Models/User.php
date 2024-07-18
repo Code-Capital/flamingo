@@ -147,11 +147,6 @@ class User extends Authenticatable
             ->wherePivot('blocked', true);
     }
 
-    public function messages(): BelongsToMany
-    {
-        return $this->belongsToMany(Message::class);
-    }
-
     public function notifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'notifiable');
@@ -160,16 +155,6 @@ class User extends Authenticatable
     public function events(): BelongsToMany
     {
         return $this->belongsToMany(Event::class);
-    }
-
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class);
-    }
-
-    public function orders(): BelongsToMany
-    {
-        return $this->belongsToMany(Order::class);
     }
 
     public function media(): MorphMany
