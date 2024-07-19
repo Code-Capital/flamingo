@@ -150,4 +150,26 @@ class EventController extends Controller
             ? $this->sendSuccessResponse($user, $messages, Response::HTTP_OK)
             : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);;
     }
+
+    /**
+     * Join the specified event.
+     */
+    public function joinEvent(Event $event)
+    {
+        try {
+            $user = Auth::user();
+
+            // Check if the user is already a member of the event
+            if ($event->allMembers()->where('user_id', $user->id)->exists()) {
+                return $this->sendErrorResponse('You are already a member of this event', Response::HTTP_OK);
+            }
+
+            // Add the user as a member of the event
+            $event->allMembers()->attach($user->id);
+
+            return $this->sendSuccessResponse($event, 'You have joined the event successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

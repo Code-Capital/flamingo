@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
 
     // In routes/web.php or routes/api.php
+    Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
 

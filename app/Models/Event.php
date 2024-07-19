@@ -156,6 +156,14 @@ class Event extends Model
             ->orWhere('description', 'like', '%' . $search . '%');
     }
 
+    public function scopeByLocation($query, ?string $search = null)
+    {
+        if (!$search) {
+            return $query;
+        }
+        return $query->where('location', 'like', '%' . $search . '%');
+    }
+
     public function scopeByInterests($query, array $interests = [])
     {
         return $query->when($interests, function ($q) use ($interests) {

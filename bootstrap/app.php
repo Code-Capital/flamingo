@@ -30,15 +30,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->report(function (\Throwable $exception, $request) {
-            if ($request->is('api/*') || $request->ajax()) {
-                $statusCode = $this->getStatusCode($exception);
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error occurred. Please try again later.',
-                ], $statusCode);
-            }
-        });
+        // $exceptions->report(function (\Throwable $exception, $request) {
+        // if ($request->is('api/*')) {
+        //     $statusCode = $this->getStatusCode($exception);
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Error occurred. Please try again later.',
+        //     ], $statusCode);
+        // }
+        // });
     })->create();
 
 function getStatusCode(Throwable $e): int

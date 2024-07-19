@@ -34,17 +34,23 @@ class SearchController extends Controller
 
     public function eventSearch(Request $request): View
     {
-        $user = Auth::id();
+        $user = Auth::user();
+        $userInterests = $user->interests->pluck('id')->toArray();
+
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
 
         $events = Event::with('interests')
+            ->with('allMembers')
             ->published()
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
-            ->byNotUser($user)
+            ->byLocation($request->location)
+            ->byNotUser($user->id)
             ->latest()
-            ->get();
+            // ->upcoming()
+            // ->ongoing()
+            ->paginate(getPaginated());
 
         $interests = Interest::get();
 
