@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Interest;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
+use App\Models\Event;
+use App\Models\Interest;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
@@ -29,5 +30,24 @@ class SearchController extends Controller
         $interests = Interest::get();
 
         return view('user.search', get_defined_vars());
+    }
+
+    public function eventSearch(Request $request): View
+    {
+        $user = Auth::id();
+        $searchTerm = $request->input('q', '');
+        $selectedInterests = $request->input('interests', []);
+
+        $events = Event::with('interests')
+            ->published()
+            ->bySearch($searchTerm)
+            ->byInterests($selectedInterests)
+            ->byNotUser($user)
+            ->latest()
+            ->get();
+
+        $interests = Interest::get();
+
+        return view('event.search', get_defined_vars());
     }
 }

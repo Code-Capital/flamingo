@@ -15,7 +15,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
     Route::post('reply/{post}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
-    Route::get('search', [SearchController::class, 'index'])->name('search');
+    Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
     Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
     Route::put('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
     Route::delete('/friend/{user}/remove', [UserController::class, 'removeFriend'])->name('friend.remove');
@@ -51,6 +51,19 @@ Route::middleware('auth')->group(function () {
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
 
     Route::get('messages', [ChatController::class, 'index'])->name('messages');
+
+    Route::get('events', [EventController::class, 'index'])->name('events.index');
+    Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
+    Route::get('events/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('events/store', [EventController::class, 'store'])->name('events.store');
+    Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
+    Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
+
+    // In routes/web.php or routes/api.php
+    Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
+    Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
+
+
 
 
     Route::view('announcements', 'user.announcement')->name('announcements');
@@ -69,21 +82,12 @@ Route::middleware('auth')->group(function () {
 
     Route::view('products/create', 'product.create')->name('products.create');
 
-    Route::get('events', [EventController::class, 'index'])->name('events.index');
-    Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
-    Route::get('events/create', [EventController::class, 'create'])->name('events.create');
-    Route::post('events/store', [EventController::class, 'store'])->name('events.store');
-
-    // Enable this resouce when all the code for the events done
-    // Route::resource('events', EventController::class);
-    Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
-
     //    Route::get('/notifications', function () {
     //        $user = auth()->user();
     //        return view('notifications.index', ['notifications' => $user->notifications]);
     //    })->name('notifications.index');
 
-    Route::get('message/event', function (){
+    Route::get('message/event', function () {
         event(new MessageEvent('Hello World'));
         dd('Message Sent!');
     });

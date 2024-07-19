@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -211,15 +213,15 @@ class User extends Authenticatable
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
         if (!$search) {
-
+            return $query;
         }
-
         return $query->where('first_name', 'like', '%' . $search . '%')
             ->orWhere('last_name', 'like', '%' . $search . '%')
             ->orWhere('user_name', 'like', '%' . $search . '%')
@@ -228,10 +230,6 @@ class User extends Authenticatable
 
     public function scopeByInterests($query, array $interests = [])
     {
-        if (empty($interests)) {
-            return $query;
-        }
-
         return $query->when($interests, function ($q) use ($interests) {
             $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);

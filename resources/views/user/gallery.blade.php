@@ -27,7 +27,6 @@
                             @empty
                                 <x-no-data-found>
                             @endforelse
-
                         </div>
                     </div>
                 </div>

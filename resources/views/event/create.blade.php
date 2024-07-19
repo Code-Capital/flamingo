@@ -134,8 +134,8 @@
                                 <select class="w-100 form-control form-select" name="interests[]" multiple required>
                                     @forelse ($interests as $interest)
                                         <option value="{{ $interest->id }}"
-                                            {{ in_array($interest->id, old('interests', [])) ? 'selected' : '' }}
-                                            > {{ $interest->name }} </option>
+                                            {{ in_array($interest->id, old('interests', [])) ? 'selected' : '' }}>
+                                            {{ $interest->name }} </option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -151,12 +151,24 @@
                             </label>
                             <div class="form-control form-control-lg">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="4" name="description" class="w-100" placeholder="Describe the event" required>
-                                        {{ old('description') }}
-                                    </textarea>
+                                    <textarea rows="4" name="description" class="w-100" required  placeholder="Describe the event rules description">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                             @error('description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <!-- Event Rules -->
+                        <div class="form-group mb-3">
+                            <label class="mb-1">
+                                <span>Event Rule and Regulations <small class="text-muted">(optional)</small></span>
+                            </label>
+                            <div class="form-control form-control-lg">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <textarea rows="4" name="rules" class="w-100" placeholder="Describe the event rules">{{ old('rules') }}</textarea>
+                                </div>
+                            </div>
+                            @error('rules')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

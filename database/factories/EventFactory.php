@@ -30,6 +30,7 @@ class EventFactory extends Factory
             'end_date' => $this->faker->dateTimeBetween('now', '+1 year'),
             'thumbnail' => null,
             'description' => $this->faker->paragraph,
+            'rules' => $this->faker->paragraph,
             'status' =>  $this->faker->randomElement(['draft', 'published']),
         ];
     }

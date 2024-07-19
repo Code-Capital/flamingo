@@ -63,6 +63,11 @@ class Post extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================

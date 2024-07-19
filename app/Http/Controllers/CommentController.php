@@ -43,7 +43,7 @@ class CommentController extends Controller
         // Create a new comment
         $comment = $post->comments()->create([
             'body' => $request->body,
-            'type' => CommentTypeEnum::Comment,
+            'type' => CommentTypeEnum::COMMENT,
             'user_id' => auth()->id(),
         ]);
 

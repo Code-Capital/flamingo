@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
 {
@@ -53,6 +56,7 @@ class EventController extends Controller
                 'end_date' => $request->end_date,
                 'thumbnail' => $request->file('thumbnail')->store('media/events/thumbnail/', 'public'),
                 'description' => $request->description,
+                'rules' => $request->rules,
                 'status' => $request->status,
             ]);
 
@@ -81,6 +85,8 @@ class EventController extends Controller
      */
     public function show(Event $event): View
     {
+        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
+        // dd($event->toArray());
         return view('event.show', get_defined_vars());
     }
 
@@ -111,5 +117,37 @@ class EventController extends Controller
     public function friends(): View
     {
         return view('event.friends');
+    }
+
+    public function removeMember(Request $request, Event $event, User $user)
+    {
+        $event->allMembers()->detach($user->id);
+        if ($request->ajax()) {
+            return $this->sendSuccessResponse($user, 'Member removed successfully', Response::HTTP_OK);
+        }
+        return back()->with('success', 'Member removed successfully');
+    }
+
+    public function statusUpdateRequest(Request $request, Event $event, User $user)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'status' => ['required', 'in:accepted,rejected'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendErrorResponse($validator->errors(), 'Validation error', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Update the pivot record for the specific event and user
+        $response = $event->allMembers()->updateExistingPivot($user->id, [
+            'status' => $request->status,
+        ]);
+
+        $messages = ($request->status === 'accepted') ? 'Request accepted successfully' : 'Request rejected successfully';
+
+        return ($response)
+            ? $this->sendSuccessResponse($user, $messages, Response::HTTP_OK)
+            : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);;
     }
 }

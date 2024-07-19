@@ -26,7 +26,7 @@ class CommentReplyController extends Controller
         // Create a new comment
         $comment = $comment->replies()->create([
             'body' => $request->body,
-            'type' => CommentTypeEnum::Reply,
+            'type' => CommentTypeEnum::REPLY,
             'user_id' => auth()->id(),
         ]);
 

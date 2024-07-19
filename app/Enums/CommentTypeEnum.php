@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum CommentTypeEnum: string
 {
-    case Comment = 'comment';
-    case Reply = 'reply';
+    case COMMENT = 'comment';
+    case REPLY = 'reply';
 }

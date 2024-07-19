@@ -1,6 +1,6 @@
 @foreach ($comments as $comment)
     <div class="single-item mt-2">
-        @if ($comment->type = \App\Enums\CommentTypeEnum::Comment)
+        @if ($comment->type = \App\Enums\CommentTypeEnum::COMMENT)
             <div class="commentbox p-3">
                 <div class="d-flex align-items-start gap-2">
                     <img class="rounded-circle" src="{{ asset($comment->user->avatar_url) }}">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-        @elseif($comment->type = \App\Enums\CommentTypeEnum::Reply)
+        @elseif($comment->type = \App\Enums\CommentTypeEnum::REPLY)
             <div class="position-relative">
                 <div class="position-absolute">
                     <img src="assets/commentImg.svg">
