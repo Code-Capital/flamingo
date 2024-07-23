@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -102,51 +103,41 @@ class User extends Authenticatable
 
     public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-            ->withPivot('accepted', 'blocked', 'rejected')
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
             ->withTimestamps();
     }
 
-    public function acceptedUsers(): BelongsToMany
+    public function acceptedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('accepted', true);
+            ->wherePivot('status', StatusEnum::ACCEPTED);
     }
 
-    public function blockedUsers(): BelongsToMany
+    public function blockedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('blocked', true);
+            ->wherePivot('status', StatusEnum::BLOCKED);
     }
 
-    public function rejectedUsers(): BelongsToMany
+    public function rejectedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('rejected', true);
+            ->wherePivot('status', StatusEnum::REJECTED);
     }
 
-    public function acceptedRequests(): BelongsToMany
+    public function sentRequests(): BelongsToMany
     {
-        return $this->friends()
-            ->wherePivot('accepted', true)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', false);
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->wherePivot('status', StatusEnum::PENDING);
     }
 
-    public function pendingRequests(): BelongsToMany
+    public function receivedRequests(): BelongsToMany
     {
-        return $this->friends()
-            ->wherePivot('accepted', false)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', false);
-    }
-
-    public function blockedRequests(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('accepted', false)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', true);
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', StatusEnum::PENDING);
     }
 
     public function notifications(): MorphMany

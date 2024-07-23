@@ -43,35 +43,8 @@
                                         <p>
                                             {{ $event->description }}
                                         </p>
-                                        <div class="list py-3">
-                                            <ul class="list-unstyled">
-                                                <li class="d-flex gap-2 align-items-center">
-                                                    <img src="{{ asset('assets/tick.svg') }}" alt="">
-                                                    <span>Lorem Ipsum is simply dummy text of the printing </span>
-                                                </li>
-                                                <li class="d-flex gap-2 align-items-center"><img
-                                                        src="{{ asset('assets/tick.svg') }}">
-                                                    <span>Lorem Ipsum is simply dummy text of the
-                                                        printing </span>
-                                                </li>
-                                                <li class="d-flex gap-2 align-items-center"><img
-                                                        src="{{ asset('assets/tick.svg') }}">
-                                                    <span>Lorem Ipsum is simply dummy text of the
-                                                        printing </span>
-                                                </li>
-                                                <li class="d-flex gap-2 align-items-center"><img
-                                                        src="{{ asset('assets/tick.svg') }}">
-                                                    <span>Lorem Ipsum is simply dummy text of the
-                                                        printing </span>
-                                                </li>
-                                                <li class="d-flex gap-2 align-items-center"><img
-                                                        src="{{ asset('assets/tick.svg') }}">
-                                                    <span>Lorem Ipsum is simply dummy text of the
-                                                        printing </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h6 class="mb-4">Rules and Regulations</h6>
+
+                                        <h6 class="mb-2 mt-4">Rules and Regulations</h6>
                                         <p>
                                             {{ $event->rules }}
                                         </p>

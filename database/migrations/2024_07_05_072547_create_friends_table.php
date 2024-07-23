@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+
+use App\Enums\StatusEnum;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,9 +17,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('friend_id')->constrained('users')->onDelete('cascade');
-            $table->boolean('accepted')->default(false);
-            $table->boolean('rejected')->default(false);
-            $table->boolean('blocked')->default(false);
+            $table->enum('status', [
+                'pending',
+                'accepted',
+                'rejected',
+                'blocked',
+            ])->default('pending');
+            // $table->boolean('accepted')->default(false);
+            // $table->boolean('rejected')->default(false);
+            // $table->boolean('blocked')->default(false);
             $table->timestamps();
         });
     }

@@ -57,7 +57,7 @@
                     <div class="row mx-0">
                         @forelse ($events as $event)
                             <div class="col-lg-6 mb-3 ">
-                                <div class="announcementCard p-3 d-flex align-items-start gap-4">
+                                <div class="announcementCard p-3 d-flex align-items-stretch gap-4">
                                     <img src="{{ $event->thumbnail_url }}">
                                     <div class="content">
                                         <span> {{ $event->formatted_created_at }} </span>
@@ -76,8 +76,13 @@
                                             <div class="d-flex align-items-center p-3">
                                                 <a class="join-event" data-id="{{ $event->id }}"
                                                     href="javascript:void(0)">
-                                                    <img src="{{ asset('assets/done.svg') }} " class="img-fluid">
+                                                    <img src="{{ asset('assets/done.svg') }}" alt="join event"
+                                                        style="height: 30px; width:30px; object-fit: contain">
                                                 </a>
+                                            </div>
+                                        @else
+                                            <div class="tags d-flex align-items-center pt-2">
+                                                <span class="px-2 py-1 bg-success text-white">Request sent</span>
                                             </div>
                                         @endif
                                     </div>

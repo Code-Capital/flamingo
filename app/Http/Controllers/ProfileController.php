@@ -83,9 +83,9 @@ class ProfileController extends Controller
         $postMedia = $user->posts()->with('media')->latest()->get()->pluck('media')->flatten();
         $media = $userMedia->merge($postMedia);
 
-        $friends = $user->acceptedRequests;
-        $requests = $user->pendingRequests;
-        $blockedUsers = $user->blockedRequests;
+        $requests = $user->receivedRequests;
+        $friends = $user->acceptedFriends;
+        $blockedUsers = $user->blockedFriends;
 
         return view('profile.info', get_defined_vars());
     }

@@ -9,30 +9,28 @@
                 <div class="bg-white p-4 dashboardCard">
                     <nav class="mb-0">
                         <div class="nav nav-tabs border-0 mb-0" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="Info-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Info" type="button" role="tab" aria-controls="Info"
-                                    aria-selected="true"><span class="px-1 px-md-2 px-lg-3">Info</span></button>
-                            <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Photos" type="button" role="tab"
-                                    aria-controls="Photos" aria-selected="false"><span
-                                        class="px-1 px-md-2 px-lg-3">Photos</span>
+                            <button class="nav-link active" id="Info-tab" data-bs-toggle="tab" data-bs-target="#Info"
+                                type="button" role="tab" aria-controls="Info" aria-selected="true"><span
+                                    class="px-1 px-md-2 px-lg-3">Info</span></button>
+                            <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab" data-bs-target="#Photos"
+                                type="button" role="tab" aria-controls="Photos" aria-selected="false"><span
+                                    class="px-1 px-md-2 px-lg-3">Photos</span>
                             </button>
-                            <button class="nav-link" id="Requests-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Requests" type="button" role="tab" aria-controls="Requests"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Requests</span>
+                            <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
+                                type="button" role="tab" aria-controls="Requests" aria-selected="false"><span
+                                    class="px-1 px-md-2 px-lg-3">Requests</span>
                             </button>
-                            <button class="nav-link" id="Friends-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Friends</span>
+                            <button class="nav-link" id="Friends-tab" data-bs-toggle="tab" data-bs-target="#Friends"
+                                type="button" role="tab" aria-controls="Friends" aria-selected="false"><span
+                                    class="px-1 px-md-2 px-lg-3">Friends</span>
                             </button>
-                            <button class="nav-link" id="Blocked-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Blocked" type="button" role="tab" aria-controls="Requests"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Blocked</span>
+                            <button class="nav-link" id="Blocked-tab" data-bs-toggle="tab" data-bs-target="#Blocked"
+                                type="button" role="tab" aria-controls="Requests" aria-selected="false"><span
+                                    class="px-1 px-md-2 px-lg-3">Blocked</span>
                             </button>
                             <button class="nav-link" id="Subscription-tab" data-bs-toggle="tab"
-                                    data-bs-target="#Subscription" type="button" role="tab"
-                                    aria-controls="Subscription"
-                                    aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Subscription</span>
+                                data-bs-target="#Subscription" type="button" role="tab" aria-controls="Subscription"
+                                aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Subscription</span>
                             </button>
                         </div>
                     </nav>
@@ -40,8 +38,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="tab-content p-0 border-0" id="nav-tabContent">
-                    <div class="tab-pane fade active show" id="Info" role="tabpanel"
-                         aria-labelledby="Info-tab">
+                    <div class="tab-pane fade active show" id="Info" role="tabpanel" aria-labelledby="Info-tab">
                         <div class="row mx-0">
                             <div class="col-lg-8 ps-0 ps-md-0 ps-lg-auto pe-0 pe-md-0 pe-lg-2 mb-3">
                                 <div class="bg-white p-4 dashboardCard">
@@ -60,7 +57,7 @@
                                                 <div class="avatarWrapper">
                                                     <div class="d-flex align-items-center gap-3">
                                                         <div class="image position-relative">
-                                                            <img src=" {{ asset('assets/profile.png')  }} ">
+                                                            <img src=" {{ asset('assets/profile.png') }} ">
                                                             <span class="position-absolute"></span>
                                                         </div>
 
@@ -72,9 +69,8 @@
                                                 </div>
                                                 <div class="buttonWrapper">
                                                     <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal"
-                                                           data-bs-target="#joinCommunity"
-                                                           class="text-decoration-none">
+                                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
+                                                            class="text-decoration-none">
                                                             <img src=" {{ asset('assets/icon7.svg') }} ">
                                                         </a>
                                                         <span class="d-block">Join</span>
@@ -88,8 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="Photos" role="tabpanel"
-                         aria-labelledby="Photos-tab">
+                    <div class="tab-pane fade" id="Photos" role="tabpanel" aria-labelledby="Photos-tab">
                         <div class="bg-white p-4 dashboardCard">
                             <div class="gallery">
                                 <div class="d-flex align-items-center justify-content-between pb-4 ">
@@ -106,7 +101,7 @@
                                             <span class="pt-1">Shine</span>
                                         </div>
                                     @empty
-                                        <x-no-data-found/>
+                                        <x-no-data-found />
                                     @endforelse
                                 </div>
 
@@ -133,13 +128,12 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <a class="text-decoration-none block" data-id="{{ $friend->id }}"
-                                                       tooltip="Block"
-                                                       href="javascript:void(0)">
+                                                        tooltip="Block" href="javascript:void(0)">
                                                         <img src="{{ asset('assets/secure.svg') }} ">
                                                     </a>
-                                                    <a class="text-decoration-none unfriend" data-id="{{ $friend->id }}"
-                                                       tooltip="Unfriend"
-                                                       href="javascript:void(0)">
+                                                    <a class="text-decoration-none unfriend"
+                                                        data-id="{{ $friend->id }}" tooltip="Unfriend"
+                                                        href="javascript:void(0)">
                                                         <img src="{{ asset('assets/trash.svg') }} " alt="">
                                                     </a>
                                                 </div>
@@ -147,7 +141,7 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <x-no-data-found/>
+                                    <x-no-data-found />
                                 @endforelse
                             </div>
                         </div>
@@ -172,12 +166,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <a class="text-decoration-none approve" data-id="{{ $user->id }}"
-                                                       href="javascript:void(0)">
+                                                    <a class="text-decoration-none accept" data-id="{{ $user->id }}"
+                                                        href="javascript:void(0)">
                                                         <img src="{{ asset('assets/done.svg') }} ">
                                                     </a>
                                                     <a class="text-decoration-none reject" data-id="{{ $user->id }}"
-                                                       href="javascript:void(0)">
+                                                        href="javascript:void(0)">
                                                         <img src="{{ asset('assets/trash.svg') }} " alt="">
                                                     </a>
                                                 </div>
@@ -185,7 +179,7 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <x-no-data-found/>
+                                    <x-no-data-found />
                                 @endforelse
                             </div>
                         </div>
@@ -210,9 +204,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <a class="text-decoration-none approve"
-                                                       data-id="{{ $blockUser->id }}" tooltip="Unblock"
-                                                       href="javascript:void(0)">
+                                                    <a class="text-decoration-none accept" data-id="{{ $blockUser->id }}"
+                                                        tooltip="Unblock" href="javascript:void(0)">
                                                         <img src="{{ asset('assets/done.svg') }} ">
                                                     </a>
                                                 </div>
@@ -220,13 +213,12 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <x-no-data-found/>
+                                    <x-no-data-found />
                                 @endforelse
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="Subscription" role="tabpanel"
-                         aria-labelledby="Subscription-tab">
+                    <div class="tab-pane fade" id="Subscription" role="tabpanel" aria-labelledby="Subscription-tab">
                         <div class="bg-white p-4 dashboardCard">
                             <div class="pricingWrapper">
                                 <div class="text-center py-5">
@@ -236,7 +228,7 @@
                                         <span>Monthly</span>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" role="switch"
-                                                   id="flexSwitchCheckChecked" checked>
+                                                id="flexSwitchCheckChecked" checked>
                                         </div>
                                         <span>Annually</span>
                                     </div>
@@ -261,55 +253,87 @@
                                             <h5 class="mb-3">What’s included</h5>
                                             <ul class="list-unstyled">
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span> Basic profile creation</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span> Access to community features</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span> Limited content sharing access</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span> Standard support</span>
                                                 </li>
                                             </ul>
@@ -333,59 +357,91 @@
                                             </div>
                                             <p class="text pe-5 pt-3">Ideal for individuals and small teams</p>
                                             <div class="heading mb-4"><span class="h2">$99</span><span
-                                                        class="month">/monthly</span></div>
+                                                    class="month">/monthly</span></div>
                                             <h5 class="mb-3">What’s included</h5>
                                             <ul class="list-unstyled">
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Advanced profile customization</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Access to community features</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Enhanced content sharing access</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Priority support</span>
                                                 </li>
                                             </ul>
@@ -407,59 +463,91 @@
                                             <p class="text pe-5 pt-3">Tailored for large communities and
                                                 businesses</p>
                                             <div class="heading mb-4"><span class="h2">$99</span><span
-                                                        class="month">/monthly</span></div>
+                                                    class="month">/monthly</span></div>
                                             <h5 class="mb-3">What’s included</h5>
                                             <ul class="list-unstyled">
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Customizable solutions</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Advanced analytics</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Dedicated account manager option</span>
                                                 </li>
                                                 <li class="mb-4">
-                                <span>
-                                    <svg width="26" height="27" viewBox="0 0 26 27" fill="#DE296A"
-                                         xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_69)"><path
-                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z"/><path
-                                                    d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785" stroke="white"
-                                                    stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"/></g><defs><clipPath id="clip0_1_69"><rect
-                                                        width="26" height="26" fill="white"
-                                                        transform="translate(0 0.5)"/></clipPath></defs></svg>
-                                </span>
+                                                    <span>
+                                                        <svg width="26" height="27" viewBox="0 0 26 27"
+                                                            fill="#DE296A" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_1_69)">
+                                                                <path
+                                                                    d="M13 26.5C20.1799 26.5 26 20.6799 26 13.5C26 6.3201 20.1799 0.5 13 0.5C5.8201 0.5 0 6.3201 0 13.5C0 20.6799 5.8201 26.5 13 26.5Z" />
+                                                                <path d="M7.1167 14.3406L10.4785 17.7024L18.8831 9.29785"
+                                                                    stroke="white" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1_69">
+                                                                    <rect width="26" height="26" fill="white"
+                                                                        transform="translate(0 0.5)" />
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </span>
                                                     <span>Advanced reporting</span>
                                                 </li>
                                             </ul>
@@ -479,44 +567,42 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let body = $('body');
 
-            body.on('click', '.approve', function (event) {
+            body.on('click', '.accept', function(event) {
                 event.preventDefault();
                 let id = $(this).data('id');
-                sendRequest(id, 'approve', $(this));
+                sendRequest(id, 'accepted', $(this));
             });
 
-            body.on('click', '.reject', function (event) {
+            body.on('click', '.reject', function(event) {
                 event.preventDefault();
                 let id = $(this).data('id');
-                sendRequest(id, 'reject', $(this));
+                sendRequest(id, 'rejected', $(this));
             });
 
-            body.on('click', '.block', function (event) {
+            body.on('click', '.block', function(event) {
                 event.preventDefault();
                 let id = $(this).data('id');
-                sendRequest(id, 'block', $(this));
+                sendRequest(id, 'blocked', $(this));
             });
 
-            body.on('click', '.unfriend', function (event) {
+            body.on('click', '.unfriend', function(event) {
                 event.preventDefault();
                 let id = $(this).data('id');
                 unfriendUser(id, $(this));
             });
 
-            function sendRequest(id, type, button) {
+            function sendRequest(id, status, button) {
                 $.ajax({
                     url: '{{ route('friend.request.status', ':id') }}'.replace(':id', id),
                     type: 'PUT',
                     data: {
-                        "accepted": type === 'approve' ? 1 : 0,
-                        "rejected": type === 'reject' ? 1 : 0,
-                        "blocked": type === 'block' ? 1 : 0,
+                        "status": status,
                         "_token": "{{ csrf_token() }}"
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success == false) {
                             toastr.error(response.message);
                             errorNotificationSound();
@@ -525,11 +611,13 @@
 
                         toastr.success(response.message);
                         newNotificationSound();
-                        button.closest('.friend-request-' + id).fadeOut(300).hide(); // Hide the parent element of the button
+                        button.closest('.friend-request-' + id).fadeOut(300)
+                    .hide(); // Hide the parent element of the button
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error);
                         errorNotificationSound();
+                        toastr.error(error);
                     }
                 });
             }
@@ -541,7 +629,7 @@
                     data: {
                         "_token": "{{ csrf_token() }}"
                     },
-                    success: function (response) {
+                    success: function(response) {
                         cosole.log(response);
                         if (response.success == false) {
                             toastr.error(response.message);
@@ -551,15 +639,15 @@
 
                         toastr.success(response.message);
                         newNotificationSound();
-                        button.closest('.friend-request-' + id).fadeOut(300).hide(); // Hide the parent element of the button
+                        button.closest('.friend-request-' + id).fadeOut(300)
+                    .hide(); // Hide the parent element of the button
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error);
                         errorNotificationSound();
                     }
                 });
             }
         });
-
     </script>
 @endsection

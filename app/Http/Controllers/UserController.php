@@ -2,51 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
     public function addFriend(Request $request, User $user): JsonResponse
     {
-        $request->user()->friends()->attach($user->id);
+        Auth::user()->friends()->attach($user->id);
 
-        return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
+        return $this->sendSuccessResponse(null, 'Friend request sent successfully', Response::HTTP_CREATED);
     }
 
     public function statusUpdate(Request $request, User $user): JsonResponse
     {
-        $authUser = $request->user();
+        $authUser = Auth::user();
 
-        $friend = $authUser->friends()->where('friend_id', $user->id)->first();
+        $friend = $authUser->friends()->where('user_id', $user->id)->first();
 
-        if ($friend) {
-            // Update pivot columns
-            $authUser->friends()->updateExistingPivot($user->id, [
-                'accepted' => $request->input('accepted', $friend->pivot->accepted),
-                'rejected' => $request->input('rejected', $friend->pivot->rejected),
-                'blocked' => $request->input('blocked', $friend->pivot->blocked),
-            ]);
-            $accepted = $request->input('accepted', $friend->pivot->accepted);
-            $rejected = $request->input('rejected', $friend->pivot->rejected);
-            $blocked = $request->input('blocked', $friend->pivot->blocked);
-
-            $message = 'Friend status updated successfully.';
-            if ($accepted) {
-                $message = 'Friend request accepted successfully.';
-            } elseif ($rejected) {
-                $message = 'Friend request rejected successfully.';
-            } elseif ($blocked) {
-                $message = 'Friend blocked successfully.';
-            }
-
-            return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
+        if (!$friend) {
+            return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
         }
 
-        return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
+        $authUser->friends()->updateExistingPivot($user->id, [
+            'status' => $request->status,
+        ]);
+
+        $message = "Friend request {$request->status} successfully.";
+
+        return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
     }
 
     public function removeFriend(Request $request, User $user): JsonResponse
@@ -56,16 +45,6 @@ class UserController extends Controller
         return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
     }
 
-    public function acceptFriend(Request $request, User $user): JsonResponse
-    {
-        try {
-            $request->user()->friends()->updateExistingPivot($user->id, ['accepted' => true]);
-
-            return $this->sendSuccessResponse(null, 'Friend request accepted successfully', Response::HTTP_OK);
-        } catch (Exception $e) {
-            return $this->sendErrorResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
 
     public function gallery(): View
     {
