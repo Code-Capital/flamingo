@@ -27,7 +27,7 @@ class EventController extends Controller
         $events = Event::byUser($user)
             ->with(['interests:id,name'])
             ->latest()
-            ->get();
+            ->paginate(getPaginated());
         return view('event.index', get_defined_vars());
     }
 
@@ -69,7 +69,7 @@ class EventController extends Controller
                 }
             }
 
-            $event->interests()->attach((array) $request->interests);
+            $event->interests()->sync((array) $request->interests);
 
             DB::commit();
 
@@ -95,7 +95,10 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        $interests = Interest::get();
+        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
+        // dd($event->toArray());
+        return view('event.edit', get_defined_vars());
     }
 
     /**
@@ -103,7 +106,58 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $validated = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            $event->update([
+                'title' => $validated['title'],
+                'slug' => Str::slug($validated['title']),
+                'location' => $validated['location'],
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
+                'thumbnail' => $request->file('thumbnail') ? $request->file('thumbnail')->store('media/events/thumbnail/', 'public') : $event->thumbnail,
+                'description' => $validated['description'],
+                'rules' => $validated['rules'],
+                'status' => $validated['status'],
+            ]);
+
+            // Get the IDs of the existing media to be removed later
+            $existingMediaIds = $event->media->pluck('id')->toArray();
+
+            // Store new media
+            if ($request->has('images') && is_array($request->images)) {
+                $newMediaIds = [];
+
+                foreach ($request->images as $image) {
+                    $path = $image->store('/media/events/' . $event->id, 'public');
+
+                    // Create new media record
+                    $newMedia = $event->media()->create([
+                        'file_path' => $path,
+                        'file_type' => $image->getClientOriginalExtension(),
+                    ]);
+
+                    // Collect the IDs of new media
+                    $newMediaIds[] = $newMedia->id;
+                }
+
+                // Delete old media that is not in the new list
+                $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
+                if (!empty($mediaToDelete)) {
+                    $event->media()->whereIn('id', $mediaToDelete)->delete();
+                }
+            }
+
+            $event->interests()->sync((array) $request->interests);
+
+            DB::commit();
+
+            return to_route('events.index')->with('success', 'Event updated successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+        }
     }
 
     /**
@@ -111,7 +165,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return to_route('events.index')->with('success', 'Event deleted successfully');
     }
 
     public function friends(): View

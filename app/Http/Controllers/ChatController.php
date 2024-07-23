@@ -12,7 +12,7 @@ class ChatController extends Controller
     {
         $user = Auth::user();
 
-        $friends = $user->acceptedUsers;
+        $friends = $user->acceptedFriends;
 
         return view('user.messages', get_defined_vars());
     }

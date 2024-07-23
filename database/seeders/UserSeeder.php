@@ -33,6 +33,9 @@ class UserSeeder extends Seeder
             // Attach random interests
             $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
             $user->interests()->attach($interests);
+
+            // create friends
+            $user->friends()->attach(User::inRandomOrder()->first(), ['status' => 'accepted']);
         });
     }
 }

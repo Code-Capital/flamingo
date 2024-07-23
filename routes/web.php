@@ -56,6 +56,12 @@ Route::middleware('auth')->group(function () {
     Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
     Route::post('events/store', [EventController::class, 'store'])->name('events.store');
+
+    // Route::post('events/{event}', [EventController::class, 'store'])->name('events.store');
+    Route::get('events/{event:slug}/edit', [EventController::class, 'edit'])->name('events.edit');
+    Route::put('events/{event:slug}/update', [EventController::class, 'update'])->name('events.update');
+    Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
+
     Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
     Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
 

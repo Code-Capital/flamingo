@@ -26,7 +26,7 @@ class UserController extends Controller
         // Combine the media collections
         $media = $userMedia->merge($postMedia);
 
-        return view('user.gallery', compact('media'));
+        return view('user.gallery', get_defined_vars());
     }
 
     public function addFriend(Request $request, User $user): JsonResponse

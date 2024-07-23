@@ -145,9 +145,16 @@ class User extends Authenticatable
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
-    public function events(): BelongsToMany
+    public function events(): HasMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->hasMany(Event::class, 'user_id');
+    }
+
+    // Define the many-to-many relationship with events
+    public function participatedEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_users', 'user_id', 'event_id')
+            ->withTimestamps();
     }
 
     public function media(): MorphMany

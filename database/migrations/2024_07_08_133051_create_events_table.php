@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('location')->nullable();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('thumbnail')->nullable();
             $table->text('description')->nullable();
             $table->string('status')->default('draft');
