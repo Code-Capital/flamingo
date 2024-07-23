@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -65,6 +66,11 @@ class Event extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     // same relation uers and memeber just named it as for my own convinience
     public function users(): BelongsToMany
     {
@@ -73,7 +79,7 @@ class Event extends Model
 
     public function allMembers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'event_user')
+        return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id')
             ->withPivot('status');
     }
 

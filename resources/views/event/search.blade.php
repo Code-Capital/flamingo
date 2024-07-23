@@ -60,7 +60,10 @@
                                 <div class="announcementCard p-3 d-flex align-items-stretch gap-4">
                                     <img src="{{ $event->thumbnail_url }}">
                                     <div class="content">
-                                        <span> {{ $event->formatted_created_at }} </span>
+                                        <span>
+                                            {{ $event->formatted_created_at }}
+                                            <div class="tags"> Creator: {{ $event->owner->full_name }} </div>
+                                        </span>
                                         <h5 class="mb-1"> {{ $event->title }} </h5>
                                         <p class="mb-2"> {{ limitString($event->description, 50) }} </p>
                                         <div class="text mb-2"># Interests</div>

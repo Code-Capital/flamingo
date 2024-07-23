@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-    public function index(Request $request): View
+    public function index(User $user = null): View
     {
-        $user = Auth::user();
+        $user = ($user) ? $user : Auth::user();
 
         // Get the user's friends
-        // $friends = $user->acceptedUsers->pluck('id');
+        $friends = $user->acceptedFriends->pluck('id');
 
         // Fetch posts by the authenticated user and their friends
-        $feeds = Post::
-        // whereIn('user_id', $friends->push($user->id)) // Include own posts and friends' posts
-            byPublished()
+        $feeds = Post::whereIn('user_id', $friends->push($user->id)) // Include own posts and friends' posts
+            ->byPublished()
             ->byPublic()
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])

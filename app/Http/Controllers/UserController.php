@@ -31,7 +31,10 @@ class UserController extends Controller
 
     public function addFriend(Request $request, User $user): JsonResponse
     {
-        Auth::user()->friends()->attach($user->id);
+
+        $user->friends()->attach($request->user()->id, [
+            'status' => 'pending',
+        ]);
 
         return $this->sendSuccessResponse(null, 'Friend request sent successfully', Response::HTTP_CREATED);
     }

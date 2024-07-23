@@ -58,14 +58,19 @@
                                                 <span class="d-block">{{ $user->designation }}</span>
                                             </div>
                                         </div>
-                                        @unless (auth()->user()->isFriendsWith($user))
+                                        @if (auth()->user()->friends->contains($user))
                                             <h6 class="mb-0">
                                                 <a class="text-decoration-none add-friend" data-id="{{ $user->id }}"
                                                     href="javascript:void(0)">
                                                     Add friend
                                                 </a>
                                             </h6>
-                                        @endunless
+                                        @else
+                                            <h6 class="mb-0">
+                                                <a class="text-decoration-none text-muted " href="javascript:void(0)">
+                                                    Request sent
+                                                </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +106,8 @@
             let body = $('body');
 
             body.on('click', '.add-friend', function() {
-                let name = $(this).data('id');
-                let url = '{{ route('add-friend', ':slug') }}'.replace(':slug', name);
+                let id = $(this).data('id');
+                let url = '{{ route('add-friend', ':id') }}'.replace(':id', id);
                 this.remove();
                 $.ajax({
                     url: url,

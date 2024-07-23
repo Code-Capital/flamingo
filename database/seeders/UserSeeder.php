@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $admin->interests()->attach($interests);
 
         // Create 10 regular users and attach random interests
-        User::factory(10)->create()->each(function ($user) {
+        User::factory(2)->create()->each(function ($user) {
             $user->assignRole('user');
 
             // Attach random interests

@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('feed', [PostController::class, 'index'])->name('feed');
+    Route::get('feed/{user?}', [PostController::class, 'index'])->name('feed');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
 
     Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
