@@ -612,7 +612,10 @@
                         toastr.success(response.message);
                         newNotificationSound();
                         button.closest('.friend-request-' + id).fadeOut(300)
-                    .hide(); // Hide the parent element of the button
+                            .hide(); // Hide the parent element of the button
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
                     },
                     error: function(error) {
                         console.log(error);
@@ -630,7 +633,6 @@
                         "_token": "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        cosole.log(response);
                         if (response.success == false) {
                             toastr.error(response.message);
                             errorNotificationSound();
@@ -640,7 +642,10 @@
                         toastr.success(response.message);
                         newNotificationSound();
                         button.closest('.friend-request-' + id).fadeOut(300)
-                    .hide(); // Hide the parent element of the button
+                            .hide(); // Hide the parent element of the button
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
                     },
                     error: function(error) {
                         console.log(error);

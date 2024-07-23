@@ -12,6 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
+    public function gallery(): View
+    {
+        $user = auth()->user();
+
+        // Get user's own media
+        $userMedia = $user->media()->orderBy('created_at', 'desc')->get();
+
+        // Get media from user's posts
+        $postMedia = $user->posts()->with('media')->latest()->get()->pluck('media')->flatten();
+
+        // Combine the media collections
+        $media = $userMedia->merge($postMedia);
+
+        return view('user.gallery', compact('media'));
+    }
+
     public function addFriend(Request $request, User $user): JsonResponse
     {
         Auth::user()->friends()->attach($user->id);
@@ -43,23 +60,6 @@ class UserController extends Controller
         $request->user()->friends()->detach($user->id);
 
         return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
-    }
-
-
-    public function gallery(): View
-    {
-        $user = auth()->user();
-
-        // Get user's own media
-        $userMedia = $user->media()->orderBy('created_at', 'desc')->get();
-
-        // Get media from user's posts
-        $postMedia = $user->posts()->with('media')->latest()->get()->pluck('media')->flatten();
-
-        // Combine the media collections
-        $media = $userMedia->merge($postMedia);
-
-        return view('user.gallery', compact('media'));
     }
 
     public function uploadMedia(Request $request): JsonResponse
