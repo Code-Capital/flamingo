@@ -185,7 +185,7 @@
                     <span>Marketplace</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a id="settings" href="{{ route('settings') }}"
                     class="text-decoration-none d-flex align-items-center {{ request()->is('settings') ? 'active' : '' }}">
                     <svg class="settings" width="24" height="25" viewBox="0 0 24 25" fill="none"
@@ -199,7 +199,7 @@
                     </svg>
                     <span>Settings</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </aside>

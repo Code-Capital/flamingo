@@ -97,8 +97,8 @@
                                 <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap">
                                     @forelse($media as $item)
                                         <div class="galleryCard text-center d-flex flex-column mb-3">
-                                            <img src="{{ asset('assets/galleryImage.png') }}">
-                                            <span class="pt-1">Shine</span>
+                                            <img src="{{ $item->file_path }}">
+                                            {{-- <span class="pt-1">Shine</span> --}}
                                         </div>
                                     @empty
                                         <x-no-data-found />
@@ -653,6 +653,86 @@
                     }
                 });
             }
+
+
+            $('#upload_new').on('change', function() {
+                var fileInput = $(this)[0];
+
+                if (fileInput.files.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please select files to upload!'
+                    });
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('_token', '{{ csrf_token() }}');
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    formData.append('media[]', fileInput.files[i]);
+                }
+
+                Swal.fire({
+                    title: 'Uploading...',
+                    html: '<progress id="progressBar" value="0" max="100" style="width: 100%;"></progress>',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('media.upload') }}", // Replace with your server-side upload URL
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function(event) {
+                            if (event.lengthComputable) {
+                                var percentComplete = event.loaded / event.total;
+                                percentComplete = parseInt(percentComplete * 100);
+                                $('#progressBar').attr('value', percentComplete);
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.success == true) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Files uploaded successfully!'
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Upload Failed',
+                                text: 'An error occurred while uploading the files.'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Upload Failed',
+                            text: 'An error occurred while uploading the files.'
+                        });
+                    }
+                });
+
+            });
         });
     </script>
 @endsection

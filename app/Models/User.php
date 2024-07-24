@@ -101,6 +101,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Like::class);
     }
 
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
     public function friends(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
@@ -150,6 +155,16 @@ class User extends Authenticatable
         return $this->hasMany(Event::class, 'user_id');
     }
 
+    public function visitedProfiles(): HasMany
+    {
+        return $this->hasMany(Visitor::class, 'visitor_id');
+    }
+
+    public function profileVisits(): HasMany
+    {
+        return $this->hasMany(Visitor::class, 'profile_id');
+    }
+
     // Define the many-to-many relationship with events
     public function participatedEvents(): BelongsToMany
     {
@@ -157,10 +172,6 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function media(): MorphMany
-    {
-        return $this->morphMany(Media::class, 'mediable');
-    }
 
     // ======================================================================
     // Accessors

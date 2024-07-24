@@ -85,8 +85,12 @@ class EventController extends Controller
      */
     public function show(Event $event): View
     {
-        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
-        // dd($event->toArray());
+        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests', 'media']);
+        $posts = $event->posts()
+            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
+            ->withCount(['comments', 'likes'])
+            ->latest()->paginate(getPaginated());
+
         return view('event.show', get_defined_vars());
     }
 
@@ -206,9 +210,6 @@ class EventController extends Controller
             : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);;
     }
 
-    /**
-     * Join the specified event.
-     */
     public function joinEvent(Event $event)
     {
         try {
@@ -226,5 +227,38 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             return $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function eventPost(Request $request, Event $event)
+    {
+        $user = Auth::user();
+        $post = $event->posts()->create([
+            'user_id' => $user->id,
+            'body' => $request->body,
+            'is_private' => $request->is_private ?? false,
+        ]);
+
+        // Check if media files were uploaded
+        if ($request->hasFile('media')) {
+            $mediaFiles = $request->file('media');
+            foreach ($mediaFiles as $mediaFile) {
+                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                $post->media()->create([
+                    'file_path' => $mediaPath,
+                    'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
+                ]);
+            }
+        }
+
+        $post->notifications()->create([
+            'type' => 'post',
+            'data' => json_encode([
+                'message' => 'New post created',
+                'user_id' => $user->id,
+                'post_id' => $post->id,
+            ]),
+        ]);
+
+        return back()->with('success', 'Post created successfully');
     }
 }

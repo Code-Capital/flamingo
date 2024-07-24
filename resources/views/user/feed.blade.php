@@ -24,6 +24,7 @@
             align-items: center;
             display: flex;
             justify-content: center;
+            object-fit: contain;
         }
 
         .gallery__item>img {
@@ -83,7 +84,9 @@
                                 <div class="avatar align-items-center gap-3 py-4">
                                     <img class="rounded-circle" src=" {{ asset($post->user->avatar_url) }}">
                                     <div class="details">
-                                        <span class="d-block">{{ $post->user->full_name }}</span>
+                                        <span class="d-block"> <a
+                                                href="{{ route('user.feed.show', $post->user->user_name) }}"
+                                                class="text-decoration-none">{{ $post->user->full_name }}</a></span>
                                         <span class="d-block">{{ $post->user->designation }}</span>
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
@@ -95,7 +98,7 @@
                             <div class="post_gallery bg-light">
                                 @forelse($post->media as $media)
                                     <div class="gallery__item gallery__item--hor">
-                                        <img src="{{ $media->file_path }}" alt="Post image">
+                                        <img src="{{ $media->file_path }}" alt="Post image" class="img-fluid">
                                     </div>
                                 @empty
                                 @endforelse

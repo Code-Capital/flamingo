@@ -41,12 +41,12 @@ class SearchController extends Controller
         $selectedInterests = $request->input('interests', []);
 
         $events = Event::with('interests')
+            ->byNotUser($user->id)
             ->with('allMembers')
             ->published()
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($request->location)
-            ->byNotUser($user->id)
             ->latest()
             // ->upcoming()
             // ->ongoing()

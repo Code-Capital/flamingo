@@ -125,6 +125,11 @@ class Event extends Model
         return $query->where('user_id', $id);
     }
 
+    public function scopeByNotUser($query, int $id)
+    {
+        return $query->where('user_id', '<>', $id);
+    }
+
     public function scopePublished($query): Builder
     {
         return $query->where('status', 'published');
@@ -177,10 +182,5 @@ class Event extends Model
                 $q->whereIn('interest_id', $interests);
             });
         });
-    }
-
-    public function scopeByNotUser($query, int $id)
-    {
-        return $query->where('id', '!=', $id);
     }
 }

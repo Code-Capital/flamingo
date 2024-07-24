@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('feed/{user?}', [PostController::class, 'index'])->name('feed');
+    Route::get('feed', [PostController::class, 'index'])->name('feed');
+    Route::get('profile/{user:user_name}/feed', [PostController::class, 'show'])->name('user.feed.show');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
 
     Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
@@ -49,9 +50,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
-
     Route::get('messages', [ChatController::class, 'index'])->name('messages');
 
+
+
+    // events
     Route::get('events', [EventController::class, 'index'])->name('events.index');
     Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
@@ -69,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
+
+    Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
@@ -12,9 +13,9 @@ use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-    public function index(User $user = null): View
+    public function index(): View
     {
-        $user = ($user) ? $user : Auth::user();
+        $user = Auth::user();
 
         // Get the user's friends
         $friends = $user->acceptedFriends->pluck('id');
@@ -30,7 +31,6 @@ class PostController extends Controller
 
         return view('user.feed', get_defined_vars());
     }
-
 
     public function store(Request $request): RedirectResponse
     {
@@ -64,5 +64,38 @@ class PostController extends Controller
         });
 
         return back()->with('success', 'Post created successfully');
+    }
+
+    public function show(User $user): View
+    {
+
+        $currentUser = Auth::user();
+
+        if ($currentUser && $currentUser->id !== $user->id) {
+            // Record the visit
+            Visitor::updateOrCreate(
+                [
+                    'visitor_id' => $currentUser->id,
+                    'profile_id' => $user->id,
+                    'created_at' => now()->startOfDay() // Ensure a visit is unique per day
+                ],
+                [
+                    'visitor_id' => $currentUser->id,
+                    'profile_id' => $user->id,
+                    'created_at' => now()->startOfDay() // Ensure a visit is unique per day
+                ]
+            );
+        }
+
+        // dd($user->toArray());
+        $feeds = $user->posts()
+            ->byPublished()
+            ->byPublic()
+            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
+            ->withCount(['comments', 'likes'])
+            ->latest()
+            ->paginate(getPaginated());
+
+        return view('user.feed', get_defined_vars());
     }
 }
