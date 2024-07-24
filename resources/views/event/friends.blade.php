@@ -9,143 +9,76 @@
                 <div class="bg-white p-4 dashboardCard">
                     <div class="row mx-0">
                         <div class="col-lg-12">
-                            <div class="heading pb-4">Friends <span>(16)</span></div>
+                            <div class="heading pb-4">Friends <span>({{ $friends->count() }})</span></div>
                         </div>
                     </div>
                     <div class="row mx-0">
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
+                        @forelse ($friends as $friend)
+                            <div class="col-lg-4 mb-3 friend-request-{{ $friend->id }}">
+                                <div class="eventCardInner p-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="{{ asset($friend->avatar_url) }}" class="rounded-circle">
+                                            <div>
+                                                <span class="d-block"> {{ $friend->full_name }} </span>
+                                                <span class="d-block"> {{ $friend->designation }} </span>
+                                            </div>
                                         </div>
+                                        <h6 class="mb-0"><a class="text-decoration-none unfriend"
+                                                href="javascript:void(0)" data-id="{{ $friend->id }}">Remove</a>
+                                        </h6>
                                     </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-3">
-                            <div class="eventCardInner p-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <img src="assets/profile.png" class="rounded-circle">
-                                        <div>
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Add friend</a></h6>
-                                </div>
-                            </div>
-                        </div>
+                        @empty
+                            <x-no-data-found />
+                        @endforelse
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            let body = $('body');
+
+            body.on('click', '.unfriend', function(event) {
+                event.preventDefault();
+                let id = $(this).data('id');
+                unfriendUser(id, $(this));
+            });
+
+            function unfriendUser(id, button) {
+                $.ajax({
+                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                            return false;
+                        }
+
+                        toastr.success(response.message);
+                        newNotificationSound();
+                        button.closest('.friend-request-' + id).fadeOut(300)
+                            .hide(); // Hide the parent element of the button
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        errorNotificationSound();
+                    }
+                });
+            }
+
+        });
+    </script>
 @endsection

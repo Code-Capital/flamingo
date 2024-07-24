@@ -53,21 +53,15 @@ Route::middleware('auth')->group(function () {
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
     Route::get('messages', [ChatController::class, 'index'])->name('messages');
 
-
-
     // events
     Route::get('events', [EventController::class, 'index'])->name('events.index');
     Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
     Route::post('events/store', [EventController::class, 'store'])->name('events.store');
-
-    // Route::post('events/{event}', [EventController::class, 'store'])->name('events.store');
     Route::get('events/{event:slug}/edit', [EventController::class, 'edit'])->name('events.edit');
     Route::put('events/{event:slug}/update', [EventController::class, 'update'])->name('events.update');
     Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
-
     Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
-    Route::get('events/friends', [EventController::class, 'friends'])->name('events.friends');
 
     // In routes/web.php or routes/api.php
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
@@ -84,29 +78,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('announcements/{announcements}/delete', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 
 
+    Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
 
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
     Route::view('shop', 'user.shop')->name('shop');
-    Route::view('visitors', 'user.visitors')->name('visitors');
+    // Route::view('visitors', 'user.visitors')->name('visitors');
 
     Route::view('logs', 'test.logs')->name('logs');
     Route::view('billing', 'test.billing')->name('billing');
     Route::view('pricing', 'test.pricing')->name('pricing');
+
     Route::view('confirmation', 'test.confirmation')->name('confirmation');
-
     Route::view('marketplace', 'marketplace.index')->name('marketplace');
-
     Route::view('products/create', 'product.create')->name('products.create');
 
     //    Route::get('/notifications', function () {
     //        $user = auth()->user();
     //        return view('notifications.index', ['notifications' => $user->notifications]);
     //    })->name('notifications.index');
-
-    Route::get('message/event', function () {
-        event(new MessageEvent('Hello World'));
-        dd('Message Sent!');
-    });
 });

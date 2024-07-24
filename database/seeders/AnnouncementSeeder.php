@@ -13,6 +13,6 @@ class AnnouncementSeeder extends Seeder
      */
     public function run(): void
     {
-        Announcement::factory()->count(100)->create();
+        Announcement::factory()->count(1000)->create();
     }
 }

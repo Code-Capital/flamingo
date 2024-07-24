@@ -654,7 +654,6 @@
                 });
             }
 
-
             $('#upload_new').on('change', function() {
                 var fileInput = $(this)[0];
 

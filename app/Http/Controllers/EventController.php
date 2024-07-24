@@ -175,7 +175,8 @@ class EventController extends Controller
 
     public function friends(): View
     {
-        return view('event.friends');
+        $friends = Auth::user()->acceptedFriends;
+        return view('event.friends', get_defined_vars());
     }
 
     public function removeMember(Request $request, Event $event, User $user)
