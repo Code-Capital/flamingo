@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\MessageEvent;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
@@ -72,13 +73,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
-
     Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
 
 
+    Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::get('announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
+    Route::post('announcements/store', [AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::get('announcements/{announcement:slug}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
+    Route::put('announcements/{announcement:slug}/update', [AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::delete('announcements/{announcements}/delete', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 
 
-    Route::view('announcements', 'user.announcement')->name('announcements');
+
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
