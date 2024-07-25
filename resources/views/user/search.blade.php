@@ -58,7 +58,7 @@
                                                 <span class="d-block">{{ $user->designation }}</span>
                                             </div>
                                         </div>
-                                        @if (auth()->user()->friends->contains($user))
+                                        @if (!$user->friends->contains(auth()->user()))
                                             <h6 class="mb-0">
                                                 <a class="text-decoration-none add-friend" data-id="{{ $user->id }}"
                                                     href="javascript:void(0)">

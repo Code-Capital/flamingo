@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\StatusEnum;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -78,6 +77,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Interest::class);
     }
 
+    // social relationships
     public function feed(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'friends', 'user_id', 'friend_id')
@@ -106,6 +106,12 @@ class User extends Authenticatable
         return $this->morphMany(Media::class, 'mediable');
     }
 
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
+
+    // Friends Relationships
     public function friends(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
@@ -116,45 +122,36 @@ class User extends Authenticatable
     public function acceptedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('status', StatusEnum::ACCEPTED);
+            ->wherePivot('status', StatusEnum::ACCEPTED->value);
     }
 
     public function blockedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('status', StatusEnum::BLOCKED);
+            ->wherePivot('status', StatusEnum::BLOCKED->value);
     }
 
     public function rejectedFriends(): BelongsToMany
     {
         return $this->friends()
-            ->wherePivot('status', StatusEnum::REJECTED);
+            ->wherePivot('status', StatusEnum::REJECTED->value);
     }
 
     public function sentRequests(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
             ->withPivot('status')
-            ->wherePivot('status', StatusEnum::PENDING);
+            ->wherePivot('status', StatusEnum::PENDING->value);
     }
 
     public function receivedRequests(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
             ->withPivot('status')
-            ->wherePivot('status', StatusEnum::PENDING);
+            ->wherePivot('status', StatusEnum::PENDING->value);
     }
 
-    public function notifications(): MorphMany
-    {
-        return $this->morphMany(Notification::class, 'notifiable');
-    }
-
-    public function events(): HasMany
-    {
-        return $this->hasMany(Event::class, 'user_id');
-    }
-
+    // visitors
     public function visitedProfiles(): HasMany
     {
         return $this->hasMany(Visitor::class, 'visitor_id');
@@ -165,13 +162,17 @@ class User extends Authenticatable
         return $this->hasMany(Visitor::class, 'profile_id');
     }
 
-    // Define the many-to-many relationship with events
+    // Events Relationships
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class, 'user_id');
+    }
+
     public function participatedEvents(): BelongsToMany
     {
         return $this->belongsToMany(Event::class, 'event_users', 'user_id', 'event_id')
             ->withTimestamps();
     }
-
 
     // ======================================================================
     // Accessors
@@ -222,19 +223,19 @@ class User extends Authenticatable
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
-
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orWhere('user_name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+
+        return $query->where('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
+            ->orWhere('user_name', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])
@@ -258,7 +259,7 @@ class User extends Authenticatable
 
     public function scopeByNotUser($query, int $id)
     {
-        return $query->where('id', '!=', $id);
+        return $query->where('id', '<>', $id);
     }
 
     public function scopeByNotUsers($query, array $ids)

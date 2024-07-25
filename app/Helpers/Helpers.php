@@ -1,13 +1,13 @@
 <?php
 
-if (!function_exists('getPaginated')) {
+if (! function_exists('getPaginated')) {
     function getPaginated($limit = 10): int
     {
         return $limit;
     }
 }
 
-if (!function_exists('limitString')) {
+if (! function_exists('limitString')) {
     function limitString($string, $limit = 100): string
     {
         if (strlen($string) <= $limit) {
@@ -21,6 +21,6 @@ if (!function_exists('limitString')) {
             $trimmedString = substr($trimmedString, 0, $lastSpaceIndex);
         }
 
-        return $trimmedString . '...';
+        return $trimmedString.'...';
     }
 }

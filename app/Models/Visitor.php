@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Visitor extends Model
      * @var array
      */
     protected $fillable = [
-        'visitor_id', 'profile_id'
+        'visitor_id', 'profile_id',
     ];
 
     /**
@@ -28,7 +28,6 @@ class Visitor extends Model
     protected $casts = [
         //
     ];
-
 
     // ======================================================================
     // Relationships
@@ -44,21 +43,17 @@ class Visitor extends Model
         return $this->belongsTo(User::class, 'profile_id');
     }
 
-
     // ======================================================================
     // Accessors
     // ======================================================================
-
 
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

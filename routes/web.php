@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\MessageEvent;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
@@ -16,7 +15,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -46,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
     Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
+
     Route::put('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
     Route::delete('/friend/{user}/remove', [UserController::class, 'removeFriend'])->name('friend.remove');
 
@@ -69,14 +69,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
     Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
 
-
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
     Route::get('announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
     Route::post('announcements/store', [AnnouncementController::class, 'store'])->name('announcements.store');
     Route::get('announcements/{announcement:slug}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
     Route::put('announcements/{announcement:slug}/update', [AnnouncementController::class, 'update'])->name('announcements.update');
     Route::delete('announcements/{announcements}/delete', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
-
 
     Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
 

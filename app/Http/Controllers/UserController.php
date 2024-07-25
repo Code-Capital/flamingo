@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
+use App\Enums\StatusEnum;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-
     public function gallery(): View
     {
         $user = auth()->user();
@@ -45,13 +44,23 @@ class UserController extends Controller
 
         $friend = $authUser->friends()->where('user_id', $user->id)->first();
 
-        if (!$friend) {
+        if (! $friend) {
             return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
         }
 
         $authUser->friends()->updateExistingPivot($user->id, [
             'status' => $request->status,
         ]);
+
+        if ($request->status == StatusEnum::ACCEPTED->value) {
+            $user->friends()->attach($authUser->id, [
+                'status' => $request->status,
+            ]);
+        }
+
+        if ($request->status == StatusEnum::BLOCKED->value) {
+            $user->friends()->detach($authUser->id);
+        }
 
         $message = "Friend request {$request->status} successfully.";
 
@@ -60,7 +69,9 @@ class UserController extends Controller
 
     public function removeFriend(Request $request, User $user): JsonResponse
     {
-        $request->user()->friends()->detach($user->id);
+        $authUser = Auth::user();
+        $authUser->friends()->detach($user->id);
+        $user->friends()->detach($authUser->id);
 
         return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
     }
@@ -76,7 +87,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

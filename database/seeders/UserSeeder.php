@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         $admin->friends()->attach($users, ['status' => 'accepted']);
 
         // Create 10 regular users and attach random interests
-        User::factory(1000)->create()->each(function ($user) {
+        User::factory(100)->create()->each(function ($user) {
             $user->assignRole('user');
 
             // Attach random interests
@@ -37,7 +37,9 @@ class UserSeeder extends Seeder
             $user->interests()->attach($interests);
 
             // create friends
-            $user->friends()->attach(User::inRandomOrder()->first(), ['status' => 'accepted']);
+            $randomUser = User::inRandomOrder()->first();
+            $user->friends()->attach($randomUser, ['status' => 'accepted']);
+            $randomUser->friends()->attach($user, ['status' => 'accepted']);
         });
     }
 }

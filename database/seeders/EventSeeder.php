@@ -21,16 +21,16 @@ class EventSeeder extends Seeder
             $users = User::role('user')->inRandomOrder()->take(rand(1, 5))->get(); // Attach 1 to 3 random users
             foreach ($users as $user) {
                 $event->allMembers()->attach($user->id, [
-                    'status' => $this->randomStatus() // Assign random status to the pivot table
+                    'status' => $this->randomStatus(), // Assign random status to the pivot table
                 ]);
             }
         });
     }
 
-
     private function randomStatus()
     {
         $statuses = ['pending', 'accepted', 'rejected'];
+
         return $statuses[array_rand($statuses)];
     }
 }

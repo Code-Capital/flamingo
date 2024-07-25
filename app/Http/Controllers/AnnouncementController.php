@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Models\Announcement;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AnnouncementController extends Controller
 {
@@ -18,6 +18,7 @@ class AnnouncementController extends Controller
     {
         $user = Auth::user();
         $announcements = Announcement::byUser($user->id)->latest()->get();
+
         return view('announcements.index', get_defined_vars());
     }
 
@@ -50,9 +51,10 @@ class AnnouncementController extends Controller
             $announcement->start_date = $request->start_date;
             $announcement->end_date = $request->end_date;
             $announcement->save();
+
             return to_route('announcements.index')->with('success', 'Announcement created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'An error occurred while creating announcement' . $th->getMessage());
+            return back()->with('error', 'An error occurred while creating announcement'.$th->getMessage());
         }
     }
 
@@ -91,9 +93,10 @@ class AnnouncementController extends Controller
             $announcement->start_date = $request->start_date ?? $announcement->start_date;
             $announcement->end_date = $request->end_date ?? $announcement->end_date;
             $announcement->save();
+
             return to_route('announcements.index')->with('success', 'Announcement updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'An error occurred while updating announcement' . $th->getMessage());
+            return back()->with('error', 'An error occurred while updating announcement'.$th->getMessage());
         }
     }
 
@@ -104,9 +107,10 @@ class AnnouncementController extends Controller
     {
         try {
             $announcement->delete();
+
             return to_route('announcements.index')->with('success', 'Announcement deleted successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'An error occurred while deleting announcement' . $th->getMessage());
+            return back()->with('error', 'An error occurred while deleting announcement'.$th->getMessage());
         }
     }
 }

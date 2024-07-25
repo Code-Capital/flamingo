@@ -3,17 +3,15 @@
 namespace App\Models;
 
 use App\Enums\EventRequestEnum;
-use App\Models\Media;
 use App\Traits\DateFormattingTrait;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Event extends Model
 {
@@ -158,21 +156,23 @@ class Event extends Model
 
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('title', 'like', '%' . $search . '%')
-            ->orWhere('location', 'like', '%' . $search . '%')
-            ->orWhere('slug', 'like', '%' . $search . '%')
-            ->orWhere('description', 'like', '%' . $search . '%');
+
+        return $query->where('title', 'like', '%'.$search.'%')
+            ->orWhere('location', 'like', '%'.$search.'%')
+            ->orWhere('slug', 'like', '%'.$search.'%')
+            ->orWhere('description', 'like', '%'.$search.'%');
     }
 
     public function scopeByLocation($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('location', 'like', '%' . $search . '%');
+
+        return $query->where('location', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])
