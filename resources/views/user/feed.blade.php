@@ -266,25 +266,79 @@
                         // Handle the success response
                         if (response.success == false) {
                             toastr.error(response.message);
+                            errorNotificationSound();
                             return;
                         }
-                        let postId = response.data.comment.post.id;
-                        let commentContainer = $('.comment-container-' + postId);
-
-                        // toastr.success(response.message);
-                        let html = generateCommentHtml(response.data.comment);
-                        // commentContainer.append(html);
-
-                        let newComment = $(html).hide();
-                        commentContainer.append(newComment);
-                        newComment.slideDown('fast');
-
-                        form.trigger('reset'); // Clear the form input fields
-
-                        $("#comment_count_" + postId).html(response.data.current_comment_count);
-                        // Optionally, you can update the UI to show the new comment
-
                         newNotificationSound();
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+
+                        // let postId = response.data.comment.post.id;
+                        // let commentContainer = $('.comment-container-' + postId);
+
+                        // // toastr.success(response.message);
+                        // let html = generateCommentHtml(response.data.comment);
+                        // // commentContainer.append(html);
+
+                        // let newComment = $(html).hide();
+                        // commentContainer.append(newComment);
+                        // newComment.slideDown('fast');
+
+                        // form.trigger('reset'); // Clear the form input fields
+
+                        // $("#comment_count_" + postId).html(response.data.current_comment_count);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error response
+                        console.error('Error submitting comment:', error);
+                    }
+                });
+            });
+
+            $('body').on('submit', '.ajax-reply-form', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                let form = $(this);
+                let formData = form.serialize(); // Serialize the form data
+                let actionUrl = form.attr('action'); // Get the form action URL
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Handle the success response
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                            return;
+                        }
+                        newNotificationSound();
+
+                        console.log(response);
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+
+                        // let commentId = response.data.id;
+                        // let postId = response.data.post.id;
+                        // let replyContainer = $('.reply-container-' + commentId);
+
+                        // // toastr.success(response.message);
+                        // let html = generateCommentHtml(response.data.comment);
+                        // // replyContainer.append(html);
+
+                        // let newComment = $(html).hide();
+                        // replyContainer.append(newComment);
+                        // newComment.slideDown('fast');
+
+                        // form.trigger('reset'); // Clear the form input fields
+
+                        // $("#comment_count_" + commentId).html(response.data.post.id);
+                        // // Optionally, you can update the UI to show the new comment
+
                     },
                     error: function(xhr, status, error) {
                         // Handle the error response
@@ -295,21 +349,21 @@
 
             function generateCommentHtml(comment) {
                 return `
-                <div class="commentbox p-3 mt-2">
-                    <div class="d-flex align-items-start gap-2">
-                        <img class="rounded-circle" src="${comment.user.avatar_url}">
-                        <div class="content">
-                            <h5 class="mb-1">${comment.user.full_name}</h5>
-                            <p class="mb-3">${comment.body}</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
-                                <a class="text-decoration-none" href="javascript:void(0)">Like</a>
-                                <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
+                    <div class="commentbox p-3 mt-2">
+                        <div class="d-flex align-items-start gap-2">
+                            <img class="rounded-circle" src="${comment.user.avatar_url}">
+                            <div class="content">
+                                <h5 class="mb-1">${comment.user.full_name}</h5>
+                                <p class="mb-3">${comment.body}</p>
+                                <div class="d-flex align-items-center gap-3">
+                                    <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
+                                    <a class="text-decoration-none" href="javascript:void(0)">Like</a>
+                                    <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
             }
 
             $('body').on('submit', '.ajax-like-form', function(event) {
@@ -331,6 +385,7 @@
                             return;
                         }
                         // toastr.success(response.message);
+                        newNotificationSound();
 
                         if (response.data.likeCount == 0) {
                             $("#likeForm-" + response.data.post.id + " button img")
@@ -344,9 +399,8 @@
                                 });
                         }
 
-
                         $("#like_count_" + response.data.post.id).html(response.data.likeCount);
-                        newNotificationSound();
+
                     },
                     error: function(xhr, status, error) {
                         // Handle the error response
@@ -381,7 +435,6 @@
                     });
                 }
             });
-
 
         });
     </script>

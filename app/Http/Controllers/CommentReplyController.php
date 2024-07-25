@@ -15,7 +15,7 @@ class CommentReplyController extends Controller
     public function store(Request $request, Comment $comment): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'body' => 'required|string|max:255',
+            'body' => ['required', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -25,7 +25,7 @@ class CommentReplyController extends Controller
         // Create a new comment
         $comment = $comment->replies()->create([
             'body' => $request->body,
-            'type' => CommentTypeEnum::REPLY,
+            'type' => CommentTypeEnum::REPLY->value,
             'user_id' => auth()->id(),
         ]);
 

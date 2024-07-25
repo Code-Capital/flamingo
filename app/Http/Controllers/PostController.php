@@ -24,10 +24,19 @@ class PostController extends Controller
         $feeds = Post::whereIn('user_id', $friends->push($user->id)) // Include own posts and friends' posts
             ->byPublished()
             ->byPublic()
-            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
+            ->with([
+                'user',
+                'media',
+                'likes',
+                'comments' => function ($query) {
+                    $query->withCount(['replies']);
+                }, 'comments.user', 'comments.replies'
+            ])
             ->withCount(['comments', 'likes'])
             ->latest()
             ->paginate(getPaginated());
+
+        // dd($feeds[1]->toArray());
 
         return view('user.feed', get_defined_vars());
     }
@@ -45,7 +54,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type

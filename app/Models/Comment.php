@@ -51,7 +51,7 @@ class Comment extends Model
     public function replies(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable')
-            ->where('type', CommentTypeEnum::REPLY);
+            ->where('type', CommentTypeEnum::REPLY->value);
     }
 
     public function post(): BelongsTo
