@@ -86,7 +86,7 @@
 
             <li>
                 <a id="events" href="{{ route('events.joined') }}"
-                    class="text-decoration-none d-flex align-items-center {{ request()->is('events') ? 'active' : '' }}">
+                    class="text-decoration-none d-flex align-items-center {{ request()->is('events.joined') ? 'active' : '' }}">
                     <svg class="events" width="24" height="25" viewBox="0 0 24 25" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
