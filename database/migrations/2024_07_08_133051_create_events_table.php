@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->boolean('is_closed')->default(false);
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

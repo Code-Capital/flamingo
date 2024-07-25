@@ -65,13 +65,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('joined/events', [EventController::class, 'joinedEvents'])->name('events.joined');
     Route::get('joined/events/{event:slug}/show', [EventController::class, 'show'])->name('joined.events.show');
+    Route::post('/events/{event:slug}/close', [EventController::class, 'eventClose'])->name('events.close');
 
     // In routes/web.php or routes/api.php
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
     Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
-    Route::post('/events/{event:slug}/close', [EventController::class, 'eventPost'])->name('events.close');
 
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
     Route::get('announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');

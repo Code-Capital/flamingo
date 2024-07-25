@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\UpdateEventRequest;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -199,7 +201,7 @@ class EventController extends Controller
             : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function joinEvent(Event $event)
+    public function joinEvent(Event $event): JsonResponse
     {
         try {
             $user = Auth::user();
@@ -218,7 +220,7 @@ class EventController extends Controller
         }
     }
 
-    public function eventPost(Request $request, Event $event)
+    public function eventPost(Request $request, Event $event): RedirectResponse
     {
         $user = Auth::user();
         $post = $event->posts()->create([
@@ -262,9 +264,9 @@ class EventController extends Controller
         return view('event.joined', get_defined_vars());
     }
 
-    public function eventClose(Event $event)
+    public function eventClose(Event $event): RedirectResponse
     {
-        $event->update(['is_closed' => true]);
+        $event->closeEvent();
 
         return back()->with('success', 'Event closed successfully');
     }

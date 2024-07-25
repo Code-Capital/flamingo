@@ -36,6 +36,7 @@ class Event extends Model
         'rules',
         'status',
         'is_closed',
+        'closed_at',
     ];
 
     /**
@@ -173,6 +174,14 @@ class Event extends Model
     public function isNotClosed(): bool
     {
         return ! $this->is_closed;
+    }
+
+    public function closeEvent(): void
+    {
+        $this->update([
+            'is_closed' => true,
+            'closed_at' => now(),
+        ]);
     }
 
     // ======================================================================
