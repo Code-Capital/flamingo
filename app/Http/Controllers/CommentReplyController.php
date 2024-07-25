@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Post;
-use App\Models\Comment;
-use Illuminate\Http\Request;
 use App\Enums\CommentTypeEnum;
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +15,7 @@ class CommentReplyController extends Controller
     public function store(Request $request, Comment $comment): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'body' => 'required|string|max:255',
+            'body' => ['required', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -26,7 +25,7 @@ class CommentReplyController extends Controller
         // Create a new comment
         $comment = $comment->replies()->create([
             'body' => $request->body,
-            'type' => CommentTypeEnum::REPLY,
+            'type' => CommentTypeEnum::REPLY->value,
             'user_id' => auth()->id(),
         ]);
 

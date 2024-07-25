@@ -24,6 +24,7 @@
             align-items: center;
             display: flex;
             justify-content: center;
+            object-fit: contain;
         }
 
         .gallery__item>img {
@@ -83,7 +84,9 @@
                                 <div class="avatar align-items-center gap-3 py-4">
                                     <img class="rounded-circle" src=" {{ asset($post->user->avatar_url) }}">
                                     <div class="details">
-                                        <span class="d-block">{{ $post->user->full_name }}</span>
+                                        <span class="d-block"> <a
+                                                href="{{ route('user.feed.show', $post->user->user_name) }}"
+                                                class="text-decoration-none">{{ $post->user->full_name }}</a></span>
                                         <span class="d-block">{{ $post->user->designation }}</span>
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
@@ -95,7 +98,7 @@
                             <div class="post_gallery bg-light">
                                 @forelse($post->media as $media)
                                     <div class="gallery__item gallery__item--hor">
-                                        <img src="{{ $media->file_path }}" alt="Post image">
+                                        <img src="{{ $media->file_path }}" alt="Post image" class="img-fluid">
                                     </div>
                                 @empty
                                 @endforelse
@@ -248,138 +251,7 @@
                 }
             });
 
-            $('body').on('submit', '.ajax-comment-form', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                let form = $(this);
-                let formData = form.serialize(); // Serialize the form data
-                let actionUrl = form.attr('action'); // Get the form action URL
-
-                $.ajax({
-                    url: actionUrl,
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        // Handle the success response
-                        if (response.success == false) {
-                            toastr.error(response.message);
-                            return;
-                        }
-                        let postId = response.data.comment.post.id;
-                        let commentContainer = $('.comment-container-' + postId);
-
-                        // toastr.success(response.message);
-                        let html = generateCommentHtml(response.data.comment);
-                        // commentContainer.append(html);
-
-                        let newComment = $(html).hide();
-                        commentContainer.append(newComment);
-                        newComment.slideDown('fast');
-
-                        form.trigger('reset'); // Clear the form input fields
-
-                        $("#comment_count_" + postId).html(response.data.current_comment_count);
-                        // Optionally, you can update the UI to show the new comment
-
-                        newNotificationSound();
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle the error response
-                        console.error('Error submitting comment:', error);
-                    }
-                });
-            });
-
-            function generateCommentHtml(comment) {
-                return `
-                <div class="commentbox p-3 mt-2">
-                    <div class="d-flex align-items-start gap-2">
-                        <img class="rounded-circle" src="${comment.user.avatar_url}">
-                        <div class="content">
-                            <h5 class="mb-1">${comment.user.full_name}</h5>
-                            <p class="mb-3">${comment.body}</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
-                                <a class="text-decoration-none" href="javascript:void(0)">Like</a>
-                                <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            }
-
-            $('body').on('submit', '.ajax-like-form', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                let form = $(this);
-                let formData = form.serialize(); // Serialize the form data
-                let actionUrl = form.attr('action'); // Get the form action URL
-
-                $.ajax({
-                    url: actionUrl,
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        // Handle the success response
-                        if (response.success == false) {
-                            toastr.error(response.message ?? errorMessage);
-                            errorNotificationSound();
-                            return;
-                        }
-                        // toastr.success(response.message);
-
-                        if (response.data.likeCount == 0) {
-                            $("#likeForm-" + response.data.post.id + " button img")
-                                .fadeOut('fast', function() {
-                                    $(this).attr('src', likeImage).fadeIn('fast');
-                                });
-                        } else {
-                            $("#likeForm-" + response.data.post.id + " button img")
-                                .fadeOut('fast', function() {
-                                    $(this).attr('src', likedImage).fadeIn('fast');
-                                });
-                        }
-
-
-                        $("#like_count_" + response.data.post.id).html(response.data.likeCount);
-                        newNotificationSound();
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle the error response
-                        errorNotificationSound()
-                        console.error('Error submitting comment:', error);
-                    }
-                });
-            });
-
-            $('.show-comment-form').click(function() {
-                let id = $(this).data('id');
-                let commentInput = $('.comment-input-' + id);
-
-                if (commentInput.hasClass('d-none')) {
-                    commentInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
-                } else {
-                    commentInput.slideUp(300, function() {
-                        $(this).addClass('d-none');
-                    });
-                }
-            });
-
-            $('.show-reply-form').click(function() {
-                let id = $(this).data('id');
-                let replyInput = $('.reply-input-' + id);
-
-                if (replyInput.hasClass('d-none')) {
-                    replyInput.removeClass('d-none').hide().slideDown(300); // Adjust speed here
-                } else {
-                    replyInput.slideUp(300, function() {
-                        $(this).addClass('d-none');
-                    });
-                }
-            });
-
-
         });
     </script>
+    @include('event.partials.comment-scripts')
 @endsection

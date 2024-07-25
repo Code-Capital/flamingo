@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             StateSeeder::class,
             UserSeeder::class,
             EventSeeder::class,
+            AnnouncementSeeder::class,
         ]);
     }
 }

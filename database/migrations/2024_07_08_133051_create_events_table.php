@@ -17,11 +17,13 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('location')->nullable();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('thumbnail')->nullable();
             $table->text('description')->nullable();
-            $table->string('status')->default('draft');
+            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->boolean('is_closed')->default(false);
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

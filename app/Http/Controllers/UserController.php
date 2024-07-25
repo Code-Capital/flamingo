@@ -2,71 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    public function addFriend(Request $request, User $user): JsonResponse
-    {
-        $request->user()->friends()->attach($user->id);
-
-        return $this->sendSuccessResponse(null, 'Friend added successfully', Response::HTTP_CREATED);
-    }
-
-    public function statusUpdate(Request $request, User $user): JsonResponse
-    {
-        $authUser = $request->user();
-
-        $friend = $authUser->friends()->where('friend_id', $user->id)->first();
-
-        if ($friend) {
-            // Update pivot columns
-            $authUser->friends()->updateExistingPivot($user->id, [
-                'accepted' => $request->input('accepted', $friend->pivot->accepted),
-                'rejected' => $request->input('rejected', $friend->pivot->rejected),
-                'blocked' => $request->input('blocked', $friend->pivot->blocked),
-            ]);
-            $accepted = $request->input('accepted', $friend->pivot->accepted);
-            $rejected = $request->input('rejected', $friend->pivot->rejected);
-            $blocked = $request->input('blocked', $friend->pivot->blocked);
-
-            $message = 'Friend status updated successfully.';
-            if ($accepted) {
-                $message = 'Friend request accepted successfully.';
-            } elseif ($rejected) {
-                $message = 'Friend request rejected successfully.';
-            } elseif ($blocked) {
-                $message = 'Friend blocked successfully.';
-            }
-
-            return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
-        }
-
-        return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
-    }
-
-    public function removeFriend(Request $request, User $user): JsonResponse
-    {
-        $request->user()->friends()->detach($user->id);
-
-        return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
-    }
-
-    public function acceptFriend(Request $request, User $user): JsonResponse
-    {
-        try {
-            $request->user()->friends()->updateExistingPivot($user->id, ['accepted' => true]);
-
-            return $this->sendSuccessResponse(null, 'Friend request accepted successfully', Response::HTTP_OK);
-        } catch (Exception $e) {
-            return $this->sendErrorResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public function gallery(): View
     {
         $user = auth()->user();
@@ -80,7 +25,55 @@ class UserController extends Controller
         // Combine the media collections
         $media = $userMedia->merge($postMedia);
 
-        return view('user.gallery', compact('media'));
+        return view('user.gallery', get_defined_vars());
+    }
+
+    public function addFriend(Request $request, User $user): JsonResponse
+    {
+
+        $user->friends()->attach($request->user()->id, [
+            'status' => 'pending',
+        ]);
+
+        return $this->sendSuccessResponse(null, 'Friend request sent successfully', Response::HTTP_CREATED);
+    }
+
+    public function statusUpdate(Request $request, User $user): JsonResponse
+    {
+        $authUser = Auth::user();
+
+        $friend = $authUser->friends()->where('user_id', $user->id)->first();
+
+        if (! $friend) {
+            return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
+        }
+
+        $authUser->friends()->updateExistingPivot($user->id, [
+            'status' => $request->status,
+        ]);
+
+        if ($request->status == StatusEnum::ACCEPTED->value) {
+            $user->friends()->attach($authUser->id, [
+                'status' => $request->status,
+            ]);
+        }
+
+        if ($request->status == StatusEnum::BLOCKED->value) {
+            $user->friends()->detach($authUser->id);
+        }
+
+        $message = "Friend request {$request->status} successfully.";
+
+        return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
+    }
+
+    public function removeFriend(Request $request, User $user): JsonResponse
+    {
+        $authUser = Auth::user();
+        $authUser->friends()->detach($user->id);
+        $user->friends()->detach($authUser->id);
+
+        return $this->sendSuccessResponse(null, 'Friend removed successfully', Response::HTTP_OK);
     }
 
     public function uploadMedia(Request $request): JsonResponse
@@ -94,7 +87,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

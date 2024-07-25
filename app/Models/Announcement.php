@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Announcement extends Model
 {
@@ -18,7 +18,7 @@ class Announcement extends Model
      * @var array
      */
     protected $fillable = [
-        //
+        'user_id', 'event_id', 'slug', 'title', 'body', 'start_date', 'end_date', 'is_active',
     ];
 
     /**
@@ -33,6 +33,10 @@ class Announcement extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // ======================================================================
     // Accessors
@@ -45,9 +49,41 @@ class Announcement extends Model
     // ======================================================================
     // Custom Functions
     // ======================================================================
+    public function isActive(): bool
+    {
+        return $this->is_active;
+    }
+
+    public function getStatus(): string
+    {
+        return ($this->status == 1) ? 'Active' : 'Inactive';
+    }
 
     // ======================================================================
     // Scopes
     // ======================================================================
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
 
+    public function scopeInactive($query)
+    {
+        return $query->where('status', false);
+    }
+
+    public function scopeByUser($query, $id)
+    {
+        return $query->where('user_id', $id);
+    }
+
+    public function scopeByNotUser($query, $id)
+    {
+        return $query->where('user_id', '<>', $id);
+    }
+
+    public function scopeByEvent($query, $id)
+    {
+        return $query->where('event_id', $id);
+    }
 }

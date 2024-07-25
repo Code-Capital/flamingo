@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\EventRequestEnum;
-use App\Models\Media;
+use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Event extends Model
 {
@@ -36,6 +35,8 @@ class Event extends Model
         'description',
         'rules',
         'status',
+        'is_closed',
+        'closed_at',
     ];
 
     /**
@@ -65,6 +66,11 @@ class Event extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     // same relation uers and memeber just named it as for my own convinience
     public function users(): BelongsToMany
     {
@@ -73,26 +79,26 @@ class Event extends Model
 
     public function allMembers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'event_user')
+        return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id')
             ->withPivot('status');
     }
 
     public function acceptedMembers()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::ACCEPTED);
+            ->wherePivot('status', StatusEnum::ACCEPTED->value);
     }
 
     public function pendingRequests()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::PENDING);
+            ->wherePivot('status', StatusEnum::PENDING->value);
     }
 
     public function rejectedRequests()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::REJECTED);
+            ->wherePivot('status', StatusEnum::REJECTED->value);
     }
 
     // ======================================================================
@@ -110,6 +116,73 @@ class Event extends Model
     // ======================================================================
     // Custom Functions
     // ======================================================================
+    public function isOwner($user): bool
+    {
+        return $this->user_id === $user->id;
+    }
+
+    public function isMember($user): bool
+    {
+        return $this->users->contains($user);
+    }
+
+    public function isAccepted($user): bool
+    {
+        return $this->acceptedMembers->contains($user);
+    }
+
+    public function isPending($user): bool
+    {
+        return $this->pendingRequests->contains($user);
+    }
+
+    public function isRejected($user): bool
+    {
+        return $this->rejectedRequests->contains($user);
+    }
+
+    public function isOngoing(): bool
+    {
+        return $this->start_date < now() && $this->end_date > now();
+    }
+
+    public function isUpcoming(): bool
+    {
+        return $this->start_date > now();
+    }
+
+    public function isPast(): bool
+    {
+        return $this->end_date < now();
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'published';
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === 'draft';
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->is_closed;
+    }
+
+    public function isNotClosed(): bool
+    {
+        return ! $this->is_closed;
+    }
+
+    public function closeEvent(): void
+    {
+        $this->update([
+            'is_closed' => true,
+            'closed_at' => now(),
+        ]);
+    }
 
     // ======================================================================
     // Scopes
@@ -117,6 +190,11 @@ class Event extends Model
     public function scopeByUser($query, $id): Builder
     {
         return $query->where('user_id', $id);
+    }
+
+    public function scopeByNotUser($query, int $id)
+    {
+        return $query->where('user_id', '<>', $id);
     }
 
     public function scopePublished($query): Builder
@@ -147,21 +225,23 @@ class Event extends Model
 
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('title', 'like', '%' . $search . '%')
-            ->orWhere('location', 'like', '%' . $search . '%')
-            ->orWhere('slug', 'like', '%' . $search . '%')
-            ->orWhere('description', 'like', '%' . $search . '%');
+
+        return $query->where('title', 'like', '%'.$search.'%')
+            ->orWhere('location', 'like', '%'.$search.'%')
+            ->orWhere('slug', 'like', '%'.$search.'%')
+            ->orWhere('description', 'like', '%'.$search.'%');
     }
 
     public function scopeByLocation($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('location', 'like', '%' . $search . '%');
+
+        return $query->where('location', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])
@@ -171,10 +251,5 @@ class Event extends Model
                 $q->whereIn('interest_id', $interests);
             });
         });
-    }
-
-    public function scopeByNotUser($query, int $id)
-    {
-        return $query->where('id', '!=', $id);
     }
 }

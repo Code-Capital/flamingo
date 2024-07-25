@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Visitor;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,13 +16,27 @@ class PostController extends Controller
     public function index(): View
     {
         $user = Auth::user();
-        $feeds = Post::byPublished()
+
+        // Get the user's friends
+        $friends = $user->acceptedFriends->pluck('id');
+
+        // Fetch posts by the authenticated user and their friends
+        $feeds = Post::whereIn('user_id', $friends->push($user->id)) // Include own posts and friends' posts
+            ->byPublished()
             ->byPublic()
-            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
+            ->with([
+                'user',
+                'media',
+                'likes',
+                'comments' => function ($query) {
+                    $query->withCount(['replies']);
+                }, 'comments.user', 'comments.replies',
+            ])
             ->withCount(['comments', 'likes'])
             ->latest()
-            // byUser($user)
             ->paginate(getPaginated());
+
+        // dd($feeds[1]->toArray());
 
         return view('user.feed', get_defined_vars());
     }
@@ -57,5 +73,38 @@ class PostController extends Controller
         });
 
         return back()->with('success', 'Post created successfully');
+    }
+
+    public function show(User $user): View
+    {
+
+        $currentUser = Auth::user();
+
+        if ($currentUser && $currentUser->id !== $user->id) {
+            // Record the visit
+            Visitor::updateOrCreate(
+                [
+                    'visitor_id' => $currentUser->id,
+                    'profile_id' => $user->id,
+                    'created_at' => now()->startOfDay(), // Ensure a visit is unique per day
+                ],
+                [
+                    'visitor_id' => $currentUser->id,
+                    'profile_id' => $user->id,
+                    'created_at' => now()->startOfDay(), // Ensure a visit is unique per day
+                ]
+            );
+        }
+
+        // dd($user->toArray());
+        $feeds = $user->posts()
+            ->byPublished()
+            ->byPublic()
+            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
+            ->withCount(['comments', 'likes'])
+            ->latest()
+            ->paginate(getPaginated());
+
+        return view('user.feed', get_defined_vars());
     }
 }

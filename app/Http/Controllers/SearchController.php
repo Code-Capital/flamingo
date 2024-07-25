@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
@@ -41,12 +41,12 @@ class SearchController extends Controller
         $selectedInterests = $request->input('interests', []);
 
         $events = Event::with('interests')
+            ->byNotUser($user->id)
             ->with('allMembers')
             ->published()
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($request->location)
-            ->byNotUser($user->id)
             ->latest()
             // ->upcoming()
             // ->ongoing()

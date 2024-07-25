@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
@@ -26,12 +26,12 @@ class EventFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'location' => $this->faker->address,
-            'start_date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'end_date' => $this->faker->dateTimeBetween('now', '+1 year'),
+            'start_date' => $this->faker->date(),
+            'end_date' => $this->faker->date(),
             'thumbnail' => null,
             'description' => $this->faker->paragraph,
             'rules' => $this->faker->paragraph,
-            'status' =>  $this->faker->randomElement(['draft', 'published']),
+            'status' => $this->faker->randomElement(['draft', 'published']),
         ];
     }
 }

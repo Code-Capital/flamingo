@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -77,6 +77,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Interest::class);
     }
 
+    // social relationships
     public function feed(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'friends', 'user_id', 'friend_id')
@@ -100,53 +101,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Like::class);
     }
 
-    public function friends(): BelongsToMany
+    public function media(): MorphMany
     {
-        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-            ->withPivot('accepted', 'blocked', 'rejected')
-            ->withTimestamps();
-    }
-
-    public function acceptedUsers(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('accepted', true);
-    }
-
-    public function blockedUsers(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('blocked', true);
-    }
-
-    public function rejectedUsers(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('rejected', true);
-    }
-
-    public function acceptedRequests(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('accepted', true)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', false);
-    }
-
-    public function pendingRequests(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('accepted', false)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', false);
-    }
-
-    public function blockedRequests(): BelongsToMany
-    {
-        return $this->friends()
-            ->wherePivot('accepted', false)
-            ->wherePivot('rejected', false)
-            ->wherePivot('blocked', true);
+        return $this->morphMany(Media::class, 'mediable');
     }
 
     public function notifications(): MorphMany
@@ -154,14 +111,68 @@ class User extends Authenticatable
         return $this->morphMany(Notification::class, 'notifiable');
     }
 
-    public function events(): BelongsToMany
+    // Friends Relationships
+    public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
-    public function media(): MorphMany
+    public function acceptedFriends(): BelongsToMany
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->friends()
+            ->wherePivot('status', StatusEnum::ACCEPTED->value);
+    }
+
+    public function blockedFriends(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('status', StatusEnum::BLOCKED->value);
+    }
+
+    public function rejectedFriends(): BelongsToMany
+    {
+        return $this->friends()
+            ->wherePivot('status', StatusEnum::REJECTED->value);
+    }
+
+    public function sentRequests(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->wherePivot('status', StatusEnum::PENDING->value);
+    }
+
+    public function receivedRequests(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', StatusEnum::PENDING->value);
+    }
+
+    // visitors
+    public function visitedProfiles(): HasMany
+    {
+        return $this->hasMany(Visitor::class, 'visitor_id');
+    }
+
+    public function profileVisits(): HasMany
+    {
+        return $this->hasMany(Visitor::class, 'profile_id');
+    }
+
+    // Events Relationships
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class, 'user_id');
+    }
+
+    public function joinedEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')
+            ->wherePivot('status', StatusEnum::ACCEPTED->value)
+            ->withTimestamps();
     }
 
     // ======================================================================
@@ -213,19 +224,24 @@ class User extends Authenticatable
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+    public function isEventOwner(Event $event): bool
+    {
+        return $this->id === $event->user_id;
+    }
 
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
-        return $query->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orWhere('user_name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+
+        return $query->where('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
+            ->orWhere('user_name', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])
@@ -249,7 +265,7 @@ class User extends Authenticatable
 
     public function scopeByNotUser($query, int $id)
     {
-        return $query->where('id', '!=', $id);
+        return $query->where('id', '<>', $id);
     }
 
     public function scopeByNotUsers($query, array $ids)

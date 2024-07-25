@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
@@ -12,7 +11,7 @@ class ChatController extends Controller
     {
         $user = Auth::user();
 
-        $friends = $user->acceptedUsers;
+        $friends = $user->acceptedFriends;
 
         return view('user.messages', get_defined_vars());
     }

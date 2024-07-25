@@ -19,19 +19,28 @@ class UserSeeder extends Seeder
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'),
             'user_name' => 'tester',
-            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry.  Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been;'
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry.  Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been;',
+            'is_private' => false,
         ]);
         $admin->assignRole('admin');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
         $admin->interests()->attach($interests);
 
+        $users = User::inRandomOrder()->take(rand(1, 500))->get();
+        $admin->friends()->attach($users, ['status' => 'accepted']);
+
         // Create 10 regular users and attach random interests
-        User::factory(10)->create()->each(function ($user) {
+        User::factory(100)->create()->each(function ($user) {
             $user->assignRole('user');
 
             // Attach random interests
             $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
             $user->interests()->attach($interests);
+
+            // create friends
+            $randomUser = User::inRandomOrder()->first();
+            $user->friends()->attach($randomUser, ['status' => 'accepted']);
+            $randomUser->friends()->attach($user, ['status' => 'accepted']);
         });
     }
 }
