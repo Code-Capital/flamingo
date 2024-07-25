@@ -14,13 +14,12 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        Event::factory(1000)->create()->each(function ($event) {
+        Event::factory(100)->create()->each(function ($event) {
             $interests = Interest::inRandomOrder()->take(rand(1, 10))->get(); // Attach 1 to 3 random interests
             $event->interests()->attach($interests);
 
             $users = User::inRandomOrder()->take(rand(1, 5))->get(); // Attach 1 to 3 random admins
-            $user->
-
+            $event->users()->attach($users);
 
             $users = User::role('user')->inRandomOrder()->take(rand(1, 5))->get(); // Attach 1 to 3 random users
             foreach ($users as $user) {

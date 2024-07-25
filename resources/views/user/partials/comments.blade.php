@@ -8,9 +8,7 @@
                         <h5 class="mb-1">{{ $comment->user->full_name }}</h5>
                         <p class="mb-3">{{ $comment->body }}</p>
                         <div class=" show-comment-form-{{ $comment->id }} d-flex align-items-center gap-3">
-                            <a class="text-decoration-none"
-                                href="javascript:void(0)"><span>{{ $comment->likes_count ?? 0 }}</span> Likes</a>
-                            <a class="text-decoration-none" href="javascript:void(0)">Like</a>
+                            <a class="text-decoration-none" href="javascript:void(0)"> Like {{ $comment->likes_count ?? 0 }} </a>
                             <a class="text-decoration-none show-reply-form" data-id="{{ $comment->id }}"
                                 href="javascript:void(0)">Reply</a>
                         </div>

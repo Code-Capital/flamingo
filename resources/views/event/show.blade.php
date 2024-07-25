@@ -55,7 +55,6 @@
 
                     @include('event.partials.gallery-tab')
 
-
                     @if ($user->isEventOwner($event))
                         @include('event.partials.members-tab')
 
