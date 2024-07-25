@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EventRequestEnum;
+use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -84,19 +85,19 @@ class Event extends Model
     public function acceptedMembers()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::ACCEPTED);
+            ->wherePivot('status', StatusEnum::ACCEPTED->value);
     }
 
     public function pendingRequests()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::PENDING);
+            ->wherePivot('status', StatusEnum::PENDING->value);
     }
 
     public function rejectedRequests()
     {
         return $this->allMembers()
-            ->wherePivot('status', EventRequestEnum::REJECTED);
+            ->wherePivot('status', StatusEnum::REJECTED->value);
     }
 
     // ======================================================================

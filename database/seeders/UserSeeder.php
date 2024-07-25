@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Interest;
 use App\Models\User;
+use App\Models\Event;
+use App\Models\Interest;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
         $admin->assignRole('admin');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
         $admin->interests()->attach($interests);
+
         $users = User::inRandomOrder()->take(rand(1, 500))->get();
         $admin->friends()->attach($users, ['status' => 'accepted']);
 

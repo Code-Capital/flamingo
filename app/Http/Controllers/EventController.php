@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): View
     {
         $user = Auth::id();
@@ -31,9 +28,6 @@ class EventController extends Controller
         return view('event.index', get_defined_vars());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
         $interests = Interest::get();
@@ -41,9 +35,6 @@ class EventController extends Controller
         return view('event.create', get_defined_vars());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreEventRequest $request)
     {
         DB::beginTransaction();
@@ -64,7 +55,7 @@ class EventController extends Controller
             if ($request->has('images') && is_array($request->images)) {
                 foreach ($request->images as $image) {
                     $event->media()->create([
-                        'file_path' => $image->store('/media/events/'.$event->id, 'public'),
+                        'file_path' => $image->store('/media/events/' . $event->id, 'public'),
                         'file_type' => $image->getClientOriginalExtension(),
                     ]);
                 }
@@ -82,9 +73,6 @@ class EventController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Event $event): View
     {
         $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests', 'media']);
@@ -92,25 +80,18 @@ class EventController extends Controller
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
             ->latest()->paginate(getPaginated());
+        $user = Auth::user();
 
         return view('event.show', get_defined_vars());
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Event $event)
     {
         $interests = Interest::get();
         $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
-
-        // dd($event->toArray());
         return view('event.edit', get_defined_vars());
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateEventRequest $request, Event $event)
     {
         $validated = $request->validated();
@@ -137,7 +118,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/'.$event->id, 'public');
+                    $path = $image->store('/media/events/' . $event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -151,7 +132,7 @@ class EventController extends Controller
 
                 // Delete old media that is not in the new list
                 $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
-                if (! empty($mediaToDelete)) {
+                if (!empty($mediaToDelete)) {
                     $event->media()->whereIn('id', $mediaToDelete)->delete();
                 }
             }
@@ -164,17 +145,13 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Event $event)
     {
         $event->delete();
-
         return to_route('events.index')->with('success', 'Event deleted successfully');
     }
 
@@ -250,7 +227,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -268,5 +245,16 @@ class EventController extends Controller
         ]);
 
         return back()->with('success', 'Post created successfully');
+    }
+
+    public function joinedEvents(): View
+    {
+        $user = Auth::user();
+        $events = $user->joinedEvents()
+            ->with(['interests:id,name'])
+            ->latest()
+            ->paginate(getPaginated());
+
+        return view('event.joined', get_defined_vars());
     }
 }

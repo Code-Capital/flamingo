@@ -168,9 +168,10 @@ class User extends Authenticatable
         return $this->hasMany(Event::class, 'user_id');
     }
 
-    public function participatedEvents(): BelongsToMany
+    public function joinedEvents(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class, 'event_users', 'user_id', 'event_id')
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')
+            ->wherePivot('status', StatusEnum::ACCEPTED->value)
             ->withTimestamps();
     }
 
@@ -223,19 +224,24 @@ class User extends Authenticatable
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
+    public function isEventOwner(Event $event): bool
+    {
+        return $this->id === $event->user_id;
+    }
+
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (! $search) {
+        if (!$search) {
             return $query;
         }
 
-        return $query->where('first_name', 'like', '%'.$search.'%')
-            ->orWhere('last_name', 'like', '%'.$search.'%')
-            ->orWhere('user_name', 'like', '%'.$search.'%')
-            ->orWhere('email', 'like', '%'.$search.'%');
+        return $query->where('first_name', 'like', '%' . $search . '%')
+            ->orWhere('last_name', 'like', '%' . $search . '%')
+            ->orWhere('user_name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%');
     }
 
     public function scopeByInterests($query, array $interests = [])

@@ -4,7 +4,8 @@
             <div class="bg-white p-4 dashboardCard">
 
                 <div class="innerCard p-3 bg-white">
-                    <form action="{{ route('events.post.store', $event->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('events.post.store', $event->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="avatar align-items-center gap-3 py-4">
                             <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
@@ -86,13 +87,6 @@
                     </div>
                     <div class="comments">
                         <h5 class="py-3">Comments:</h5>
-                        <div class="comment-container-{{ $post->id }}">
-                            @if ($post->comments_count > 0)
-                                @include('user.partials.comments', [
-                                    'comments' => $post->comments,
-                                ])
-                            @endif
-                        </div>
                         <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
                             <form id="commentForm-{{ $post->id }}"
                                 action="{{ route('comment.store', $post->id) }}" method="POST"
@@ -103,6 +97,13 @@
                                     <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid" />
                                 </button>
                             </form>
+                        </div>
+                        <div class="comment-container-{{ $post->id }}">
+                            @if ($post->comments_count > 0)
+                                @include('user.partials.comments', [
+                                    'comments' => $post->comments,
+                                ])
+                            @endif
                         </div>
                     </div>
                 @empty

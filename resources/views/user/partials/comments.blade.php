@@ -39,7 +39,7 @@
                 </div>
                 <div class="reply p-3 ms-5 mt-4">
                     <div class="d-flex align-items-start gap-2">
-                        <img class="rounded-circle" src="assets/profile.png">
+                        <img class="rounded-circle" src="{{ asset($comment->user->avatar_url) }}">
                         <div class="content">
                             <h5 class="mb-1">{{ $comment->user->full_name }}</h5>
                             <p class="mb-3">{{ $comment->body }}</p>

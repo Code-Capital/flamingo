@@ -63,6 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
     Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
 
+    Route::get('joined/events',  [EventController::class, 'joinedEvents'])->name('events.joined');
+    Route::get('joined/events/{event:slug}/show', [EventController::class, 'show'])->name('joined.events.show');
+
     // In routes/web.php or routes/api.php
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
