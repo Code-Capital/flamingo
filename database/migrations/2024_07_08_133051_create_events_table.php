@@ -21,7 +21,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('thumbnail')->nullable();
             $table->text('description')->nullable();
-            $table->string('status')->default('draft');
+            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->boolean('is_closed')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

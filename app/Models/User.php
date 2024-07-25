@@ -234,14 +234,14 @@ class User extends Authenticatable
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
+        if (! $search) {
             return $query;
         }
 
-        return $query->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orWhere('user_name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+        return $query->where('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
+            ->orWhere('user_name', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%');
     }
 
     public function scopeByInterests($query, array $interests = [])

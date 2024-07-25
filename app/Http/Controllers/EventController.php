@@ -19,8 +19,8 @@ class EventController extends Controller
 {
     public function index(): View
     {
-        $user = Auth::id();
-        $events = Event::byUser($user)
+        $user = Auth::user();
+        $events = Event::byUser($user->id)
             ->with(['interests:id,name'])
             ->latest()
             ->paginate(getPaginated());
@@ -55,7 +55,7 @@ class EventController extends Controller
             if ($request->has('images') && is_array($request->images)) {
                 foreach ($request->images as $image) {
                     $event->media()->create([
-                        'file_path' => $image->store('/media/events/' . $event->id, 'public'),
+                        'file_path' => $image->store('/media/events/'.$event->id, 'public'),
                         'file_type' => $image->getClientOriginalExtension(),
                     ]);
                 }
@@ -83,6 +83,7 @@ class EventController extends Controller
         $user = Auth::user();
 
         $media = $event->posts()->with('media')->get()->pluck('media')->flatten();
+
         return view('event.show', get_defined_vars());
     }
 
@@ -90,6 +91,7 @@ class EventController extends Controller
     {
         $interests = Interest::get();
         $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
+
         return view('event.edit', get_defined_vars());
     }
 
@@ -119,7 +121,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/' . $event->id, 'public');
+                    $path = $image->store('/media/events/'.$event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -133,7 +135,7 @@ class EventController extends Controller
 
                 // Delete old media that is not in the new list
                 $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
-                if (!empty($mediaToDelete)) {
+                if (! empty($mediaToDelete)) {
                     $event->media()->whereIn('id', $mediaToDelete)->delete();
                 }
             }
@@ -146,13 +148,14 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
     public function destroy(Event $event)
     {
         $event->delete();
+
         return to_route('events.index')->with('success', 'Event deleted successfully');
     }
 
@@ -228,7 +231,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -257,5 +260,12 @@ class EventController extends Controller
             ->paginate(getPaginated());
 
         return view('event.joined', get_defined_vars());
+    }
+
+    public function eventClose(Event $event)
+    {
+        $event->update(['is_closed' => true]);
+
+        return back()->with('success', 'Event closed successfully');
     }
 }

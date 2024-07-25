@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\EventRequestEnum;
 use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -36,6 +35,7 @@ class Event extends Model
         'description',
         'rules',
         'status',
+        'is_closed',
     ];
 
     /**
@@ -115,6 +115,65 @@ class Event extends Model
     // ======================================================================
     // Custom Functions
     // ======================================================================
+    public function isOwner($user): bool
+    {
+        return $this->user_id === $user->id;
+    }
+
+    public function isMember($user): bool
+    {
+        return $this->users->contains($user);
+    }
+
+    public function isAccepted($user): bool
+    {
+        return $this->acceptedMembers->contains($user);
+    }
+
+    public function isPending($user): bool
+    {
+        return $this->pendingRequests->contains($user);
+    }
+
+    public function isRejected($user): bool
+    {
+        return $this->rejectedRequests->contains($user);
+    }
+
+    public function isOngoing(): bool
+    {
+        return $this->start_date < now() && $this->end_date > now();
+    }
+
+    public function isUpcoming(): bool
+    {
+        return $this->start_date > now();
+    }
+
+    public function isPast(): bool
+    {
+        return $this->end_date < now();
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'published';
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === 'draft';
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->is_closed;
+    }
+
+    public function isNotClosed(): bool
+    {
+        return ! $this->is_closed;
+    }
 
     // ======================================================================
     // Scopes

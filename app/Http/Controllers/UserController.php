@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $friend = $authUser->friends()->where('user_id', $user->id)->first();
 
-        if (!$friend) {
+        if (! $friend) {
             return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
         }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

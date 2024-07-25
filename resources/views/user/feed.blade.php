@@ -253,5 +253,5 @@
 
         });
     </script>
-    @include('user.partials.comment-scripts')
+    @include('event.partials.comment-scripts')
 @endsection

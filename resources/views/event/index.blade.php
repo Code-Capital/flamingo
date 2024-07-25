@@ -10,55 +10,14 @@
                     <div class="row mx-0">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <a class="btn btn-primary px-4" href="">Events</a>
+                                <a class="btn btn-primary px-4" href="javascript:void(0)">My Events</a>
                                 <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
                             </div>
                         </div>
                     </div>
                     <div class="row mx-0">
                         @forelse ($events as $event)
-                            <div class="col-lg-6 mb-3">
-                                <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                    <img src="{{ $event->thumbnail_url }}">
-                                    <div class="content">
-                                        <div class="d-flex align-items-center">
-                                            <span> {{ $event->formatted_created_at }}</span>
-                                            <div class="ms-auto dropdown">
-                                                <button class="btn" type="button"
-                                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('events.edit', $event->slug) }}">Edit</a></li>
-                                                    <li>
-                                                        <form action="{{ route('events.destroy', $event->slug) }}"
-                                                            method="POST"
-                                                            onsubmit="return confirm('Are you sure you want to delete this event?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item">Delete</button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <a href="{{ route('events.show', $event->slug) }}" class="text-decoration-none">
-                                            <h5 class="mb-1"> {{ $event->title }} </h5>
-                                            <p class="mb-2"> {{ limitString($event->description, 50) }} </p>
-                                            <div class="text mb-2"># Interests</div>
-                                            <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                                @forelse ($event->interests as $interest)
-                                                    <span class="px-2 py-1">{{ $interest->name }}</span>
-                                                @empty
-                                                    <span class="px-2 py-1">No interests</span>
-                                                @endforelse
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-event-card :event="$event" :user="$user" />
                         @empty
                             <x-no-data-found />
                         @endforelse
