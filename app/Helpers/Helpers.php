@@ -1,22 +1,22 @@
 <?php
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-if (!function_exists('getPaginated')) {
+if (! function_exists('getPaginated')) {
     function getPaginated($limit = 10): int
     {
         return $limit;
     }
 }
 
-if (!function_exists('limitString')) {
+if (! function_exists('limitString')) {
     function limitString($string, $limit = 100): string
     {
         if (strlen($string) <= $limit) {
@@ -30,10 +30,9 @@ if (!function_exists('limitString')) {
             $trimmedString = substr($trimmedString, 0, $lastSpaceIndex);
         }
 
-        return $trimmedString . '...';
+        return $trimmedString.'...';
     }
 }
-
 
 function getStatusCode(Throwable $e): int
 {
