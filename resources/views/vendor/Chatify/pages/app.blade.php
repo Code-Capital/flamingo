@@ -114,3 +114,8 @@
     @include('Chatify::layouts.modals')
     @include('Chatify::layouts.footerLinks')
 @endsection
+@section('scripts')
+    <script>
+        document.getElementById('wrapper').classList.toggle('toggled');
+    </script>
+@endsection

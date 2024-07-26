@@ -38,9 +38,11 @@ class UserSeeder extends Seeder
             $user->interests()->attach($interests);
 
             // create friends
-            $randomUser = User::inRandomOrder()->first();
-            $user->friends()->attach($randomUser, ['status' => 'accepted']);
-            $randomUser->friends()->attach($user, ['status' => 'accepted']);
+            $randomUsers = User::inRandomOrder()->take(rand(1, 10))->get();
+            foreach ($randomUsers as $randomUser) {
+                $user->friends()->attach($randomUser, ['status' => 'accepted']);
+                $randomUser->friends()->attach($user, ['status' => 'accepted']);
+            }
         });
     }
 }

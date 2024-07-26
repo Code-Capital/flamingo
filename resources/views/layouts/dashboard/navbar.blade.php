@@ -3,13 +3,13 @@
 @endphp
 
 @if (request()->is('messages'))
-    {{-- <div class="bg-primary ps-3 py-3">
+    <div class="bg-primary ps-3 py-3">
         <a id="sidebar-toggle">
             <span></span>
             <span></span>
             <span></span>
         </a>
-    </div> --}}
+    </div>
 @else
     <div class="hero">
         <div class="bg-primary">
