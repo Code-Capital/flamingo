@@ -119,7 +119,7 @@
                                             <input class="w-100" name="images[]" type="file" allow="images/*" multiple>
                                         </div>
                                     </div>
-                                    @error('thumbnail')
+                                    @error('images')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

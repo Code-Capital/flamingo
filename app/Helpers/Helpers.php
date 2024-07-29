@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Str;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 if (! function_exists('getPaginated')) {
     function getPaginated($limit = 10): int
@@ -19,18 +20,7 @@ if (! function_exists('getPaginated')) {
 if (! function_exists('limitString')) {
     function limitString($string, $limit = 100): string
     {
-        if (strlen($string) <= $limit) {
-            return $string;
-        }
-
-        $trimmedString = substr($string, 0, $limit);
-        $lastSpaceIndex = strrpos($trimmedString, ' ');
-
-        if ($lastSpaceIndex !== false) {
-            $trimmedString = substr($trimmedString, 0, $lastSpaceIndex);
-        }
-
-        return $trimmedString.'...';
+        return Str::limit($string, $limit, '...');
     }
 }
 

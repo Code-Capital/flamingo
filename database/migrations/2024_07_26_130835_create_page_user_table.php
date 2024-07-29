@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();
             $table->boolean('is_invited')->default(false); // Indicates if the user was invited
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
             $table->unique(['page_id', 'user_id', 'start_date']);
         });

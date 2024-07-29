@@ -14,7 +14,7 @@ class PageSeeder extends Seeder
      */
     public function run(): void
     {
-        Page::factory()->count(1000)->create()->each(function ($page) {
+        Page::factory()->count(100)->create()->each(function ($page) {
             $users = User::role('user')->inRandomOrder()->take(rand(1, 10))->get();
             foreach ($users as $user) {
                 $page->users()->attach($user->id, [

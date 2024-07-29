@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->string('profile_image')->nullable();
             $table->boolean('is_private')->default(false);
             $table->timestamps();
             $table->softDeletes();

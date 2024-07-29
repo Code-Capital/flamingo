@@ -180,11 +180,36 @@ class User extends Authenticatable
         return $this->hasMany(Page::class);
     }
 
+    // Pages Relationships
     public function joinedPages(): BelongsToMany
     {
         return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
-            ->withPivot('start_date', 'end_date', 'is_invited')
+            ->withPivot('start_date', 'end_date', 'is_invited', 'status')
             ->withTimestamps();
+    }
+
+    public function acceptedPages(): BelongsToMany
+    {
+        return $this->joinedPages()
+            ->wherePivot('status', StatusEnum::ACCEPTED->value);
+    }
+
+    public function pendingPages(): BelongsToMany
+    {
+        return $this->joinedPages()
+            ->wherePivot('status', StatusEnum::PENDING->value);
+    }
+
+    public function rejectedPages(): BelongsToMany
+    {
+        return $this->joinedPages()
+            ->wherePivot('status', StatusEnum::REJECTED->value);
+    }
+
+    public function invitedPages(): BelongsToMany
+    {
+        return $this->joinedPages()
+            ->wherePivot('is_invited', true);
     }
 
     // ======================================================================
