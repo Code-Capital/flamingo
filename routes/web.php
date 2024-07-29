@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -83,6 +84,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
 
+    Route::get('pages', [PageController::class, 'index'])->name('pages.index');
+    Route::get('pages/create', [PageController::class, 'create'])->name('pages.create');
+    Route::post('pages/store', [PageController::class, 'store'])->name('pages.store');
+    Route::get('pages/{page:slug}/edit', [PageController::class, 'edit'])->name('pages.edit');
+    Route::put('pages/{page:slug}/update', [PageController::class, 'update'])->name('pages.update');
+    Route::delete('pages/{page:slug}/delete', [PageController::class, 'destroy'])->name('pages.destroy');
+    Route::get('pages/joined', [PageController::class, 'joinedPages'])->name('pages.joined');
+
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
@@ -94,7 +103,7 @@ Route::middleware('auth')->group(function () {
     Route::view('pricing', 'test.pricing')->name('pricing');
 
     Route::view('confirmation', 'test.confirmation')->name('confirmation');
-    Route::view('marketplace', 'marketplace.index')->name('marketplace');
+    // Route::view('marketplace', 'marketplace.index')->name('marketplace');
     Route::view('products/create', 'product.create')->name('products.create');
 
     //    Route::get('/notifications', function () {

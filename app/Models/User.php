@@ -175,6 +175,18 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function pages(): HasMany
+    {
+        return $this->hasMany(Page::class);
+    }
+
+    public function joinedPages(): BelongsToMany
+    {
+        return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
+            ->withPivot('start_date', 'end_date', 'is_invited')
+            ->withTimestamps();
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -229,19 +241,39 @@ class User extends Authenticatable
         return $this->id === $event->user_id;
     }
 
+    public function getUsersWithSameInterests($limit = 10)
+    {
+        // Get the interest IDs of the current user
+        $interestIds = $this->interests()->pluck('interest_id');
+
+        // Return users who have the same interests, excluding the current user
+        return User::whereIn('id', function ($query) use ($interestIds) {
+            $query->select('user_id')
+                ->from('interest_user')
+                ->whereIn('interest_id', $interestIds);
+        })
+            ->where('id', '<>', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->distinct()
+            ->get();
+    }
+
+
+
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (! $search) {
+        if (!$search) {
             return $query;
         }
 
-        return $query->where('first_name', 'like', '%'.$search.'%')
-            ->orWhere('last_name', 'like', '%'.$search.'%')
-            ->orWhere('user_name', 'like', '%'.$search.'%')
-            ->orWhere('email', 'like', '%'.$search.'%');
+        return $query->where('first_name', 'like', '%' . $search . '%')
+            ->orWhere('last_name', 'like', '%' . $search . '%')
+            ->orWhere('user_name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%');
     }
 
     public function scopeByInterests($query, array $interests = [])

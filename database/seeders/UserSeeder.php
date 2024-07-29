@@ -13,21 +13,31 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $simpleUser = User::factory()->create([
+            'first_name' => 'Administator',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'),
+            'user_name' => 'admin',
+            'about' => null,
+            'is_private' => false,
+        ]);
+
         // Create an admin user
-        $admin = User::factory()->create([
+        $simpleUser = User::factory()->create([
             'first_name' => 'Test User',
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'),
             'user_name' => 'tester',
-            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry.  Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been;',
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
         ]);
-        $admin->assignRole('admin');
+        $simpleUser->assignRole('user');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $admin->interests()->attach($interests);
+        $simpleUser->interests()->attach($interests);
 
         $users = User::inRandomOrder()->take(rand(1, 500))->get();
-        $admin->friends()->attach($users, ['status' => 'accepted']);
+        $simpleUser->friends()->attach($users, ['status' => 'accepted']);
 
         // Create 10 regular users and attach random interests
         User::factory(100)->create()->each(function ($user) {

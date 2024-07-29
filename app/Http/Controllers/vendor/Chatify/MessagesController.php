@@ -48,9 +48,9 @@ class MessagesController extends Controller
     {
         $user = Auth::user();
         $messenger_color = $user->messenger_color;
-            $id = $id ?? 0;
-            $messengerColor = $messenger_color ? $messenger_color : Chatify::getFallbackColor();
-            $dark_mode = $user->dark_mode < 1 ? 'light' : 'dark';
+        $id = $id ?? 0;
+        $messengerColor = $messenger_color ? $messenger_color : Chatify::getFallbackColor();
+        $dark_mode = $user->dark_mode < 1 ? 'light' : 'dark';
 
         return view('Chatify::pages.app', get_defined_vars());
     }

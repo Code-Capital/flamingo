@@ -173,32 +173,35 @@
                 <div class="bg-white p-4 dashboardCard ">
                     <h5>People you may know</h5>
                     <div class="list">
-                        <div class="singlePerson py-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatarWrapper">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="image position-relative">
-                                            <img src="assets/profile.png">
-                                            <span class="position-absolute"></span>
-                                        </div>
-
-                                        <div class="details">
-                                            <span class="d-block">Muhammad Asad</span>
-                                            <span class="d-block">Designer</span>
+                        @forelse ($peoples as $user)
+                            <div class="singlePerson py-2">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="avatarWrapper">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="image position-relative">
+                                                <img src="assets/profile.png">
+                                                <span class="position-absolute"></span>
+                                            </div>
+                                            <div class="details">
+                                                <span class="d-block">{{ $user->full_name }}</span>
+                                                <span class="d-block">{{ $user->designation }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="buttonWrapper">
-                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                            class="text-decoration-none">
-                                            <img src="assets/icon7.svg">
-                                        </a>
-                                        <span class="d-block">Join</span>
+                                    <div class="buttonWrapper">
+                                        <div class="d-flex align-items-center gap-1 flex-column">
+                                            <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
+                                                class="text-decoration-none">
+                                                <img src="assets/icon7.svg">
+                                            </a>
+                                            <span class="d-block">Join</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @empty
+                            <x-no-data-found />
+                        @endforelse
                     </div>
                     <h5 class="mb-0 mt-3">See more...</h5>
                 </div>

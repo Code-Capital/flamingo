@@ -21,7 +21,7 @@ class PostController extends Controller
         $friends = $user->acceptedFriends->pluck('id');
 
         // Fetch posts by the authenticated user and their friends
-        $feeds = Post::whereIn('user_id', $friends->push($user->id)) // Include own posts and friends' posts
+        $feeds = Post::whereIn('user_id', $friends->push($user->id))
             ->byPublished()
             ->byPublic()
             ->with([
@@ -36,7 +36,12 @@ class PostController extends Controller
             ->latest()
             ->paginate(getPaginated());
 
-        // dd($feeds[1]->toArray());
+        $interests = $user->interests()->pluck('interest_id')->toArray();
+
+        $peoples = $user->byInterests($interests)
+            ->byNotUser($user->id)
+            ->limit(10)
+            ->get();
 
         return view('user.feed', get_defined_vars());
     }
@@ -54,7 +59,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
