@@ -153,7 +153,7 @@
                         </div>
                     @endforelse
 
-                    <div class="mt-3 d-flex justify-content-center">
+                    <div class="paginator ms-auto mt-4">
                         {{ $feeds->links() }}
                     </div>
                 </div>

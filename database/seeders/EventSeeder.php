@@ -27,6 +27,11 @@ class EventSeeder extends Seeder
                     'status' => $this->randomStatus(), // Assign random status to the pivot table
                 ]);
             }
+
+            $event->posts()->create([
+                'user_id' => $event->user_id,
+                'body' => 'Welcome to ' . $event->name . ' event',
+            ]);
         });
     }
 

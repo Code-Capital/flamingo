@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('body');
-            $table->boolean('is_private')->default(true);
+            $table->boolean('is_private')->default(false);
             $table->boolean('published')->default(true);
             $table->timestamps();
             $table->softDeletes();

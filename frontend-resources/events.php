@@ -40,24 +40,13 @@
                         <div class="bg-white p-4 dashboardCard">
                             <nav class="mb-0">
                                 <div class="nav nav-tabs border-0 mb-0" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="Info-tab" data-bs-toggle="tab"
-                                            data-bs-target="#Info" type="button" role="tab" aria-controls="Info"
-                                            aria-selected="true"><span class="px-1 px-md-2 px-lg-3">About</span></button>
-                                    <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab"
-                                            data-bs-target="#Photos" type="button" role="tab"
-                                            aria-controls="Photos" aria-selected="false"><span
-                                            class="px-1 px-md-2 px-lg-3">Posts</span></button>
-                                    <button class="nav-link" id="Friends-tab" data-bs-toggle="tab"
-                                            data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends"
-                                            aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Members</span>
+                                    <button class="nav-link active" id="Info-tab" data-bs-toggle="tab" data-bs-target="#Info" type="button" role="tab" aria-controls="Info" aria-selected="true"><span class="px-1 px-md-2 px-lg-3">About</span></button>
+                                    <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab" data-bs-target="#Photos" type="button" role="tab" aria-controls="Photos" aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Posts</span></button>
+                                    <button class="nav-link" id="Friends-tab" data-bs-toggle="tab" data-bs-target="#Friends" type="button" role="tab" aria-controls="Friends" aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Members</span>
                                     </button>
-                                    <button class="nav-link" id="Requests-tab" data-bs-toggle="tab"
-                                            data-bs-target="#Requests" type="button" role="tab" aria-controls="Requests"
-                                            aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Invite Requests</span>
+                                    <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests" type="button" role="tab" aria-controls="Requests" aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Invite Requests</span>
                                     </button>
-                                    <button class="nav-link" id="Profile-tab" data-bs-toggle="tab"
-                                            data-bs-target="#Profile" type="button" role="tab" aria-controls="Profile"
-                                            aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Profile</span>
+                                    <button class="nav-link" id="Profile-tab" data-bs-toggle="tab" data-bs-target="#Profile" type="button" role="tab" aria-controls="Profile" aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Profile</span>
                                     </button>
                                 </div>
                             </nav>
@@ -65,8 +54,7 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="tab-content p-0 border-0" id="nav-tabContent">
-                            <div class="tab-pane fade active show" id="Info" role="tabpanel"
-                                 aria-labelledby="Info-tab">
+                            <div class="tab-pane fade active show" id="Info" role="tabpanel" aria-labelledby="Info-tab">
                                 <div class="row mx-0">
                                     <div class="col-lg-8 ps-0 ps-md-0 ps-lg-auto pe-0 pe-md-0 pe-lg-2 mb-3">
                                         <div class="bg-white p-4 dashboardCard">
@@ -131,9 +119,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -158,9 +144,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -185,9 +169,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -212,9 +194,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -239,9 +219,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -266,9 +244,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -293,9 +269,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -320,9 +294,7 @@
                                                         </div>
                                                         <div class="buttonWrapper">
                                                             <div class="d-flex align-items-center gap-1 flex-column">
-                                                                <a data-bs-toggle="modal"
-                                                                   data-bs-target="#joinCommunity"
-                                                                   class="text-decoration-none">
+                                                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                                                     <img src="assets/icon7.svg">
                                                                 </a>
                                                                 <span class="d-block">Join</span>
@@ -342,8 +314,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="Photos" role="tabpanel"
-                                 aria-labelledby="Photos-tab">
+                            <div class="tab-pane fade" id="Photos" role="tabpanel" aria-labelledby="Photos-tab">
                                 <div class="bg-white p-4 dashboardCard">
                                     <div class="gallery">
                                         <h5 class="gallery-heading pb-4 mb-0">Posts</h5>
@@ -411,8 +382,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -427,8 +397,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -443,8 +412,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -459,8 +427,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -475,8 +442,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -491,8 +457,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -507,8 +472,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -523,8 +487,7 @@
                                                             <span class="d-block">Designer</span>
                                                         </div>
                                                     </div>
-                                                    <h6 class="mb-0"><a class="text-decoration-none"
-                                                                        href="">Remove</a>
+                                                    <h6 class="mb-0"><a class="text-decoration-none" href="">Remove</a>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -550,11 +513,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -569,11 +529,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -588,11 +545,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -607,11 +561,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -626,11 +577,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -645,11 +593,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/done.svg"></a>
-                                                        <a class="text-decoration-none" href=""><img
-                                                                    src="assets/trash.svg"
-                                                                    alt=""></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/done.svg"></a>
+                                                        <a class="text-decoration-none" href=""><img src="assets/trash.svg" alt=""></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -659,25 +604,24 @@
                             </div>
                             <div class="tab-pane fade" id="Profile" role="tabpanel" aria-labelledby="Profile-tab">
                                 <div class="bg-white p-4 dashboardCard">
-<!--                                    <div class="row mx-0">-->
-<!--                                        <div class="col-lg-12">-->
-<!--                                            <div class="heading pb-4">Requests to join <span>(16)</span></div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="row mx-0">-->
+                                    <!--                                        <div class="col-lg-12">-->
+                                    <!--                                            <div class="heading pb-4">Requests to join <span>(16)</span></div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
                                     <div class="profile">
                                         <div class="profile_upload">
                                             <div class="avatar-upload">
                                                 <div class="avatar-edit">
                                                     <form action="" method="post" id="form-image">
-                                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"/>
+                                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
                                                         <label for="imageUpload">
                                                             <img src="assets/icon16.svg">
                                                         </label>
                                                     </form>
                                                 </div>
                                                 <div class="avatar-preview">
-                                                    <img class="profile-user-img img-responsive img-circle" id="imagePreview"
-                                                         src="assets/profile.png" alt="User profile picture">
+                                                    <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="assets/profile.png" alt="User profile picture">
                                                 </div>
                                             </div>
                                         </div>
@@ -686,8 +630,7 @@
                                                 <div class="profileForm bg-white p-3 p-md-3 p-lg-4">
                                                     <div class="form-group mb-3">
                                                         <label class="mb-1 d-flex align-items-center justify-content-between">
-                                                            <span>Name</span><span class="d-flex align-items-center gap-2"><img
-                                                                        src="assets/icon11.svg" alt="">Public</span>
+                                                            <span>Name</span><span class="d-flex align-items-center gap-2"><img src="assets/icon11.svg" alt="">Public</span>
                                                         </label>
                                                         <div class="form-control form-control-lg">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -698,8 +641,7 @@
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label class="mb-1 d-flex align-items-center justify-content-between">
-                                                            <span>Phone</span><span class="d-flex align-items-center gap-2"><img
-                                                                        src="assets/icon11.svg" alt="">Public</span>
+                                                            <span>Phone</span><span class="d-flex align-items-center gap-2"><img src="assets/icon11.svg" alt="">Public</span>
                                                         </label>
                                                         <div class="form-control form-control-lg">
                                                             <div class="d-flex align-items-center justify-content-between">

@@ -32,7 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
-
     Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
@@ -40,14 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('feed', [PostController::class, 'index'])->name('feed');
     Route::get('profile/{user:user_name}/feed', [PostController::class, 'show'])->name('user.feed.show');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
-
     Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
     Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
     Route::post('reply/{comment}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
     Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
     Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
-
+    Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
     Route::put('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');
     Route::delete('/friend/{user}/remove', [UserController::class, 'removeFriend'])->name('friend.remove');
 
@@ -64,17 +62,15 @@ Route::middleware('auth')->group(function () {
     Route::put('events/{event:slug}/update', [EventController::class, 'update'])->name('events.update');
     Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
     Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
-
     Route::get('joined/events', [EventController::class, 'joinedEvents'])->name('events.joined');
     Route::get('joined/events/{event:slug}/show', [EventController::class, 'show'])->name('joined.events.show');
     Route::post('/events/{event:slug}/close', [EventController::class, 'eventClose'])->name('events.close');
-
-    // In routes/web.php or routes/api.php
     Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
     Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
     Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
 
+    // announcment
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
     Route::get('announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
     Route::post('announcements/store', [AnnouncementController::class, 'store'])->name('announcements.store');
@@ -82,29 +78,32 @@ Route::middleware('auth')->group(function () {
     Route::put('announcements/{announcement:slug}/update', [AnnouncementController::class, 'update'])->name('announcements.update');
     Route::delete('announcements/{announcements}/delete', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 
-    Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
-
+    // pages
     Route::get('pages', [PageController::class, 'index'])->name('pages.index');
     Route::get('pages/create', [PageController::class, 'create'])->name('pages.create');
     Route::post('pages/store', [PageController::class, 'store'])->name('pages.store');
+    Route::get('pages/{page:slug}/show', [PageController::class, 'show'])->name('pages.show');
     Route::get('pages/{page:slug}/edit', [PageController::class, 'edit'])->name('pages.edit');
     Route::put('pages/{page:slug}/update', [PageController::class, 'update'])->name('pages.update');
     Route::delete('pages/{page:slug}/delete', [PageController::class, 'destroy'])->name('pages.destroy');
     Route::get('pages/joined', [PageController::class, 'joinedPages'])->name('pages.joined');
+    Route::get('search/pages', [PageController::class, 'pagesearch'])->name('search.pages');
+    Route::post('/pages/{page}/post/store', [PageController::class, 'eventPost'])->name('pages.post.store');
+    Route::post('/search/user/owners', [PageController::class, 'searchOwnersForPage'])->name('search.users.page.owners');
+    Route::post('/invite/send', [PageController::class, 'sendJoiningInvite'])->name('page.invite.sent');
 
+    // extra routes
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
     Route::view('shop', 'user.shop')->name('shop');
-    // Route::view('visitors', 'user.visitors')->name('visitors');
-
+    Route::view('visitors', 'user.visitors')->name('visitors');
     Route::view('logs', 'test.logs')->name('logs');
     Route::view('billing', 'test.billing')->name('billing');
     Route::view('pricing', 'test.pricing')->name('pricing');
-
     Route::view('confirmation', 'test.confirmation')->name('confirmation');
-    // Route::view('marketplace', 'marketplace.index')->name('marketplace');
     Route::view('products/create', 'product.create')->name('products.create');
+    Route::view('marketplace', 'marketplace.index')->name('marketplace');
 
     //    Route::get('/notifications', function () {
     //        $user = auth()->user();

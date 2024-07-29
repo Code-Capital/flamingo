@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Page extends Model
 {
@@ -42,24 +45,32 @@ class Page extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'page_user', 'page_id', 'user_id')
             ->withPivot('start_date', 'end_date', 'is_invited')
             ->withTimestamps();
     }
 
-    public function isMainOwner()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function interests()
+    public function interests(): BelongsToMany
     {
         return $this->belongsToMany(Interest::class, 'page_interest', 'page_id', 'interest_id')
             ->withTimestamps();
     }
 
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function pendingUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'page_user', 'page_id', 'user_id')
+            ->wherePivot('is_invited', true)
+            ->wherePivot('status', StatusEnum::PENDING->value)
+            ->withPivot('start_date', 'end_date', 'is_invited')
+            ->withTimestamps();
+    }
 
     // ======================================================================
     // Accessors
@@ -88,10 +99,24 @@ class Page extends Model
         return $this->is_private ? true : false;
     }
 
+    public function isMainOwner($user)
+    {
+        return $this->user_id === $user->id;
+    }
+
+
 
     // ======================================================================
     // Scopes
     // ======================================================================
+    public function scopeBySearch($query, $search = null)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
+        });
+    }
+
     public function scopeByInterests($query, array $interests = [])
     {
         return $query->when($interests, function ($q) use ($interests) {
@@ -99,5 +124,10 @@ class Page extends Model
                 $q->whereIn('interest_id', $interests);
             });
         });
+    }
+
+    public function scopeByNotUser($query, $userId)
+    {
+        return $query->where('user_id', '!=', $userId);
     }
 }

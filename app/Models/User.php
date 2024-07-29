@@ -175,12 +175,12 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    // Pages Relationships
     public function pages(): HasMany
     {
         return $this->hasMany(Page::class);
     }
 
-    // Pages Relationships
     public function joinedPages(): BelongsToMany
     {
         return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
@@ -285,20 +285,18 @@ class User extends Authenticatable
     }
 
 
-
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (!$search) {
-            return $query;
-        }
 
-        return $query->where('first_name', 'like', '%' . $search . '%')
-            ->orWhere('last_name', 'like', '%' . $search . '%')
-            ->orWhere('user_name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+        return $query->when($search, function ($query) use ($search) {
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        });
     }
 
     public function scopeByInterests($query, array $interests = [])

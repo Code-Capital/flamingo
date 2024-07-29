@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->default('avatars/avatar.png')->after('email');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->foreignId('page_id')->nullable()->after('event_id')->constrained('pages')->onDelete('set null');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('avatar');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('page_id');
         });
     }
 };

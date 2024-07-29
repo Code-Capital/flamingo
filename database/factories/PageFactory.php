@@ -24,6 +24,8 @@ class PageFactory extends Factory
             'slug' => Str::slug($title),
             'description' => $this->faker->paragraph,
             'is_private' => $this->faker->boolean,
+            'cover_image' => null,
+            'profile_image' => null,
             'user_id' => User::role('user')->inRandomOrder()->first()->id,
         ];
     }

@@ -19,6 +19,8 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
+        'event_id',
+        'page_id',
         'user_id',
         'body',
         'is_private',
@@ -68,6 +70,11 @@ class Post extends Model
         return $this->belongsTo(Event::class);
     }
 
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -87,7 +94,7 @@ class Post extends Model
     {
         $user = auth()->user();
 
-        if (! $user) {
+        if (!$user) {
             return false; // If user is not authenticated, return false
         }
 
@@ -130,5 +137,25 @@ class Post extends Model
     public function scopeByUsers($query, $users)
     {
         return $query->whereIn('user_id', $users->pluck('id'));
+    }
+
+    public function scopeByPage($query, $page)
+    {
+        return $query->where('page_id', $page->id);
+    }
+
+    public function scopeByNotPage($query)
+    {
+        return $query->whereNull('page_id');
+    }
+
+    public function scopeByEvent($query, $event)
+    {
+        return $query->where('event_id', $event->id);
+    }
+
+    public function scopeByNotEvent($query)
+    {
+        return $query->whereNull('event_id');
     }
 }
