@@ -3,6 +3,44 @@
     let likeImage = "{{ asset('assets/like.svg') }}";
     let errorMessage = 'Error Occured! Please try again.';
 
+    let fileInput = $('input[type="file"]');
+
+
+    $('.img-upload').click(function() {
+        fileInput.click();
+    });
+
+
+    fileInput.change(function(event) {
+        const files = event.target.files;
+        const container = $('.file-container');
+        container.empty(); // Clear previous previews
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            // Check if the file type is an image
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = $('<img>').attr('src', e.target.result);
+                    const fileItem = $('<div>').addClass('file-item p-1');
+                    fileItem.append(img);
+                    container.append(fileItem);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Handle non-image files (e.g., display file name)
+                const fileItem = $('<div>').addClass('file-item p-1');
+                const fileType = $('<span>').text(file.type);
+                const fileName = $('<span>').text(file.name);
+                fileItem.append(fileType).append(fileName);
+                container.append(fileItem);
+            }
+        }
+    });
+
+
     $('body').on('submit', '.ajax-comment-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
@@ -101,21 +139,21 @@
 
     function generateCommentHtml(comment) {
         return `
-                    <div class="commentbox p-3 mt-2">
-                        <div class="d-flex align-items-start gap-2">
-                            <img class="rounded-circle" src="${comment.user.avatar_url}">
-                            <div class="content">
-                                <h5 class="mb-1">${comment.user.full_name}</h5>
-                                <p class="mb-3">${comment.body}</p>
-                                <div class="d-flex align-items-center gap-3">
-                                    <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
-                                    <a class="text-decoration-none" href="javascript:void(0)">Like</a>
-                                    <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
-                                </div>
+                <div class="commentbox p-3 mt-2">
+                    <div class="d-flex align-items-start gap-2">
+                        <img class="rounded-circle" src="${comment.user.avatar_url}">
+                        <div class="content">
+                            <h5 class="mb-1">${comment.user.full_name}</h5>
+                            <p class="mb-3">${comment.body}</p>
+                            <div class="d-flex align-items-center gap-3">
+                                <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
+                                <a class="text-decoration-none" href="javascript:void(0)">Like</a>
+                                <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
     }
 
     $('body').on('submit', '.ajax-like-form', function(event) {

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -45,6 +46,11 @@ class Page extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'page_user', 'page_id', 'user_id')
@@ -70,6 +76,11 @@ class Page extends Model
             ->wherePivot('status', StatusEnum::PENDING->value)
             ->withPivot('start_date', 'end_date', 'is_invited')
             ->withTimestamps();
+    }
+
+    public function acceptedUsers(): BelongsToMany
+    {
+        return $this->users()->wherePivot('status', StatusEnum::ACCEPTED->value);
     }
 
     // ======================================================================

@@ -82,6 +82,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
     <script src="{{ asset('js/toastr.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    @include('layouts.common-scripts')
+
     <script>
         $("#imageUpload").change(function() {
             const fileName = this.files[0]?.name; // Get the first selected file's name

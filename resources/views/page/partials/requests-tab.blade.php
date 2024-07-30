@@ -2,7 +2,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Requests to join <span>(16)</span></div>
+                <div class="heading pb-4">Invite Member</div>
             </div>
         </div>
         <div class="row mx-0">
@@ -27,6 +27,7 @@
             </div>
 
             <div class="user-container row" id="searchOwnersContainer">
+                <x-no-data-found />
             </div>
         </div>
     </div>

@@ -48,40 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 ps-0 ps-md-0 ps-lg-2 pe-0 pe-md-0 pe-lg-auto mb-3">
-                                <div class="bg-white p-4 dashboardCard ">
-                                    <h5>People you may know</h5>
-                                    <div class="list">
-                                        <div class="singlePerson py-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="avatarWrapper">
-                                                    <div class="d-flex align-items-center gap-3">
-                                                        <div class="image position-relative">
-                                                            <img src=" {{ asset('assets/profile.png') }} ">
-                                                            <span class="position-absolute"></span>
-                                                        </div>
-
-                                                        <div class="details">
-                                                            <span class="d-block">Muhammad Asad</span>
-                                                            <span class="d-block">Designer</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="buttonWrapper">
-                                                    <div class="d-flex align-items-center gap-1 flex-column">
-                                                        <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                                            class="text-decoration-none">
-                                                            <img src=" {{ asset('assets/icon7.svg') }} ">
-                                                        </a>
-                                                        <span class="d-block">Join</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="mb-0 mt-3">See more...</h5>
-                                </div>
-                            </div>
+                            <x-people-with-same-interest :peoples="$peoples" />
                         </div>
                     </div>
                     <div class="tab-pane fade" id="Photos" role="tabpanel" aria-labelledby="Photos-tab">

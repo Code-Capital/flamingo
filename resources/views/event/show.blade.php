@@ -77,9 +77,7 @@
             let pendingRequestContainer = $('.pending-request-container');
 
             let fileInput = $('input[type="file"]');
-            let likedImage = "{{ asset('assets/icon12.svg') }}";
-            let likeImage = "{{ asset('assets/like.svg') }}";
-            let errorMessage = 'Error Occured! Please try again.';
+            
 
             $('.img-upload').click(function() {
                 fileInput.click();

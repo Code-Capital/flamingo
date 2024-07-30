@@ -38,6 +38,9 @@ class User extends Authenticatable
         'country',
         'state',
         'bio',
+        'active_status',
+        'dark_mode',
+        'messenger_color',
     ];
 
     protected $appends = [

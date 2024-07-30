@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Interest;
+use App\Enums\StatusEnum;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
@@ -75,8 +77,21 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $page->load('interests', 'posts', 'posts.media', 'posts.user');
-        $posts = $page->posts()->paginate(getPaginated());
-        $JoinedUsers = $page->users()->paginate(getPaginated());
+        $posts = $page->posts()
+            ->byPublished()
+            ->byPublic()
+            ->with([
+                'user',
+                'media',
+                'likes',
+                'comments' => function ($query) {
+                    $query->withCount(['replies']);
+                }, 'comments.user', 'comments.replies',
+            ])
+            ->withCount(['comments', 'likes'])
+            ->latest()
+            ->paginate(getPaginated());
+        $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated());
         return view('page.show', get_defined_vars());
     }
 
@@ -211,14 +226,22 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $searchTerm = $request->input('q', '');
-        $users = User::bySearch($searchTerm)->byNotUser($user->id)->get();
-        $pageId = Page::where('id', $request->page_id)->first();
+        $users = User::role('user')->bySearch($searchTerm)->byNotUser($user->id)->with('joinedPages')->get();
+        // dd($users->toArray());
+        $page = Page::where('id', $request->page_id)->first();
+
+        if (!$user || !$page) {
+            return $this->sendErrorResponse('Error occured while processing');
+        }
         $doneIcon = asset('assets/done.svg');
-        $trashIcon = asset('assets/trash.svg');
         $html = '';
+
         foreach ($users as $user) {
+            // Check if the user is already associated with the page
+            $isAssociated = $user->joinedPages()->where('pages.id', $page->id)->exists();
+            // Generate HTML based on association status
             $html .= '
-                <div class="col-lg-6 mb-3">
+                <div class="col-lg-6 mb-3 ">
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
@@ -227,10 +250,12 @@ class PageController extends Controller
                                     <span class="d-block">' . $user->full_name . '</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <a class="text-decoration-none send-invitation" data-page="' . $pageId->id . '"  data-user="' . $user->id . '" href="javascript:void(0)">
+                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
+                                ' . (!$isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
                                     <img src="' . $doneIcon . '">
-                                    </a>
+                                </a>
+                                ' : '<span class="small text-muted"> Invite sent </span>') . '
                             </div>
                         </div>
                     </div>
@@ -244,11 +269,60 @@ class PageController extends Controller
     {
         $page = Page::where('id', $request->page_id)->first();
         $user = User::where('id', $request->user_id)->first();
+
+        if (!$user || !$page) {
+            return $this->sendErrorResponse('Error occured while processing');
+        }
+
         $page->users()->attach($user->id, [
             'status' => 'pending',
             'start_date' => now(),
             'is_invited' => true,
         ]);
+
+        $pageOwner = $page->owner;
+
+        $user->notifications()->create([
+            'type' => 'invitation',
+            'data' => json_encode([
+                'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
+                'user_id' => $user->id,
+                'page_id' => $page->id,
+                'page_owner_id' => $pageOwner->id,
+            ]),
+        ]);
         return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+    }
+
+    public function receivedJoiningInvites()
+    {
+        $user = Auth::user();
+        $pages = $user->pendingPages()->paginate(getPaginated());
+        return view('page.invites', get_defined_vars());
+    }
+
+    public function accept(Page $page)
+    {
+        $page->users()->updateExistingPivot(Auth::id(), ['status' => StatusEnum::ACCEPTED->value]);
+        return $this->sendSuccessResponse($page, 'Invite accepted successfully');
+    }
+
+    public function reject(Page $page)
+    {
+        $page->users()->updateExistingPivot(Auth::id(), [
+            'status' => StatusEnum::REJECTED->value,
+            'end_date' => now(),
+        ]);
+        return $this->sendSuccessResponse($page, 'Invite rejected successfully');
+    }
+
+    public function removeMemeber(Request $request, Page $page)
+    {
+        try {
+            $page->users()->detach($request->user_id);
+            return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+        }
     }
 }

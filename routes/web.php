@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
+    Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
+
     Route::get('messages', [MessagesController::class, 'index'])->name('messages');
 
     // events
@@ -87,10 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::put('pages/{page:slug}/update', [PageController::class, 'update'])->name('pages.update');
     Route::delete('pages/{page:slug}/delete', [PageController::class, 'destroy'])->name('pages.destroy');
     Route::get('pages/joined', [PageController::class, 'joinedPages'])->name('pages.joined');
+    Route::get('pages/joined/{page:slug}/show', [PageController::class, 'show'])->name('join.page.show');
     Route::get('search/pages', [PageController::class, 'pagesearch'])->name('search.pages');
-    Route::post('/pages/{page}/post/store', [PageController::class, 'eventPost'])->name('pages.post.store');
+    Route::post('/pages/{page}/post/store', [PageController::class, 'pagePost'])->name('pages.post.store');
     Route::post('/search/user/owners', [PageController::class, 'searchOwnersForPage'])->name('search.users.page.owners');
     Route::post('/invite/send', [PageController::class, 'sendJoiningInvite'])->name('page.invite.sent');
+    Route::get('invite/received', [PageController::class, 'receivedJoiningInvites'])->name('page.invite.received');
+    Route::post('/accept-invite/{page}', [PageController::class, 'accept'])->name('page.invite.accept');
+    Route::post('/reject-invite/{page}', [PageController::class, 'reject'])->name('page.invite.reject');
+    Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
 
     // extra routes
     Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');

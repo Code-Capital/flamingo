@@ -24,7 +24,7 @@
                             @if ($page->isMainOwner($user))
                                 <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
                                     type="button" role="tab" aria-controls="Requests" aria-selected="false"><span
-                                        class="px-1 px-md-2 px-lg-3">Invite Requests</span>
+                                        class="px-1 px-md-2 px-lg-3">Send Invite Requests</span>
                                 </button>
                             @endif
                         </div>
@@ -89,15 +89,19 @@
                         page_id: pageId
                     },
                     success: function(response) {
-                        btn.closest('.user-container').remove();
+                        btn.closest('.invite-send-' + userId).remove();
                         if (response.success) {
                             toastr.success(response.message);
                             newNotificationSound();
+                        } else {
+                            toastr.error(response.message);
+                            errorNotificationSound();
                         }
                     },
                     error: function(error) {
-                        console.log(error);
-                        toastr.success(error);
+                        console.log(error.message);
+                        toastr.success(error.message);
+                        errorNotificationSound();
                     }
                 });
                 // $.ajax({
@@ -112,6 +116,42 @@
                 // });
             });
 
+            body.on('click', '.remove-member', function(e) {
+                e.preventDefault();
+                let userId = $(this).data('user');
+                let pageId = $(this).data('page');
+                let url = "{{ route('page.member.remove', ':id') }}".replace(':id', pageId);
+                let csrf = '{{ csrf_token() }}';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        _token: csrf,
+                        user_id: userId,
+                    },
+                    success: function(response) {
+                        console.log('.member-' + userId)
+                        if (response.success) {
+                            newNotificationSound();
+                            toastr.success(response.message);
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error.message);
+                        toastr.success(error.message);
+                        errorNotificationSound();
+                    }
+                });
+            });
+
         });
     </script>
+
+
 @endsection

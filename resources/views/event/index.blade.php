@@ -22,7 +22,7 @@
                             <x-no-data-found />
                         @endforelse
                     </div>
-                    <div class="paginator bg-light p-2">
+                    <div class="paginator p-2">
                         {{ $events->onEachSide(2)->links() }}
                     </div>
                 </div>

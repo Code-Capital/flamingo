@@ -103,4 +103,15 @@ class UserController extends Controller
 
         return $this->sendSuccessResponse(null, 'Media uploaded successfully', Response::HTTP_CREATED);
     }
+
+    public function peopleWithSameInterest(): View
+    {
+        $user = Auth::user();
+        $peoples = $user->byInterests($user->interests->pluck('id')->toArray())
+            ->byNotUser($user->id)
+            ->limit(10)
+            ->paginate(getPaginated());
+
+        return view('user.people-with-same-interest', get_defined_vars());
+    }
 }

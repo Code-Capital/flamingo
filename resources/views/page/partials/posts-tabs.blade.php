@@ -59,7 +59,7 @@
                         <div class="post_gallery bg-light">
                             @forelse($post->media as $media)
                                 <div class="gallery__item gallery__item--hor">
-                                    <img src="{{ $media->file_path }}" alt="Post image">
+                                    <img src="{{ $media->file_path }}" alt="Post image" class="img-fluid">
                                 </div>
                             @empty
                             @endforelse

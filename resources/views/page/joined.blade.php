@@ -56,7 +56,7 @@
                                                     <span class="px-1 py-1 fw-bold bg-info text-white">Private</span>
                                                 </div>
                                             @endif
-                                            <a href="{{ route('pages.show', $page->slug) }}" class="text-decoration-none">
+                                            <a href="{{ route('join.page.show', $page->slug) }}" class="text-decoration-none">
                                                 <h5 class="mb-1">{{ $page->name }}</h5>
                                                 <p class="mb-2"> {{ limitString($page->description) }} </p>
                                                 <div class="owners">
@@ -88,7 +88,7 @@
                             <x-no-data-found />
                         @endforelse
                     </div>
-                    <div class="paginator bg-light p-2">
+                    <div class="paginator p-2">
                         {{ $pages->onEachSide(2)->links() }}
                     </div>
                 </div>
