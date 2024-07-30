@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
     Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
+    Route::post('/password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('feed', [PostController::class, 'index'])->name('feed');

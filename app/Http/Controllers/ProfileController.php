@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -93,5 +94,29 @@ class ProfileController extends Controller
             ->get();
 
         return view('profile.info', get_defined_vars());
+    }
+
+
+    /**
+     * Update the user's password.
+     */
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'current_password' => ['required', 'password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return Redirect::back()->with('error', 'The provided password does not match your current password');
+        }
+
+        $user = $request->user();
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('success', 'Password updated successfully');
     }
 }
