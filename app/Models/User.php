@@ -237,17 +237,19 @@ class User extends Authenticatable
     // ======================================================================
     public function updateAvatar($file): bool
     {
-        // Delete old image if it exists
         $path = 'public/avatars';
+
+        // Delete old image if it exists
         if ($this->avatar) {
-            Storage::disk($path)->delete($this->avatar);
+            Storage::delete($this->avatar);
         }
 
-        $path = Storage::putFile($path, $file);
+        // Store the new file and update the avatar column
+        $this->avatar = $file->store($path);
 
-        // Update the image column
-        return $this->update(['avatar' => $path]);
+        return $this->save();
     }
+
 
     public function isPrivate(): bool
     {
