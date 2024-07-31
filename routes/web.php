@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('feed', [PostController::class, 'index'])->name('feed');
     Route::get('profile/{user:user_name}/feed', [PostController::class, 'show'])->name('user.feed.show');
     Route::post('post', [PostController::class, 'store'])->name('post.store');
+    Route::delete('post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');
     Route::post('comment/{post}/store', [CommentController::class, 'store'])->name('comment.store');
     Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
     Route::post('reply/{comment}/store', [CommentReplyController::class, 'store'])->name('reply.store');

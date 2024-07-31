@@ -86,11 +86,33 @@
                                     <div class="details">
                                         <span class="d-block"> <a
                                                 href="{{ route('user.feed.show', $post->user->user_name) }}"
-                                                class="text-decoration-none">{{ $post->user->full_name }}</a></span>
+                                                class="text-decoration-none">
+                                                @if ($post->user_id == $user->id)
+                                                    You
+                                                @else
+                                                    {{ $post->user->full_name }}
+                                                @endif
+                                            </a>
+                                        </span>
                                         <span class="d-block">{{ $post->user->designation }}</span>
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
                                 </div>
+                                @if ($user->id == $post->user_id)
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0)" class="btn" id="postActions"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="{{ asset('assets/dropdown.svg') }}" alt="dropdown">
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="postActions">
+                                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                                            <li>
+                                                <a class="dropdown-item post-destroy" data-post="{{ $post->id }}"
+                                                    href="javascript::void(0)">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
                             <p class="detailsText">
                                 {{ $post->body }}
@@ -125,12 +147,9 @@
                             </div>
                         </div>
                         <div class="comments">
-                            <h5 class="py-3">Comments:</h5>
-                            <div class="comment-container-{{ $post->id }}">
-                                @if ($post->comments_count > 0)
-                                    @include('user.partials.comments', ['comments' => $post->comments])
-                                @endif
-                            </div>
+                            @if ($post->comments_count > 0)
+                                <h5 class="py-3">Comments:</h5>
+                            @endif
                             <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
                                 <form id="commentForm-{{ $post->id }}"
                                     action="{{ route('comment.store', $post->id) }}" method="POST"
@@ -142,6 +161,12 @@
                                     </button>
                                 </form>
                             </div>
+                            <div class="comment-container-{{ $post->id }}">
+                                @if ($post->comments_count > 0)
+                                    @include('user.partials.comments', ['comments' => $post->comments])
+                                @endif
+                            </div>
+
                         </div>
                     @empty
                         <div class="bg-white p-4 dashboardCard mt-4">
@@ -176,45 +201,12 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            let fileInput = $('input[type="file"]');
-            let likedImage = "{{ asset('assets/icon12.svg') }}";
-            let likeImage = "{{ asset('assets/like.svg') }}";
-            let errorMessage = 'Error Occured! Please try again.';
+            let body = $('body');
 
-            $('.img-upload').click(function() {
-                fileInput.click();
+            body.on('click', '.post-destroy', function() {
+                let id = $(this).data('post');
+                destroyPost(id);
             });
-
-            fileInput.change(function(event) {
-                const files = event.target.files;
-                const container = $('.file-container');
-                container.empty(); // Clear previous previews
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-
-                    // Check if the file type is an image
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = $('<img>').attr('src', e.target.result);
-                            const fileItem = $('<div>').addClass('file-item p-1');
-                            fileItem.append(img);
-                            container.append(fileItem);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        // Handle non-image files (e.g., display file name)
-                        const fileItem = $('<div>').addClass('file-item p-1');
-                        const fileType = $('<span>').text(file.type);
-                        const fileName = $('<span>').text(file.name);
-                        fileItem.append(fileType).append(fileName);
-                        container.append(fileItem);
-                    }
-                }
-            });
-
         });
     </script>
-    @include('event.partials.comment-scripts')
 @endsection

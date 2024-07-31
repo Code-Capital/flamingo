@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Interest;
+use App\Models\Post;
 use App\Models\User;
+use App\Models\Interest;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -41,6 +42,9 @@ class UserSeeder extends Seeder
         // Create 10 regular users and attach random interests
         User::factory(100)->create()->each(function ($user) {
             $user->assignRole('user');
+
+            // Create 10 posts for each user
+            $user->posts()->createMany(Post::factory(5)->make()->toArray());
 
             // Attach random interests
             $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests

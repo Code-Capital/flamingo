@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Visitor;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Eloquent\Casts\Json;
 
 class PostController extends Controller
 {
@@ -59,7 +61,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -111,5 +113,12 @@ class PostController extends Controller
             ->paginate(getPaginated());
 
         return view('user.feed', get_defined_vars());
+    }
+
+    public function destroy(Post $post): JsonResponse
+    {
+        $post->delete();
+
+        return $this->sendSuccessResponse('Post deleted successfully');
     }
 }

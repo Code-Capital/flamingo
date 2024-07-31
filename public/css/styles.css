@@ -1481,7 +1481,7 @@ body {
   font-weight: 300;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .noResult {
-  min-height: 420px;
+  min-height: 180px;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .noResult img {
   width: 96px;

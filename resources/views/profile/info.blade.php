@@ -98,9 +98,8 @@
                                                         tooltip="Block" href="javascript:void(0)">
                                                         <img src="{{ asset('assets/secure.svg') }} ">
                                                     </a>
-                                                    <a class="text-decoration-none unfriend"
-                                                        data-id="{{ $friend->id }}" tooltip="Unfriend"
-                                                        href="javascript:void(0)">
+                                                    <a class="text-decoration-none unfriend" data-id="{{ $friend->id }}"
+                                                        tooltip="Unfriend" href="javascript:void(0)">
                                                         <img src="{{ asset('assets/trash.svg') }} " alt="">
                                                     </a>
                                                 </div>
@@ -588,35 +587,6 @@
                         console.log(error);
                         errorNotificationSound();
                         toastr.error(error);
-                    }
-                });
-            }
-
-            function unfriendUser(id, button) {
-                $.ajax({
-                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
-                    type: 'DELETE',
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response.success == false) {
-                            toastr.error(response.message);
-                            errorNotificationSound();
-                            return false;
-                        }
-
-                        toastr.success(response.message);
-                        newNotificationSound();
-                        button.closest('.friend-request-' + id).fadeOut(300)
-                            .hide(); // Hide the parent element of the button
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                        errorNotificationSound();
                     }
                 });
             }

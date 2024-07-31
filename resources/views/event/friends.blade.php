@@ -49,36 +49,6 @@
                 let id = $(this).data('id');
                 unfriendUser(id, $(this));
             });
-
-            function unfriendUser(id, button) {
-                $.ajax({
-                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
-                    type: 'DELETE',
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response.success == false) {
-                            toastr.error(response.message);
-                            errorNotificationSound();
-                            return false;
-                        }
-
-                        toastr.success(response.message);
-                        newNotificationSound();
-                        button.closest('.friend-request-' + id).fadeOut(300)
-                            .hide(); // Hide the parent element of the button
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                        errorNotificationSound();
-                    }
-                });
-            }
-
         });
     </script>
 @endsection

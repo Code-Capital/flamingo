@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 if (! function_exists('getPaginated')) {
-    function getPaginated($limit = 5): int
+    function getPaginated($limit = 25): int
     {
         return $limit;
     }
