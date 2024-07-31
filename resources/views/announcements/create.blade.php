@@ -12,13 +12,29 @@
                     <div class="profileForm bg-white p-3 p-md-3 p-lg-5 mt-4">
                         <!-- Announcement Name and Announcement Location in a single row -->
                         <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="mb-1 required">
+                                        <span>Title</span>
+                                    </label>
+                                    <div class="form-control">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" name="title" type="text" value="{{ old('title') }}"
+                                                required>
+                                        </div>
+                                    </div>
+                                    @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label class="mb-1 required">
                                         <span>Start Datetime</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
+                                    <div class="form-control">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" name="start_date" type="date"
                                                 value="{{ old('start_date') }}" required>
@@ -35,7 +51,7 @@
                                     <label class="mb-1 required">
                                         <span>End Datetime</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
+                                    <div class="form-control">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" name="end_date" type="date"
                                                 value="{{ old('end_date') }}" required>
@@ -53,7 +69,7 @@
                                     <label class="mb-1">
                                         <span>Announcement Thumbanil</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
+                                    <div class="form-control">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" name="thumbnail" type="file" allow="images/*">
                                         </div>
@@ -70,7 +86,7 @@
                             <label class="mb-1 required">
                                 <span>Announcement Description</span>
                             </label>
-                            <div class="form-control form-control-lg">
+                            <div class="form-control">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <textarea rows="4" name="body" class="w-100" required
                                         placeholder="Describe the Announcement rules description">{{ old('description') }}</textarea>
@@ -90,7 +106,8 @@
                                 <select class="w-100 form-control form-select" name="status" required>
                                     <option value="">Please Select Status</option>
                                     <option value="0" @if (old('status') == 0) selected @endif>Draft</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>Publish</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>Publish
+                                    </option>
                                 </select>
                             </div>
                             @error('status')

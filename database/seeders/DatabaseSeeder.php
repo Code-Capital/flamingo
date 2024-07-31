@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             StateSeeder::class,
             UserSeeder::class,
-            // EventSeeder::class,
-            // AnnouncementSeeder::class,
-            // PostSeeder::class,
-            // PageSeeder::class,
+            EventSeeder::class,
+            AnnouncementSeeder::class,
+            PostSeeder::class,
+            PageSeeder::class,
         ]);
     }
 }

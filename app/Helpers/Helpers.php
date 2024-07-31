@@ -1,23 +1,25 @@
 <?php
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-if (! function_exists('getPaginated')) {
+if (!function_exists('getPaginated')) {
     function getPaginated($limit = 5): int
     {
         return $limit;
     }
 }
 
-if (! function_exists('limitString')) {
+if (!function_exists('limitString')) {
     function limitString($string, $limit = 100): string
     {
         return Str::limit($string, $limit, '...');
@@ -41,4 +43,15 @@ function getStatusCode(Throwable $e): int
     }
 
     return Response::HTTP_INTERNAL_SERVER_ERROR;
+}
+
+function getPeoples(User $user): Collection
+{
+    $interests = $user->interests()->pluck('interest_id')->toArray();
+
+    $peoples = $user->byInterests($interests)
+        ->byNotUser($user->id)
+        ->limit(10)
+        ->get();
+    return $peoples;
 }

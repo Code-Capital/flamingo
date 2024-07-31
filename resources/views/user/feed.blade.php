@@ -174,47 +174,4 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            let fileInput = $('input[type="file"]');
-            let likedImage = "{{ asset('assets/icon12.svg') }}";
-            let likeImage = "{{ asset('assets/like.svg') }}";
-            let errorMessage = 'Error Occured! Please try again.';
-
-            $('.img-upload').click(function() {
-                fileInput.click();
-            });
-
-            fileInput.change(function(event) {
-                const files = event.target.files;
-                const container = $('.file-container');
-                container.empty(); // Clear previous previews
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-
-                    // Check if the file type is an image
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = $('<img>').attr('src', e.target.result);
-                            const fileItem = $('<div>').addClass('file-item p-1');
-                            fileItem.append(img);
-                            container.append(fileItem);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        // Handle non-image files (e.g., display file name)
-                        const fileItem = $('<div>').addClass('file-item p-1');
-                        const fileType = $('<span>').text(file.type);
-                        const fileName = $('<span>').text(file.name);
-                        fileItem.append(fileType).append(fileName);
-                        container.append(fileItem);
-                    }
-                }
-            });
-
-        });
-    </script>
-    @include('event.partials.comment-scripts')
 @endsection

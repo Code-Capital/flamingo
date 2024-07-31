@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\AnnouncementController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\CommentReplyController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CommentReplyController;
+use App\Http\Controllers\NotificationController;
+use Chatify\Http\Controllers\MessagesController;
 
 require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -52,9 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
     Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
 
-    // Route::get('messages', [MessagesController::class, 'index'])->name('messages');
-
-    Route::get('messages', [ChatController::class, 'index'])->name('messages');
+    Route::get('messages', [MessagesController::class, 'index'])->name('messages');
+    // Route::get('messages', [ChatController::class, 'index'])->name('messages');
 
     // events
     Route::get('events', [EventController::class, 'index'])->name('events.index');
@@ -101,7 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
 
     // extra routes
-    Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
+    // Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
     Route::view('suggestions', 'user.suggestions')->name('suggestions');
     Route::view('settings', 'user.settings')->name('settings');
     Route::view('shop', 'user.shop')->name('shop');

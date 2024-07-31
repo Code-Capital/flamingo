@@ -30,7 +30,8 @@
                     </div>
                 </div>
             @empty
-                <x-no-data-found />
+                <div class="text-danger text-center">No Data Found</div>
+                {{-- <x-no-data-found /> --}}
             @endforelse
         </div>
         <h5 class="mb-0 mt-3"><a href="{{ route('people.with.same.interest') }}" class="text-decoration-none">See all...</a> </h5>

@@ -14,8 +14,8 @@ class PageSeeder extends Seeder
      */
     public function run(): void
     {
-        Page::factory()->count(100)->create()->each(function ($page) {
-            $users = User::role('user')->inRandomOrder()->take(rand(1, 10))->get();
+        Page::factory()->count(10)->create()->each(function ($page) {
+            $users = User::role('user')->inRandomOrder()->take(rand(1, 3))->get();
             foreach ($users as $user) {
                 $page->users()->attach($user->id, [
                     'status' => 'accepted',
@@ -25,7 +25,7 @@ class PageSeeder extends Seeder
                 ]);
             }
 
-            $Interets = Interest::inRandomOrder()->take(rand(1, 10))->get();
+            $Interets = Interest::inRandomOrder()->take(rand(1, 3))->get();
             foreach ($Interets as $interest) {
                 $page->interests()->attach($interest->id);
             }

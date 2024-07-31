@@ -36,12 +36,7 @@ class PostController extends Controller
             ->latest()
             ->paginate(getPaginated());
 
-        $interests = $user->interests()->pluck('interest_id')->toArray();
-
-        $peoples = $user->byInterests($interests)
-            ->byNotUser($user->id)
-            ->limit(10)
-            ->get();
+        $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
     }
@@ -86,7 +81,6 @@ class PostController extends Controller
         $currentUser = Auth::user();
 
         if ($currentUser && $currentUser->id !== $user->id) {
-            // Record the visit
             Visitor::updateOrCreate(
                 [
                     'visitor_id' => $currentUser->id,
@@ -109,6 +103,8 @@ class PostController extends Controller
             ->withCount(['comments', 'likes'])
             ->latest()
             ->paginate(getPaginated());
+
+        $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
     }

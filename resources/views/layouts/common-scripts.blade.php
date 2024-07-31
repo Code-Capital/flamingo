@@ -2,14 +2,11 @@
     let likedImage = "{{ asset('assets/icon12.svg') }}";
     let likeImage = "{{ asset('assets/like.svg') }}";
     let errorMessage = 'Error Occured! Please try again.';
-
     let fileInput = $('input[type="file"]');
-
 
     $('.img-upload').click(function() {
         fileInput.click();
     });
-
 
     fileInput.change(function(event) {
         const files = event.target.files;
@@ -39,7 +36,6 @@
             }
         }
     });
-
 
     $('body').on('submit', '.ajax-comment-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -225,4 +221,33 @@
             });
         }
     });
+
+    function unfriendUser(id, button) {
+        $.ajax({
+            url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
+            type: 'DELETE',
+            data: {
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                if (response.success == false) {
+                    toastr.error(response.message);
+                    errorNotificationSound();
+                    return false;
+                }
+
+                toastr.success(response.message);
+                newNotificationSound();
+                button.closest('.friend-request-' + id).fadeOut(300)
+                    .hide(); // Hide the parent element of the button
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            },
+            error: function(error) {
+                console.log(error);
+                errorNotificationSound();
+            }
+        });
+    }
 </script>
