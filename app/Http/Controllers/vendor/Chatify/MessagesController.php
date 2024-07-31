@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\vendor\Chatify;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
-use App\Models\ChChannel as Channel;
-use App\Models\ChMessage as Message;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ChFavorite as Favorite;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Response;
+use App\Models\User;
+use App\Models\ChMessage as Message;
+use App\Models\ChFavorite as Favorite;
+use App\Models\ChChannel as Channel;
 use Chatify\Facades\ChatifyMessenger as Chatify;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class MessagesController extends Controller
 {
@@ -44,7 +41,7 @@ class MessagesController extends Controller
      * Returning the view of the app with the required data.
      *
      * @param string $channel_id
-     * @return Application|Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index($channel_id = null)
     {
@@ -398,8 +395,6 @@ class MessagesController extends Controller
         $input = trim(filter_var($request['input']));
         $records = User::where('id', '!=', Auth::user()->id)
             ->where('user_name', 'LIKE', "%{$input}%")
-            ->orwhere('first_name', 'LIKE', "%{$input}%")
-            ->orWhere('last_name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
