@@ -6,7 +6,7 @@ return [
     | Messenger display name
     |-------------------------------------
     */
-    'name' => env('CHATIFY_NAME', 'Chatify Messenger'),
+    'name' => env('CHATIFY_NAME', 'Flamingo messages'),
 
     /*
     |-------------------------------------
@@ -105,6 +105,7 @@ return [
     |-------------------------------------
     */
     'colors' => (array) [
+        '#d63384',
         '#2180f3',
         '#2196F3',
         '#00BCD4',

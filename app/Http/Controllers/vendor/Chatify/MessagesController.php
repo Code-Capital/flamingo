@@ -2,20 +2,23 @@
 
 namespace Chatify\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Response;
 use App\Models\User;
-use App\Models\ChMessage as Message;
-use App\Models\ChFavorite as Favorite;
-use App\Models\ChChannel as Channel;
-use Chatify\Facades\ChatifyMessenger as Chatify;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
+use App\Models\ChChannel as Channel;
+use App\Models\ChMessage as Message;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ChFavorite as Favorite;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Response;
+use Chatify\Facades\ChatifyMessenger as Chatify;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class MessagesController extends Controller
 {
@@ -41,7 +44,7 @@ class MessagesController extends Controller
      * Returning the view of the app with the required data.
      *
      * @param string $channel_id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index($channel_id = null)
     {
@@ -299,7 +302,7 @@ class MessagesController extends Controller
     public function updateContactItem(Request $request)
     {
 		$channel_id = $request['channel_id'];
-		
+
         // Get user data
         $channel = Channel::find($channel_id);
         if(!$channel){
@@ -314,7 +317,7 @@ class MessagesController extends Controller
             'contactItem' => $contactItem,
         ], 200);
     }
-	
+
 	/**
 	 * Get channel_id by get or create new channel
 	 *
@@ -325,11 +328,11 @@ class MessagesController extends Controller
 	{
 		$user_id = $request['user_id'];
 		$res = Chatify::getOrCreateChannel($user_id);
-		
+
 		// send the response
 		return Response::json($res, 200);
 	}
-	
+
     /**
      * Put a channel in the favorites list
      *
@@ -412,7 +415,7 @@ class MessagesController extends Controller
             'last_page' => $records->lastPage()
         ], 200);
     }
-	
+
 	/**
      * Get shared photos
      *
