@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             InterestSeeder::class,
             RoleSeeder::class,
-            // CountrySeeder::class,
-            // StateSeeder::class,
-            // UserSeeder::class,
+            CountrySeeder::class,
+            StateSeeder::class,
+            UserSeeder::class,
             // EventSeeder::class,
             // AnnouncementSeeder::class,
             // PostSeeder::class,

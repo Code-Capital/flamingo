@@ -39,15 +39,15 @@ class UserSeeder extends Seeder
         $simpleUser->friends()->attach($users, ['status' => 'accepted']);
 
         // Create 10 regular users and attach random interests
-        User::factory(100)->create()->each(function ($user) {
+        User::factory(3)->create()->each(function ($user) {
             $user->assignRole('user');
 
             // Attach random interests
-            $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+            $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
             $user->interests()->attach($interests);
 
             // create friends
-            $randomUsers = User::inRandomOrder()->take(rand(1, 10))->get();
+            $randomUsers = User::inRandomOrder()->take(rand(1, 2))->get();
             foreach ($randomUsers as $randomUser) {
                 $user->friends()->attach($randomUser, ['status' => 'accepted']);
                 $randomUser->friends()->attach($user, ['status' => 'accepted']);
