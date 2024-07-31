@@ -107,15 +107,9 @@ class ProfileController extends Controller
     public function updatePassword(Request $request): RedirectResponse
     {
         $request->validate([
-            'current_password' => ['required', 'password'],
+            'current_password' => ['required', 'password', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-
-        $user = Auth::user();
-
-        if (!Hash::check($request->input('current_password'), $user->password)) {
-            return Redirect::back()->with('error', 'The provided password does not match your current password');
-        }
 
         $user = $request->user();
         $user->password = Hash::make($request->input('new_password'));
