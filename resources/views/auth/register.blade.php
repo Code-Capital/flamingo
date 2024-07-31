@@ -25,26 +25,32 @@
                                 @include('layouts.partial.show-error')
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1"> {{ __('Name') }} </label>
-                                <input class="form-control form-control-lg" name="name" type="text"
-                                       placeholder="John Doe" value="{{ old('name') }}" required>
-                                @error('name')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                <label class="mb-1"> {{ __('First Name') }} </label>
+                                <input class="form-control form-control-lg" name="first_name" type="text"
+                                    placeholder="John" value="{{ old('first_name') }}" required>
+                                @error('first_name')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="mb-1"> {{ __('Last Name') }} </label>
+                                <input class="form-control form-control-lg" name="last_name" type="text"
+                                    placeholder="Doe" value="{{ old('last_name') }}" required>
+                                @error('last_name')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Username') }}</label>
                                 <input class="form-control form-control-lg" name="user_name" type="text"
-                                       value="{{ old('user_name') }}"
-                                       placeholder="i.e. John_Doe466"
-                                       required>
+                                    value="{{ old('user_name') }}" placeholder="i.e. John_Doe466" required>
                                 @error('user_name')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-3 position-relative">
                                 <label class="mb-1">{{ __('Interest') }} <span>(from 1 to 5)</span></label>
-                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div>--}}
+                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div> --}}
                                 <select class="form-select" name="interests[]" multiple required>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}">{{ $interest->name }}</option>
@@ -53,34 +59,31 @@
                                     @endforelse
                                 </select>
                                 @error('interests')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Email') }}</label>
-                                <input class="form-control form-control-lg" type="email" name="email" value="{{ old('email') }}"
-                                       placeholder="i.e. john@mail.com"
-                                       required>
+                                <input class="form-control form-control-lg" type="email" name="email"
+                                    value="{{ old('email') }}" placeholder="i.e. john@mail.com" required>
                                 @error('email')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1">Password</label>
                                 <input class="form-control form-control-lg" name="password" type="password"
-                                       placeholder="**********"
-                                       required>
+                                    placeholder="**********" required>
                                 @error('password')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1">Password Confirmation</label>
                                 <input class="form-control form-control-lg" name="password_confirmation" type="password"
-                                       placeholder="**********"
-                                       required>
+                                    placeholder="**********" required>
                                 @error('password_confirmation')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
 
                             </div>
@@ -89,7 +92,7 @@
                             </button>
                             <div class="linkText mt-3">
                                 <span>Already have an account? <a class="text-decoration-none"
-                                                                  href="{{ route('login') }}">{{ __('Login') }}</a></span>
+                                        href="{{ route('login') }}">{{ __('Login') }}</a></span>
                             </div>
                         </div>
                     </div>
@@ -100,7 +103,7 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $(".form-select").select2({
                 placeholder: "Select an interest",
                 allowClear: false

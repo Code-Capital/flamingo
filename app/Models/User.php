@@ -27,9 +27,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_name',
         'first_name',
         'last_name',
+        'user_name',
         'email',
         'avatar',
         'email_verified_at',
@@ -70,6 +70,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'active_status' => 'boolean',
         ];
     }
 
@@ -219,6 +220,21 @@ class User extends Authenticatable
     // ======================================================================
     // Accessors
     // ======================================================================
+    public function getFirstNameAttribute($value): string
+    {
+        return ucfirst($value);
+    }
+
+    public function getLastNameAttribute($value): string
+    {
+        return ucfirst($value);
+    }
+
+    public function getUserNameAttribute($value): string
+    {
+        return ucfirst($value);
+    }
+
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
@@ -232,6 +248,26 @@ class User extends Authenticatable
     // ======================================================================
     // Mutators
     // ======================================================================
+
+    public function setFirstNameAttribute($value): void
+    {
+        $this->attributes['first_name'] = strtolower($value);
+    }
+
+    public function setLastNameAttribute($value): void
+    {
+        $this->attributes['last_name'] = strtolower($value);
+    }
+
+    public function setUserNameAttribute($value): void
+    {
+        $this->attributes['user_name'] = strtolower($value);
+    }
+
+    public function setEmailAttribute($value): void
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
 
     // ======================================================================
     // Custom Functions
@@ -296,10 +332,10 @@ class User extends Authenticatable
     {
 
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 
