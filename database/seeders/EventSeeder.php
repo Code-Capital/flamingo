@@ -30,7 +30,7 @@ class EventSeeder extends Seeder
 
             $event->posts()->create([
                 'user_id' => $event->user_id,
-                'body' => 'Welcome to ' . $event->name . ' event',
+                'body' => 'Welcome to '.$event->name.' event',
             ]);
         });
     }

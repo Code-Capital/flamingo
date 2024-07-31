@@ -94,7 +94,7 @@ class Post extends Model
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return false; // If user is not authenticated, return false
         }
 

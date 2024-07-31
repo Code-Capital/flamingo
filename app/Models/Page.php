@@ -4,18 +4,18 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Page extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
     use SoftDeletes;
 
     /**
@@ -41,7 +41,6 @@ class Page extends Model
     protected $casts = [
         //
     ];
-
 
     // ======================================================================
     // Relationships
@@ -96,11 +95,9 @@ class Page extends Model
         return $this->profile_image ? Storage::url($this->profile_image) : asset('assets/placeholder.svg');
     }
 
-
     // ======================================================================
     // Mutators
     // ======================================================================
-
 
     // ======================================================================
     // Custom Functions
@@ -114,8 +111,6 @@ class Page extends Model
     {
         return $this->user_id === $user->id;
     }
-
-
 
     // ======================================================================
     // Scopes

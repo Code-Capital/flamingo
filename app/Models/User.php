@@ -5,20 +5,21 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\StatusEnum;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +77,11 @@ class User extends Authenticatable
     // Relationships
     // =====================================================================
     // social relationships
+    public function interests(): BelongsToMany
+    {
+        return $this->belongsToMany(Interest::class);
+    }
+
     public function feed(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'friends', 'user_id', 'friend_id')
@@ -245,7 +251,6 @@ class User extends Authenticatable
         return $this->save();
     }
 
-
     public function isPrivate(): bool
     {
         return $this->is_private === true;
@@ -284,7 +289,6 @@ class User extends Authenticatable
             ->get();
     }
 
-
     // ======================================================================
     // Scopes
     // ======================================================================
@@ -292,10 +296,10 @@ class User extends Authenticatable
     {
 
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('user_name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where('first_name', 'like', '%'.$search.'%')
+                ->orWhere('last_name', 'like', '%'.$search.'%')
+                ->orWhere('user_name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
     }
 

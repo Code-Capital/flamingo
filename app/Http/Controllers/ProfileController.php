@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
@@ -50,7 +50,12 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
+        // dd($request->all());
+        // $request->validateWithBag('userDeletion', [
+        //     'password' => ['required', 'current_password'],
+        // ]);
+
+        $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
@@ -74,7 +79,7 @@ class ProfileController extends Controller
 
         $request->user()->updateAvatar($request->file('avatar'));
 
-        return Redirect::route('profile.edit')->with('success', 'Avatar Updated!');
+        return Redirect::route('profile.edit')->with('success', 'Profile avatar Updated!');
     }
 
     public function info(): View
@@ -95,7 +100,6 @@ class ProfileController extends Controller
 
         return view('profile.info', get_defined_vars());
     }
-
 
     /**
      * Update the user's password.

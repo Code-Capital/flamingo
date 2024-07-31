@@ -1,112 +1,53 @@
+<!-- Button trigger modal -->
+<!-- Tab Pane for Delete Account -->
 <div class="tab-pane fade" id="Delete-Account" role="tabpanel" aria-labelledby="Photos-tab">
-    <div class="bg-white p-4 dashboardCard">
+    <div class="bg-white p-4 dashboardCard rounded shadow-sm">
         <div class="row mx-0">
-            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-                @csrf
-                @method('patch')
-                <div class="col-lg-6 mb-3 mx-auto">
-                    <div class="profileForm bg-white p-3 p-md-3 p-lg-4">
-                        <div class="form-group mb-3">
-                            <label class="mb-1 d-flex align-items-center justify-content-between">
-                                <span>Name</span>
-                                <span class="d-flex align-items-center gap-2">
-                                    <img src="{{ asset('assets/icon11.svg') }}" alt="public email">Public
-                                </span>
-                            </label>
-                            <div class="form-control form-control-lg">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <input class="w-100" type="text" name="name" value="{{ $user->name }}"
-                                        placeholder="Muhammad Usama">
-                                    <a class="text-decoration-none" href="javascript:void(0)"><img
-                                            src="{{ asset('assets/pencil.svg') }}" alt="pencil"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="mb-1 d-flex align-items-center justify-content-between">
-                                <span>Email</span>
-                            </label>
-                            <div class="form-control form-control-lg">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <input class="w-100" type="email" name="email" value="{{ $user->email }}"
-                                        placeholder="i.e. support@peopleconnect.com">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mx-0">
-                            <div class="col-lg-6 ps-0">
-                                <div class="form-group mb-3">
-                                    <label class="mb-1"><span>Gender</span></label>
-                                    <select class="form-select form-select-lg">
-                                        <option value="">Please Select Gender</option>
-                                        <option value="male" @if ($user->gender == 'male') selected @endif>
-                                            Male
-                                        </option>
-                                        <option value="female" @if ($user->gender == 'female') selected @endif>
-                                            Female
-                                        </option>
-                                        <option value="other" @if ($user->gender == 'other') selected @endif>
-                                            TransGender
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 pe-0">
-                                <div class="form-group mb-3">
-                                    <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Age</span>
-                                    </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" type="number" value="{{ $user->age }}"
-                                                placeholder="24">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mx-0">
-                            <div class="col-lg-6 ps-0">
-                                <div class="form-group mb-3">
-                                    <label class="mb-1">Country</label>
-                                    <select class="form-select form-select-lg" name="">
-                                        <option selected>USA</option>
-                                        <option value="1">UK</option>
-                                        <option value="2">UAE</option>
-                                        <option value="3">EUROPE</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 pe-0">
-                                <div class="form-group mb-3">
-                                    <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>State</span>
-                                    </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" type="text" placeholder="California">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="mb-1 d-flex align-items-center justify-content-between">
-                                <span>Define yourself</span>
-                            </label>
-                            <div class="form-control form-control-lg">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="6" class="w-100" placeholder="Type you message"></textarea>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-12">
+                <h2 class="text-lg font-semibold text-gray-900 mb-3">
+                    {{ __('Delete Account') }}
+                </h2>
 
-                        <button class="btn btn-primary w-100 mt-3">
-                            Save
-                        </button>
+                <p class="text-sm text-gray-600 mb-4">
+                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+                </p>
+
+                <!-- Trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteAccountModal">
+                    {{ __('Delete Account') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="deleteAccountForm" action="{{ route('profile.destroy') }}" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">{{ __('Confirm Account Deletion') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('Please enter your password to confirm account deletion.') }}</p>
+                    @csrf
+                    @method('DELETE')
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ __('Password') }}</label>
+                        <input id="password" name="password" type="password" required class="form-control">
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ __('Delete Account') }}</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

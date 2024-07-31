@@ -6,7 +6,6 @@ use App\Models\Interest;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PageSeeder extends Seeder
 {
@@ -33,7 +32,7 @@ class PageSeeder extends Seeder
 
             $page->posts()->create([
                 'user_id' => $page->user_id,
-                'body' => 'Welcome to ' . $page->name . ' page',
+                'body' => 'Welcome to '.$page->name.' page',
             ]);
         });
     }

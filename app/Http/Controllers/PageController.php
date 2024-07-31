@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
+use App\Models\Interest;
 use App\Models\Page;
 use App\Models\User;
-use App\Models\Interest;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -23,6 +22,7 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $pages = $user->pages()->paginate(10);
+
         return view('page.index', get_defined_vars());
     }
 
@@ -32,6 +32,7 @@ class PageController extends Controller
     public function create(): View
     {
         $interests = Interest::all();
+
         return view('page.create', get_defined_vars());
     }
 
@@ -66,7 +67,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to create page' . $th->getMessage());
+            return back()->with('error', 'Failed to create page'.$th->getMessage());
         }
     }
 
@@ -92,6 +93,7 @@ class PageController extends Controller
             ->latest()
             ->paginate(getPaginated());
         $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated());
+
         return view('page.show', get_defined_vars());
     }
 
@@ -101,6 +103,7 @@ class PageController extends Controller
     public function edit(Page $page): View
     {
         $interests = Interest::all();
+
         return view('page.edit', get_defined_vars());
     }
 
@@ -151,7 +154,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to update page' . $th->getMessage());
+            return back()->with('error', 'Failed to update page'.$th->getMessage());
         }
     }
 
@@ -161,6 +164,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $page->delete();
+
         return to_route('pages.index')->with('success', 'Page deleted successfully');
     }
 
@@ -168,6 +172,7 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $pages = $user->acceptedPages()->paginate(10);
+
         return view('page.joined', get_defined_vars());
     }
 
@@ -186,6 +191,7 @@ class PageController extends Controller
         }
 
         $interests = Interest::all();
+
         return view('page.search', get_defined_vars());
     }
 
@@ -202,7 +208,7 @@ class PageController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/page/' . $post->id . '/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/page/'.$post->id.'/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -230,7 +236,7 @@ class PageController extends Controller
         // dd($users->toArray());
         $page = Page::where('id', $request->page_id)->first();
 
-        if (!$user || !$page) {
+        if (! $user || ! $page) {
             return $this->sendErrorResponse('Error occured while processing');
         }
         $doneIcon = asset('assets/done.svg');
@@ -245,23 +251,24 @@ class PageController extends Controller
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="' . $user->avatar_url . '" class="rounded-circle">
+                                <img src="'.$user->avatar_url.'" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">' . $user->full_name . '</span>
+                                    <span class="d-block">'.$user->full_name.'</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
-                                ' . (!$isAssociated ? '
-                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
-                                    <img src="' . $doneIcon . '">
+                            <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
+                                '.(! $isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="'.$page->id.'" data-user="'.$user->id.'" href="javascript:void(0)">
+                                    <img src="'.$doneIcon.'">
                                 </a>
-                                ' : '<span class="small text-muted"> Invite sent </span>') . '
+                                ' : '<span class="small text-muted"> Invite sent </span>').'
                             </div>
                         </div>
                     </div>
                 </div>
             ';
         }
+
         return $html;
     }
 
@@ -270,7 +277,7 @@ class PageController extends Controller
         $page = Page::where('id', $request->page_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        if (!$user || !$page) {
+        if (! $user || ! $page) {
             return $this->sendErrorResponse('Error occured while processing');
         }
 
@@ -291,19 +298,22 @@ class PageController extends Controller
                 'page_owner_id' => $pageOwner->id,
             ]),
         ]);
-        return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+
+        return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
     }
 
     public function receivedJoiningInvites()
     {
         $user = Auth::user();
         $pages = $user->pendingPages()->paginate(getPaginated());
+
         return view('page.invites', get_defined_vars());
     }
 
     public function accept(Page $page)
     {
         $page->users()->updateExistingPivot(Auth::id(), ['status' => StatusEnum::ACCEPTED->value]);
+
         return $this->sendSuccessResponse($page, 'Invite accepted successfully');
     }
 
@@ -313,6 +323,7 @@ class PageController extends Controller
             'status' => StatusEnum::REJECTED->value,
             'end_date' => now(),
         ]);
+
         return $this->sendSuccessResponse($page, 'Invite rejected successfully');
     }
 
@@ -320,9 +331,10 @@ class PageController extends Controller
     {
         try {
             $page->users()->detach($request->user_id);
+
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while removing this memeber'.$th->getMessage());
         }
     }
 }

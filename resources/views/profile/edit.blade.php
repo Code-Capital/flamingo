@@ -56,5 +56,41 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteAccountForm = document.getElementById('deleteAccountForm');
+            const passwordInput = document.getElementById('password');
+            const deleteAccountButton = document.getElementById('deleteAccountButton');
+
+            // Optional: Validate password input
+            deleteAccountForm.addEventListener('submit', function(e) {
+                if (!passwordInput.value) {
+                    e.preventDefault();
+                    alert('Please enter your password.');
+                }
+            });
+
+            // Optional: Custom actions when the modal is shown
+            var deleteAccountModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+            deleteAccountModal._element.addEventListener('shown.bs.modal', function() {
+                // Custom code to run when the modal is shown
+                console.log('Modal is shown');
+            });
+
+            // Optional: Custom actions when the modal is hidden
+            deleteAccountModal._element.addEventListener('hidden.bs.modal', function() {
+                // Reset the form when the modal is hidden
+                deleteAccountForm.reset();
+            });
+
+            // Attach event to button to manually show the modal (if needed)
+            if (deleteAccountButton) {
+                deleteAccountButton.addEventListener('click', function() {
+                    deleteAccountModal.show();
+                });
+            }
+        });
+    </script>
+
 
 @endsection

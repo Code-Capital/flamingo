@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class PeopleWithSameInterest extends Component
 {
     public $peoples;
+
     /**
      * Create a new component instance.
      */

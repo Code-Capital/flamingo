@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\EventController;
@@ -17,7 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -33,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
     Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
-    // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
+    Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
     Route::post('/password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
