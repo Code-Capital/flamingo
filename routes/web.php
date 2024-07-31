@@ -13,7 +13,6 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -52,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
     Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
 
-    Route::get('messages', [MessagesController::class, 'index'])->name('messages');
+    // Route::get('messages', [MessagesController::class, 'index'])->name('messages');
 
     // events
     Route::get('events', [EventController::class, 'index'])->name('events.index');
