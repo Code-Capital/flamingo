@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\EventController;
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
 
     // Route::get('messages', [MessagesController::class, 'index'])->name('messages');
+
+    Route::get('messages', [ChatController::class, 'index'])->name('messages');
 
     // events
     Route::get('events', [EventController::class, 'index'])->name('events.index');
