@@ -25,6 +25,7 @@ class ProfileController extends Controller
         $countries = Country::all();
         $selectedInterests = $user->interests->pluck('id')->toArray();
         $locations = Location::all();
+
         return view('profile.edit', get_defined_vars());
     }
 

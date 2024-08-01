@@ -31,7 +31,7 @@ class UserFactory extends Factory
         $lastName = $faker->lastName();
 
         // Create a username using the first and last name
-        $userName = Str::slug($firstName . '.' . $lastName);
+        $userName = Str::slug($firstName.'.'.$lastName);
 
         return [
             'first_name' => $firstName,

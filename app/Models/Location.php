@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Traits\DateFormattingTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Location extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +31,6 @@ class Location extends Model
         //
     ];
 
-
     // ======================================================================
     // Relationships
     // ======================================================================
@@ -51,21 +50,17 @@ class Location extends Model
         return $this->hasMany(Page::class);
     }
 
-
     // ======================================================================
     // Accessors
     // ======================================================================
-
 
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

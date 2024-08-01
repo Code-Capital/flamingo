@@ -31,7 +31,7 @@ class Page extends Model
         'user_id',
         'cover_image',
         'profile_image',
-        'location_id'
+        'location_id',
     ];
 
     /**

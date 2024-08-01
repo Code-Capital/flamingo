@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Location>
@@ -18,6 +18,7 @@ class LocationFactory extends Factory
     public function definition(): array
     {
         $city = $this->faker->city;
+
         return [
             'name' => $city,
             'slug' => Str::slug($city),

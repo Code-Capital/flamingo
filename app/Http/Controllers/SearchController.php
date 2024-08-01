@@ -28,7 +28,6 @@ class SearchController extends Controller
             ->byNotUser(Auth::user()->id)
             ->paginate(getPaginated());
 
-
         // Fetch all interests
         $interests = Interest::get();
         $locations = Location::get();

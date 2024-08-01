@@ -59,7 +59,7 @@ class EventController extends Controller
             if ($request->has('images') && is_array($request->images)) {
                 foreach ($request->images as $image) {
                     $event->media()->create([
-                        'file_path' => $image->store('/media/events/' . $event->id, 'public'),
+                        'file_path' => $image->store('/media/events/'.$event->id, 'public'),
                         'file_type' => $image->getClientOriginalExtension(),
                     ]);
                 }
@@ -73,13 +73,13 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
     public function show(Event $event): View
     {
-        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests', ]);
+        $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
         $posts = $event->posts()
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
@@ -126,7 +126,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/' . $event->id, 'public');
+                    $path = $image->store('/media/events/'.$event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -140,7 +140,7 @@ class EventController extends Controller
 
                 // Delete old media that is not in the new list
                 $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
-                if (!empty($mediaToDelete)) {
+                if (! empty($mediaToDelete)) {
                     $event->media()->whereIn('id', $mediaToDelete)->delete();
                 }
             }
@@ -153,7 +153,7 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -236,7 +236,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
