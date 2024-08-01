@@ -13,44 +13,8 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $this->command->info('Creating user permissions...');
-        $permissions = [
-            'view profile',
-            'view announcements',
-            'view about info',
-            'view feed',
-            'view notifications',
-            'view search user',
-            'view firends',
-            'view search events',
-            'view my events',
-            'view joined events',
-            'view messages',
-            'view gallery',
-            'view my pages',
-            'view search pages',
-            'view joined pages',
-            'view page invites',
-        ];
-
-        $this->command->getOutput()->progressStart(count($permissions));
-
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-            $this->command->getOutput()->progressAdvance();
-        }
-
-        $this->command->getOutput()->progressFinish();
-        $this->command->info('Permissions for user created successfully.');
-
-        $this->command->info('Assigning user permissions to user role...');
-        $role = Role::where('name', 'user')->first();
-        $role->syncPermissions($permissions);
-        $this->command->info('User permissions assigned to user role successfully.');
-
-        $this->command->info('Creating admin permissions...');
-        $permissions = [
+        // Admin permissions
+        $adminPermissions = [
             'view users list',
             'view events list',
             'view announcements list',
@@ -63,19 +27,66 @@ class PermissionSeeder extends Seeder
             'view reports',
         ];
 
-        $this->command->getOutput()->progressStart(count($permissions));
+        $this->command->getOutput()->progressStart(count($adminPermissions));
 
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+        foreach ($adminPermissions as $permission) {
+            // Create permission if it does not exist
+            if (!Permission::where('name', $permission)->exists()) {
+                Permission::create(['name' => $permission]);
+            }
             $this->command->getOutput()->progressAdvance();
         }
 
         $this->command->getOutput()->progressFinish();
-        $this->command->info('Permissions for admin created successfully.');
+        $this->command->info('Admin permissions created successfully.');
 
-        $this->command->info('Assigning admin permissions to admin role...');
-        $role = Role::where('name', 'admin')->first();
-        $role->syncPermissions($permissions);
+        // Create or get the admin role
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+
+        // Fetch permissions from the database
+        $adminPermissions = Permission::whereIn('name', $adminPermissions)->get();
+        $adminRole->syncPermissions($adminPermissions);
         $this->command->info('Admin permissions assigned to admin role successfully.');
+
+        // User permissions
+        $userPermissions = [
+            'view notifications',
+            'view profile',
+            'view announcements',
+            'view about info',
+            'view feed',
+            'view search user',
+            'view friends',
+            'view search events',
+            'view my events',
+            'view joined events',
+            'view messages',
+            'view gallery',
+            'view my pages',
+            'view search pages',
+            'view joined pages',
+            'view page invites',
+        ];
+
+        $this->command->getOutput()->progressStart(count($userPermissions));
+
+        foreach ($userPermissions as $permission) {
+            // Create permission if it does not exist
+            if (!Permission::where('name', $permission)->exists()) {
+                Permission::create(['name' => $permission]);
+            }
+            $this->command->getOutput()->progressAdvance();
+        }
+
+        $this->command->getOutput()->progressFinish();
+        $this->command->info('User permissions created successfully.');
+
+        // Create or get the user role
+        $userRole = Role::firstOrCreate(['name' => 'user']);
+
+        // Fetch permissions from the database
+        $userPermissions = Permission::whereIn('name', $userPermissions)->get();
+        $userRole->syncPermissions($userPermissions);
+        $this->command->info('User permissions assigned to user role successfully.');
     }
 }
