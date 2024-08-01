@@ -39,7 +39,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5">
             <div class="col-lg-8 mb-3">
                 <div class="bg-white p-4 dashboardCard">
@@ -87,7 +87,7 @@
                                         <span class="d-block"> <a
                                                 href="{{ route('user.feed.show', $post->user->user_name) }}"
                                                 class="text-decoration-none">
-                                                @if ($post->user_id == $user->id)
+                                                @if ($post->user_id == $currentUser->id)
                                                     You
                                                 @else
                                                     {{ $post->user->full_name }}
@@ -98,7 +98,7 @@
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
                                 </div>
-                                @if ($user->id == $post->user_id)
+                                @if ($currentUser->id == $post->user_id)
                                     <div class="dropdown">
                                         <a href="javascript:void(0)" class="btn" id="postActions"
                                             data-bs-toggle="dropdown" aria-expanded="false">

@@ -6,6 +6,7 @@ use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Announcement extends Model
 {
@@ -41,6 +42,20 @@ class Announcement extends Model
     // ======================================================================
     // Accessors
     // ======================================================================
+    public function getStartDateAttribute($value)
+    {
+        return $this->formatDate($value);
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        return $this->formatDate($value);
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail ? Storage::url($this->thumbnail) : asset('assets/galleryImage.png');
+    }
 
     // ======================================================================
     // Mutators

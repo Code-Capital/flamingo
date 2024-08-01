@@ -3,7 +3,7 @@
 @section('styles')
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5 eventsInfoWrap">
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">

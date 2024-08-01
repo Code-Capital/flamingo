@@ -18,6 +18,7 @@ class PostController extends Controller
     public function index(): View
     {
         $user = Auth::user();
+        $currentUser = $user;
 
         // Get the user's friends
         $friends = $user->acceptedFriends->pluck('id');
@@ -38,12 +39,8 @@ class PostController extends Controller
             ->latest()
             ->paginate(getPaginated());
 
-        $interests = $user->interests()->pluck('interest_id')->toArray();
 
-        $peoples = $user->byInterests($interests)
-            ->byNotUser($user->id)
-            ->limit(10)
-            ->get();
+        $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
     }
@@ -103,7 +100,6 @@ class PostController extends Controller
             );
         }
 
-        // dd($user->toArray());
         $feeds = $user->posts()
             ->byPublished()
             ->byPublic()
@@ -112,6 +108,7 @@ class PostController extends Controller
             ->latest()
             ->paginate(getPaginated());
 
+        $peoples = getPeoples($user);
         return view('user.feed', get_defined_vars());
     }
 

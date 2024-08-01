@@ -15,7 +15,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $simpleUser = User::factory()->create([
-            'first_name' => 'Administator',
+            'first_name' => 'admin',
+            'last_name' => 'user',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
             'user_name' => 'admin',
@@ -25,11 +26,12 @@ class UserSeeder extends Seeder
 
         // Create an admin user
         $simpleUser = User::factory()->create([
-            'first_name' => 'Test User',
+            'first_name' => 'muhammad',
+            'first_name' => 'arslan',
+            'user_name' => 'tester',
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'),
-            'user_name' => 'tester',
-            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');

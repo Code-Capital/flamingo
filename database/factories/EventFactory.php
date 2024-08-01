@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Location;
 use App\Models\User;
+use Database\Seeders\LocationSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,7 +27,7 @@ class EventFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id,
             'title' => $title,
             'slug' => Str::slug($title),
-            'location' => $this->faker->address,
+            'location_id' => Location::inRandomOrder()->first()->id,
             'start_date' => $this->faker->date(),
             'end_date' => $this->faker->date(),
             'thumbnail' => null,

@@ -31,6 +31,7 @@ class Page extends Model
         'user_id',
         'cover_image',
         'profile_image',
+        'location_id'
     ];
 
     /**
@@ -80,6 +81,11 @@ class Page extends Model
     public function acceptedUsers(): BelongsToMany
     {
         return $this->users()->wherePivot('status', StatusEnum::ACCEPTED->value);
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
     }
 
     // ======================================================================

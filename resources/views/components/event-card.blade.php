@@ -1,7 +1,7 @@
 <div class="col-lg-6 mb-3">
     <div class="announcementCard p-2 d-flex align-items-start gap-4">
         <img src="{{ $event->thumbnail_url }}">
-        <div class="content">
+        <div class="content w-100">
             <div class="d-flex align-items-center">
                 <span>Starts from :{{ $event->formatted_start_date }} To:
                     {{ $event->formatted_end_date }} </span>

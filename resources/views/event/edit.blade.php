@@ -14,7 +14,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3">
+    <div class="px-0 px-md-2 px-lg-3">
         <div class="row mx-0 pt-5">
             <div class="col-lg-12 mb-3 mx-auto">
                 <form action="{{ route('events.update', $event->slug) }}" method="POST" enctype="multipart/form-data">
@@ -44,13 +44,15 @@
                                     <label class="mb-1 required">
                                         <span>Event Location</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" type="text" name="location"
-                                                value="{{ $event->location }}" placeholder="Pakistan" required>
-                                        </div>
-                                    </div>
-                                    @error('location')
+                                    <select class="w-100 form-control form-select location" name="location_id" required>
+                                        @forelse ($locations as $location)
+                                            <option value="{{ $location->id }}"
+                                                @if ($event->location_id == $location->id) selected @endif>
+                                                {{ $location->name }} </option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                    @error('location_id')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -94,20 +96,18 @@
 
                         <div class="row mb-3">
                             <!-- Event Thumbanil -->
-                            @php
-                                $thumbnail = $event->thumbnail_url;
-                                $required = $thumbnail == null ? true : false;
-                            @endphp
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <img src=" {{ $event->thumbnail_url }} " alt="">
-                                    <label class="mb-1  {{ $thumbnail == null ? 'required' : '' }}">
+                                    <div class="thumbnail mb-2">
+                                        <img src=" {{ $event->thumbnail_url }} " alt="thumbnail_url" class="img-fluid"
+                                            style="height: 50px; width: 50px; object-fit: contain">
+                                    </div>
+                                    <label class="mb-1 required">
                                         <span>Event Thumbanil</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="thumbnail" type="file" allow="images/*"
-                                                @@required($required)>
+                                            <input class="w-100" name="thumbnail" type="file" allow="images/*">
                                         </div>
                                     </div>
                                     @error('thumbnail')
@@ -118,16 +118,22 @@
                             <!-- Event Gallery -->
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <div class="thumbnail mb-2">
+                                        @forelse ($event->media as $media)
+                                            <img src=" {{ $media->file_path }} " alt="gallery images" class="img-fluid"
+                                                style="height: 50px; width: 50px; object-fit: contain">
+                                        @empty
+                                        @endforelse
+                                    </div>
                                     <label class="mb-1">
                                         <span>Event Gallery</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="images[]" type="file"
-                                                accept="image/png, image/jpeg, image/gif" multiple>
+                                            <input class="w-100" name="images[]" type="file" allow="images/*" multiple>
                                         </div>
                                     </div>
-                                    @error('thumbnail')
+                                    @error('images')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -139,17 +145,18 @@
                                 <span>Interests</span>
                             </label>
                             <div class="d-flex align-items-center justify-content-between">
-                                <select class="w-100 form-control form-select" name="interests[]" multiple required>
-                                    @foreach ($interests as $interest)
+                                <select class="w-100 form-control form-select interests" name="interests[]" multiple
+                                    required>
+                                    @forelse ($interests as $interest)
                                         <option value="{{ $interest->id }}"
                                             {{ $event->interests->contains($interest->id) ? 'selected' : '' }}>
                                             {{ $interest->name }}
                                         </option>
-                                    @endforeach
+                                    @empty
+                                    @endforelse
                                 </select>
-
                             </div>
-                            @error('interests')
+                            @error('thumbnail')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -160,7 +167,7 @@
                             </label>
                             <div class="form-control form-control-lg">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="4" name="description" class="w-100" required placeholder="Describe the event rules description">{{ $event->description }}</textarea>
+                                    <textarea rows="4" name="description" class="w-100" required placeholder="Describe the event rules description">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                             @error('description')
@@ -174,7 +181,7 @@
                             </label>
                             <div class="form-control form-control-lg">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="4" name="rules" class="w-100" placeholder="Describe the event rules">{{ $event->rules }}</textarea>
+                                    <textarea rows="4" name="rules" class="w-100" placeholder="Describe the event rules" required>{{ old('rules') }}</textarea>
                                 </div>
                             </div>
                             @error('rules')
@@ -212,8 +219,14 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $(".form-select").select2({
+            $(".interests").select2({
                 placeholder: "Select interests",
+                allowClear: false,
+            });
+
+
+            $(".location").select2({
+                placeholder: "Select select location",
                 allowClear: false,
             });
         })

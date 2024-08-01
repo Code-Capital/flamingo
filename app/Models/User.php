@@ -35,6 +35,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'email_verified_at',
+        'location_id',
         'password',
         'remember_token',
         'gender',
@@ -46,6 +47,7 @@ class User extends Authenticatable
         'active_status',
         'dark_mode',
         'messenger_color',
+        'is_private',
     ];
 
     protected $appends = [
@@ -224,6 +226,12 @@ class User extends Authenticatable
             ->wherePivot('is_invited', true);
     }
 
+    // Location Relationship
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -352,6 +360,13 @@ class User extends Authenticatable
             $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
             });
+        });
+    }
+
+    public function scopeByLocation($query,  $location = null)
+    {
+        return $query->when($location, function ($query) use ($location) {
+            $query->where('location_id', $location);
         });
     }
 

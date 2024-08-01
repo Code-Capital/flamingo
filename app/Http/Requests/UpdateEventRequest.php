@@ -24,7 +24,7 @@ class UpdateEventRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
+            'location_id' => ['required', 'string', 'max:255', 'exists:locations,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],

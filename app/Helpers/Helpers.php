@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,5 +49,17 @@ if (!function_exists('convertSnakeCaseToUpperCase')) {
     function convertSnakeCaseToUpperCase($string): string
     {
         return ucfirst(str_replace('_', ' ', $string));
+    }
+}
+
+if (!function_exists('getPeoples')) {
+    function getPeoples($user): mixed
+    {
+        $interests = $user->interests()->pluck('interest_id')->toArray();
+
+        return $user->byInterests($interests)
+            ->byNotUser($user->id)
+            ->limit(10)
+            ->get();
     }
 }
