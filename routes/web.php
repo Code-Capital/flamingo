@@ -120,6 +120,8 @@ Route::middleware('auth')->group(function () {
     Route::get('pages/list', [AdminPageController::class, 'index'])->name('pages.list');
     Route::get('announcements/list', [AdminAnnouncementController::class, 'index'])->name('announcements.list');
 
+    Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
+
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 
     //    Route::get('/notifications', function () {

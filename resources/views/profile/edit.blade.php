@@ -57,8 +57,8 @@
                 allowClear: false
             });
 
-            $(".countries").select2({
-                placeholder: "Select an country",
+            $(".locations").select2({
+                placeholder: "Select your location",
                 allowClear: false
             });
 

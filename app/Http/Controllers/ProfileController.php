@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Country;
 use App\Models\Interest;
+use App\Models\Location;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +20,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
+        $user = $request->user()->load(['interests', 'location']);
         $interests = Interest::all();
         $countries = Country::all();
         $selectedInterests = $user->interests->pluck('id')->toArray();
+        $locations = Location::all();
         return view('profile.edit', get_defined_vars());
     }
 

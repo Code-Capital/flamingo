@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusEnum;
-use App\Models\Interest;
 use App\Models\Page;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Interest;
+use App\Models\Location;
+use App\Enums\StatusEnum;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -67,7 +68,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to create page'.$th->getMessage());
+            return back()->with('error', 'Failed to create page' . $th->getMessage());
         }
     }
 
@@ -154,7 +155,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to update page'.$th->getMessage());
+            return back()->with('error', 'Failed to update page' . $th->getMessage());
         }
     }
 
@@ -182,15 +183,15 @@ class PageController extends Controller
         // Get the search term and interests from the request
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
-        $pages = [];
-        if (($request->search == 'submit') && ($searchTerm || $selectedInterests)) {
-            $pages = Page::bySearch($searchTerm)
-                ->byInterests($selectedInterests)
-                ->byNotUser(Auth::user()->id)
-                ->get();
-        }
+        $pages = Page::bySearch($searchTerm)
+            ->byInterests($selectedInterests)
+            ->byLocation($request->location)
+            ->byNotUser(Auth::user()->id)
+            ->byPublic()
+            ->get();
 
         $interests = Interest::all();
+        $locations = Location::all();
 
         return view('page.search', get_defined_vars());
     }
@@ -208,7 +209,7 @@ class PageController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/page/'.$post->id.'/posts/'.$user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/page/' . $post->id . '/posts/' . $user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -236,7 +237,7 @@ class PageController extends Controller
         // dd($users->toArray());
         $page = Page::where('id', $request->page_id)->first();
 
-        if (! $user || ! $page) {
+        if (!$user || !$page) {
             return $this->sendErrorResponse('Error occured while processing');
         }
         $doneIcon = asset('assets/done.svg');
@@ -247,21 +248,21 @@ class PageController extends Controller
             $isAssociated = $user->joinedPages()->where('pages.id', $page->id)->exists();
             // Generate HTML based on association status
             $html .= '
-                <div class="col-lg-6 mb-3 ">
+                <div class="col-lg-4 mb-3 ">
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="'.$user->avatar_url.'" class="rounded-circle">
+                                <img src="' . $user->avatar_url . '" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">'.$user->full_name.'</span>
+                                    <span class="d-block">' . $user->full_name . '</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
-                                '.(! $isAssociated ? '
-                                <a class="text-decoration-none send-invitation" data-page="'.$page->id.'" data-user="'.$user->id.'" href="javascript:void(0)">
-                                    <img src="'.$doneIcon.'">
+                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
+                                ' . (!$isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
+                                    <img src="' . $doneIcon . '">
                                 </a>
-                                ' : '<span class="small text-muted"> Invite sent </span>').'
+                                ' : '<span class="small text-muted"> Invite sent </span>') . '
                             </div>
                         </div>
                     </div>
@@ -277,7 +278,7 @@ class PageController extends Controller
         $page = Page::where('id', $request->page_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        if (! $user || ! $page) {
+        if (!$user || !$page) {
             return $this->sendErrorResponse('Error occured while processing');
         }
 
@@ -299,7 +300,7 @@ class PageController extends Controller
             ]),
         ]);
 
-        return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
+        return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
     }
 
     public function receivedJoiningInvites()
@@ -334,7 +335,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while removing this memeber'.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
         }
     }
 }

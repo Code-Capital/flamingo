@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Eloquent\Casts\Json;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -45,7 +46,7 @@ class PostController extends Controller
         return view('user.feed', get_defined_vars());
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
             $user = Auth::user();
@@ -76,7 +77,11 @@ class PostController extends Controller
             ]);
         });
 
-        return back()->with('success', 'Post created successfully');
+        if ($request->ajax()) {
+            return $this->sendSuccessResponse(null, 'Post created successfully', Response::HTTP_CREATED);
+        } else {
+            return back()->with('success', 'Post created successfully');
+        }
     }
 
     public function show(User $user): View

@@ -119,7 +119,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mx-0">
+                            {{-- <div class="row mx-0">
                                 <div class="col-lg-12 w-100 ps-0">
                                     <div class="form-group mb-3">
                                         <label class="mb-1"><span>Country</span></label>
@@ -145,6 +145,23 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div> --}}
+
+                            <div class="col-lg-12 w-100 ps-0">
+                                <div class="form-group mb-3">
+                                    <label class="mb-1"><span> Locations</span></label>
+                                    <select class="form-select locations" name="location_id">
+                                        <option value="">Select location</option>
+                                        @forelse ($locations as $location)
+                                            <option value="{{ $location->id }}"
+                                                @if ($user?->location->id == $location->id) selected @endif
+                                                >
+                                                {{ $location->name }}</option>
+                                        @empty
+                                            <option value="3">No location found</option>
+                                        @endforelse
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group mb-3">

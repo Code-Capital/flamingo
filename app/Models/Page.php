@@ -138,8 +138,23 @@ class Page extends Model
         });
     }
 
+    public function scopeByLocation($query, $locationId)
+    {
+        return $query->when($locationId, fn ($q) => $q->where('location_id', $locationId));
+    }
+
+    public function scopeByUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
     public function scopeByNotUser($query, $userId)
     {
         return $query->where('user_id', '!=', $userId);
+    }
+
+    public function scopeByPublic($query)
+    {
+        return $query->where('is_private', false);
     }
 }

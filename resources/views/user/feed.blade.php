@@ -1,6 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'User feed')
 @section('styles')
+
     <style>
         .file-container {
             max-height: 250px;
@@ -44,22 +45,26 @@
             <div class="col-lg-8 mb-3">
                 <div class="bg-white p-4 dashboardCard">
                     <div class="innerCard p-3 bg-white">
-                        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data" id="postForm">
                             @csrf
                             <div class="avatar align-items-center gap-3 py-4">
                                 <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
                                     placeholder="What's on your mind?" required>
                             </div>
+
+                            <div class="dz-default dz-message dropzone" id="upload-files"></div>
+                            <div class="help-block with-errors dropzone-error text-danger"></div>
+
                             <div class="file-container bg-light"></div>
                             <div class="border-top d-flex align-items-center justify-content-between pt-3">
                                 <div class="d-flex align-items-center gap-4">
-                                    <div class="text " role="button">
+                                    {{-- <div class="text " role="button">
                                         <img class="img-upload img-fluid" src="{{ asset('assets/icon9.svg') }}"
                                             alt="pic image">
                                         <span>Photo</span>
                                         <input type="file" name="media[]" multiple hidden accept="image/*">
-                                    </div>
+                                    </div> --}}
                                     <div class="text" role="button">
                                         <div class="d-flex align-items-center gap-1">
                                             <img src=" {{ asset('assets/icon11.svg') }} ">
@@ -199,6 +204,8 @@
     </div>
 @endsection
 @section('scripts')
+
+
     <script>
         $(document).ready(function() {
             let body = $('body');
@@ -206,6 +213,66 @@
             body.on('click', '.post-destroy', function() {
                 let id = $(this).data('post');
                 destroyPost(id);
+            });
+        });
+    </script>
+    <script>
+        Dropzone.autoDiscover = false;
+        // Dropzone has been added as a global variable.
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var dropzone = new Dropzone("#upload-files", {
+            url: "{{ route('files.upload') }}",
+            paramName: "media",
+            maxFiles: 5,
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            parallelUploads: 10,
+            uploadMultiple: true,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf,.doc,.docx,.heic', // Include HEIC format
+            dictDefaultMessage: "Drag and drop files here or click to upload",
+        });
+
+        $('#postForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            loadingStart();
+            let formData = new FormData(this);
+
+            // Append Dropzone files
+            dropzone.getAcceptedFiles().forEach(file => {
+                formData.append('media[]', file);
+            });
+
+            console.log(formData);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    loadingStop();
+                    if (response.success) {
+                        newNotificationSound();
+                        toastr.success(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        errorNotificationSound();
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    loadingStop();
+                    errorNotificationSound();
+                    let errorMessage = xhr.responseJSON.message;
+                    toastr.error(errorMessage);
+                }
             });
         });
     </script>
