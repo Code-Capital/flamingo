@@ -10,7 +10,7 @@
                     <div class="row mx-0">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <a class="btn btn-primary px-4" href="">Announcements</a>
+                                <div class="heading pb-4">Announcements </div>
                                 <a class="btn btn-outline-primary px-4" href="{{ route('announcements.create') }}">Create</a>
                             </div>
                         </div>
@@ -19,7 +19,7 @@
                         @forelse ($announcements as $announcement)
                             <div class="col-lg-6 mb-3">
                                 <div class="announcementCard p-3 d-flex align-items-start gap-4">
-                                    <img src="assets/galleryImage.png">
+                                    <img src="{{ asset('') }}">
                                     <div class="content w-100">
                                         <div class="d-flex align-items-center">
                                             <span> {{ $announcement->formatted_created_at }} ({{ $announcement->getStatus() }}) </span>

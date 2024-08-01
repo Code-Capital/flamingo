@@ -30,6 +30,11 @@ class FrontendController extends Controller
         return view('contact');
     }
 
+    public function verification(): View
+    {
+        return view('verification');
+    }
+
     public function sendContact(Request $request): RedirectResponse
     {
         // Validate the form data

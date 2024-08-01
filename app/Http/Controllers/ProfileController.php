@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Country;
+use App\Models\Interest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +19,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+        $interests = Interest::all();
+        $countries = Country::all();
+        $selectedInterests = $user->interests->pluck('id')->toArray();
+        return view('profile.edit', get_defined_vars());
     }
 
     public function force(Request $request): View
@@ -41,6 +45,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        $request->user()->interests()->sync($request->input('interests'));
 
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully');
     }

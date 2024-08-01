@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
@@ -23,12 +27,12 @@ Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
 Route::get('/terms', [FrontendController::class, 'terms'])->name('terms');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [FrontendController::class, 'sendContact'])->name('contact.send');
-Route::view('verification', 'verification')->name('verification');
+Route::view('/verification', [FrontendController::class, 'verification'])->name('verification');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('verified')->name('user.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('update/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
     Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
@@ -110,6 +114,12 @@ Route::middleware('auth')->group(function () {
     Route::view('confirmation', 'test.confirmation')->name('confirmation');
     Route::view('products/create', 'product.create')->name('products.create');
     Route::view('marketplace', 'marketplace.index')->name('marketplace');
+
+    Route::get('users/list', [AdminUserController::class, 'index'])->name('users.list');
+    Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
+    Route::get('pages/list', [AdminPageController::class, 'index'])->name('pages.list');
+    Route::get('announcements/list', [AdminAnnouncementController::class, 'index'])->name('announcements.list');
+
 
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
 

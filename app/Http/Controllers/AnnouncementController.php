@@ -50,6 +50,7 @@ class AnnouncementController extends Controller
             $announcement->body = $request->body;
             $announcement->start_date = $request->start_date;
             $announcement->end_date = $request->end_date;
+            $announcement->thumbnail = $request->hasFile('thumbnail') ? $request->file('thumbnail')->store('announcements', 'public') : null;
             $announcement->save();
 
             return to_route('announcements.index')->with('success', 'Announcement created successfully');

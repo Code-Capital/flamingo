@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('body');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

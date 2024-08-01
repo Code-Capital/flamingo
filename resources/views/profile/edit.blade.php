@@ -41,6 +41,17 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+
+            $(".intersts").select2({
+                placeholder: "Select an interest",
+                allowClear: false
+            });
+
+            $(".countries").select2({
+                placeholder: "Select an country",
+                allowClear: false
+            });
+
             let form = document.getElementById('form-image');
             $("#imageUpload").change(function(data) {
                 let imageFile = data.target.files[0];

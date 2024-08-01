@@ -26,7 +26,9 @@
                     <div class="col-lg-6 mb-3 mx-auto">
                         <div class="profileForm bg-white p-3 p-md-3 p-lg-4">
                             <div class="form-group mb-3">
-                                <label class="mb-1 required">First Name</label>
+                                <label class="mb-1 required">
+                                    <span>First Name</span>
+                                </label>
                                 <div class="form-control form-control-lg">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <input class="w-100" type="text" name="first_name"
@@ -35,21 +37,55 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1 ">Last Name</label>
+                                <label class="mb-1 ">
+                                    <span>Last Name</span>
+                                </label>
                                 <div class="form-control form-control-lg">
                                     <div class="">
-                                        <input class="w-100" type="text" name="last_name" value="{{ $user->last_name }}"
-                                            placeholder="John doe">
+                                        <input class="w-100" type="text" name="last_name"
+                                            value="{{ $user->last_name }}" placeholder="John doe">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1 ">Email</label>
+                                <label class="mb-1 ">
+                                    <span>User Name</span>
+                                </label>
+                                <div class="form-control form-control-lg">
+                                    <div class="">
+                                        <input class="w-100" type="text" name="user_name"
+                                            value="{{ $user->user_name }}" placeholder="John doe">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="mb-1 ">
+                                    <span>Email</span>
+                                </label>
                                 <div class="form-control form-control-lg">
                                     <input class="w-100" type="email" name="email" value="{{ $user->email }}"
                                         placeholder="i.e. support@flamingo.com">
                                 </div>
                             </div>
+                            <div class="form-group mb-3 position-relative">
+                                <label class="mb-1">
+                                    <span>{{ __('Interest') }} (from 1 to 5)</span>
+                                </label>
+                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div> --}}
+                                <select class="form-select intersts" name="interests[]" multiple required>
+                                    @forelse($interests as $interest)
+                                        <option value="{{ $interest->id }}"
+                                            {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
+                                            {{ $interest->name }}</option>
+                                    @empty
+                                        <option value="">No interest found</option>
+                                    @endforelse
+                                </select>
+                                @error('interests')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             <div class="row mx-0">
                                 <div class="col-lg-6 ps-0">
                                     <div class="form-group mb-3">
@@ -75,31 +111,37 @@
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <input class="w-100" type="number" name="age" value="{{ $user->age }}"
-                                                    placeholder="24">
+                                                <input class="w-100" type="number" name="age"
+                                                    value="{{ $user->age }}" placeholder="24">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row mx-0">
-                                <div class="col-lg-6 ps-0">
+                                <div class="col-lg-12 w-100 ps-0">
                                     <div class="form-group mb-3">
-                                        <label class="mb-1">Country</label>
-                                        <select class="form-select form-select-lg" name="country">
-                                            <option selected>USA</option>
-                                            <option value="1">UK</option>
-                                            <option value="2">UAE</option>
-                                            <option value="3">EUROPE</option>
+                                        <label class="mb-1"><span>Country</span></label>
+                                        <select class="form-select countries" name="country">
+                                            <option value="">Select country</option>
+                                            @forelse ($countries as $country)
+                                                <option value="{{ $country->id }}"
+                                                    @if ($user->country == $country->id) selected @endif>
+                                                    {{ $country->name }}</option>
+                                            @empty
+                                                <option value="3">No country found</option>
+                                            @endforelse
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 pe-0">
+                                <div class="col-lg-12 w-100 pe-0">
                                     <div class="form-group mb-3">
-                                        <label class="mb-1 ">State</label>
+                                        <label class="mb-1 "><span>State</span></label>
                                         <div class="form-control form-control-lg">
                                             <div class="">
-                                                <input class="w-100" type="text" name="state" placeholder="California">
+                                                <input class="w-100" type="text" name="state"
+                                                    placeholder="California">
                                             </div>
                                         </div>
                                     </div>
@@ -115,15 +157,13 @@
                                     </div>
                                 </div>
                             </div>
-
                             <button class="btn btn-primary w-100 mt-3">
-                                Save
+                                Update
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 </div>
