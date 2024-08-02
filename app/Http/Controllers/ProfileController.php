@@ -110,6 +110,7 @@ class ProfileController extends Controller
             ->limit(10)
             ->get();
 
+        $subscriptions = $user->subscriptions;
         $plans = PricingPlan::all();
         return view('profile.info', get_defined_vars());
     }

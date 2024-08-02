@@ -110,6 +110,9 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
         Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
 
+        Route::get('subscription/cancel', [CheckoutController::class, 'cancelSubscription'])->name('stript.subscription.cancel');
+        Route::get('subscription/resume', [CheckoutController::class, 'resumeSubscription'])->name('stript.subscription.resume');
+
 
         // extra routes
         Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');

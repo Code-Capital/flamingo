@@ -32,4 +32,18 @@ class CheckoutController extends Controller
     {
         dd('cancelled');
     }
+
+    public function cancelSubscription(Request $request)
+    {
+        dd($request->all());
+        $request->user()->subscription('default')->cancel();
+        return redirect()->route('profile.edit')->with('success', 'Subscription cancelled successfully');
+    }
+
+    public function resumeSubscription(Request $request)
+    {
+        dd($request->all());
+        $request->user()->subscription('default')->resume();
+        return redirect()->route('profile.edit')->with('success', 'Subscription resumed successfully');
+    }
 }
