@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use Stripe\Plan;
+use Stripe\Stripe;
+use Stripe\Product;
 use App\Models\Country;
 use App\Models\Interest;
 use App\Models\Location;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\PricingPlan;
 
 class ProfileController extends Controller
 {
@@ -106,6 +110,7 @@ class ProfileController extends Controller
             ->limit(10)
             ->get();
 
+        $plans = PricingPlan::all();
         return view('profile.info', get_defined_vars());
     }
 

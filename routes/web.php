@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\EventController;
@@ -32,7 +33,6 @@ Route::view('/verification', [FrontendController::class, 'verification'])->name(
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:user')->group(function () {
-
         Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('verified')->name('user.dashboard');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('update/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -105,6 +105,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/accept-invite/{page}', [PageController::class, 'accept'])->name('page.invite.accept');
         Route::post('/reject-invite/{page}', [PageController::class, 'reject'])->name('page.invite.reject');
         Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
+
+        Route::get('checkout/{productID}/{priceID}', [CheckoutController::class, 'checkout'])->name('stript.subscription.checkout');
+        Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
+        Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
+
 
         // extra routes
         Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
