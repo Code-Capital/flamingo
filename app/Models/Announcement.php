@@ -42,16 +42,6 @@ class Announcement extends Model
     // ======================================================================
     // Accessors
     // ======================================================================
-    public function getStartDateAttribute($value)
-    {
-        return $this->formatDate($value);
-    }
-
-    public function getEndDateAttribute($value)
-    {
-        return $this->formatDate($value);
-    }
-
     public function getThumbnailUrlAttribute()
     {
         return $this->thumbnail ? Storage::url($this->thumbnail) : asset('assets/galleryImage.png');

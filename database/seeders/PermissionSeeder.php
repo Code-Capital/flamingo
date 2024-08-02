@@ -15,16 +15,17 @@ class PermissionSeeder extends Seeder
     {
         // Admin permissions
         $adminPermissions = [
+            'view profile',
             'view users list',
             'view events list',
             'view announcements list',
             'view pages list',
             'view settings',
-            'view permissions',
-            'view roles',
-            'view media',
-            'view logs',
-            'view reports',
+            // 'view permissions',
+            // 'view roles',
+            // 'view media',
+            // 'view logs',
+            // 'view reports',
         ];
 
         $this->command->getOutput()->progressStart(count($adminPermissions));

@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $simpleUser = User::factory()->create([
+        $adminUser = User::factory()->create([
             'first_name' => 'admin',
             'last_name' => 'user',
             'email' => 'admin@gmail.com',
@@ -23,6 +23,9 @@ class UserSeeder extends Seeder
             'about' => null,
             'is_private' => false,
         ]);
+
+        $adminUser->assignRole('admin');
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
 
         // Create an admin user
         $simpleUser = User::factory()->create([
@@ -53,7 +56,7 @@ class UserSeeder extends Seeder
             $user->interests()->attach($interests);
 
             // create friends
-            $randomUsers = User::inRandomOrder()->take(rand(1, 10))->get();
+            $randomUsers = User::inRandomOrder()->take(rand(1, 5))->get();
             foreach ($randomUsers as $randomUser) {
                 $user->friends()->attach($randomUser, ['status' => 'accepted']);
                 $randomUser->friends()->attach($user, ['status' => 'accepted']);

@@ -40,7 +40,7 @@
     @include('layouts.datatable-scripts')
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            let table = $('#usersTable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -68,6 +68,25 @@
                     }
                 ]
             });
+
+            let body = $('body');
+            $('body').on('click', '.delete', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteRecord(url, table);
+                    }
+                });
+            })
         });
     </script>
 @endsection

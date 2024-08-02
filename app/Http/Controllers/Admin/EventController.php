@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
@@ -22,10 +23,13 @@ class EventController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d/m/Y');
                 })
+                ->editColumn('location', function ($row) {
+                    return $row->location->name;
+                })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="edit" id="'.$row->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" data-id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" id="'.$row->id.'" class="delete btn
+                    $button .= '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -35,5 +39,16 @@ class EventController extends Controller
         }
 
         return view('admin.events.index');
+    }
+
+    public function destroy(Event $event)
+    {
+        try {
+            // $event->allMembers()->delete();
+            $event->delete();
+            return $this->sendSuccessResponse(null, 'Event deleted successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while deleting event ' . $th->getMessage());
+        }
     }
 }

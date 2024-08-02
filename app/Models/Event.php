@@ -28,7 +28,7 @@ class Event extends Model
         'user_id',
         'title',
         'slug',
-        'location',
+        'location_id',
         'start_date',
         'end_date',
         'thumbnail',

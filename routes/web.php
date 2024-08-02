@@ -115,15 +115,22 @@ Route::middleware('auth')->group(function () {
     Route::view('products/create', 'product.create')->name('products.create');
     Route::view('marketplace', 'marketplace.index')->name('marketplace');
 
+
+
     Route::get('users/list', [AdminUserController::class, 'index'])->name('users.list');
+    Route::delete('users/{user}/delete', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
     Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
-    Route::get('pages/list', [AdminPageController::class, 'index'])->name('pages.list');
+    Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');
+
     Route::get('announcements/list', [AdminAnnouncementController::class, 'index'])->name('announcements.list');
+    Route::delete('admin/announcements/{announcement}/delete', [AdminAnnouncementController::class, 'destroy'])->name('admin.announcements.destroy');
 
-    Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
+    Route::get('pages/list', [AdminPageController::class, 'index'])->name('pages.list');
+    Route::delete('admin/pages/{page}/delete', [AdminEventController::class, 'destroy'])->name('admin.pages.destroy');
 
+    // Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
     // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
-
     //    Route::get('/notifications', function () {
     //        $user = auth()->user();
     //        return view('notifications.index', ['notifications' => $user->notifications]);

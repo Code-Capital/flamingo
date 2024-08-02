@@ -275,7 +275,6 @@
                 </li>
             @endcan
 
-
             {{-- admin routes --}}
             @can('view users list')
                 <li>

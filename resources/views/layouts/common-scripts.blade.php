@@ -277,4 +277,31 @@
             }
         });
     }
+
+    function deleteRecord(url, table) {
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    newNotificationSound();
+                    if (table) {
+                        table.ajax.reload();
+                    }
+                    toastr.success(response.message);
+                } else {
+                    errorNotificationSound();
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                errorNotificationSound();
+                toastr.error('Something went wrong');
+            }
+        });
+    }
 </script>

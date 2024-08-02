@@ -17,12 +17,12 @@ class AnnouncementController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($row) {
-                    return $row->created_at->format('d/m/Y');
+                    return $row->created_at;
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="edit" id="'.$row->id.'" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button = '<button type="button" name="edit" data-id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" id="'.$row->id.'" class="delete btn
+                    $button .= '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -32,5 +32,15 @@ class AnnouncementController extends Controller
         }
 
         return view('admin.announcements.index', get_defined_vars());
+    }
+
+    public function destroy(Announcement $announcement)
+    {
+        try {
+            $announcement->delete();
+            return $this->sendSuccessResponse(null, 'Announcement deleted successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while deleting announcement ' . $th->getMessage());
+        }
     }
 }
