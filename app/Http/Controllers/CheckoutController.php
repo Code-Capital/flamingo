@@ -12,11 +12,11 @@ class CheckoutController extends Controller
         return view('checkout.index');
     }
 
-    public function checkout(Request $request, $productID, $priceID)
+    public function checkout(Request $request, $product, $price)
     {
         Stripe::setApiKey(config('cashier.secret'));
         return $request->user()
-            ->newSubscription($productID, $priceID)
+            ->newSubscription($product, $price)
             ->checkout([
                 'success_url' => route('success'),
                 'cancel_url' => route('cancel'),

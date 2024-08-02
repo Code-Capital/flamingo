@@ -106,13 +106,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/reject-invite/{page}', [PageController::class, 'reject'])->name('page.invite.reject');
         Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
 
-        Route::get('checkout/{productID}/{priceID}', [CheckoutController::class, 'checkout'])->name('stript.subscription.checkout');
+        Route::get('checkout/{product}/{price}', [CheckoutController::class, 'checkout'])->name('stript.subscription.checkout');
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
         Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
-
         Route::get('subscription/cancel', [CheckoutController::class, 'cancelSubscription'])->name('stript.subscription.cancel');
         Route::get('subscription/resume', [CheckoutController::class, 'resumeSubscription'])->name('stript.subscription.resume');
-
 
         // extra routes
         Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');

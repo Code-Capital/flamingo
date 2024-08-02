@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\Plan;
-use Stripe\Stripe;
-use Stripe\Product;
 use App\Models\Country;
 use App\Models\Interest;
 use App\Models\Location;
@@ -16,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\PricingPlan;
+use Laravel\Cashier\Subscription;
 
 class ProfileController extends Controller
 {
@@ -110,7 +108,7 @@ class ProfileController extends Controller
             ->limit(10)
             ->get();
 
-        $subscriptions = $user->subscriptions;
+        $subscriptions = Subscription::where('user_id', $user->id)->get();
         $plans = PricingPlan::all();
         return view('profile.info', get_defined_vars());
     }
