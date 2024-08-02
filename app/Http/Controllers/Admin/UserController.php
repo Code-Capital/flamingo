@@ -24,10 +24,17 @@ class UserController extends Controller
                     return $row->created_at->format('d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="edit" data-id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
-                    $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" name="delete" data-id="' . $row->id . '" class="btn btn-danger btn-sm delete">Delete</button>';
-
+                    $button = '';
+                    if($row->isBlocked()){
+                        $button = '<button type="button" name="unblock" data-id="' . $row->id . '" class="btn btn-danger btn-sm unblock">
+                            <img src="https://img.icons8.com/ios/50/000000/lock.png" width="20" height="20" alt="unlock">
+                        </button>';
+                    }else{
+                        $button = '<button type="button" name="block" data-id="' . $row->id . '" class="btn btn-info btn-sm block">
+                            <img src="https://img.icons8.com/ios/50/000000/unlock.png" width="20" height="20" alt="lock">
+                        </button>';
+                    }
+                    // $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="btn btn-danger btn-sm delete">Delete</button>';
                     return $button;
                 })
                 ->rawColumns(['name', 'action'])
@@ -49,6 +56,26 @@ class UserController extends Controller
             });
         } catch (\Throwable $th) {
             return $this->sendErrorResponse('Error occured while deleting user ' . $th->getMessage());
+        }
+    }
+
+    public function block(User $user)
+    {
+        try {
+            $user->update(['is_block' => true]);
+            return $this->sendSuccessResponse(null, 'User blocked successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while blocking user ' . $th->getMessage());
+        }
+    }
+
+    public function unblock(User $user)
+    {
+        try {
+            $user->update(['is_block' => false]);
+            return $this->sendSuccessResponse(null, 'User unblocked successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while unblocking user ' . $th->getMessage());
         }
     }
 }

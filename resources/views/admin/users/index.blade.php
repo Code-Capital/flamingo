@@ -87,6 +87,64 @@
                     }
                 });
             })
+            $('body').on('click', '.block', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('admin.users.block', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        updateUserStatus(url, table);
+                    }
+                });
+            })
+            $('body').on('click', '.unblock', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('admin.users.unblock', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        updateUserStatus(url, table);
+                    }
+                });
+            })
+
+            function updateUserStatus(url, table) {
+                $.ajax({
+                    url: url,
+                    type: "PUT",
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            newNotificationSound();
+                            table.ajax.reload();
+                            toastr.success(response.message);
+                        } else {
+                            errorNotificationSound();
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(error) {
+                        errorNotificationSound();
+                        toastr.error(error.message);
+                    }
+                });
+            }
         });
     </script>
 @endsection

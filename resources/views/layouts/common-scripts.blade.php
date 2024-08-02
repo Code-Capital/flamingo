@@ -2,14 +2,11 @@
     let likedImage = "{{ asset('assets/icon12.svg') }}";
     let likeImage = "{{ asset('assets/like.svg') }}";
     let errorMessage = 'Error Occured! Please try again.';
-
     let fileInput = $('input[type="file"]');
-
 
     $('.img-upload').click(function() {
         fileInput.click();
     });
-
 
     fileInput.change(function(event) {
         const files = event.target.files;
@@ -39,7 +36,6 @@
             }
         }
     });
-
 
     $('body').on('submit', '.ajax-comment-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -278,7 +274,8 @@
         });
     }
 
-    function deleteRecord(url, table) {
+    function deleteRecord(url, table = null, $loadingTitle = 'Processing...') {
+        loadingStart($loadingTitle);
         $.ajax({
             type: "DELETE",
             url: url,
@@ -286,8 +283,10 @@
                 _token: "{{ csrf_token() }}"
             },
             success: function(response) {
+                loadingStop();
                 console.log(response);
                 if (response.success) {
+
                     newNotificationSound();
                     if (table) {
                         table.ajax.reload();
@@ -299,6 +298,7 @@
                 }
             },
             error: function(xhr, status, error) {
+                loadingStop();
                 errorNotificationSound();
                 toastr.error('Something went wrong');
             }

@@ -38,6 +38,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'email_verified_at',
+        'is_block',
         'location_id',
         'password',
         'remember_token',
@@ -323,6 +324,11 @@ class User extends Authenticatable
     public function isEventOwner(Event $event): bool
     {
         return $this->id === $event->user_id;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->is_block;
     }
 
     public function getUsersWithSameInterests($limit = 10)

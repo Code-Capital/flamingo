@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Users list')
+@section('title', 'Events list')
 @section('styles')
     @include('layouts.datatable-styles')
 @endsection
@@ -11,19 +11,22 @@
                     <div class="row mx-0 mb-3">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <h3 class="marketHeading mb-0">Pages List</h3>
+                                <h3 class="marketHeading mb-0">Plans List</h3>
+                                <a href="{{ route('admin.plans.create') }}" class="btn btn-primary"> Create Plan</a>
                             </div>
                         </div>
                     </div>
                     <div class="row mx-0">
-                        <table id="pagesTable" class="table table-striped">
+                        <table id="eventsTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Interval</th>
+                                    <th>Status</th>
                                     <th>Description</th>
-                                    <th>Created At</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,11 +43,11 @@
     @include('layouts.datatable-scripts')
     <script>
         $(document).ready(function() {
-            let table = $('#pagesTable').DataTable({
+            let table = $('#eventsTable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: "{{ route('pages.list') }}",
+                ajax: "{{ route('admin.plans.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -54,12 +57,20 @@
                         name: 'name'
                     },
                     {
-                        data: 'description',
-                        name: 'description'
+                        data: 'amount',
+                        name: 'amount'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'interval',
+                        name: 'interval'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'description',
+                        name: 'description'
                     },
                     {
                         data: 'action',
@@ -70,9 +81,9 @@
             });
 
             let body = $('body');
-            body.on('click', '.delete', function() {
+            $('body').on('click', '.delete', function() {
                 let id = $(this).data('id');
-                let url = "{{ route('admin.pages.destroy', ':id') }}".replace(':id', id);
+                let url = "{{ route('admin.plans.destroy', ':id') }}".replace(':id', id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'This action cannot be undone!',
@@ -83,25 +94,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteRecord(url, table);
-                    }
-                });
-            })
-
-            body.on('click', '.block', function() {
-                let id = $(this).data('id');
-                let url = "{{ route('admin.pages.destroy', ':id') }}".replace(':id', id);
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'This action cannot be undone!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        deleteRecord(url, table);
+                        deleteRecord(url, table, 'Deleting...');
                     }
                 });
             })

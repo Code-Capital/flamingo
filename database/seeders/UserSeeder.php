@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Interest;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Interest;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,13 +19,13 @@ class UserSeeder extends Seeder
             'first_name' => 'admin',
             'last_name' => 'user',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'user_name' => 'admin',
             'about' => null,
             'is_private' => false,
         ]);
 
-        $adminUser->assignRole('admin');
+        $adminUser->assignRole(['user', 'admin']);
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
 
         // Create an admin user
@@ -33,7 +34,7 @@ class UserSeeder extends Seeder
             'first_name' => 'arslan',
             'user_name' => 'tester',
             'email' => 'user@gmail.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
         ]);
