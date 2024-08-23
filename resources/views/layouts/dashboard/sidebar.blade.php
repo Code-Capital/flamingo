@@ -8,8 +8,9 @@
         <ul class="list-unstyled px-2">
             @can('view profile')
                 <li>
+                    {{--  @if (request()->routeIs('profile.edit')) active @endif --}}
                     <a id="profile" href="{{ route('profile.edit') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('profile.edit') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
                         <svg class="profile" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -27,7 +28,7 @@
             @can('view announcements')
                 <li>
                     <a id="announcement" href="{{ route('announcements.index') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('announcements') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('announcements') ? 'active' : '' }}">
                         <svg class="announcement" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7316)">
@@ -49,7 +50,7 @@
             @can('view about info')
                 <li>
                     <a id="profileInfo" href="{{ route('profile.info') }}"
-                        class="text-decoration-none d-flex align-items-center  {{ request()->is('profile/*') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center  {{ request()->routeIs('profile/*') ? 'active' : '' }}">
                         <svg class="profile" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -67,7 +68,7 @@
             @can('view feed')
                 <li>
                     <a id="feed" href="{{ route('feed') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('feed') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('feed') ? 'active' : '' }}">
                         <svg class="feed" width="24" fill="#5C5C5C" fill-opacity="0.3" height="25"
                             viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -82,7 +83,7 @@
             @can('view search user')
                 <li>
                     <a href="{{ route('search.users') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('search/*') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('search/*') ? 'active' : '' }}">
                         <svg fill-opacity="0.3" class="search" width="24" height="25" viewBox="0 0 24 25"
                             fill="#5C5C5C" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7272)">
@@ -105,7 +106,7 @@
             @can('view firends')
                 <li>
                     <a id="events" href="{{ route('user.friends') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('my/friends/*') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('my/friends/*') ? 'active' : '' }}">
                         <svg class="profile" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -123,7 +124,7 @@
             @can('view search events')
                 <li>
                     <a id="search" href="{{ route('search.events') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('search.events') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('search.events') ? 'active' : '' }}">
                         <svg fill-opacity="0.3" class="search" width="24" height="25" viewBox="0 0 24 25"
                             fill="#5C5C5C" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7272)">
@@ -146,7 +147,7 @@
             @can('view my events')
                 <li>
                     <a id="events" href="{{ route('events.index') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('events') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('events') ? 'active' : '' }}">
                         <svg class="events" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -161,7 +162,7 @@
             @can('view joined events')
                 <li>
                     <a id="events" href="{{ route('events.joined') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('events.joined') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('events.joined') ? 'active' : '' }}">
                         <svg class="events" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -176,7 +177,7 @@
             @can('view joined events')
                 <li>
                     <a id="messages" href="{{ route('messages') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('messages') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('messages') ? 'active' : '' }}">
                         <svg class="message" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 12.5H17M7 8.5H13" stroke="#5C5C5C" stroke-opacity="0.3" stroke-width="1.5"
@@ -193,7 +194,7 @@
             @can('view gallery')
                 <li>
                     <a id="gallery" href="{{ route('gallery') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('gallery') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('gallery') ? 'active' : '' }}">
                         <svg class="gallery" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -213,7 +214,7 @@
             @can('view my pages')
                 <li>
                     <a id="shop" href="{{ route('pages.index') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -227,7 +228,7 @@
             @can('view search pages')
                 <li>
                     <a href="{{ route('search.pages') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('search/*') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('search/*') ? 'active' : '' }}">
                         <svg fill-opacity="0.3" class="search" width="24" height="25" viewBox="0 0 24 25"
                             fill="#5C5C5C" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7272)">
@@ -250,7 +251,7 @@
             @can('view joined pages')
                 <li>
                     <a id="shop" href="{{ route('pages.joined') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -264,7 +265,7 @@
             @can('view page invites')
                 <li>
                     <a id="shop" href="{{ route('page.invite.received') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -279,7 +280,7 @@
             @can('view users list')
                 <li>
                     <a id="shop" href="{{ route('users.list') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -293,7 +294,7 @@
             @can('view events list')
                 <li>
                     <a id="shop" href="{{ route('events.list') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -307,7 +308,7 @@
             @can('view announcements list')
                 <li>
                     <a id="shop" href="{{ route('announcements.list') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -321,7 +322,7 @@
             @can('view pages list')
                 <li>
                     <a id="shop" href="{{ route('pages.list') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('pages.index') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('pages.index') ? 'active' : '' }}">
                         <svg class="shop" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -335,7 +336,7 @@
             @can('view visitors')
                 <li>
                     <a id="visitors" href="{{ route('visitors') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('visitors') ? 'active' : '' }} ">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('visitors') ? 'active' : '' }} ">
                         <svg class="visitors" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7266)">
@@ -356,7 +357,7 @@
             @can('view logs')
                 <li>
                     <a id="logs" href="{{ route('logs') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('logs') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('logs') ? 'active' : '' }}">
                         <svg width="24" class="logs" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7294)">
@@ -379,7 +380,7 @@
             @can('view interests')
                 <li>
                     <a id="logs" href="{{ route('logs') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('logs') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('logs') ? 'active' : '' }}">
                         <svg width="24" class="logs" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7294)">
@@ -401,7 +402,7 @@
 
             <li>
                 <a id="logs" href="{{ route('admin.plans.index') }}"
-                    class="text-decoration-none d-flex align-items-center {{ request()->is('admin.create.plan') ? 'active' : '' }}">
+                    class="text-decoration-none d-flex align-items-center {{ request()->routeIs('admin.create.plan') ? 'active' : '' }}">
                     <svg width="24" class="logs" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                         fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_1_7294)">
@@ -423,7 +424,7 @@
             @can('view settings')
                 <li>
                     <a id="settings" href="{{ route('settings') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->is('settings') ? 'active' : '' }}">
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('settings') ? 'active' : '' }}">
                         <svg class="settings" width="24" height="25" viewBox="0 0 24 25" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
