@@ -67,6 +67,8 @@ class PermissionSeeder extends Seeder
             'view search pages',
             'view joined pages',
             'view page invites',
+            'view interests',
+            'view locations',
         ];
 
         $this->command->getOutput()->progressStart(count($userPermissions));
