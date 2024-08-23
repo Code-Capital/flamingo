@@ -13,7 +13,7 @@
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <h3 class="marketHeading mb-0">Interets List</h3>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop"> Create
+                                    data-bs-target="#staticBackdropCreate"> Create
                                     Interests </button>
                             </div>
                         </div>
@@ -37,8 +37,8 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdropCreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropCreateLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form action="{{ route('interests.store') }}" method="POST">
@@ -50,13 +50,44 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="interest-name" class="form-label">Interest Name</label>
-                            <input type="text" class="form-control" id="interest-name" name="name"
-                                placeholder="Enter interest name" required>
+                            <input type="text" class="form-control" name="name" placeholder="Enter interest name"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="interest-description" class="form-label">Description</label>
-                            <textarea class="form-control" id="interest-description" name="description" rows="3"
-                                placeholder="Enter description"></textarea>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Enter description"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdropEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropEditLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="#" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Interests</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="interest-name" class="form-label">Interest Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter interest name"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interest-description" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Enter description"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -79,8 +110,8 @@
                 responsive: true,
                 ajax: "{{ route('interests.index') }}",
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
                     },
                     {
                         data: 'name',
@@ -95,9 +126,13 @@
             });
 
             let body = $('body');
+            let editModal = $('#staticBackdropEdit');
+            let editName = $('#staticBackdropEdit input[name="name"]');
+            let editForm = $('#staticBackdropEdit form');
+            let editDescription = $('#staticBackdropEdit textarea[name="description"]');
             $('body').on('click', '.delete', function() {
                 let id = $(this).data('id');
-                let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
+                let url = "{{ route('interests.destroy', ':id') }}".replace(':id', id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'This action cannot be undone!',
@@ -112,6 +147,17 @@
                     }
                 });
             })
+
+            $(body).on('click', '.edit', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('interests.update', ':id') }}".replace(':id', id);
+                let name = $(this).data('name');
+                let description = $(this).data('description');
+                editForm.attr('action', url);
+                editName.val(name);
+                editDescription.val(description);
+                $(editModal).modal('show');
+            });
 
         });
     </script>
