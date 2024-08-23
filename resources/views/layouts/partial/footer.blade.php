@@ -6,7 +6,7 @@
                     <img src=" {{ asset('assets/whiteLogo.png') }} ">
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <div class="footerLinks">
                     <h6 class="mb-4">About us</h6>
                     <ul class="list-unstyled">
@@ -17,7 +17,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2">
+            {{-- <div class="col-lg-2">
                 <div class="footerLinks">
                     <h6 class="mb-4">Product</h6>
                     <ul class="list-unstyled">
@@ -27,8 +27,8 @@
                         <li class="mb-2"><a class="text-decoration-none" href="">Help desk</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="col-lg-2">
+            </div> --}}
+            <div class="col-lg-3">
                 <div class="footerLinks">
                     <h6 class="mb-4">Legal</h6>
                     <ul class="list-unstyled">

@@ -1,0 +1,118 @@
+@extends('layouts.dashboard')
+@section('title', 'Interests list')
+@section('styles')
+    @include('layouts.datatable-styles')
+@endsection
+@section('content')
+    <div class="px-0 px-md-2 px-lg-3 ">
+        <div class="row mx-0 pt-5">
+            <div class="col-lg-12 mb-3">
+                <div class="bg-white p-4 dashboardCard">
+                    <div class="row mx-0 mb-3">
+                        <div class="col-lg-12">
+                            <div class="d-flex align-items-center justify-content-between pb-3">
+                                <h3 class="marketHeading mb-0">Interets List</h3>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop"> Create
+                                    Interests </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-0">
+                        <table id="usersTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('interests.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Interests</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="interest-name" class="form-label">Interest Name</label>
+                            <input type="text" class="form-control" id="interest-name" name="name"
+                                placeholder="Enter interest name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interest-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="interest-description" name="description" rows="3"
+                                placeholder="Enter description"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('scripts')
+    @include('layouts.datatable-scripts')
+    <script>
+        $(document).ready(function() {
+            let table = $('#usersTable').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: "{{ route('interests.index') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    }
+                ]
+            });
+
+            let body = $('body');
+            $('body').on('click', '.delete', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteRecord(url, table);
+                    }
+                });
+            })
+
+        });
+    </script>
+@endsection

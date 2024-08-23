@@ -1,26 +1,27 @@
 <?php
 
-use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
-use App\Http\Controllers\Admin\EventController as AdminEventController;
-use App\Http\Controllers\Admin\PageController as AdminPageController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\CommentReplyController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\FrontendController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StripeController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CommentReplyController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 
 require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -130,6 +131,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('users/{user}/delete', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::put('users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
         Route::put('users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
+
+        // Route::get('interests/list', [AdminInterestController::class, 'index'])->name('interests.list');
+
+        Route::resource('interests', AdminInterestController::class);
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
         Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');
