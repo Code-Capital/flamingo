@@ -10,7 +10,7 @@
                 <div class="dashboardCard border-0">
                     <form action="{{ route('search.users') }}" method="GET">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-5 col-lg-4 form-group">
+                            <div class="col-md-4 col-lg-4 form-group">
                                 <select class="form-control interests w-100" name="interests[]" multiple>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}"
@@ -23,10 +23,10 @@
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by name & username" name="q" value="{{ request()->q }}">
+                                    placeholder="Search by name & email" name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <select class="form-control form-control-lg w-100" name="location">
+                                <select class="form-control locations w-100" name="location">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"
@@ -92,6 +92,10 @@
         $(document).ready(function() {
             $('.interests').select2({
                 placeholder: "Please Select Interests",
+                allowClear: true
+            });
+            $('.locations').select2({
+                placeholder: "Please Select location",
                 allowClear: true
             });
             let body = $('body');

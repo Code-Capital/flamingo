@@ -230,14 +230,12 @@ class Event extends Model
 
     public function scopeBySearch($query, ?string $search = null)
     {
-        if (! $search) {
-            return $query;
-        }
-
-        return $query->where('title', 'like', '%'.$search.'%')
-            ->orWhere('location', 'like', '%'.$search.'%')
-            ->orWhere('slug', 'like', '%'.$search.'%')
-            ->orWhere('description', 'like', '%'.$search.'%');
+        return $query->when($search, function ($q) use ($search) {
+            $q->where('title', 'like', '%' . $search . '%')
+                ->orWhere('location_id', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        });
     }
 
     public function scopeByLocation($query, ?string $search = null)

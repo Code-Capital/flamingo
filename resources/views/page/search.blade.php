@@ -32,10 +32,10 @@
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by name & username" name="q" value="{{ request()->q }}">
+                                    placeholder="Search by name & title" name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <select class="form-control form-control-lg w-100" name="location">
+                                <select class="form-control locations w-100" name="location">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"
@@ -144,6 +144,11 @@
     <script>
         $('.interests').select2({
             placeholder: "Please Select Interests",
+            allowClear: true
+        });
+
+        $('.locations').select2({
+            placeholder: "Please Select location",
             allowClear: true
         });
 

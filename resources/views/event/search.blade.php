@@ -47,9 +47,9 @@
                     </form>
                 </div> --}}
                 <div class="dashboardCard border-0">
-                    <form action="{{  route('search.events') }}" method="GET">
+                    <form action="{{ route('search.events') }}" method="GET">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-5 col-lg-4 form-group">
+                            <div class="col-md-4 col-lg-4 form-group">
                                 <select class="form-control interests w-100" name="interests[]" multiple>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}"
@@ -62,10 +62,10 @@
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by name & username" name="q" value="{{ request()->q }}">
+                                    placeholder="Search by name & title" name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <select class="form-control form-control-lg w-100" name="location">
+                                <select class="form-control locations w-100" name="location">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"
@@ -114,12 +114,14 @@
                                         </div>
 
                                         @if (!$event->allMembers()->where('user_id', $user->id)->exists())
-                                            <div class="d-flex align-items-center p-3">
-                                                <a class="join-event" data-id="{{ $event->id }}"
+                                            <div class="d-flex align-items-center pt-2">
+                                                {{-- <img src="{{ asset('assets/done.svg') }}" alt="join event"
+                                                    style="height: 30px; width:30px; object-fit: contain"> --}}
+                                                <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
                                                     href="javascript:void(0)">
-                                                    <img src="{{ asset('assets/done.svg') }}" alt="join event"
-                                                        style="height: 30px; width:30px; object-fit: contain">
+                                                    <small class="text-white p-1 rounded bg-primary">Join Event</small>
                                                 </a>
+
                                             </div>
                                         @else
                                             <div class="tags d-flex align-items-center pt-2">
@@ -146,41 +148,48 @@
 @endsection
 @section('scripts')
     <script>
-        $('.interests').select2({
-            placeholder: "Please Select Interests",
-            allowClear: true
-        });
+        $(document).ready(function() {
+            $('.interests').select2({
+                placeholder: "Please Select Interests",
+                allowClear: true
+            });
 
-        $(document).on('click', '.join-event', function() {
-            let eventId = $(this).data('id');
-            joinEvent(eventId);
-        });
+            $('.locations').select2({
+                placeholder: "Please Select Interests",
+                allowClear: true
+            });
 
-        function joinEvent(eventId) {
-            $.ajax({
-                url: "{{ route('event.join', ':id') }}".replace(':id', eventId),
-                type: 'post',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.success == true) {
-                        toastr.success(response.message);
-                        newNotificationSound();
-                    } else {
-                        toastr.error(response.message);
+            $(document).on('click', '.join-event', function() {
+                let eventId = $(this).data('id');
+                joinEvent(eventId);
+            });
+
+            function joinEvent(eventId) {
+                $.ajax({
+                    url: "{{ route('event.join', ':id') }}".replace(':id', eventId),
+                    type: 'post',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success == true) {
+                            toastr.success(response.message);
+                            newNotificationSound();
+                        } else {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                        }
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(error) {
+                        toastr.error('Something went wrong');
                         errorNotificationSound();
                     }
-
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
-                },
-                error: function(error) {
-                    toastr.error('Something went wrong');
-                    errorNotificationSound();
-                }
-            });
-        }
+                });
+            }
+        });
     </script>
 @endsection
