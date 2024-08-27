@@ -89,7 +89,7 @@ class ProfileController extends Controller
 
         $request->user()->updateAvatar($request->file('avatar'));
 
-        return Redirect::route('profile.edit')->with('success', 'Profile avatar Updated!');
+        return Redirect::route('profile.edit')->with('success', 'Avatar update successfully!');
     }
 
     public function info(): View

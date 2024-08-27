@@ -31,7 +31,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <input class="form-control form-control-lg w-100" type="search"
+                                <input class="form-control w-100" type="search"
                                     placeholder="Search by name & title" name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">

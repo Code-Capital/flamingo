@@ -227,6 +227,7 @@ class EventController extends Controller
     {
         $user = Auth::user();
         $post = $event->posts()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $user->id,
             'body' => $request->body,
             'is_private' => $request->is_private ?? false,

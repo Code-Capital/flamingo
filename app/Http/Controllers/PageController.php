@@ -200,6 +200,7 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $post = $page->posts()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $user->id,
             'body' => $request->body,
             'is_private' => $request->is_private ?? false,
@@ -218,7 +219,7 @@ class PageController extends Controller
         }
 
         $post->notifications()->create([
-            'type' => 'post',
+            'type' => 'page',
             'data' => json_encode([
                 'message' => 'New post created',
                 'user_id' => $user->id,

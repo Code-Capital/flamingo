@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
             'view profile',
             'view users list',
             'view events list',
+            'view announcements',
             'view announcements list',
             'view pages list',
             'view settings',
@@ -26,7 +27,8 @@ class PermissionSeeder extends Seeder
             // 'view media',
             // 'view logs',
             'view reports',
-            'view locations'
+            'view locations',
+            'view terms-condition',
         ];
 
         $this->command->getOutput()->progressStart(count($adminPermissions));
@@ -54,7 +56,6 @@ class PermissionSeeder extends Seeder
         $userPermissions = [
             'view notifications',
             'view profile',
-            'view announcements',
             'view about info',
             'view feed',
             'view search user',

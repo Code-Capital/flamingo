@@ -41,7 +41,8 @@
             color: red;
         }
 
-        .select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
+        .select2-container .select2-selection--multiple,
+        .select2-container .select2-selection--single {
             width: 100% !important;
             min-height: 44px !important;
             border: 1px solid #ced4da !important;
@@ -115,6 +116,39 @@
     <script>
         $(".chatBtn").click(function() {
             $(".chatSidebar").toggleClass("chatSidebarshow");
+        });
+    </script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script>
+
+    <script>
+        let message = '';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enable pusher logging - don't include this in production
+            // Pusher.logToConsole = true;
+
+            var pusher = new Pusher('9a5d76ef216853ed60cf', {
+                cluster: 'us3',
+            });
+
+            userId = '{{ auth()->id() }}';
+            var postUrl = '{{ route('post.edit', ':uuid') }}';
+
+            var channel = pusher.subscribe('user.' + userId);
+            channel.bind('post-created', function(data) {
+                console.log(data);
+                var message = 'New post created by ' + data.user_name;
+
+                // Replace ':uuid' in the URL with the actual post UUID
+                postUrl = postUrl.replace(':uuid', data.post.uuid);
+
+                const postLink = `<a href="${postUrl}">Click here</a> to view the post.`;
+
+                // Display the notification with the link to the new post
+                toastr.success(message + ' ' + postLink);
+                // location.reload(); // Uncomment if you want to reload the page
+            });
+
         });
     </script>
     @yield('scripts')

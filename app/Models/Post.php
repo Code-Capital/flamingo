@@ -21,6 +21,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
+        'uuid',
         'event_id',
         'page_id',
         'user_id',
@@ -106,6 +107,11 @@ class Post extends Model
     public function likedByUser($id)
     {
         return $this->likes()->where('user_id', $id)->where('is_liked', true);
+    }
+
+    public function isPublic(): bool
+    {
+        return ! $this->is_private;
     }
 
     // ======================================================================

@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         // Create an admin user
         $simpleUser = User::factory()->create([
             'first_name' => 'muhammad',
-            'first_name' => 'arslan',
+            'last_name' => 'arslan',
             'user_name' => 'tester',
             'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
         $simpleUser->friends()->attach($users, ['status' => 'accepted']);
 
         // Create 10 regular users and attach random interests
-        User::factory(100)->create()->each(function ($user) {
+        User::factory(25)->create()->each(function ($user) {
             $user->assignRole('user');
 
             // Create 10 posts for each user

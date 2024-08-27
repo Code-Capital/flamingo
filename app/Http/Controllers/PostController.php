@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Visitor;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Events\PostCreatedEvent;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
@@ -32,7 +36,9 @@ class PostController extends Controller
                 'likes',
                 'comments' => function ($query) {
                     $query->withCount(['replies']);
-                }, 'comments.user', 'comments.replies',
+                },
+                'comments.user',
+                'comments.replies',
             ])
             ->withCount(['comments', 'likes'])
             ->latest()
@@ -41,44 +47,6 @@ class PostController extends Controller
         $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
-    }
-
-    public function store(Request $request)
-    {
-        DB::transaction(function () use ($request) {
-            $user = Auth::user();
-            $post = $user->posts()->create([
-                'body' => $request->body,
-                'is_private' => $request->is_private ?? false,
-            ]);
-
-            // Check if media files were uploaded
-            if ($request->hasFile('media')) {
-                $mediaFiles = $request->file('media');
-                foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
-                    $post->media()->create([
-                        'file_path' => $mediaPath,
-                        'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
-                    ]);
-                }
-            }
-
-            $post->notifications()->create([
-                'type' => 'post',
-                'data' => json_encode([
-                    'message' => 'New post created',
-                    'user_id' => $user->id,
-                    'post_id' => $post->id,
-                ]),
-            ]);
-        });
-
-        if ($request->ajax()) {
-            return $this->sendSuccessResponse(null, 'Post created successfully', Response::HTTP_CREATED);
-        } else {
-            return back()->with('success', 'Post created successfully');
-        }
     }
 
     public function show(User $user): View
@@ -113,6 +81,72 @@ class PostController extends Controller
         $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
+    }
+
+    public function store(Request $request): RedirectResponse|JsonResponse
+    {
+        DB::transaction(function () use ($request) {
+            $user = Auth::user();
+            $post = $user->posts()->create([
+                'uuid' => Str::uuid(),
+                'body' => $request->body,
+                'is_private' => $request->is_private ?? false,
+            ]);
+
+            // Check if media files were uploaded
+            if ($request->hasFile('media')) {
+                $mediaFiles = $request->file('media');
+                foreach ($mediaFiles as $mediaFile) {
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                    $post->media()->create([
+                        'file_path' => $mediaPath,
+                        'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
+                    ]);
+                }
+            }
+
+            if ($post->isPublic()) {
+                foreach ($user->friends as $friend) {
+                    broadcast(new PostCreatedEvent($post, $friend));
+                }
+            }
+
+            $post->notifications()->create([
+                'type' => 'post',
+                'data' => json_encode([
+                    'message' => 'New post created',
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                ]),
+            ]);
+        });
+
+        if ($request->ajax()) {
+            return $this->sendSuccessResponse(null, 'Post created successfully', Response::HTTP_CREATED);
+        } else {
+            return back()->with('success', 'Post created successfully');
+        }
+    }
+
+    public function edit(Post $post): View
+    {
+        $currentUser = Auth::user();
+        $peoples = getPeoples($currentUser);
+        $posts = $post->byPublished()
+            ->byPublic()
+            ->with([
+                'user',
+                'media',
+                'likes',
+                'comments' => function ($query) {
+                    $query->withCount(['replies']);
+                },
+                'comments.user',
+                'comments.replies',
+            ])
+            ->withCount(['comments', 'likes'])->first();
+        dd($posts->toArray());
+        return view('user.posts.show', get_defined_vars());
     }
 
     public function destroy(Post $post): JsonResponse

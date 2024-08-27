@@ -21,10 +21,13 @@
                         </div>
                         <div class="buttonWrapper">
                             <div class="d-flex align-items-center gap-1 flex-column">
-                                <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
+                                <a class="text-decoration-none add-friend" data-id="3" href="javascript:void(0)">
+                                    Add friend
+                                </a>
+                                {{-- <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                     <img src="{{ asset('assets/icon7.svg') }}" alt="join community">
                                 </a>
-                                <span class="d-block">Join</span>
+                                <span class="d-block">Join</span> --}}
                             </div>
                         </div>
                     </div>
@@ -33,7 +36,8 @@
                 <div class="text-danger text-center">No Data Found</div>
             @endforelse
         </div>
-        <h5 class="mb-0 mt-3"><a href="{{ route('people.with.same.interest') }}" class="text-decoration-none">See all...</a> </h5>
+        <h5 class="mb-0 mt-3"><a href="{{ route('people.with.same.interest') }}" class="text-decoration-none">See
+                all...</a> </h5>
     </div>
     {{-- <div class="bg-white p-4 dashboardCard mt-4"> --}}
     {{--     <h5>Advertizement</h5> --}}
