@@ -6,11 +6,13 @@ use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Location extends Model
 {
     use DateFormattingTrait;
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

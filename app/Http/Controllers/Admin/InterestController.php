@@ -39,7 +39,7 @@ class InterestController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
-        return view('interests.index');
+        return view('admin.interests.index');
     }
 
     public function show(Interest $interest)
@@ -76,7 +76,7 @@ class InterestController extends Controller
             'description' => $request->description
         ]);
 
-        return to_route('interests.index')->with('success', 'Event updated successfully');
+        return to_route('admin.interests.index')->with('success', 'Event updated successfully');
     }
 
     public function destroy(Interest $interest)

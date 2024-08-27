@@ -402,8 +402,8 @@
 
             @can('view locations')
                 <li>
-                    <a id="interests-list" href="{{ route('interests.index') }}"
-                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('interests.index') ? 'active' : '' }}">
+                    <a id="locations-list" href="{{ route('locations.index') }}"
+                        class="text-decoration-none d-flex align-items-center {{ request()->routeIs('locations.index') ? 'active' : '' }}">
                         <svg width="24" class="logs" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             fill-opacity="0.3" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7294)">
@@ -418,10 +418,11 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span>Interests</span>
+                        <span>Locations</span>
                     </a>
                 </li>
             @endcan
+
 
             @can('view settings')
                 <li>

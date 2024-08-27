@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\LocationController as AdminLocationController;
 
 require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -135,6 +136,7 @@ Route::middleware('auth')->group(function () {
         // Route::get('interests/list', [AdminInterestController::class, 'index'])->name('interests.list');
 
         Route::resource('interests', AdminInterestController::class);
+        Route::resource('locations', AdminLocationController::class);
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
         Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');

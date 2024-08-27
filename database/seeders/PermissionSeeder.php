@@ -21,11 +21,12 @@ class PermissionSeeder extends Seeder
             'view announcements list',
             'view pages list',
             'view settings',
-            // 'view permissions',
-            // 'view roles',
+            'view permissions',
+            'view roles',
             // 'view media',
             // 'view logs',
-            // 'view reports',
+            'view reports',
+            'view locations'
         ];
 
         $this->command->getOutput()->progressStart(count($adminPermissions));
