@@ -44,11 +44,7 @@
         $(document).ready(function() {
             let body = $('body');
 
-            body.on('click', '.unfriend', function(event) {
-                event.preventDefault();
-                let id = $(this).data('id');
-                unfriendUser(id, $(this));
-            });
+            // add unfriend code in common scripts file
         });
     </script>
 @endsection

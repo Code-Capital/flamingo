@@ -37,7 +37,9 @@
         }
     });
 
-    $('body').on('submit', '.ajax-comment-form', function(event) {
+    let body = $('body');
+
+    body.on('submit', '.ajax-comment-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -83,7 +85,7 @@
         });
     });
 
-    $('body').on('submit', '.ajax-reply-form', function(event) {
+    body.on('submit', '.ajax-reply-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -152,7 +154,7 @@
             `;
     }
 
-    $('body').on('submit', '.ajax-like-form', function(event) {
+    body.on('submit', '.ajax-like-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -220,6 +222,42 @@
                 $(this).addClass('d-none');
             });
         }
+    });
+
+    body.on('click', '.add-friend', function(event) {
+        event.preventDefault();
+        let id = $(this).data('id');
+        $(this).remove();
+        addFriend(id);
+    });
+
+    function addFriend(id) {
+        // Construct the URL with the provided ID
+        let url = '{{ route('add-friend', ':id') }}'.replace(':id', id);
+
+        // Perform the AJAX request
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                if (response.success === true) {
+                    toastr.success(response.message);
+                    newNotificationSound();
+                } else {
+                    toastr.error(response.message);
+                    errorNotificationSound();
+                }
+            },
+            error: function() {
+                toastr.error('An error occurred while processing your request.');
+            }
+        });
+    }
+
+    body.on('click', '.unfriend', function(event) {
+        event.preventDefault();
+        let id = $(this).data('id');
+        unfriendUser(id, $(this));
     });
 
     function unfriendUser(id, button) {

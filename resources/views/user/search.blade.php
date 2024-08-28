@@ -98,27 +98,8 @@
                 placeholder: "Please Select location",
                 allowClear: true
             });
-            let body = $('body');
 
-            body.on('click', '.add-friend', function() {
-                let id = $(this).data('id');
-                let url = '{{ route('add-friend', ':id') }}'.replace(':id', id);
-                this.remove();
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(response) {
-                        if (response.success == true) {
-                            toastr.success(response.message);
-                            newNotificationSound();
-                        } else {
-                            toastr.error(response.message);
-                            errorNotificationSound();
-                        }
-                    }
-                });
-            });
-
+            // add freinds move in the common scripts file
         });
     </script>
 @endsection

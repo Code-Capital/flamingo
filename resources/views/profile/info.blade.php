@@ -77,11 +77,11 @@
                 sendRequest(id, 'blocked', $(this));
             });
 
-            body.on('click', '.unfriend', function(event) {
-                event.preventDefault();
-                let id = $(this).data('id');
-                unfriendUser(id, $(this));
-            });
+            // body.on('click', '.unfriend', function(event) {
+            //     event.preventDefault();
+            //     let id = $(this).data('id');
+            //     unfriendUser(id, $(this));
+            // });
 
             function sendRequest(id, status, button) {
                 $.ajax({

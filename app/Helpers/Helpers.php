@@ -56,8 +56,10 @@ if (! function_exists('getPeoples')) {
     function getPeoples($user): mixed
     {
         $interests = $user->interests()->pluck('interest_id')->toArray();
+        $friendsIds = $user->friends()->pluck('users.id')->toArray();
 
         return $user->byInterests($interests)
+            ->whereNotIn('id', $friendsIds)
             ->byNotUser($user->id)
             ->limit(10)
             ->get();

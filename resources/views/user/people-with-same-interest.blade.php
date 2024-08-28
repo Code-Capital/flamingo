@@ -46,14 +46,15 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            let body = $('body');
+            // let body = $('body');
 
-            body.on('click', '.unfriend', function(event) {
-                event.preventDefault();
-                let id = $(this).data('id');
-                unfriendUser(id, $(this));
-            });
+            // body.on('click', '.unfriend', function(event) {
+            //     event.preventDefault();
+            //     let id = $(this).data('id');
+            //     unfriendUser(id, $(this));
+            // });
 
+            //  Add friend in the common scripts file
         });
     </script>
 @endsection
