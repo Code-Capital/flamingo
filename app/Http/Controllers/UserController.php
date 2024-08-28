@@ -87,7 +87,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
+            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),
@@ -107,10 +107,12 @@ class UserController extends Controller
     public function peopleWithSameInterest(): View
     {
         $user = Auth::user();
-        $peoples = $user->byInterests($user->interests->pluck('id')->toArray())
-            ->byNotUser($user->id)
-            ->limit(10)
-            ->paginate(getPaginated());
+
+        $peoples = getPeoples($user, limit: 10, pagination: true);
+        // $user->byInterests($user->interests->pluck('id')->toArray())
+        //     ->byNotUser($user->id)
+        //     ->limit(10)
+        //     ->paginate(getPaginated());
 
         return view('user.people-with-same-interest', get_defined_vars());
     }

@@ -137,6 +137,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function reverseFriends(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
     public function acceptedFriends(): BelongsToMany
     {
         return $this->friends()
@@ -356,10 +363,10 @@ class User extends Authenticatable
     {
 
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 

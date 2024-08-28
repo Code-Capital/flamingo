@@ -145,7 +145,6 @@ class PostController extends Controller
                 'comments.replies',
             ])
             ->withCount(['comments', 'likes'])->first();
-        dd($posts->toArray());
         return view('user.posts.show', get_defined_vars());
     }
 
