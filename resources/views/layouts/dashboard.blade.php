@@ -125,7 +125,7 @@
         let message = '';
         document.addEventListener('DOMContentLoaded', function() {
             // Enable pusher logging - don't include this in production
-            // Pusher.logToConsole = true;
+            Pusher.logToConsole = true;
 
             var pusher = new Pusher('9a5d76ef216853ed60cf', {
                 cluster: 'us3',
@@ -133,6 +133,7 @@
 
             userId = '{{ auth()->id() }}';
             var postUrl = '{{ route('post.edit', ':uuid') }}';
+            var eventUrl = '{{ route('events.show', ':slug') }}';
 
             var channel = pusher.subscribe('user.' + userId);
             channel.bind('post-created', function(data) {
@@ -147,6 +148,22 @@
 
                 // Display the notification with the link to the new post
                 toastr.success(message + ' ' + postLink);
+                // location.reload(); // Uncomment if you want to reload the page
+            });
+
+            var channel = pusher.subscribe('event.user.' + userId);
+            channel.bind('event-created', function(data) {
+                console.log(data);
+                newNotificationSound();
+                var message = 'New event created by ' + data.full_name;
+
+                // Replace ':uuid' in the URL with the actual post UUID
+                eventUrl = eventUrl.replace(':slug', data.event.slug);
+
+                const eventLink = `<a href="${eventUrl}">Click here</a> to view the event.`;
+
+                // Display the notification with the link to the new post
+                toastr.success(message + ' ' + eventLink);
                 // location.reload(); // Uncomment if you want to reload the page
             });
 

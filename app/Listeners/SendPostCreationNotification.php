@@ -30,7 +30,7 @@ class SendPostCreationNotification implements ShouldQueue
                 'post_id' => $event->post->id,
                 'post_body' => $event->post->body,
                 'user_id' => $event->user->id,
-                'user_name' => $event->user->name,
+                'full_name' => $event->user->full_name,
             ]),
         ]);
     }

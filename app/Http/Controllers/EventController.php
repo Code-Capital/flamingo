@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\UpdateEventRequest;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Events\EventCreatedEvent;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
+use App\Jobs\EventCreatedJob;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -41,39 +44,43 @@ class EventController extends Controller
 
     public function store(StoreEventRequest $request)
     {
-        DB::beginTransaction();
         try {
-            $event = Event::create([
-                'user_id' => auth()->id(),
-                'title' => $request->title,
-                'slug' => Str::slug($request->title),
-                'location_id' => $request->location_id,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'thumbnail' => $request->file('thumbnail')->store('media/events/thumbnail/', 'public'),
-                'description' => $request->description,
-                'rules' => $request->rules,
-                'status' => $request->status,
-            ]);
+            DB::transaction(function () use ($request) {
+                $user = Auth::user();
+                $event = Event::create([
+                    'user_id' => $user->id,
+                    'title' => $request->title,
+                    'slug' => Str::slug($request->title),
+                    'location_id' => $request->location_id,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                    'thumbnail' => $request->file('thumbnail')->store('media/events/thumbnail/', 'public'),
+                    'description' => $request->description,
+                    'rules' => $request->rules,
+                    'status' => $request->status,
+                ]);
 
-            if ($request->has('images') && is_array($request->images)) {
-                foreach ($request->images as $image) {
-                    $event->media()->create([
-                        'file_path' => $image->store('/media/events/'.$event->id, 'public'),
-                        'file_type' => $image->getClientOriginalExtension(),
-                    ]);
+                if ($request->has('images') && is_array($request->images)) {
+                    foreach ($request->images as $image) {
+                        $event->media()->create([
+                            'file_path' => $image->store('/media/events/' . $event->id, 'public'),
+                            'file_type' => $image->getClientOriginalExtension(),
+                        ]);
+                    }
                 }
-            }
 
-            $event->interests()->sync((array) $request->interests);
+                $event->interests()->sync((array) $request->interests);
 
-            DB::commit();
+                if ($event->isPublished()) {
+                    Log::info('Event created and published and runnig job');
+                    dispatch(new EventCreatedJob($event, $user));
+                }
+            });
+
 
             return to_route('events.index')->with('success', 'Event created successfully');
         } catch (\Throwable $th) {
-            DB::rollBack();
-
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 
@@ -126,7 +133,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/'.$event->id, 'public');
+                    $path = $image->store('/media/events/' . $event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -153,7 +160,7 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 
@@ -237,7 +244,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
