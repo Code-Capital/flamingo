@@ -16,13 +16,14 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
+use App\Http\Controllers\Admin\TermsAndConditionsController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
-use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 
 require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -154,6 +155,8 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/subscription/plan/{plan}', [StripeController::class, 'edit'])->name('admin.plans.edit');
         Route::put('update/subscription/plan/{plan}', [StripeController::class, 'update'])->name('admin.plans.update');
         Route::delete('delete/subscription/plan/{id}', [StripeController::class, 'destroy'])->name('admin.plans.destroy');
+
+        Route::resource('terms-conditions', TermsAndConditionsController::class);
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');

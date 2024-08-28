@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ContactMail;
 use App\Models\PricingPlan;
 use Illuminate\Http\Request;
+use App\Models\TermsAndConditions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,8 @@ class FrontendController extends Controller
 
     public function terms(): View
     {
-        return view('terms');
+        $terms = TermsAndConditions::latest()->first();
+        return view('terms', get_defined_vars());
     }
 
     public function contact(): View
