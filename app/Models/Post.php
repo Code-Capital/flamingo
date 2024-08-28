@@ -68,17 +68,17 @@ class Post extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function page()
+    public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class);
     }
 
-    public function reports()
+    public function reports(): MorphMany
     {
         return $this->morphMany(Report::class, 'reportable');
     }

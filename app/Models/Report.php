@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Report extends Model
 {
@@ -37,9 +38,9 @@ class Report extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
-    public function reportable()
+    public function reportable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('reportable');
     }
 
 
