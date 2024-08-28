@@ -137,7 +137,8 @@
             var channel = pusher.subscribe('user.' + userId);
             channel.bind('post-created', function(data) {
                 console.log(data);
-                var message = 'New post created by ' + data.user_name;
+                newNotificationSound();
+                var message = 'New post created by ' + data.full_name;
 
                 // Replace ':uuid' in the URL with the actual post UUID
                 postUrl = postUrl.replace(':uuid', data.post.uuid);

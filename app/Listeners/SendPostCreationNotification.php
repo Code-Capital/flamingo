@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Enums\NotificationStatusEnum;
 use App\Events\PostCreatedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,6 +23,15 @@ class SendPostCreationNotification implements ShouldQueue
      */
     public function handle(PostCreatedEvent $event): void
     {
-        Log::info('Post created by ' . $event->user->name . ' with body: ' . $event->post);
+        $event->user->notifications()->create([
+            'type' => NotificationStatusEnum::POSTCREATED->value,
+            'data' => json_encode([
+                'message' => 'New post created by ' . $event->user->name,
+                'post_id' => $event->post->id,
+                'post_body' => $event->post->body,
+                'user_id' => $event->user->id,
+                'user_name' => $event->user->name,
+            ]),
+        ]);
     }
 }

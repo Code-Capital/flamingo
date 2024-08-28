@@ -7,12 +7,12 @@ use App\Models\User;
 use App\Models\Visitor;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Events\PostCreatedEvent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\NotificationStatusEnum;
+use App\Jobs\SendPostNotificationJob;
 use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -106,17 +106,17 @@ class PostController extends Controller
             }
 
             if ($post->isPublic()) {
-                foreach ($user->friends as $friend) {
-                    broadcast(new PostCreatedEvent($post, $friend));
-                }
+                dispatch(new SendPostNotificationJob($post, $user));
             }
 
-            $post->notifications()->create([
-                'type' => 'post',
+            $user->notifications()->create([
+                'type' => NotificationStatusEnum::POSTCREATED->value,
                 'data' => json_encode([
-                    'message' => 'New post created',
+                    'message' => 'Post has been created',
                     'user_id' => $user->id,
                     'post_id' => $post->id,
+                    'post_body' => $post->body,
+                    'user_name' => $user->full_name,
                 ]),
             ]);
         });
