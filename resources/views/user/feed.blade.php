@@ -103,21 +103,21 @@
                                         <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                     </div>
                                 </div>
-                                @if ($currentUser->id == $post->user_id)
-                                    <div class="dropdown">
-                                        <a href="javascript:void(0)" class="btn" id="postActions"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="{{ asset('assets/dropdown.svg') }}" alt="dropdown">
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="postActions">
-                                            {{-- <li><a class="dropdown-item" href="#">Edit</a></li> --}}
+                                <div class="dropdown">
+                                    <a href="javascript:void(0)" class="btn" id="postActions" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <img src="{{ asset('assets/dropdown.svg') }}" alt="dropdown">
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="postActions">
+                                        <li><a class="dropdown-item post-report" href="javascript:void(0)">Report</a></li>
+                                        @if ($currentUser->id == $post->user_id)
                                             <li>
                                                 <a class="dropdown-item post-destroy" data-post="{{ $post->id }}"
                                                     href="javascript::void(0)">Delete</a>
                                             </li>
-                                        </ul>
-                                    </div>
-                                @endif
+                                        @endif
+                                    </ul>
+                                </div>
                             </div>
                             <p class="detailsText">
                                 {{ $post->body }}

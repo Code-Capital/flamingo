@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
         Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
         Route::post('reply/{comment}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
+        Route::post('post/{post}/report', [PostController::class, 'report'])->name('post.report');
+
         Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
         Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
         Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');

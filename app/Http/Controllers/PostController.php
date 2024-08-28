@@ -154,4 +154,13 @@ class PostController extends Controller
 
         return $this->sendSuccessResponse('Post deleted successfully');
     }
+
+    public function report(Post $post): JsonResponse
+    {
+        $post->reports()->updateOrCreate([
+            'user_id' => Auth::id(),
+        ]);
+
+        return $this->sendSuccessResponse('Post reported successfully');
+    }
 }

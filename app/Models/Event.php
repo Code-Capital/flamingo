@@ -106,6 +106,11 @@ class Event extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }   
+
     // ======================================================================
     // Accessors
     // ======================================================================

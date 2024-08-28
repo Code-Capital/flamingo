@@ -78,6 +78,11 @@ class Post extends Model
         return $this->belongsTo(Page::class);
     }
 
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================

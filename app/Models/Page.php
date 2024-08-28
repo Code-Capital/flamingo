@@ -88,6 +88,11 @@ class Page extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -140,7 +145,7 @@ class Page extends Model
 
     public function scopeByLocation($query, $locationId)
     {
-        return $query->when($locationId, fn ($q) => $q->where('location_id', $locationId));
+        return $query->when($locationId, fn($q) => $q->where('location_id', $locationId));
     }
 
     public function scopeByUser($query, $userId)
