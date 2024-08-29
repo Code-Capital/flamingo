@@ -356,6 +356,35 @@ class User extends Authenticatable
             ->get();
     }
 
+    public function isSubscribed(): bool
+    {
+        return $this->subscribed('default');
+    }
+
+    public function getCurrentMonthEvents(): int
+    {
+        return $this->events()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
+    public function getRemainingEvents(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthEvents();
+        $setting = Setting::first();
+        if (!$this->isSubscribed()) {
+            $totalAllowed = $setting->sub_event_create_count;
+            $count = $totalAllowed - $monthCount;
+        } else {
+            $totalAllowed = $setting->un_sub_event_create_count;
+            $count = $totalAllowed - $monthCount;
+        }
+        return $count;
+    }
+
+
     // ======================================================================
     // Scopes
     // ======================================================================
@@ -363,10 +392,10 @@ class User extends Authenticatable
     {
 
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 

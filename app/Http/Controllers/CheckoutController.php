@@ -14,6 +14,7 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request, $product, $price)
     {
+        dd($request->all(), $product, $price);
         Stripe::setApiKey(config('cashier.secret'));
 
         return $request->user()
