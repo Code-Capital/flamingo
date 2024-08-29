@@ -48,7 +48,7 @@
                         <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data" id="postForm">
                             @csrf
                             <div class="avatar align-items-center gap-3 py-4">
-                                <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
+                                <img class="rounded-circle" src="{{ $user->avatar_url }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
                                     placeholder="What's on your mind?" required>
                             </div>
@@ -86,17 +86,19 @@
                     @forelse($feeds as $post)
                         <div class="innerCard p-3 bg-white mt-4">
                             <div class="d-flex align-items-center justify-content-between">
-                                <div class="avatar align-items-center gap-3 py-4">
+                                <div class="avatar align-items-center gap   -3 py-4">
                                     <img class="rounded-circle" src=" {{ asset($post->user->avatar_url) }}">
-                                    <div class="details">
+                                    <div class="details p-2">
                                         <span class="d-block"> <a
                                                 href="{{ route('user.feed.show', $post->user->user_name) }}"
                                                 class="text-decoration-none">
                                                 @if ($post->user_id == $currentUser->id)
-                                                    You
+                                                    <small
+                                                        class="badge bg-secondary small text-white px-1 py-1">Author</small>
                                                 @else
                                                     {{ $post->user->full_name }}
                                                 @endif
+
                                             </a>
                                         </span>
                                         <span class="d-block">{{ $post->user->designation }}</span>
@@ -109,11 +111,14 @@
                                         <img src="{{ asset('assets/dropdown.svg') }}" alt="dropdown">
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="postActions">
-                                        <li><a class="dropdown-item post-report" href="javascript:void(0)">Report</a></li>
                                         @if ($currentUser->id == $post->user_id)
                                             <li>
                                                 <a class="dropdown-item post-destroy" data-post="{{ $post->id }}"
                                                     href="javascript::void(0)">Delete</a>
+                                            </li>
+                                        @else
+                                            <li><a class="dropdown-item post-report" data-post="{{ $post->id }}"
+                                                    href="javascript:void(0)">Report</a>
                                             </li>
                                         @endif
                                     </ul>
@@ -191,7 +196,7 @@
                     @endforelse
 
                     <div class="paginator ms-auto mt-4">
-                        {{ $feeds->links() }}
+                        {{ $feeds->onEachSide(2)->links() }}
                     </div>
                 </div>
 
@@ -216,13 +221,63 @@
     <script>
         $(document).ready(function() {
             let body = $('body');
+            let reportModal = $('#reportModal');
+            let reportForm = $('#reportForm');
 
             body.on('click', '.post-destroy', function() {
                 let id = $(this).data('post');
                 destroyPost(id);
             });
+
+            body.on('click', '.post-report', function() {
+                let id = $(this).data('post');
+                let url = `{{ route('post.report', ':id') }}`.replace(':id', id);
+                reportForm.attr('action', url);
+                reportModal.modal('show');
+            });
+
+            body.on('submit', '#reportForm', function(event) {
+                event.preventDefault();
+                let formData = new FormData(this);
+                let url = $(this).attr('action');
+
+                // Call the reportPost function and handle the result
+                reportPost(url, formData)
+                    .done(function(response) {
+                        if (response.success) {
+                            newNotificationSound();
+                            toastr.success(response.message);
+                            reportModal.modal('hide');
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            errorNotificationSound();
+                            toastr.error(response.message);
+                        }
+                    })
+                    .fail(function(xhr) {
+                        errorNotificationSound();
+                        let errorMessage = xhr.responseJSON.message ||
+                            'An error occurred while processing your request.';
+                        toastr.error(errorMessage);
+                    });
+            });
+
+            function reportPost(url, formData) {
+                // Return the AJAX call itself, which is a Promise
+                return $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                });
+            }
+
         });
     </script>
+
     <script>
         Dropzone.autoDiscover = false;
         // Dropzone has been added as a global variable.

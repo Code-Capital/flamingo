@@ -171,4 +171,17 @@ class Post extends Model
     {
         return $query->whereNull('event_id');
     }
+
+    // public function scopeByNotReportedByUser($query, $user)
+    // {
+    //     return $query->whereDoesntHave('reports', function ($query) use ($user) {
+    //         $query->where('user_id', $user->id);
+    //     });
+    // }
+    public function scopeByNotReportedByUser($query, $user)
+    {
+        return $query->whereDoesntHave('reports', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
 }

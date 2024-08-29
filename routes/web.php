@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
         Route::get('feed', [PostController::class, 'index'])->name('feed');
-        Route::get('profile/{user:user_name}/feed', [PostController::class, 'show'])->name('user.feed.show');
+        Route::get('profile/{user:user_name?}/feed', [PostController::class, 'show'])->name('user.feed.show');
         Route::get('post/{post:uuid}/view', [PostController::class, 'edit'])->name('post.edit');
         Route::post('post', [PostController::class, 'store'])->name('post.store');
         Route::delete('post/{post}/delete', [PostController::class, 'destroy'])->name('post.destroy');

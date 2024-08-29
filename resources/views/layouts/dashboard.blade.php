@@ -81,6 +81,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="#" method="POST" id="reportForm">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">Report reason</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea name="reason" id="" cols="30" rows="5" class="form-control" placeholder="Please provide proper reason"
+                                required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="{{ asset('js/sweetalert.js') }}"></script>
     <script src="{{ asset('js/jquery-3.6.3.js') }} "></script>
@@ -125,7 +148,7 @@
         let message = '';
         document.addEventListener('DOMContentLoaded', function() {
             // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
+            // Pusher.logToConsole = true;
 
             var pusher = new Pusher('9a5d76ef216853ed60cf', {
                 cluster: 'us3',

@@ -39,20 +39,25 @@ class PostController extends Controller
                 },
                 'comments.user',
                 'comments.replies',
+                'reports',
             ])
             ->withCount(['comments', 'likes'])
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->latest()
-            ->paginate(getPaginated());
+            ->paginate(getPaginated(5));
 
         $peoples = getPeoples($user);
 
         return view('user.feed', get_defined_vars());
     }
 
-    public function show(User $user): View
+    public function show(User $user = null): View
     {
 
         $currentUser = Auth::user();
+        $loginUser = $user;
 
         if ($currentUser && $currentUser->id !== $user->id) {
             // Record the visit
@@ -73,10 +78,23 @@ class PostController extends Controller
         $feeds = $user->posts()
             ->byPublished()
             ->byPublic()
-            ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
-            ->withCount(['comments', 'likes'])
+            // ->ByNotReportedByUser($user)
+            ->with([
+                'user',
+                'media',
+                'likes',
+                'comments',
+                'comments.user',
+                'comments.replies',
+                'reports',
+            ])
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->withCount(['comments', 'likes', 'reports'])
             ->latest()
             ->paginate(getPaginated());
+
 
         $peoples = getPeoples($user);
 
@@ -97,7 +115,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -156,12 +174,18 @@ class PostController extends Controller
         return $this->sendSuccessResponse('Post deleted successfully');
     }
 
-    public function report(Post $post): JsonResponse
+    public function report(Request $request, Post $post): JsonResponse
     {
-        $post->reports()->updateOrCreate([
-            'user_id' => Auth::id(),
-        ]);
+        try {
+            // Create a new report associated with the post
+            $report = $post->reports()->create([
+                'user_id' => Auth::id(),
+                'reason' => $request->reason,
+            ]);
 
-        return $this->sendSuccessResponse('Post reported successfully');
+            return $this->sendSuccessResponse(null, 'Post reported successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('An error occurred while reporting the post: ' . $th->getMessage());
+        }
     }
 }

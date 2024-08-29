@@ -312,28 +312,7 @@
         });
     }
 
-    function reportPost(id){
-        let url = "{{ route('post.report', ':id') }}".replace(':id', id);
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                if (response.success) {
-                    newNotificationSound();
-                    toastr.success(response.message);
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    errorNotificationSound();
-                    toastr.error(response.message);
-                }
-            }
-        });
-    }
+    
 
     function deleteRecord(url, table = null, $loadingTitle = 'Processing...') {
         loadingStart($loadingTitle);

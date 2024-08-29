@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('reportable');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('reason');
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
