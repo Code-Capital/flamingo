@@ -2,11 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\EventCreatedEvent;
-use Illuminate\Support\Facades\Log;
 use App\Enums\NotificationStatusEnum;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\EventCreatedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
 class EventCreatedListener implements ShouldQueue
 {
@@ -23,11 +22,11 @@ class EventCreatedListener implements ShouldQueue
      */
     public function handle(EventCreatedEvent $event): void
     {
-        Log::info('LISTENER -> Event created: ' . $event->event->title);
+        Log::info('LISTENER -> Event created: '.$event->event->title);
         $event->user->notifications()->create([
             'type' => NotificationStatusEnum::POSTCREATED->value,
             'data' => json_encode([
-                'message' => 'New event created by ' . $event->user->name,
+                'message' => 'New event created by '.$event->user->name,
                 'event_id' => $event->event->id,
                 'event' => $event->event,
                 'user_id' => $event->user->id,

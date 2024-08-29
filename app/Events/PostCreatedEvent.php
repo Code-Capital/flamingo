@@ -4,18 +4,17 @@ namespace App\Events;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 
 class PostCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
 
     public $post;
+
     public $user;
 
     /**
@@ -37,7 +36,7 @@ class PostCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('user.' . $this->user->id)
+            new Channel('user.'.$this->user->id),
         ];
     }
 

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PricingPlan;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Stripe\Plan;
 use Stripe\Price;
-use Stripe\Stripe;
 use Stripe\Product;
-use App\Models\PricingPlan;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use Stripe\Stripe;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
 
 class StripeController extends Controller
 {
@@ -28,7 +28,7 @@ class StripeController extends Controller
                     return $plan->id;
                 })
                 ->editColumn('amount', function ($plan) {
-                    return '$' . number_format($plan->amount / 100, 2);
+                    return '$'.number_format($plan->amount / 100, 2);
                 })
                 ->editColumn('interval', function ($plan) {
                     return ucfirst($plan->interval);
@@ -38,7 +38,7 @@ class StripeController extends Controller
                 })
                 ->addColumn('action', function ($plan) {
                     // return $plan;
-                    return '<button type="button" data-id="' . $plan->id . '" class="btn btn-danger btn-sm delete">Delete</button>';
+                    return '<button type="button" data-id="'.$plan->id.'" class="btn btn-danger btn-sm delete">Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -95,9 +95,10 @@ class StripeController extends Controller
                     'status' => $request->status ?? true,
                 ]);
             });
+
             return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully.');
         } catch (\Throwable $th) {
-            return redirect()->route('admin.plans.create')->with('error', 'Error occured while creating plan.' . $th->getMessage());
+            return redirect()->route('admin.plans.create')->with('error', 'Error occured while creating plan.'.$th->getMessage());
         }
     }
 

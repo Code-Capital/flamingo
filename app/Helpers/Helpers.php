@@ -1,16 +1,15 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 if (! function_exists('getPaginated')) {
     function getPaginated($limit = 25): int
@@ -20,7 +19,7 @@ if (! function_exists('getPaginated')) {
 }
 
 if (! function_exists('limitString')) {
-    function limitString(string $string = null, $limit = 100): string
+    function limitString(?string $string = null, $limit = 100): string
     {
         return $string
             ? Str::limit($string, $limit, '...')
@@ -50,7 +49,7 @@ if (! function_exists('getStatusCode')) {
 }
 
 if (! function_exists('convertSnakeCaseToUpperCase')) {
-    function convertSnakeCaseToUpperCase(string $string = null): string
+    function convertSnakeCaseToUpperCase(?string $string = null): string
     {
         return $string
             ? ucfirst(str_replace('_', ' ', $string))
@@ -59,7 +58,7 @@ if (! function_exists('convertSnakeCaseToUpperCase')) {
 }
 
 if (! function_exists('getPeoples')) {
-    function getPeoples(User $user = null, int $limit = 10, bool $pagination = false)
+    function getPeoples(?User $user = null, int $limit = 10, bool $pagination = false)
     {
         $interests = $user->interests()->pluck('interest_id')->toArray();
         $friendsIds = $user->reverseFriends->pluck('id')->toArray();

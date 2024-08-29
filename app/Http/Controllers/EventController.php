@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Interest;
-use App\Models\Location;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Events\EventCreatedEvent;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Jobs\EventCreatedJob;
+use App\Models\Event;
+use App\Models\Interest;
+use App\Models\Location;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -63,7 +62,7 @@ class EventController extends Controller
                 if ($request->has('images') && is_array($request->images)) {
                     foreach ($request->images as $image) {
                         $event->media()->create([
-                            'file_path' => $image->store('/media/events/' . $event->id, 'public'),
+                            'file_path' => $image->store('/media/events/'.$event->id, 'public'),
                             'file_type' => $image->getClientOriginalExtension(),
                         ]);
                     }
@@ -77,10 +76,9 @@ class EventController extends Controller
                 }
             });
 
-
             return to_route('events.index')->with('success', 'Event created successfully');
         } catch (\Throwable $th) {
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -133,7 +131,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/' . $event->id, 'public');
+                    $path = $image->store('/media/events/'.$event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -160,7 +158,7 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -244,7 +242,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type

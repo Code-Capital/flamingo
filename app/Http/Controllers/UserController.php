@@ -87,7 +87,7 @@ class UserController extends Controller
         $mediaFiles = $request->file('media');
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),
@@ -109,6 +109,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $peoples = getPeoples($user, limit: 10, pagination: true);
+
         return view('user.people-with-same-interest', get_defined_vars());
     }
 }

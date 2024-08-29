@@ -1,31 +1,32 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LikeController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\StripeController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\CommentReplyController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\vendor\Chatify\MessagesController;
-use App\Http\Controllers\Admin\TermsAndConditionsController;
-use App\Http\Controllers\Admin\PageController as AdminPageController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
-use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\TermsAndConditionsController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentReplyController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
+use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -118,10 +119,14 @@ Route::middleware('auth')->group(function () {
         Route::get('subscription/cancel', [CheckoutController::class, 'cancelSubscription'])->name('stript.subscription.cancel');
         Route::get('subscription/resume', [CheckoutController::class, 'resumeSubscription'])->name('stript.subscription.resume');
 
+        Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
+        Route::post('settings/update/subscrber', [AdminSettingController::class, 'updateSub'])->name('settings.update.sub');
+        Route::post('settings/update/nonsubscriber', [AdminSettingController::class, 'updateUnSub'])->name('settings.update.un.sub');
+
         // extra routes
         Route::view('friend-feed', 'user.friend-feed')->name('friend-feed');
         Route::view('suggestions', 'user.suggestions')->name('suggestions');
-        Route::view('settings', 'user.settings')->name('settings');
+        // Route::view('settings', 'user.settings')->name('settings');
         Route::view('shop', 'user.shop')->name('shop');
         Route::view('visitors', 'user.visitors')->name('visitors');
         Route::view('logs', 'test.logs')->name('logs');

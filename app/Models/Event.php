@@ -109,7 +109,7 @@ class Event extends Model
     public function reports()
     {
         return $this->morphMany(Report::class, 'reportable');
-    }   
+    }
 
     // ======================================================================
     // Accessors
@@ -236,10 +236,10 @@ class Event extends Model
     public function scopeBySearch($query, ?string $search = null)
     {
         return $query->when($search, function ($q) use ($search) {
-            $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('location_id', 'like', '%' . $search . '%')
-                ->orWhere('slug', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%');
+            $q->where('title', 'like', '%'.$search.'%')
+                ->orWhere('location_id', 'like', '%'.$search.'%')
+                ->orWhere('slug', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%');
         });
     }
 

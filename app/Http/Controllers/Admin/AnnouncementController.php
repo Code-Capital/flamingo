@@ -20,7 +20,7 @@ class AnnouncementController extends Controller
                     return $row->created_at;
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
+                    $button = '<button type="button" name="delete" data-id="'.$row->id.'" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -36,9 +36,10 @@ class AnnouncementController extends Controller
     {
         try {
             $announcement->delete();
+
             return $this->sendSuccessResponse(null, 'Announcement deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while deleting announcement ' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while deleting announcement '.$th->getMessage());
         }
     }
 }

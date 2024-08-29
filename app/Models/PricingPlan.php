@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Laravel\Cashier\Subscription;
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Cashier\Subscription;
 
 class PricingPlan extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +38,6 @@ class PricingPlan extends Model
         //
     ];
 
-
     // ======================================================================
     // Relationships
     // ======================================================================
@@ -47,22 +46,17 @@ class PricingPlan extends Model
         return $this->hasMany(Subscription::class);
     }
 
-
-
     // ======================================================================
     // Accessors
     // ======================================================================
-
 
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

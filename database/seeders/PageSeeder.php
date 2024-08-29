@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Interest;
 use App\Models\Page;
 use App\Models\User;
-use App\Models\Interest;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PageSeeder extends Seeder
 {

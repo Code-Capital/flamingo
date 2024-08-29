@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
-use App\Models\Event;
-use Illuminate\Bus\Queueable;
 use App\Events\EventCreatedEvent;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Event;
+use App\Models\User;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
 class EventCreatedJob implements ShouldQueue
@@ -17,7 +17,9 @@ class EventCreatedJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $event;
+
     public $user;
+
     /**
      * Create a new job instance.
      */
@@ -33,7 +35,7 @@ class EventCreatedJob implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->user->friends as $friend) {
-            Log::info('JOB -> Event created: ' . $this->event->title);
+            Log::info('JOB -> Event created: '.$this->event->title);
             broadcast(new EventCreatedEvent($this->event, $friend));
         }
     }

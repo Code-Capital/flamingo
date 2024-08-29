@@ -2,22 +2,22 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Event;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class EventCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $event;
+
     public $user;
+
     /**
      * Create a new event instance.
      */
@@ -35,7 +35,7 @@ class EventCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('event.user.' . $this->user->id),
+            new PrivateChannel('event.user.'.$this->user->id),
         ];
     }
 
@@ -48,7 +48,6 @@ class EventCreatedEvent implements ShouldBroadcast
     {
         return 'event-created';
     }
-
 
     /**
      * Get the data to broadcast with the event.

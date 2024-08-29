@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
@@ -27,7 +26,7 @@ class EventController extends Controller
                     return $row->location->name;
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
+                    $button = '<button type="button" name="delete" data-id="'.$row->id.'" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -44,9 +43,10 @@ class EventController extends Controller
         try {
             // $event->allMembers()->delete();
             $event->delete();
+
             return $this->sendSuccessResponse(null, 'Event deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while deleting event ' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while deleting event '.$th->getMessage());
         }
     }
 }

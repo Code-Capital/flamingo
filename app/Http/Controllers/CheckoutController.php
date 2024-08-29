@@ -15,6 +15,7 @@ class CheckoutController extends Controller
     public function checkout(Request $request, $product, $price)
     {
         Stripe::setApiKey(config('cashier.secret'));
+
         return $request->user()
             ->newSubscription($product, $price)
             ->checkout([
@@ -37,6 +38,7 @@ class CheckoutController extends Controller
     {
         dd($request->all());
         $request->user()->subscription('default')->cancel();
+
         return redirect()->route('profile.edit')->with('success', 'Subscription cancelled successfully');
     }
 
@@ -44,6 +46,7 @@ class CheckoutController extends Controller
     {
         dd($request->all());
         $request->user()->subscription('default')->resume();
+
         return redirect()->route('profile.edit')->with('success', 'Subscription resumed successfully');
     }
 }

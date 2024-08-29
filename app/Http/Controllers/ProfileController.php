@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Country;
 use App\Models\Interest;
 use App\Models\Location;
-use Illuminate\View\View;
+use App\Models\PricingPlan;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\PricingPlan;
+use Illuminate\View\View;
 use Laravel\Cashier\Subscription;
 
 class ProfileController extends Controller
@@ -110,6 +110,7 @@ class ProfileController extends Controller
 
         $subscriptions = Subscription::where('user_id', $user->id)->get();
         $plans = PricingPlan::all();
+
         return view('profile.info', get_defined_vars());
     }
 

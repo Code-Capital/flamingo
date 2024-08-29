@@ -35,9 +35,10 @@ class PageController extends Controller
     {
         try {
             $page->delete();
+
             return $this->sendSuccessResponse(null, 'Page deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while deleting Page ' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while deleting Page '.$th->getMessage());
         }
     }
 }

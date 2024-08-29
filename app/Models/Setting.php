@@ -2,37 +2,43 @@
 
 namespace App\Models;
 
+use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Interest extends Model
+class Setting extends Model
 {
+    use DateFormattingTrait;
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'slug',
-        'name',
-        'description',
+        'sub_event_create_count',
+        'un_sub_event_create_count',
+        'sub_event_join_count',
+        'un_sub_event_join_count',
+        'sub_page_create_count',
+        'un_sub_page_create_count',
+        'sub_page_join_count',
+        'un_sub_page_join_count',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        //
     ];
 
     // ======================================================================
     // Relationships
     // ======================================================================
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function events(): BelongsToMany
-    {
-        return $this->belongsToMany(Event::class);
-    }
-
-    public function pages(): BelongsToMany
-    {
-        return $this->belongsToMany(Page::class);
-    }
 
     // ======================================================================
     // Accessors

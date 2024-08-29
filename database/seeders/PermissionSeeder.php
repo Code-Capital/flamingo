@@ -35,7 +35,7 @@ class PermissionSeeder extends Seeder
 
         foreach ($adminPermissions as $permission) {
             // Create permission if it does not exist
-            if (!Permission::where('name', $permission)->exists()) {
+            if (! Permission::where('name', $permission)->exists()) {
                 Permission::create(['name' => $permission]);
             }
             $this->command->getOutput()->progressAdvance();
@@ -77,7 +77,7 @@ class PermissionSeeder extends Seeder
 
         foreach ($userPermissions as $permission) {
             // Create permission if it does not exist
-            if (!Permission::where('name', $permission)->exists()) {
+            if (! Permission::where('name', $permission)->exists()) {
                 Permission::create(['name' => $permission]);
             }
             $this->command->getOutput()->progressAdvance();

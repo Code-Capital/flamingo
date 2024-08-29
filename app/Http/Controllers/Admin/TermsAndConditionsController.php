@@ -11,6 +11,7 @@ class TermsAndConditionsController extends Controller
     public function index()
     {
         $terms = TermsAndConditions::first();
+
         return view('admin.terms.index', get_defined_vars());
     }
 

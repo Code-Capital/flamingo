@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Location;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Location;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -18,6 +18,7 @@ class LocationController extends Controller
     {
         if ($request->ajax()) {
             $data = Location::latest()->get();
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('name', function ($row) {
@@ -29,18 +30,20 @@ class LocationController extends Controller
                     // Encode the name and description to ensure safe embedding in HTML attributes
                     $encodedName = htmlspecialchars($row->name, ENT_QUOTES, 'UTF-8');
 
-                    $button .= '<button type="button" name="edit" data-id="' . $row->id . '" data-name="' . $encodedName . '" class="btn btn-info btn-sm edit">';
+                    $button .= '<button type="button" name="edit" data-id="'.$row->id.'" data-name="'.$encodedName.'" class="btn btn-info btn-sm edit">';
                     $button .= '<i class="fas fa-edit"></i> Edit';
                     $button .= '</button> ';
 
-                    $button .= '<button type="button" name="delete" data-id="' . $row->id . '" class="btn btn-danger btn-sm delete">';
+                    $button .= '<button type="button" name="delete" data-id="'.$row->id.'" class="btn btn-danger btn-sm delete">';
                     $button .= '<i class="fas fa-trash-alt"></i> Delete';
                     $button .= '</button>';
+
                     return $button;
                 })
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
+
         return view('admin.locations.index');
     }
 
@@ -63,7 +66,7 @@ class LocationController extends Controller
 
         $create = Location::updateOrCreate(['id' => $request->id], [
             'name' => $request->name,
-            'slug' => Str::slug($request->name)
+            'slug' => Str::slug($request->name),
         ]);
 
         return $create
@@ -102,6 +105,7 @@ class LocationController extends Controller
     {
         try {
             $location->delete();
+
             return $this->sendSuccessResponse(null, 'Location deleted successfully.', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->sendErrorResponse($th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
