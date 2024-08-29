@@ -312,7 +312,15 @@
         });
     }
 
-    
+    function reportPost(url, formData) {
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        });
+    }
 
     function deleteRecord(url, table = null, $loadingTitle = 'Processing...') {
         loadingStart($loadingTitle);

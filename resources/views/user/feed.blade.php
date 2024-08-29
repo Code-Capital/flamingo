@@ -264,17 +264,6 @@
                     });
             });
 
-            function reportPost(url, formData) {
-                // Return the AJAX call itself, which is a Promise
-                return $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: formData,
-                    processData: false,
-                    contentType: false
-                });
-            }
-
         });
     </script>
 

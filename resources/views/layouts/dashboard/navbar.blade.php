@@ -32,7 +32,7 @@
                     <div class="name">
                         <span class="d-block">{{ $loginUser->full_name }} ({{ $loginUser->user_name }}) </span>
                         <span> {{ $loginUser->desingation }}</span>
-                        <span class="d-block"> <a href="javascript:void(0)" class="text-danger fw-bold"> Report Profile</a></span>
+                        {{-- <span class="d-block"> <a href="javascript:void(0)" class="text-danger fw-bold"> Report Profile</a></span> --}}
                     </div>
                     <div class="d-flex gap-3 align-items-center">
                         <div class="notifications position-relative">
