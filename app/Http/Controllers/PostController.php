@@ -174,18 +174,5 @@ class PostController extends Controller
         return $this->sendSuccessResponse('Post deleted successfully');
     }
 
-    public function report(Request $request, Post $post): JsonResponse
-    {
-        try {
-            // Create a new report associated with the post
-            $report = $post->reports()->create([
-                'user_id' => Auth::id(),
-                'reason' => $request->reason,
-            ]);
 
-            return $this->sendSuccessResponse(null, 'Post reported successfully');
-        } catch (\Throwable $th) {
-            return $this->sendErrorResponse('An error occurred while reporting the post: ' . $th->getMessage());
-        }
-    }
 }

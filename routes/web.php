@@ -20,6 +20,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
@@ -55,7 +56,9 @@ Route::middleware('auth')->group(function () {
         Route::post('like/{post}', [LikeController::class, 'likeOrUnlike'])->name('post.like-or-unlike');
         Route::post('reply/{comment}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
-        Route::post('post/{post}/report', [PostController::class, 'report'])->name('post.report');
+        Route::post('post/{post}/report', [ReportController::class, 'postReport'])->name('post.report');
+        Route::post('event/{event}/report', [PostController::class, 'report'])->name('event.report');
+        Route::post('page/{page}/report', [PostController::class, 'report'])->name('page.report');
 
         Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
         Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
@@ -157,7 +160,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('admin/pages/{page}/delete', [AdminEventController::class, 'destroy'])->name('admin.pages.destroy');
 
         Route::get('plans', [StripeController::class, 'index'])->name('admin.plans.index');
-        Route::get('create/subscription/plan', [StripeController::class, 'create'])->name('admin.plans.create');
+        Route::get('create/plans', [StripeController::class, 'create'])->name('admin.plans.create');
         Route::post('create/subscription/plan', [StripeController::class, 'store'])->name('admin.plans.store');
         Route::get('edit/subscription/plan/{plan}', [StripeController::class, 'edit'])->name('admin.plans.edit');
         Route::put('update/subscription/plan/{plan}', [StripeController::class, 'update'])->name('admin.plans.update');
