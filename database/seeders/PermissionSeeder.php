@@ -32,6 +32,7 @@ class PermissionSeeder extends Seeder
             'view plans',
             'view subscribers',
             'view subscriptions',
+            'view my subscription'
         ];
 
         $this->command->getOutput()->progressStart(count($adminPermissions));
@@ -74,6 +75,7 @@ class PermissionSeeder extends Seeder
             'view page invites',
             'view interests',
             'view locations',
+            'view my subscription'
         ];
 
         $this->command->getOutput()->progressStart(count($userPermissions));

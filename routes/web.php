@@ -29,7 +29,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -121,8 +121,10 @@ Route::middleware('auth')->group(function () {
         Route::get('checkout/{plan:uuid}/subscription', [CheckoutController::class, 'checkout'])->name('stripe.subscription.checkout');
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
         Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
-        Route::get('subscription/cancel/{user?}', [CheckoutController::class, 'cancelSubscription'])->name('stripe.subscription.cancel');
-        Route::get('subscription/resume/{user?}', [CheckoutController::class, 'resumeSubscription'])->name('stripe.subscription.resume');
+
+        Route::get('subscription', [SubscriptionController::class, 'subscriptions'])->name('stripe.subscription.mine');
+        Route::get('subscription/cancel/{user?}', [SubscriptionController::class, 'cancelSubscription'])->name('stripe.subscription.cancel');
+        Route::get('subscription/resume/{user?}', [SubscriptionController::class, 'resumeSubscription'])->name('stripe.subscription.resume');
 
         Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
         Route::post('settings/update/subscrber', [AdminSettingController::class, 'updateSub'])->name('settings.update.sub');
