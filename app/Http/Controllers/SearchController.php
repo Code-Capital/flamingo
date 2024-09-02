@@ -50,8 +50,8 @@ class SearchController extends Controller
             ->byInterests($selectedInterests)
             ->byLocation($request->location)
             ->latest()
-            // ->upcoming()
-            // ->ongoing()
+            ->upcoming()
+            ->ongoing()
             ->whereDoesntHave('reports', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
