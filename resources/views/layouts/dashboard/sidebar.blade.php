@@ -376,7 +376,7 @@
             @can('view subscriptions')
                 <li>
                     <a id="visitors" href="{{ route('subscriptions.index') }}"
-                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('visitors') ? 'active' : '' }} ">
+                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('subscriptions.index') ? 'active' : '' }} ">
                         <svg class="visitors" width="24" height="25" viewBox="0 0 24 25" fill="#5C5C5C"
                             xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_1_7266)">
