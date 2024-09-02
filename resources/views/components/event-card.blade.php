@@ -5,16 +5,20 @@
             <div class="d-flex align-items-center">
                 <span>Starts from :{{ $event->formatted_start_date }} To:
                     {{ $event->formatted_end_date }} </span>
-                @if ($user && $event->isOwner($user))
-                    <div class="ms-auto dropdown">
-                        <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ...
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="ms-auto dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        ...
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <a class="dropdown-item event-report" data-event="{{ $event->id }}"
+                                href="javascript:void(0)">Report</a>
+                        </li>
+                        @if ($event->isUpcoming() || $event->isOngoing())
                             <li><a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
                             </li>
-                            @if ($event->isUpcoming() || $event->isOngoing())
+                            @if ($user && $event->isOwner($user))
                                 <li>
                                     <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
@@ -32,9 +36,9 @@
                                     </form>
                                 </li>
                             @endif
-                        </ul>
-                    </div>
-                @endif
+                        @endif
+                    </ul>
+                </div>
             </div>
             <div class="tags mb-2">
                 @if ($event->isUpcoming())

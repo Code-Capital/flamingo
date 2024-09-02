@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::post('reply/{comment}/store', [CommentReplyController::class, 'store'])->name('reply.store');
 
         Route::post('post/{post}/report', [ReportController::class, 'postReport'])->name('post.report');
-        Route::post('event/{event}/report', [PostController::class, 'report'])->name('event.report');
+        Route::post('event/{event}/report', [ReportController::class, 'eventReport'])->name('event.report');
         Route::post('page/{page}/report', [PostController::class, 'report'])->name('page.report');
 
         Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
