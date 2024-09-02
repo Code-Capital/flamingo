@@ -28,14 +28,16 @@
                                     <img src=" {{ asset('assets/icon5.svg') }} " alt="">
                                 </div>
                                 <div class="text">
-                                    <p class="mb-2">For startups</p>
+                                    <p class="mb-2">{{ $plan->name }}</p>
                                     <h6>Pro</h6>
                                 </div>
                             </div>
                             <p class="text pe-5 pt-3">Ideal for individuals and small teams</p>
-                            <div class="heading mb-4"><span class="h2">$99</span><span class="month">/monthly</span>
+                            <div class="heading mb-4"><span
+                                    class="h2">{{ env('CASHIER_CURRENCY_SYMBOL', '$') }}{{ $plan->amount }}</span><span
+                                    class="month">/ {{ getInterval($plan->interval) }}</span>
                             </div>
-                            <h5 class="mb-3">What’s included</h5>
+                            {{-- <h5 class="mb-3">What’s included</h5>
                             <ul class="list-unstyled">
                                 <li class="mb-4">
                                     <span>
@@ -117,8 +119,9 @@
                                     </span>
                                     <span>Priority support</span>
                                 </li>
-                            </ul>
-                            <button class="btn-primary btn w-100 mt-3">Get started</button>
+                            </ul> --}}
+                            <a href="{{ route('stript.subscription.checkout', $plan->uuid) }}"
+                                class="btn-primary btn w-100 mt-3">Get started</a>
                         </div>
 
                     </div>

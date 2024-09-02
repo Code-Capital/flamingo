@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PricingPlan;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Stripe\Plan;
 use Stripe\Price;
-use Stripe\Product;
 use Stripe\Stripe;
+use Stripe\Product;
+use App\Models\PricingPlan;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class StripeController extends Controller
 {
@@ -28,32 +29,38 @@ class StripeController extends Controller
                     return $plan->id;
                 })
                 ->editColumn('amount', function ($plan) {
-                    return '$'.number_format($plan->amount / 100, 2);
+                    return '$' . number_format($plan->amount, 2);
                 })
                 ->editColumn('interval', function ($plan) {
                     return ucfirst($plan->interval);
                 })
                 ->editColumn('status', function ($plan) {
-                    return $plan->active ? 'Active' : 'Inactive';
+                    return $plan->status ? 'Active' : 'Inactive';
                 })
                 ->addColumn('action', function ($plan) {
                     // return $plan;
-                    return '<button type="button" data-id="'.$plan->id.'" class="btn btn-danger btn-sm delete">Delete</button>';
+                    return '<button type="button" data-id="' . $plan->id . '" class="btn btn-danger btn-sm delete" disabled>Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('stripe.plans.index');
+        $planCount = PricingPlan::count();
+        return view('stripe.plans.index', get_defined_vars());
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        if (PricingPlan::count() > 0) {
+            return redirect()->route('admin.plans.index')->with('error', 'You can only create one plan.');
+        }
         return view('stripe.plans.create');
     }
 
+
     public function store(Request $request)
     {
+        // Validate the incoming request
         $request->validate([
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
@@ -62,57 +69,80 @@ class StripeController extends Controller
         ]);
 
         try {
+            // Wrap the Stripe and DB operations in a transaction
             DB::transaction(function () use ($request) {
+                // Set the Stripe API key
                 Stripe::setApiKey(config('cashier.secret'));
 
-                // Create a product
-                $product = Product::create([
-                    'name' => $request->input('name'),
-                    'description' => $request->input('description'),
-                    'type' => 'service', // or 'good' based on your needs
-                    'active' => $request->status ?? true,
-                    'description' => $request->description,
+                // // Create a Stripe product
+                // $product = Product::create([
+                //     'name' => $request->name,
+                //     'description' => $request->description,
+                // ]);
+
+                // // Create a Stripe price (which acts as a plan)
+                // $price = Price::create([
+                //     'unit_amount' => $request->amount * 100, // Convert to cents
+                //     'currency' => env('CASHIER_CURRENCY', 'usd'),
+                //     'recurring' => ['interval' => $request->interval],
+                //     'product' => $product->id,
+                // ]);
+
+                $plan = Plan::create([
+                    'amount' => $request->amount * 100,
+                    'currency' => env('CASHIER_CURRENCY', 'usd'),
+                    'interval' => $request->interval,
+                    'product' => [
+                        'name' => $request->name,
+                        // 'description' => $request->description,
+                    ],
                 ]);
 
-                // create a price
-                $price = Price::create([
-                    'unit_amount' => $request->amount * 100, // Convert to cents
-                    'currency' => 'usd',
-                    'recurring' => ['interval' => $request->interval],
-                    'product' => $product->id,
-                ]);
-
-                // Create a plan
+                // Save the plan in your local database
                 PricingPlan::create([
                     'uuid' => Str::uuid(),
                     'name' => $request->name,
                     'description' => $request->description,
                     'amount' => $request->amount,
                     'interval' => $request->interval,
-                    'stripe_product_id' => $product->id,
-                    'stripe_price_id' => $price->id,
+                    // 'stripe_product_id' => $product->id,
+                    // 'stripe_price_id' => $price->id,
+                    'stripe_plan_id' => $plan->id,
                     'currency' => env('CASHIER_CURRENCY', 'usd'),
                     'status' => $request->status ?? true,
                 ]);
             });
 
+            // Redirect to the plans index with a success message
             return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully.');
         } catch (\Throwable $th) {
-            return redirect()->route('admin.plans.create')->with('error', 'Error occured while creating plan.'.$th->getMessage());
+            // Handle any errors that occurred during the process
+            return redirect()->route('admin.plans.create')->with('error', 'Error occurred while creating the plan: ' . $th->getMessage());
         }
     }
 
     public function destroy($id)
     {
-        // Set Stripe API key
-        Stripe::setApiKey(config('cashier.secret'));
+        try {
+            $pricingPlan = PricingPlan::findOrFail($id);
+            Stripe::setApiKey(config('cashier.secret'));
 
-        // Retrieve the plan
-        $plan = Plan::retrieve($id);
+            $price = Price::retrieve($pricingPlan->stripe_price_id);
+            dd($price->toArray());
+            $price->delete();
 
-        // Delete the plan
-        $plan->delete();
+            // Retrieve and delete the product associated with the plan
+            $product = Product::retrieve($pricingPlan->stripe_product_id);
+            $product->delete();
 
-        return $this->sendSuccessResponse('Plan deleted successfully.');
+            // Delete the plan from your local database
+            $pricingPlan->delete();
+
+            // Return a success response
+            return $this->sendSuccessResponse('Plan deleted successfully.');
+        } catch (\Exception $e) {
+            // Return an error response if something goes wrong
+            return $this->sendErrorResponse('Error occurred while deleting the plan: ' . $e->getMessage());
+        }
     }
 }

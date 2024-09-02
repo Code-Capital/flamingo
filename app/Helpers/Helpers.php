@@ -73,3 +73,22 @@ if (! function_exists('getPeoples')) {
         }
     }
 }
+if (! function_exists('getInterval')) {
+    function getInterval($interval)
+    {
+        switch ($interval) {
+            case 'day':
+                return 'Daily';
+            case 'week':
+                return 'Weekly';
+            case 'month':
+                return 'Monthly';
+            case 'quarter':
+                return 'Quarterly';
+            case 'year':
+                return 'Yearly';
+            default:
+                return ucfirst($interval) . 'ly';
+        }
+    }
+}

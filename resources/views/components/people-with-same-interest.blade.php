@@ -21,9 +21,12 @@
                         </div>
                         <div class="buttonWrapper">
                             <div class="d-flex align-items-center gap-1 flex-column">
-                                <a class="text-decoration-none add-friend" data-id="3" href="javascript:void(0)">
-                                    Add friend
-                                </a>
+                                <small>
+                                    <a class="add-friend small text-white bg-primary p-1 rounded text-decoration-none" data-id="3"
+                                        href="javascript:void(0)">
+                                        Add friend
+                                    </a>
+                                </small>
                                 {{-- <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
                                     <img src="{{ asset('assets/icon7.svg') }}" alt="join community">
                                 </a>

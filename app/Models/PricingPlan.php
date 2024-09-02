@@ -27,6 +27,7 @@ class PricingPlan extends Model
         'status',
         'stripe_product_id',
         'stripe_price_id',
+        'stripe_plan_id',
     ];
 
     /**

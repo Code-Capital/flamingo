@@ -25,7 +25,7 @@
                                     {{-- <label class="mb-1 required">
                                         <span>Event Description</span>
                                     </label> --}}
-                                    <textarea rows="4" id="summernote" name="terms" required>{!! old('terms', $terms->content) !!}</textarea>
+                                    <textarea rows="4" id="summernote" name="terms" required>{!! old('terms', $terms->content ?? '') !!}</textarea>
                                     @error('description')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

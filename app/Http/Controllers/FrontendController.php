@@ -19,7 +19,7 @@ class FrontendController extends Controller
 
     public function pricing(): View
     {
-        $plans = PricingPlan::where('status', 'active')->get();
+        $plans = PricingPlan::active()->get();
 
         return view('pricing', get_defined_vars());
     }

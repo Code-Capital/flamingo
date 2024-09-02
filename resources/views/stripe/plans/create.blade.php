@@ -20,7 +20,7 @@
                             <div class="profileForm bg-white">
                                 <!-- Event Name and Event Location in a single row -->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="mb-1 required">
                                                 <span>Plan Title</span>
@@ -36,7 +36,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="mb-1 required">
                                                 <span>Price in {{ strtoupper(env('CASHIER_CURRENCY')) }} </span>
@@ -52,10 +52,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Start Datetime and End Datetime in a single row -->
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="mb-1 required">
                                                 <span>Interval</span>

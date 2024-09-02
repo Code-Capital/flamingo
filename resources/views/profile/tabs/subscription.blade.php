@@ -28,7 +28,7 @@
                             </div>
                             <p class="text pe-5 pt-3">{{ $plan->description }}</p>
                             <div class="heading mb-4">
-                                <span class="h2">${{ $plan->amount / 100 }}</span>
+                                <span class="h2">${{ $plan->amount }}</span>
                                 <span class="month">/{{ $plan->interval }}</span>
                             </div>
                             {{-- <h5 class="mb-3">What’s included</h5>
@@ -114,7 +114,7 @@
                                         <span> Standard support</span>
                                     </li>
                                 </ul> --}}
-                            <a href="{{ route('stript.subscription.checkout', ['product' => $plan->stripe_product_id, 'price' => $plan->stripe_price_id]) }}"
+                            <a href="{{ route('stript.subscription.checkout', $plan->uuid) }}"
                                 class="btn-primary btn w-100 mt-3">Get started</a>
                         </div>
 

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Events list')
+@section('title', 'Users list')
 @section('styles')
     @include('layouts.datatable-styles')
 @endsection
@@ -11,24 +11,19 @@
                     <div class="row mx-0 mb-3">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <h3 class="marketHeading mb-0">Plans List</h3>
-                                @if ($planCount == 0)
-                                    <a href="{{ route('admin.plans.create') }}" class="btn btn-primary"> Create Plan</a>
-                                @endif
+                                <h3 class="marketHeading mb-0">User Subscriptions</h3>
                             </div>
                         </div>
                     </div>
                     <div class="row mx-0">
-                        <table id="eventsTable" class="table table-striped">
+                        <table id="usersTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Amount</th>
-                                    <th>Interval</th>
-                                    <th>Status</th>
-                                    <th>Description</th>
-                                    <th>Actions</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,11 +40,11 @@
     @include('layouts.datatable-scripts')
     <script>
         $(document).ready(function() {
-            let table = $('#eventsTable').DataTable({
+            let table = $('#usersTable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: "{{ route('admin.plans.index') }}",
+                ajax: "{{ route('subscriptions.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -59,20 +54,12 @@
                         name: 'name'
                     },
                     {
-                        data: 'amount',
-                        name: 'amount'
+                        data: 'email',
+                        name: 'email'
                     },
                     {
-                        data: 'interval',
-                        name: 'interval'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status'
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
+                        data: 'created_at',
+                        name: 'created_at'
                     },
                     {
                         data: 'action',
@@ -85,7 +72,7 @@
             let body = $('body');
             $('body').on('click', '.delete', function() {
                 let id = $(this).data('id');
-                let url = "{{ route('admin.plans.destroy', ':id') }}".replace(':id', id);
+                let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'This action cannot be undone!',
@@ -96,10 +83,34 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteRecord(url, table, 'Deleting...');
+                        deleteRecord(url, table);
                     }
                 });
             })
+
+            function updateUserStatus(url, table) {
+                $.ajax({
+                    url: url,
+                    type: "PUT",
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            newNotificationSound();
+                            table.ajax.reload();
+                            toastr.success(response.message);
+                        } else {
+                            errorNotificationSound();
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(error) {
+                        errorNotificationSound();
+                        toastr.error(error.message);
+                    }
+                });
+            }
         });
     </script>
 @endsection
