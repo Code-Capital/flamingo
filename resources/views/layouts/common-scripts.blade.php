@@ -104,8 +104,6 @@
                 }
                 newNotificationSound();
 
-                console.log(response);
-
                 setTimeout(() => {
                     location.reload();
                 }, 1000);
@@ -283,7 +281,7 @@
                 }, 1000);
             },
             error: function(error) {
-                console.log(error);
+                console.error(error);
                 errorNotificationSound();
             }
         });
@@ -332,7 +330,6 @@
             },
             success: function(response) {
                 loadingStop();
-                console.log(response);
                 if (response.success) {
 
                     newNotificationSound();
