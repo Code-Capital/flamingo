@@ -2,7 +2,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-0">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('assets/logo.png') }} " alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -24,6 +24,11 @@
                     <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
                     </li>
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link pe-4 {{ Request::routeIs('user.dashboard') ? 'active' : '' }}" href="{{ route('user.dashboard') }}">Dashboard</a>
+                    </li>
+                    @endauth
                 </ul>
                 <div class="d-flex gap-3">
                     @if(Auth::check())
