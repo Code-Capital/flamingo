@@ -43,7 +43,7 @@
                 <span></span>
             </a>
         </div> --}}
-        <div class="bg-primary ps-3 py-3 d-flex justify-content-between align-items-center">
+        <div class="bg-primary py-3 d-flex justify-content-between align-items-center">
             <a id="sidebar-toggle">
                 <span></span>
                 <span></span>
@@ -54,7 +54,7 @@
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="logoutDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Logout
+                    Profile
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="logoutDropdown">
                     <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
