@@ -3,21 +3,69 @@
 @endphp
 
 @if (request()->is('messages'))
-    <div class="bg-primary ps-3 py-3">
+    {{-- <div class="bg-primary ps-3 py-3">
         <a id="sidebar-toggle">
             <span></span>
             <span></span>
             <span></span>
         </a>
+    </div> --}}
+    <div class="bg-primary py-3 d-flex justify-content-between align-items-center">
+        <a id="sidebar-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+
+        <!-- Logout Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="logoutDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Logout
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="logoutDropdown">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="dropdown-item" type="submit">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 @else
     <div class="hero">
-        <div class="bg-primary">
+        {{-- <div class="bg-primary">
             <a id="sidebar-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
             </a>
+        </div> --}}
+        <div class="bg-primary ps-3 py-3 d-flex justify-content-between align-items-center">
+            <a id="sidebar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+
+            <!-- Logout Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="logoutDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Logout
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="logoutDropdown">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="dropdown-item" type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
         @php
             $loginUser = $loginUser ?? Auth::user();
