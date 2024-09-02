@@ -88,7 +88,7 @@ if (! function_exists('getInterval')) {
             case 'year':
                 return 'Yearly';
             default:
-                return ucfirst($interval) . 'ly';
+                return ucfirst($interval).'ly';
         }
     }
 }

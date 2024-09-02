@@ -22,7 +22,7 @@ class SubscriberController extends Controller
                     return $row->created_at->format('d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
+                    $button = '<button type="button" name="delete" data-id="'.$row->id.'" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -30,6 +30,7 @@ class SubscriberController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
+
         return view('subscribers.index');
     }
 

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Stripe\Stripe;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Laravel\Cashier\Subscription;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Cashier\Subscription;
+use Stripe\Stripe;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionController extends Controller
@@ -20,7 +20,7 @@ class SubscriptionController extends Controller
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $subscriptions = Subscription::query()
-                ->with(['user:id,first_name,last_name',])
+                ->with(['user:id,first_name,last_name'])
                 ->latest()->get();
 
             return DataTables::of($subscriptions)
@@ -47,15 +47,16 @@ class SubscriptionController extends Controller
                         return 'No action available';
                     }
                     if ($row->ends_at) {
-                        return '<button type="button" name="resume" data-id="' . e($row->user_id) . '" class="resume btn btn-warning btn-sm">Resume</button>';
+                        return '<button type="button" name="resume" data-id="'.e($row->user_id).'" class="resume btn btn-warning btn-sm">Resume</button>';
                     } else {
-                        return '<button type="button" name="cancel" data-id="' . e($row->user_id) . '" class="cancel btn btn-danger btn-sm">Cancel</button>';
+                        return '<button type="button" name="cancel" data-id="'.e($row->user_id).'" class="cancel btn btn-danger btn-sm">Cancel</button>';
                     }
                 })
 
                 ->rawColumns(['full_name', 'stripe_status', 'action'])
                 ->make(true);
         }
+
         return view('subscriptions.index');
     }
 }

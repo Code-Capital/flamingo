@@ -374,16 +374,16 @@ class User extends Authenticatable
         $count = 0;
         $monthCount = $this->getCurrentMonthEvents();
         $setting = Setting::first();
-        if (!$this->isSubscribed()) {
+        if (! $this->isSubscribed()) {
             $totalAllowed = $setting->sub_event_create_count ?? 0;
             $count = $monthCount - $totalAllowed;
         } else {
             $totalAllowed = $setting->un_sub_event_create_count ?? 0;
             $count = $monthCount - $totalAllowed;
         }
+
         return $count;
     }
-
 
     // ======================================================================
     // Scopes
@@ -392,10 +392,10 @@ class User extends Authenticatable
     {
 
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('user_name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where('first_name', 'like', '%'.$search.'%')
+                ->orWhere('last_name', 'like', '%'.$search.'%')
+                ->orWhere('user_name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
     }
 

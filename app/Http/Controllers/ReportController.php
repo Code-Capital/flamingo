@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Page;
 use App\Models\Post;
-use App\Models\Event;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
@@ -21,7 +21,7 @@ class ReportController extends Controller
 
             return $this->sendSuccessResponse(null, 'Post reported successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('An error occurred while reporting the post: ' . $th->getMessage());
+            return $this->sendErrorResponse('An error occurred while reporting the post: '.$th->getMessage());
         }
     }
 
@@ -35,7 +35,7 @@ class ReportController extends Controller
 
             return $this->sendSuccessResponse(null, 'Event reported successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('An error occurred while reporting the post: ' . $th->getMessage());
+            return $this->sendErrorResponse('An error occurred while reporting the post: '.$th->getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ class ReportController extends Controller
 
             return $this->sendSuccessResponse(null, 'Page reported successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('An error occurred while reporting the post: ' . $th->getMessage());
+            return $this->sendErrorResponse('An error occurred while reporting the post: '.$th->getMessage());
         }
     }
 }
