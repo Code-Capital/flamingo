@@ -49,12 +49,12 @@ class SearchController extends Controller
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($request->location)
-            ->latest()
-            ->upcoming()
-            ->ongoing()
             ->whereDoesntHave('reports', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
+            // ->upcoming()
+            // ->ongoing()
+            ->latest()
             ->paginate(getPaginated());
 
         $interests = Interest::get();

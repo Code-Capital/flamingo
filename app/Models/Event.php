@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -197,60 +197,60 @@ class Event extends Model
     // ======================================================================
     // Scopes
     // ======================================================================
-    public function scopeByUser($query, $id): Builder
+    public function scopeByUser(Builder $query, $id): Builder
     {
         return $query->where('user_id', $id);
     }
 
-    public function scopeByNotUser($query, int $id)
+    public function scopeByNotUser(Builder $query, int $id)
     {
         return $query->where('user_id', '<>', $id);
     }
 
-    public function scopePublished($query): Builder
+    public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published');
     }
 
-    public function scopeDraft($query): Builder
+    public function scopeDraft(Builder $query): Builder
     {
         return $query->where('status', 'draft');
     }
 
-    public function scopeUpcoming($query): Builder
+    public function scopeUpcoming(Builder $query): Builder
     {
-        return $query->where('start_date', '>', now());
+        return $query->where('start_date', '>', now()->toDateString());
     }
 
-    public function scopePast($query): Builder
+    public function scopePast(Builder $query): Builder
     {
-        return $query->where('end_date', '<', now());
+        return $query->where('end_date', '<', now()->toDateString());
     }
 
-    public function scopeOngoing($query): Builder
+    public function scopeOngoing(Builder $query): Builder
     {
-        return $query->where('start_date', '<', now())
-            ->where('end_date', '>', now());
+        return $query->where('start_date', '<', now()->toDateString())
+            ->where('end_date', '>', now()->toDateString());
     }
 
-    public function scopeBySearch($query, ?string $search = null)
+    public function scopeBySearch(Builder $query, ?string $search = null)
     {
         return $query->when($search, function ($q) use ($search) {
-            $q->where('title', 'like', '%'.$search.'%')
-                ->orWhere('location_id', 'like', '%'.$search.'%')
-                ->orWhere('slug', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%');
+            $q->where('title', 'like', '%' . $search . '%')
+                ->orWhere('location_id', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
         });
     }
 
-    public function scopeByLocation($query, ?string $search = null)
+    public function scopeByLocation(Builder $query, ?string $search = null)
     {
         $query->when($search, function ($q) use ($search) {
             $q->where('location_id', $search);
         });
     }
 
-    public function scopeByInterests($query, array $interests = [])
+    public function scopeByInterests(Builder $query, array $interests = [])
     {
         return $query->when($interests, function ($q) use ($interests) {
             $q->whereHas('interests', function ($q) use ($interests) {
