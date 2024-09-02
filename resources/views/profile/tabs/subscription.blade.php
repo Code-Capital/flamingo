@@ -114,7 +114,7 @@
                                         <span> Standard support</span>
                                     </li>
                                 </ul> --}}
-                            <a href="{{ route('stript.subscription.checkout', $plan->uuid) }}"
+                            <a href="{{ route('stripe.subscription.checkout', $plan->uuid) }}"
                                 class="btn-primary btn w-100 mt-3">Get started</a>
                         </div>
 

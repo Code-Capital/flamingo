@@ -20,7 +20,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th>User Name</th>
+                                    <th>Subscription name</th>
                                     <th>Stripe id</th>
                                     <th>Stripe status</th>
                                     <th>Ends at</th>
@@ -55,6 +56,10 @@
                         name: 'full_name'
                     },
                     {
+                        data: 'sub_name',
+                        name: 'sub_name'
+                    },
+                    {
                         data: 'stripe_id',
                         name: 'stripe_id'
                     },
@@ -75,9 +80,9 @@
             });
 
             let body = $('body');
-            $('body').on('click', '.delete', function() {
+            $('body').on('click', '.cancel', function() {
                 let id = $(this).data('id');
-                let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
+                let url = "{{ route('stripe.subscription.cancel', ':id') }}".replace(':id', id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'This action cannot be undone!',
@@ -88,15 +93,33 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteRecord(url, table);
+                        updateSubscriptionStatus(url, table);
                     }
                 });
             })
 
-            function updateUserStatus(url, table) {
+            $('body').on('click', '.resume', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('stripe.subscription.resume', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        updateSubscriptionStatus(url, table);
+                    }
+                });
+            })
+
+            function updateSubscriptionStatus(url, table) {
                 $.ajax({
                     url: url,
-                    type: "PUT",
+                    type: "GET",
                     data: {
                         _token: '{{ csrf_token() }}'
                     },

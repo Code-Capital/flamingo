@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Plan;
-use Illuminate\Http\Request;
 use Stripe\Stripe;
+use App\Models\Plan;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
@@ -35,17 +36,26 @@ class CheckoutController extends Controller
         abort(403, 'Subscription cancelled');
     }
 
-    public function cancelSubscription(Request $request)
+    public function cancelSubscription(Request $request, User $user = null)
     {
-        $request->user()->subscription('default')->cancel();
+        try {
+            $user = $user ?: $request->user();
+            $user->subscription('default')->cancel();
 
-        return redirect()->route('profile.edit')->with('success', 'Subscription cancelled successfully');
+            return $this->sendSuccessResponse(null, 'Subscription cancelled successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while cancelling subscription ' . $th->getMessage());
+        }
     }
 
-    public function resumeSubscription(Request $request)
+    public function resumeSubscription(Request $request, User $user = null)
     {
-        $request->user()->subscription('default')->resume();
-
-        return redirect()->route('profile.edit')->with('success', 'Subscription resumed successfully');
+        try {
+            $user = $user ?: $request->user();
+            $user->subscription('default')->resume();
+            return $this->sendSuccessResponse(null, 'Subscription resumed successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while resuming subscription ' . $th->getMessage());
+        }
     }
 }

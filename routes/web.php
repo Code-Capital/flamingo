@@ -118,11 +118,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/reject-invite/{page}', [PageController::class, 'reject'])->name('page.invite.reject');
         Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
 
-        Route::get('checkout/{plan:uuid}/subscription', [CheckoutController::class, 'checkout'])->name('stript.subscription.checkout');
+        Route::get('checkout/{plan:uuid}/subscription', [CheckoutController::class, 'checkout'])->name('stripe.subscription.checkout');
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
         Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
-        Route::get('subscription/cancel', [CheckoutController::class, 'cancelSubscription'])->name('stript.subscription.cancel');
-        Route::get('subscription/resume', [CheckoutController::class, 'resumeSubscription'])->name('stript.subscription.resume');
+        Route::get('subscription/cancel/{user?}', [CheckoutController::class, 'cancelSubscription'])->name('stripe.subscription.cancel');
+        Route::get('subscription/resume/{user?}', [CheckoutController::class, 'resumeSubscription'])->name('stripe.subscription.resume');
 
         Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
         Route::post('settings/update/subscrber', [AdminSettingController::class, 'updateSub'])->name('settings.update.sub');
