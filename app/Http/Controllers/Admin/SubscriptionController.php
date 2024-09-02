@@ -43,9 +43,9 @@ class SubscriptionController extends Controller
                 ->addColumn('action', function ($row) {
                     $user = Auth::user();
                     // uncomment after testing
-                    // if ($user->id === $row->user_id) {
-                    //     return '';
-                    // }
+                    if ($user->id === $row->user_id) {
+                        return 'No Action';
+                    }
                     if ($row->ends_at) {
                         return '<button type="button" name="resume" data-id="' . e($row->user_id) . '" class="resume btn btn-warning btn-sm">Resume</button>';
                     } else {
