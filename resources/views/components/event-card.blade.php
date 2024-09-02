@@ -11,14 +11,16 @@
                         ...
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li>
-                            <a class="dropdown-item event-report" data-event="{{ $event->id }}"
-                                href="javascript:void(0)">Report</a>
-                        </li>
-                        @if ($event->isUpcoming() || $event->isOngoing())
-                            <li><a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
+                        @if (!$event->isOwner($user))
+                            <li>
+                                <a class="dropdown-item event-report" data-event="{{ $event->id }}"
+                                    href="javascript:void(0)">Report</a>
                             </li>
-                            @if ($user && $event->isOwner($user))
+                        @endif
+                        @if ($user && $event->isOwner($user))
+                            @if ($event->isUpcoming() || $event->isOngoing())
+                                <li><a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
+                                </li>
                                 <li>
                                     <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
@@ -36,6 +38,8 @@
                                     </form>
                                 </li>
                             @endif
+                            <li><a class="dropdown-item" href="{{ route('events.show', $event->slug) }}">View</a>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -62,6 +66,20 @@
                     @endforelse
                 </div>
             </a>
+            @if (Request::routeIs('search.events'))
+                @if (!$event->allMembers()->where('user_id', $user->id)->exists())
+                    <div class="d-flex align-items-center pt-2">
+                        <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
+                            href="javascript:void(0)">
+                            <small class="text-white p-1 rounded bg-primary">Join Event</small>
+                        </a>
+                    </div>
+                @else
+                    <div class="tags d-flex align-items-center pt-2">
+                        <span class="px-2 py-1 bg-success text-white">Request sent</span>
+                    </div>
+                @endif
+            @endif
         </div>
     </div>
 </div>

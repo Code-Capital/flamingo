@@ -16,36 +16,7 @@
     <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5">
             <div class="col-lg-12 mb-3">
-                {{-- <div class="dashboardCard border-0 mb-3">
-                    <form action="{{ route('search.events') }}" method="GET">
-                        <div class="row gap-3 searchWrapper">
-                            <div class="col-5 form-group flex-grow-1">
-                                <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by title, slug" name="q" value="{{ request()->q }}">
-                            </div>
-                            <div class="col-5 form-group flex-grow-1">
-                                <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by location" name="location" value="{{ request()->location }}">
-                            </div>
-                            <div class="col-5 form-group flex-grow-1">
-                                <select class="form-control w-100" name="interests[]" multiple>
-                                    @forelse($interests as $interest)
-                                        <option value="{{ $interest->id }}"
-                                            {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
-                                            {{ $interest->name }}</option>
-                                    @empty
-                                        <option value="">Please Select Interests</option>
-                                    @endforelse
-                                </select>
-                            </div>
-                            <div class="col-2 form-group flex-grow-1">
-                                <button class="btn btn-primary" type="submit" value="submit" name="find">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div> --}}
+                {{-- search form --}}
                 <div class="dashboardCard border-0">
                     <form action="{{ route('search.events') }}" method="GET">
                         <div class="row g-3 align-items-center">
@@ -94,44 +65,7 @@
                     </div>
                     <div class="row mx-0">
                         @forelse ($events as $event)
-                            <div class="col-lg-6 mb-3 ">
-                                <div class="announcementCard p-3 d-flex align-items-stretch gap-4">
-                                    <img src="{{ $event->thumbnail_url }}">
-                                    <div class="content">
-                                        <span>
-                                            {{ $event->formatted_created_at }}
-                                            <div class="tags"> Creator: {{ $event->owner->full_name }} </div>
-                                        </span>
-                                        <h5 class="mb-1"> {{ $event->title }} </h5>
-                                        <p class="mb-2"> {{ limitString($event->description, 50) }} </p>
-                                        <div class="text mb-2"># Interests</div>
-                                        <div class="tags d-flex gap-3 align-items-center flex-wrap">
-                                            @forelse ($event->interests as $interest)
-                                                <span class="px-2 py-1">{{ $interest->name }}</span>
-                                            @empty
-                                                <span class="px-2 py-1">No interests</span>
-                                            @endforelse
-                                        </div>
-
-                                        @if (!$event->allMembers()->where('user_id', $user->id)->exists())
-                                            <div class="d-flex align-items-center pt-2">
-                                                {{-- <img src="{{ asset('assets/done.svg') }}" alt="join event"
-                                                    style="height: 30px; width:30px; object-fit: contain"> --}}
-                                                <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
-                                                    href="javascript:void(0)">
-                                                    <small class="text-white p-1 rounded bg-primary">Join Event</small>
-                                                </a>
-
-                                            </div>
-                                        @else
-                                            <div class="tags d-flex align-items-center pt-2">
-                                                <span class="px-2 py-1 bg-success text-white">Request sent</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                            </div>
+                            <x-event-card :event="$event" :user="$user" :url="route('joined.events.show', $event->slug)" />
                         @empty
                             <x-no-data-found />
                         @endforelse
