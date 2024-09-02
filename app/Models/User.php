@@ -375,11 +375,11 @@ class User extends Authenticatable
         $monthCount = $this->getCurrentMonthEvents();
         $setting = Setting::first();
         if (!$this->isSubscribed()) {
-            $totalAllowed = $setting->sub_event_create_count;
-            $count = $totalAllowed - $monthCount;
+            $totalAllowed = $setting->sub_event_create_count ?? 0;
+            $count = $monthCount - $totalAllowed;
         } else {
-            $totalAllowed = $setting->un_sub_event_create_count;
-            $count = $totalAllowed - $monthCount;
+            $totalAllowed = $setting->un_sub_event_create_count ?? 0;
+            $count = $monthCount - $totalAllowed;
         }
         return $count;
     }

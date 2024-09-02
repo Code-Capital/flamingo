@@ -35,8 +35,11 @@ class EventController extends Controller
 
     public function create(): View
     {
+        $user = Auth::user();
+        // dd($user->getRemainingEvents());
         $interests = Interest::get();
         $locations = Location::get();
+        $remianingEventCount = $user->getRemainingEvents();
 
         return view('event.create', get_defined_vars());
     }
