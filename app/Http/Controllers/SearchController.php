@@ -43,9 +43,8 @@ class SearchController extends Controller
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
 
-        $events = Event::with('interests')
+        $events = Event::with(['interests', 'allMembers'])
             ->byNotUser($user->id)
-            ->with('allMembers')
             ->published()
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
@@ -53,6 +52,9 @@ class SearchController extends Controller
             ->latest()
             // ->upcoming()
             // ->ongoing()
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->paginate(getPaginated());
 
         $interests = Interest::get();

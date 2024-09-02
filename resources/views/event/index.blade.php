@@ -33,4 +33,5 @@
     </div>
 @endsection
 @section('scripts')
+    @include('event.partials.scripts')
 @endsection

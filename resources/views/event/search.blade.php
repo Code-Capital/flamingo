@@ -89,41 +89,10 @@
             });
 
             $('.locations').select2({
-                placeholder: "Please Select Interests",
+                placeholder: "Please Select Locations",
                 allowClear: true
             });
-
-            $(document).on('click', '.join-event', function() {
-                let eventId = $(this).data('id');
-                joinEvent(eventId);
-            });
-
-            function joinEvent(eventId) {
-                $.ajax({
-                    url: "{{ route('event.join', ':id') }}".replace(':id', eventId),
-                    type: 'post',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.success == true) {
-                            toastr.success(response.message);
-                            newNotificationSound();
-                        } else {
-                            toastr.error(response.message);
-                            errorNotificationSound();
-                        }
-
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function(error) {
-                        toastr.error('Something went wrong');
-                        errorNotificationSound();
-                    }
-                });
-            }
         });
     </script>
+    @include('event.partials.scripts')
 @endsection
