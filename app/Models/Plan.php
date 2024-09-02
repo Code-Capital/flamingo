@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Cashier\Subscription;
 
-class PricingPlan extends Model
+class Plan extends Model
 {
     use DateFormattingTrait;
     use HasFactory;

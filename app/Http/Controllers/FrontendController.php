@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
-use App\Models\PricingPlan;
+use App\Models\Plan;
 use App\Models\TermsAndConditions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +19,7 @@ class FrontendController extends Controller
 
     public function pricing(): View
     {
-        $plans = PricingPlan::active()->get();
+        $plans = Plan::active()->get();
 
         return view('pricing', get_defined_vars());
     }

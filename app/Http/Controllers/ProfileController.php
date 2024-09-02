@@ -6,7 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Country;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Models\PricingPlan;
+use App\Models\Plan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,7 +109,7 @@ class ProfileController extends Controller
             ->get();
 
         $subscriptions = Subscription::where('user_id', $user->id)->get();
-        $plans = PricingPlan::all();
+        $plans = Plan::all();
 
         return view('profile.info', get_defined_vars());
     }

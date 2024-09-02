@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Stripe\Stripe;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Laravel\Cashier\Subscription;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
@@ -10,38 +12,32 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SubscriptionController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|JsonResponse
     {
         if ($request->ajax()) {
+            // Set Stripe API key
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
             $subscriptions = Subscription::query()
-                ->with('user')
+                ->with(['user:id,first_name,last_name'])
                 ->latest()->get();
-            dd($subscriptions->toArray());
+
 
             return DataTables::of($subscriptions)
                 ->addIndexColumn()
-                ->addColumn('name', function ($row) {
-                    return $row->full_name;
+                ->addColumn('full_name', function ($row) {
+                    return $row?->user?->full_name ?? 'Guest';
                 })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d/m/Y');
                 })
-                ->addColumn('action', function ($row) {
-                    $button = '';
-                    if ($row->isBlocked()) {
-                        $button = '<button type="button" name="unblock" data-id="' . $row->id . '" class="btn btn-danger btn-sm unblock">
-                            <img src="https://img.icons8.com/ios/50/000000/lock.png" width="20" height="20" alt="unlock">
-                        </button>';
-                    } else {
-                        $button = '<button type="button" name="block" data-id="' . $row->id . '" class="btn btn-info btn-sm block">
-                            <img src="https://img.icons8.com/ios/50/000000/unlock.png" width="20" height="20" alt="lock">
-                        </button>';
-                    }
-
-                    // $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="btn btn-danger btn-sm delete">Delete</button>';
-                    return $button;
+                ->editColumn('ends_at', function ($row) {
+                    return $row->ends_at ? $row->ends_at->format('d/m/Y') : 'N/A';
                 })
-                ->rawColumns(['name', 'action'])
+                ->addColumn('action', function ($row) {
+                    return 'actions here';
+                })
+                ->rawColumns(['full_name', 'action'])
                 ->make(true);
         }
         return view('subscriptions.index');

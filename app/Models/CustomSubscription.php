@@ -6,7 +6,7 @@ use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subscriber extends Model
+class CustomSubscription extends Model
 {
     use HasFactory;
     use DateFormattingTrait;
@@ -17,8 +17,7 @@ class Subscriber extends Model
      * @var array
      */
     protected $fillable = [
-        'email',
-        'is_active',
+       //
     ];
 
     /**
@@ -34,6 +33,10 @@ class Subscriber extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
+    public function plans()
+    {
+        return $this->belongsTo(Plan::class, 'plan_id', 'id');
+    }
 
 
     // ======================================================================

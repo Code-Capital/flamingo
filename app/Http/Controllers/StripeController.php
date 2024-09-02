@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan as ModelsPlan;
 use Stripe\Plan;
 use Stripe\Price;
 use Stripe\Stripe;
 use Stripe\Product;
-use App\Models\PricingPlan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -21,7 +21,7 @@ class StripeController extends Controller
         if ($request->ajax()) {
 
             // Set Stripe API key
-            $plans = PricingPlan::all();
+            $plans = ModelsPlan::get();
 
             return DataTables::of($plans)
                 ->addIndexColumn()
@@ -45,13 +45,13 @@ class StripeController extends Controller
                 ->make(true);
         }
 
-        $planCount = PricingPlan::count();
+        $planCount = ModelsPlan::count();
         return view('stripe.plans.index', get_defined_vars());
     }
 
     public function create(): View|RedirectResponse
     {
-        if (PricingPlan::count() > 0) {
+        if (ModelsPlan::count() > 0) {
             return redirect()->route('admin.plans.index')->with('error', 'You can only create one plan.');
         }
         return view('stripe.plans.create');
@@ -99,14 +99,14 @@ class StripeController extends Controller
                 ]);
 
                 // Save the plan in your local database
-                PricingPlan::create([
+                ModelsPlan::create([
                     'uuid' => Str::uuid(),
                     'name' => $request->name,
                     'description' => $request->description,
                     'amount' => $request->amount,
                     'interval' => $request->interval,
-                    // 'stripe_product_id' => $product->id,
-                    // 'stripe_price_id' => $price->id,
+                    'stripe_product_id' => $request->stripe_product_id ?? null,
+                    'stripe_price_id' => $request->stripe_price_id ?? null,
                     'stripe_plan_id' => $plan->id,
                     'currency' => env('CASHIER_CURRENCY', 'usd'),
                     'status' => $request->status ?? true,
@@ -124,7 +124,7 @@ class StripeController extends Controller
     public function destroy($id)
     {
         try {
-            $pricingPlan = PricingPlan::findOrFail($id);
+            $pricingPlan = ModelsPlan::findOrFail($id);
             Stripe::setApiKey(config('cashier.secret'));
 
             $price = Price::retrieve($pricingPlan->stripe_price_id);

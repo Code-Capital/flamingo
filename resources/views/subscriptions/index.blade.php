@@ -21,8 +21,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Created At</th>
+                                    <th>Stripe id</th>
+                                    <th>Stripe status</th>
+                                    <th>Ends at</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -50,16 +51,20 @@
                         name: 'id'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'full_name',
+                        name: 'full_name'
                     },
                     {
-                        data: 'email',
-                        name: 'email'
+                        data: 'stripe_id',
+                        name: 'stripe_id'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'stripe_status',
+                        name: 'stripe_status'
+                    },
+                    {
+                        data: 'ends_at',
+                        name: 'ends_at'
                     },
                     {
                         data: 'action',

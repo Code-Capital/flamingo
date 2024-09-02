@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PricingPlan;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 
@@ -13,12 +13,12 @@ class CheckoutController extends Controller
         return view('checkout.index');
     }
 
-    public function checkout(Request $request, PricingPlan $pricingPlan)
+    public function checkout(Request $request, Plan $plan)
     {
         Stripe::setApiKey(config('cashier.secret'));
 
         return $request->user()
-            ->newSubscription('default', $pricingPlan->stripe_plan_id)
+            ->newSubscription('default', $plan->stripe_plan_id)
             ->checkout([
                 'success_url' => route('success'),
                 'cancel_url' => route('cancel'),
@@ -32,7 +32,7 @@ class CheckoutController extends Controller
 
     public function cancel(Request $request)
     {
-        dd('cancelled');
+        abort(403, 'Subscription cancelled');
     }
 
     public function cancelSubscription(Request $request)
