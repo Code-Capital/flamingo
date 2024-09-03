@@ -33,7 +33,7 @@
 
                                 <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
                                     type="button" role="tab" aria-controls="Requests" aria-selected="false">
-                                    <span class="px-1 px-md-2 px-lg-3">Invite Requests</span>
+                                    <span class="px-1 px-md-2 px-lg-3">Incoming Requests</span>
                                 </button>
 
                                 <button class="nav-link" id="Rejected-Requests-tab" data-bs-toggle="tab"

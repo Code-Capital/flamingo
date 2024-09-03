@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('post/{post}/report', [ReportController::class, 'postReport'])->name('post.report');
         Route::post('event/{event}/report', [ReportController::class, 'eventReport'])->name('event.report');
-        Route::post('page/{page}/report', [PostController::class, 'report'])->name('page.report');
+        Route::post('page/{page}/report', [ReportController::class, 'pageReport'])->name('page.report');
 
         Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
         Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');

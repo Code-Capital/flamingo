@@ -120,7 +120,7 @@ class Page extends Model
 
     public function isMainOwner($user)
     {
-        return $this->user_id === $user->id;
+        return $this->user_id == $user->id;
     }
 
     // ======================================================================

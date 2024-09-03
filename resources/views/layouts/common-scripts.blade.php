@@ -310,17 +310,7 @@
         });
     }
 
-    function reportPost(url, formData) {
-        return $.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            processData: false,
-            contentType: false
-        });
-    }
-
-    function reportEvent(url, formData) {
+    function sendReport(url, formData) {
         return $.ajax({
             type: "POST",
             url: url,

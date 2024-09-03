@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\State;
+use App\Models\Page;
 use App\Models\User;
 
-class StatePolicy
+class PagePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class StatePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, State $state): bool
+    public function view(User $user, Page $Page): bool
     {
         //
     }
@@ -34,7 +34,7 @@ class StatePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, State $state): bool
+    public function update(User $user, Page $Page): bool
     {
         //
     }
@@ -42,7 +42,7 @@ class StatePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, State $state): bool
+    public function delete(User $user, Page $Page): bool
     {
         //
     }
@@ -50,7 +50,7 @@ class StatePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, State $state): bool
+    public function restore(User $user, Page $Page): bool
     {
         //
     }
@@ -58,8 +58,17 @@ class StatePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, State $state): bool
+    public function forceDelete(User $user, Page $Page): bool
     {
         //
+    }
+
+    public function canjoin(User $user, Page $Page): bool
+    {
+        // Assuming you have a method to get remaining Pages in the User model
+        $count = $user->getRemainingPagesJoinings();
+
+        // Allow the user to create an Page if they have remaining Pages available
+        return $count > 0;
     }
 }

@@ -378,10 +378,7 @@ class User extends Authenticatable
 
     public function getCurrentMonthJoinings(): int
     {
-        return $this->currentMonthJoinedEvent()
-            // ->whereMonth('created_at', now()->month)
-            // ->whereYear('created_at', now()->year)
-            ->count();
+        return $this->currentMonthJoinedEvent()->count();
     }
 
     public function getRemainingEvents(): int

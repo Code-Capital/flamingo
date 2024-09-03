@@ -242,7 +242,7 @@
                 let url = $(this).attr('action');
 
                 // Call the reportPost function and handle the result
-                reportPost(url, formData)
+                sendReport(url, formData)
                     .done(function(response) {
                         if (response.success) {
                             newNotificationSound();

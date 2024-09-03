@@ -31,8 +31,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <input class="form-control w-100" type="search"
-                                    placeholder="Search by name & title" name="q" value="{{ request()->q }}">
+                                <input class="form-control w-100" type="search" placeholder="Search by name & title"
+                                    name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
                                 <select class="form-control locations w-100" name="location">
@@ -59,7 +59,9 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <h3 class="marketHeading mb-0">Marketplace</h3>
-                                <a class="btn btn-outline-primary px-4" href="createEvent">Create</a>
+                                @if ($remainingPagesCount > 0)
+                                    <a class="btn btn-outline-primary px-4" href="{{ route('pages.create') }}">Create</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -73,15 +75,19 @@
                                             <div class="d-flex align-items-center">
                                                 <span>Starts from :{{ $page->formatted_start_date }} To:
                                                     {{ $page->formatted_end_date }} </span>
-                                                @if ($user && $page->isMainOwner($user))
-                                                    <div class="ms-auto dropdown">
-                                                        <a class="btn" href="javascript:void(0)" role="button"
-                                                            id="actionDropdowns" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            ...
-                                                        </a>
+                                                <div class="ms-auto dropdown">
+                                                    <a class="btn" href="javascript:void(0)" role="button"
+                                                        id="actionDropdowns" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        ...
+                                                    </a>
 
-                                                        <ul class="dropdown-menu" aria-labelledby="actionDropdowns">
+                                                    <ul class="dropdown-menu" aria-labelledby="actionDropdowns">
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('pages.show', $page->slug) }}">View</a>
+                                                        </li>
+                                                        @if ($user && $page->isMainOwner($user))
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('pages.edit', $page->slug) }}">Edit</a>
                                                             <li>
@@ -94,9 +100,16 @@
                                                                         class="dropdown-item">Delete</button>
                                                                 </form>
                                                             </li>
-                                                        </ul>
-                                                    </div>
-                                                @endif
+                                                        @endif
+                                                        @if ($user->id != $page->user_id)
+                                                            <li>
+                                                                <a class="dropdown-item page-report"
+                                                                    data-page="{{ $page->id }}"
+                                                                    href="javascript:void(0)">Report</a>
+                                                            </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
                                             </div>
                                             @if ($page->isPrivate())
                                                 <div class="tags mb-2">
@@ -135,6 +148,9 @@
                             <x-no-data-found />
                         @endforelse
                     </div>
+                    <div class="paginator p-2">
+                        {{ $pages->onEachSide(2)->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,6 +167,6 @@
             placeholder: "Please Select location",
             allowClear: true
         });
-
     </script>
+    @include('page.partials.script')
 @endsection
