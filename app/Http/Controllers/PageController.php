@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusEnum;
-use App\Models\Interest;
-use App\Models\Location;
 use App\Models\Page;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Interest;
+use App\Models\Location;
+use App\Enums\StatusEnum;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PageController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -38,6 +43,8 @@ class PageController extends Controller
      */
     public function create(): View
     {
+        $user = Auth::user();
+        $this->authorize('create', Page::class);
         $interests = Interest::all();
 
         return view('page.create', get_defined_vars());
@@ -188,7 +195,6 @@ class PageController extends Controller
     public function pagesearch(Request $request): View
     {
         $user = Auth::user();
-        // Get the search term and interests from the request
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
         $pages = Page::bySearch($searchTerm)
@@ -288,32 +294,43 @@ class PageController extends Controller
 
     public function sendJoiningInvite(Request $request)
     {
-        $page = Page::where('id', $request->page_id)->first();
-        $user = User::where('id', $request->user_id)->first();
+        try {
+            $page = Page::where('id', $request->page_id)->first();
+            $user = User::where('id', $request->user_id)->first();
 
-        if (! $user || ! $page) {
-            return $this->sendErrorResponse('Error occured while processing');
+            $this->authorize('canjoin', $page);
+
+            if (! $user || ! $page) {
+                return $this->sendErrorResponse('Error occured while processing');
+            }
+
+            DB::transaction(function () use ($page, $user) {
+                $page->users()->attach($user->id, [
+                    'status' => 'pending',
+                    'start_date' => now(),
+                    'is_invited' => true,
+                ]);
+
+                $pageOwner = $page->owner;
+
+                $user->notifications()->create([
+                    'type' => 'invitation',
+                    'data' => json_encode([
+                        'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
+                        'user_id' => $user->id,
+                        'page_id' => $page->id,
+                        'page_owner_id' => $pageOwner->id,
+                    ]),
+                ]);
+            });
+
+            return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+        } catch (AuthorizationException $e) {
+            $message = 'Total limit reached. You cannot further send requests';
+            return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while sending invitation' . $th->getMessage());
         }
-
-        $page->users()->attach($user->id, [
-            'status' => 'pending',
-            'start_date' => now(),
-            'is_invited' => true,
-        ]);
-
-        $pageOwner = $page->owner;
-
-        $user->notifications()->create([
-            'type' => 'invitation',
-            'data' => json_encode([
-                'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
-                'user_id' => $user->id,
-                'page_id' => $page->id,
-                'page_owner_id' => $pageOwner->id,
-            ]),
-        ]);
-
-        return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
     }
 
     public function receivedJoiningInvites()
@@ -349,6 +366,17 @@ class PageController extends Controller
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
             return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+        }
+    }
+
+    public function leavePage(Request $request, Page $page)
+    {
+        try {
+            $page->users()->detach($request->user()->id);
+
+            return $this->sendSuccessResponse($page, 'Page leaved successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while leaving this page' . $th->getMessage());
         }
     }
 }

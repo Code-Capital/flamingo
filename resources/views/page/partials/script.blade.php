@@ -36,4 +36,50 @@
                 toastr.error(errorMessage);
             });
     });
+
+
+    body.on('click', '.leave-page', function(event) {
+        event.preventDefault();
+        let id = $(this).data('page');
+        let url = `{{ route('page.leave', ':id') }}`.replace(':id', id);
+
+        // Call the leavePage function with named parameters
+        leavePage({
+            url: url,
+            method: 'DELETE'
+        }).done(function(response) {
+            if (response.success) {
+                newNotificationSound();
+                toastr.success(response.message);
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                errorNotificationSound();
+                toastr.error(response.message || 'An error occurred while processing your request.');
+            }
+        }).fail(function(xhr) {
+            errorNotificationSound();
+            let errorMessage = xhr.responseJSON?.message ||
+                'An error occurred while processing your request.';
+            toastr.error(errorMessage);
+        });
+    });
+
+    function leavePage({
+        url,
+        formData = null,
+        method = 'POST'
+    }) {
+        return $.ajax({
+            url: url,
+            type: method,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token in headers
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+        });
+    }
 </script>

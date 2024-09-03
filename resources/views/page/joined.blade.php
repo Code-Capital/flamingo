@@ -25,15 +25,18 @@
                                             <div class="d-flex align-items-center">
                                                 <span>Starts from :{{ $page->formatted_start_date }} To:
                                                     {{ $page->formatted_end_date }} </span>
-                                                @if ($user && $page->isMainOwner($user))
-                                                    <div class="ms-auto dropdown">
-                                                        <a class="btn" href="javascript:void(0)" role="button"
-                                                            id="actionDropdowns" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            ...
-                                                        </a>
-
-                                                        <ul class="dropdown-menu" aria-labelledby="actionDropdowns">
+                                                <div class="ms-auto dropdown">
+                                                    <a class="btn" href="javascript:void(0)" role="button"
+                                                        id="actionDropdowns" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        ...
+                                                    </a>
+                                                    <ul class="dropdown-menu" aria-labelledby="actionDropdowns">
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('pages.show', $page->slug) }}">View</a>
+                                                        </li>
+                                                        @if ($user && $page->isMainOwner($user))
                                                             <li><a class="dropdown-item"
                                                                     href="{{ route('pages.edit', $page->slug) }}">Edit</a>
                                                             <li>
@@ -46,9 +49,21 @@
                                                                         class="dropdown-item">Delete</button>
                                                                 </form>
                                                             </li>
-                                                        </ul>
-                                                    </div>
-                                                @endif
+                                                        @endif
+                                                        @if ($user->id != $page->user_id)
+                                                            <li>
+                                                                <a class="dropdown-item page-report"
+                                                                    data-page="{{ $page->id }}"
+                                                                    href="javascript:void(0)">Report</a>
+                                                            </li>
+                                                        @endif
+                                                        <li>
+                                                            <a class="dropdown-item leave-page"
+                                                                data-page="{{ $page->id }}"
+                                                                href="javascript:void(0)">Leave</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
 
                                             @if ($page->isPrivate())
@@ -56,7 +71,8 @@
                                                     <span class="px-1 py-1 fw-bold bg-info text-white">Private</span>
                                                 </div>
                                             @endif
-                                            <a href="{{ route('join.page.show', $page->slug) }}" class="text-decoration-none">
+                                            <a href="{{ route('join.page.show', $page->slug) }}"
+                                                class="text-decoration-none">
                                                 <h5 class="mb-1">{{ $page->name }}</h5>
                                                 <p class="mb-2"> {{ limitString($page->description) }} </p>
                                                 <div class="owners">
@@ -97,4 +113,5 @@
     </div>
 @endsection
 @section('scripts')
+    @include('page.partials.script')
 @endsection

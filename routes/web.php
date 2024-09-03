@@ -117,6 +117,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/accept-invite/{page}', [PageController::class, 'accept'])->name('page.invite.accept');
         Route::post('/reject-invite/{page}', [PageController::class, 'reject'])->name('page.invite.reject');
         Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
+        Route::delete('/leave/page/{page}', [PageController::class, 'leavePage'])->name('page.leave');
 
         Route::get('checkout/{plan:uuid}/subscription', [CheckoutController::class, 'checkout'])->name('stripe.subscription.checkout');
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');

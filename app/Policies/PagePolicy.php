@@ -28,7 +28,11 @@ class PagePolicy
      */
     public function create(User $user): bool
     {
-        //
+        // Assuming you have a method to get remaining events in the User model
+        $remainingEvents = $user->getRemainingPages();
+
+        // Allow the user to create an event if they have remaining events available
+        return $remainingEvents > 0;
     }
 
     /**
@@ -66,7 +70,7 @@ class PagePolicy
     public function canjoin(User $user, Page $Page): bool
     {
         // Assuming you have a method to get remaining Pages in the User model
-        $count = $user->getRemainingPagesJoinings();
+        $count = $user->getRemainingPageJoinings();
 
         // Allow the user to create an Page if they have remaining Pages available
         return $count > 0;

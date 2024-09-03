@@ -220,6 +220,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function currentMonthJoinedPages(): BelongsToMany
+    {
+        return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
+            ->whereMonth('pages.created_at', now()->month)
+            ->whereYear('pages.created_at', now()->year);
+    }
+
     public function acceptedPages(): BelongsToMany
     {
         return $this->joinedPages()
@@ -421,10 +428,7 @@ class User extends Authenticatable
 
     public function getCurrentMonthPageJoinings(): int
     {
-        return $this->joinedPages()
-            ->whereMonth('created_at', now())
-            ->whereYear('created_at', now())
-            ->count();
+        return $this->currentMonthJoinedPages()->count();
     }
 
     public function getRemainingPages(): int
