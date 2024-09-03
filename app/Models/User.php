@@ -369,20 +369,88 @@ class User extends Authenticatable
             ->count();
     }
 
+    public function getCurrentMonthJoinings(): int
+    {
+        return $this->joinedEvents()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
     public function getRemainingEvents(): int
     {
         $count = 0;
         $monthCount = $this->getCurrentMonthEvents();
         $setting = Setting::first();
-        if (! $this->isSubscribed()) {
+        if ($this->isSubscribed()) {
             $totalAllowed = $setting->sub_event_create_count ?? 0;
-            $count = $monthCount - $totalAllowed;
         } else {
             $totalAllowed = $setting->un_sub_event_create_count ?? 0;
-            $count = $monthCount - $totalAllowed;
         }
 
-        return $count;
+        $count = intval($totalAllowed) - intval($monthCount);
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getRemainingEventsJoinings(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthJoinings();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_event_join_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_event_join_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getCurrentMonthPages(): int
+    {
+        return $this->pages()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
+    public function getCurrentMonthPageJoinings(): int
+    {
+        return $this->joinedPages()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
+    public function getRemainingPages(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthPages();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_page_create_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_page_create_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getRemainingPageJoinings(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthPageJoinings();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_page_join_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_page_join_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+        return ($count > 0) ? $count : 0;
     }
 
     // ======================================================================
@@ -390,12 +458,11 @@ class User extends Authenticatable
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 

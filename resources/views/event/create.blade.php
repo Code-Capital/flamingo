@@ -5,11 +5,11 @@
 @section('content')
     <div class="px-0 px-md-2 px-lg-3">
         <div class="row mx-0 pt-5">
-            @if ($remianingEventCount > 0)
-                <div class="col-lg-12 mb-3 mx-auto">
-                    <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="profileForm bg-white p-3 p-md-3 p-lg-5 mt-4">
+            <div class="col-lg-12 mb-3 mx-auto">
+                <div class="profileForm bg-white p-3 p-md-3 p-lg-5 mt-4">
+                    @if ($remianingEventCount > 0)
+                        <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <!-- Event Name and Event Location in a single row -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -190,12 +190,16 @@
                             <button type="submit" class="btn btn-primary w-100 mt-3">
                                 Create
                             </button>
+                        </form>
+                    @else
+                        <div class="alert alert-danger" role="alert">
+                            You have reached the maximum limit of creating events for this month. Please delete some events
+                            to create new
+                            events.
                         </div>
-                    </form>
+                    @endif
                 </div>
-            @else
-                <h1>no event avaibale for now</h1>
-            @endif
+            </div>
         </div>
     </div>
 @endsection
