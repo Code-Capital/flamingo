@@ -22,11 +22,21 @@ class EventCreatedListener implements ShouldQueue
      */
     public function handle(EventCreatedEvent $event): void
     {
-        Log::info('LISTENER -> Event created: '.$event->event->title);
+        Log::info('LISTENER -> Event created: ' . $event->event->title);
+        $eventLink = route('events.show', $event->event->slug);
+
+        // Create the HTML message
+        $body = limitString($event->event->title, 20);
+        $message = "
+            <div class='notification'>
+                <strong>{$event->user->full_name}</strong> create a new event <a href='{$eventLink}' target='_blank'>{$body}</a>
+            </div>
+        ";
+
         $event->user->notifications()->create([
-            'type' => NotificationStatusEnum::POSTCREATED->value,
+            'type' => NotificationStatusEnum::EVENTCREATED->value,
             'data' => json_encode([
-                'message' => 'New event created by '.$event->user->name,
+                'message' => $message,
                 'event_id' => $event->event->id,
                 'event' => $event->event,
                 'user_id' => $event->user->id,

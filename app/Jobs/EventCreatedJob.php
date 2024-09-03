@@ -38,5 +38,7 @@ class EventCreatedJob implements ShouldQueue
             Log::info('JOB -> Event created: '.$this->event->title);
             broadcast(new EventCreatedEvent($this->event, $friend));
         }
+
+        Log::info('JOB -> Terminated: '.$this->event->title);
     }
 }
