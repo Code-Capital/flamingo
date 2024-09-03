@@ -29,7 +29,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -152,8 +152,6 @@ Route::middleware('auth')->group(function () {
         Route::put('users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
         Route::put('users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
 
-        // Route::get('interests/list', [AdminInterestController::class, 'index'])->name('interests.list');
-
         Route::resource('interests', AdminInterestController::class);
         Route::resource('locations', AdminLocationController::class);
 
@@ -183,9 +181,4 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
-    // Route::get('/profile/force', [ProfileController::class, 'force'])->name('profile.force');
-    //    Route::get('/notifications', function () {
-    //        $user = auth()->user();
-    //        return view('notifications.index', ['notifications' => $user->notifications]);
-    //    })->name('notifications.index');
 });

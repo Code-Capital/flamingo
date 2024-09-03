@@ -31,13 +31,6 @@ class ProfileController extends Controller
         return view('profile.edit', get_defined_vars());
     }
 
-    public function force(Request $request): View
-    {
-        return view('profile.edit-bkp', [
-            'user' => $request->user(),
-        ]);
-    }
-
     /**
      * Update the user's profile information.
      */
