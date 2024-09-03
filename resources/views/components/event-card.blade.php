@@ -66,7 +66,7 @@
                     @endforelse
                 </div>
             </a>
-            @if (Request::routeIs('search.events'))
+            @if ($joiningCount > 0)
                 @if (!$event->allMembers()->where('user_id', $user->id)->exists())
                     <div class="d-flex align-items-center pt-2">
                         <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
@@ -76,7 +76,7 @@
                     </div>
                 @else
                     <div class="tags d-flex align-items-center pt-2">
-                        <span class="px-2 py-1 bg-success text-white">Request sent</span>
+                        <span class="px-2 py-1 bg-success text-white rounded">Request sent</span>
                     </div>
                 @endif
             @endif

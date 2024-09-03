@@ -65,7 +65,7 @@
                     </div>
                     <div class="row mx-0">
                         @forelse ($events as $event)
-                            <x-event-card :event="$event" :user="$user" :url="route('joined.events.show', $event->slug)" />
+                            <x-event-card :event="$event" :user="$user" :url="route('joined.events.show', $event->slug)" :joiningCount="$eventJoiningCount" />
                         @empty
                             <x-no-data-found />
                         @endforelse

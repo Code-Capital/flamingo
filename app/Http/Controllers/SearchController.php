@@ -38,6 +38,7 @@ class SearchController extends Controller
     public function eventSearch(Request $request): View
     {
         $user = Auth::user();
+        $eventJoiningCount = $user->getRemainingEventsJoinings();
         $userInterests = $user->interests->pluck('id')->toArray();
 
         $searchTerm = $request->input('q', '');

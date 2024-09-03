@@ -226,10 +226,11 @@ class EventController extends Controller
             : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function joinEvent(Event $event): JsonResponse
+    public function joinEvent(Request $request, Event $event): JsonResponse|RedirectResponse
     {
         try {
             $user = Auth::user();
+            $this->authorize('canjoin', $event);
 
             // Check if the user is already a member of the event
             if ($event->allMembers()->where('user_id', $user->id)->exists()) {
@@ -237,11 +238,20 @@ class EventController extends Controller
             }
 
             // Add the user as a member of the event
-            $event->allMembers()->attach($user->id);
+            $event->allMembers()->attach($user->id, [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             return $this->sendSuccessResponse($event, 'You have joined the event successfully', Response::HTTP_OK);
+        } catch (AuthorizationException $e) {
+            $isAjax = $request->ajax();
+            $message = 'Total limit reached. You cannot join this event';
+            return $isAjax
+                ? $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN)
+                : redirect()->back()->with('error', $message);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

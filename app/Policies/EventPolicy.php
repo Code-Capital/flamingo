@@ -70,4 +70,14 @@ class EventPolicy
     {
         //
     }
+
+
+    public function canjoin(User $user, Event $event): bool
+    {
+        // Assuming you have a method to get remaining events in the User model
+        $count = $user->getRemainingEventsJoinings();
+
+        // Allow the user to create an event if they have remaining events available
+        return $count > 0;
+    }
 }

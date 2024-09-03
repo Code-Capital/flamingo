@@ -200,6 +200,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function currentMonthJoinedEvent()
+    {
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')
+            ->whereMonth('events.created_at', now()->month)
+            ->whereYear('events.created_at', now()->year);
+    }
+
     // Pages Relationships
     public function pages(): HasMany
     {
@@ -371,9 +378,9 @@ class User extends Authenticatable
 
     public function getCurrentMonthJoinings(): int
     {
-        return $this->joinedEvents()
-            ->whereMonth('created_at', now())
-            ->whereYear('created_at', now())
+        return $this->currentMonthJoinedEvent()
+            // ->whereMonth('created_at', now()->month)
+            // ->whereYear('created_at', now()->year)
             ->count();
     }
 

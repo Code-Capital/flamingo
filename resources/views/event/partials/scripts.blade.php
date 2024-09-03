@@ -41,10 +41,10 @@
 
         body.on('click', '.join-event', function() {
             let eventId = $(this).data('id');
-            joinEvent(eventId);
+            joinEvent(eventId, false, $(this));
         });
 
-        function joinEvent(eventId) {
+        function joinEvent(eventId, reload = false, button = null) {
             $.ajax({
                 url: "{{ route('event.join', ':id') }}".replace(':id', eventId),
                 type: 'post',
@@ -52,23 +52,35 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.success == true) {
+                    if (response.success) {
                         toastr.success(response.message);
                         newNotificationSound();
+                        if (button) {
+                            button.html(
+                                '<span class="px-2 py-1 bg-success text-white rounded">Request sent</span>'
+                                );
+                            button.attr('disabled', true);
+                        }
                     } else {
-                        toastr.error(response.message);
+                        toastr.error(response.message ||
+                            'Joining limit Exceed or an error occurred while joining the event');
                         errorNotificationSound();
                     }
 
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1000);
+                    if (reload) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    }
                 },
-                error: function(error) {
-                    toastr.error('Something went wrong');
+                error: function(xhr) {
+                    // Check if the response has a specific error message
+                    const errorMessage = xhr.responseJSON?.message || 'Something went wrong';
+                    toastr.error(errorMessage);
                     errorNotificationSound();
                 }
             });
         }
+
     });
 </script>
