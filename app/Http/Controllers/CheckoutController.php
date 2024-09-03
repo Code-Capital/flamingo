@@ -34,6 +34,4 @@ class CheckoutController extends Controller
     {
         abort(403, 'Subscription cancelled');
     }
-
-
 }

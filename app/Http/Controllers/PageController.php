@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
-use App\Models\User;
+use App\Enums\StatusEnum;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Page;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
@@ -81,7 +81,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to create page' . $th->getMessage());
+            return back()->with('error', 'Failed to create page'.$th->getMessage());
         }
     }
 
@@ -170,7 +170,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to update page' . $th->getMessage());
+            return back()->with('error', 'Failed to update page'.$th->getMessage());
         }
     }
 
@@ -228,7 +228,7 @@ class PageController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/page/' . $post->id . '/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/page/'.$post->id.'/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -271,17 +271,17 @@ class PageController extends Controller
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="' . $user->avatar_url . '" class="rounded-circle">
+                                <img src="'.$user->avatar_url.'" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">' . $user->full_name . '</span>
+                                    <span class="d-block">'.$user->full_name.'</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
-                                ' . (! $isAssociated ? '
-                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
-                                    <img src="' . $doneIcon . '">
+                            <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
+                                '.(! $isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="'.$page->id.'" data-user="'.$user->id.'" href="javascript:void(0)">
+                                    <img src="'.$doneIcon.'">
                                 </a>
-                                ' : '<span class="small text-muted"> Invite sent </span>') . '
+                                ' : '<span class="small text-muted"> Invite sent </span>').'
                             </div>
                         </div>
                     </div>
@@ -324,12 +324,13 @@ class PageController extends Controller
                 ]);
             });
 
-            return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+            return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
         } catch (AuthorizationException $e) {
             $message = 'Total limit reached. You cannot further send requests';
+
             return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while sending invitation' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while sending invitation'.$th->getMessage());
         }
     }
 
@@ -365,7 +366,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while removing this memeber'.$th->getMessage());
         }
     }
 
@@ -376,7 +377,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse($page, 'Page leaved successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while leaving this page' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while leaving this page'.$th->getMessage());
         }
     }
 }

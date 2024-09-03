@@ -400,6 +400,7 @@ class User extends Authenticatable
         }
 
         $count = intval($totalAllowed) - intval($monthCount);
+
         return ($count > 0) ? $count : 0;
     }
 
@@ -415,6 +416,7 @@ class User extends Authenticatable
         }
 
         $count = intval($totalAllowed) - intval($monthCount);
+
         return ($count > 0) ? $count : 0;
     }
 
@@ -443,6 +445,7 @@ class User extends Authenticatable
         }
 
         $count = intval($totalAllowed) - intval($monthCount);
+
         return ($count > 0) ? $count : 0;
     }
 
@@ -458,6 +461,7 @@ class User extends Authenticatable
         }
 
         $count = intval($totalAllowed) - intval($monthCount);
+
         return ($count > 0) ? $count : 0;
     }
 
@@ -467,10 +471,10 @@ class User extends Authenticatable
     public function scopeBySearch($query, ?string $search = null)
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('user_name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where('first_name', 'like', '%'.$search.'%')
+                ->orWhere('last_name', 'like', '%'.$search.'%')
+                ->orWhere('user_name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
     }
 

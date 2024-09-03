@@ -71,7 +71,6 @@ class EventPolicy
         //
     }
 
-
     public function canjoin(User $user, Event $event): bool
     {
         // Assuming you have a method to get remaining events in the User model
