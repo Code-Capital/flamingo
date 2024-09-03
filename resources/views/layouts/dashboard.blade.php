@@ -156,8 +156,8 @@
 
             userId = '{{ auth()->id() }}';
 
-            var channel = pusher.subscribe('user.' + userId);
-            channel.bind('post-created', function(data) {
+            var channel = pusher.subscribe('notification.' + userId);
+            channel.bind('notification-created', function(data) {
                 console.log(data);
                 newNotificationSound();
                 // Display the notification as an HTML message
@@ -175,35 +175,6 @@
                 };
                 toastr.success(data.message);
             });
-            // var postUrl = '{{ route('post.edit', ':uuid') }}';
-            // var eventUrl = '{{ route('events.show', ':slug') }}';
-
-            // in notification function
-            // var message = 'New post created by ' + data.full_name;
-
-            // // Replace ':uuid' in the URL with the actual post UUID
-            // postUrl = postUrl.replace(':uuid', data.post.uuid);
-            // const postLink = `<a href="${postUrl}">Click here</a> to view the post.`;
-            // Display the notification with the link to the new post
-            // toastr.success(message + ' ' + postLink);
-            // location.reload(); // Uncomment if you want to reload the page
-
-            // var channel = pusher.subscribe('event.user.' + userId);
-            // channel.bind('event-created', function(data) {
-            //     console.log(data);
-            //     newNotificationSound();
-            //     var message = 'New event created by ' + data.full_name;
-
-            //     // Replace ':uuid' in the URL with the actual post UUID
-            //     eventUrl = eventUrl.replace(':slug', data.event.slug);
-
-            //     const eventLink = `<a href="${eventUrl}">Click here</a> to view the event.`;
-
-            //     // Display the notification with the link to the new post
-            //     toastr.success(message + ' ' + eventLink);
-            //     // location.reload(); // Uncomment if you want to reload the page
-            // });
-
         });
     </script>
     @yield('scripts')
