@@ -21,10 +21,20 @@ class SendPostCreationNotification implements ShouldQueue
      */
     public function handle(PostCreatedEvent $event): void
     {
+        $postLink = route('post.edit', $event->post->uuid);
+
+        // Create the HTML message
+        $message = "
+            <div class='notification'>
+                <strong>{$event->user->full_name}</strong> has posted a new update:
+                <a href='{$postLink}' target='_blank'>\"{$event->post->title}\"</a>
+            </div>
+        ";
+
         $event->user->notifications()->create([
             'type' => NotificationStatusEnum::POSTCREATED->value,
             'data' => json_encode([
-                'message' => 'New post created by '.$event->user->name,
+                'message' => $message,
                 'post_id' => $event->post->id,
                 'post_body' => $event->post->body,
                 'user_id' => $event->user->id,

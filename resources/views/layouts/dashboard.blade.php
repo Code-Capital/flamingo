@@ -94,8 +94,8 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <textarea name="reason" id="" cols="30" rows="5" class="form-control" placeholder="Please provide proper reason"
-                                required></textarea>
+                            <textarea name="reason" id="" cols="30" rows="5" class="form-control"
+                                placeholder="Please provide proper reason" required></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -148,47 +148,61 @@
         let message = '';
         document.addEventListener('DOMContentLoaded', function() {
             // Enable pusher logging - don't include this in production
-            // Pusher.logToConsole = true;
+            Pusher.logToConsole = true;
 
             var pusher = new Pusher('9a5d76ef216853ed60cf', {
                 cluster: 'us3',
             });
 
             userId = '{{ auth()->id() }}';
-            var postUrl = '{{ route('post.edit', ':uuid') }}';
-            var eventUrl = '{{ route('events.show', ':slug') }}';
 
             var channel = pusher.subscribe('user.' + userId);
             channel.bind('post-created', function(data) {
                 console.log(data);
                 newNotificationSound();
-                var message = 'New post created by ' + data.full_name;
-
-                // Replace ':uuid' in the URL with the actual post UUID
-                postUrl = postUrl.replace(':uuid', data.post.uuid);
-
-                const postLink = `<a href="${postUrl}">Click here</a> to view the post.`;
-
-                // Display the notification with the link to the new post
-                toastr.success(message + ' ' + postLink);
-                // location.reload(); // Uncomment if you want to reload the page
+                // Display the notification as an HTML message
+                toastr.options = {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000, // Duration before the toast disappears
+                    extendedTimeOut: 3000,
+                    tapToDismiss: false,
+                    escapeHtml: false,
+                    allowHtml: true,
+                    onclick: function() {
+                        window.open(data.link);
+                    }
+                };
+                toastr.success(data.message);
             });
+            // var postUrl = '{{ route('post.edit', ':uuid') }}';
+            // var eventUrl = '{{ route('events.show', ':slug') }}';
 
-            var channel = pusher.subscribe('event.user.' + userId);
-            channel.bind('event-created', function(data) {
-                console.log(data);
-                newNotificationSound();
-                var message = 'New event created by ' + data.full_name;
+            // in notification function
+            // var message = 'New post created by ' + data.full_name;
 
-                // Replace ':uuid' in the URL with the actual post UUID
-                eventUrl = eventUrl.replace(':slug', data.event.slug);
+            // // Replace ':uuid' in the URL with the actual post UUID
+            // postUrl = postUrl.replace(':uuid', data.post.uuid);
+            // const postLink = `<a href="${postUrl}">Click here</a> to view the post.`;
+            // Display the notification with the link to the new post
+            // toastr.success(message + ' ' + postLink);
+            // location.reload(); // Uncomment if you want to reload the page
 
-                const eventLink = `<a href="${eventUrl}">Click here</a> to view the event.`;
+            // var channel = pusher.subscribe('event.user.' + userId);
+            // channel.bind('event-created', function(data) {
+            //     console.log(data);
+            //     newNotificationSound();
+            //     var message = 'New event created by ' + data.full_name;
 
-                // Display the notification with the link to the new post
-                toastr.success(message + ' ' + eventLink);
-                // location.reload(); // Uncomment if you want to reload the page
-            });
+            //     // Replace ':uuid' in the URL with the actual post UUID
+            //     eventUrl = eventUrl.replace(':slug', data.event.slug);
+
+            //     const eventLink = `<a href="${eventUrl}">Click here</a> to view the event.`;
+
+            //     // Display the notification with the link to the new post
+            //     toastr.success(message + ' ' + eventLink);
+            //     // location.reload(); // Uncomment if you want to reload the page
+            // });
 
         });
     </script>

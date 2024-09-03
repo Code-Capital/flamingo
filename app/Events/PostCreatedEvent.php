@@ -36,7 +36,7 @@ class PostCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('user.'.$this->user->id),
+            new Channel('user.' . $this->user->id),
         ];
     }
 
@@ -57,10 +57,23 @@ class PostCreatedEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
+        // Generate the link to the post
+        $postLink = route('post.edit', $this->post->uuid);
+
+        // Create the HTML message
+        $message = "
+            <div class='notification'>
+                <strong>{$this->user->full_name}</strong> has posted a new update:
+                <a href='{$postLink}' target='_blank'>{$this->post->title}</a>
+            </div>
+        ";
+
         return [
-            'post' => $this->post,
+            'message' => htmlspecialchars_decode($message), // The complete HTML message
+            'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'full_name' => $this->user->full_name,
+            'link' => $postLink,
         ];
     }
 }
