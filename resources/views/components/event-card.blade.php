@@ -11,15 +11,13 @@
                         ...
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        @if (!$event->isOwner($user))
-                            <li>
-                                <a class="dropdown-item event-report" data-event="{{ $event->id }}"
-                                    href="javascript:void(0)">Report</a>
-                            </li>
-                        @endif
+                        <li>
+                            <a class="dropdown-item" href="{{ route('events.show', $event->slug) }}">View</a>
+                        </li>
                         @if ($user && $event->isOwner($user))
                             @if ($event->isUpcoming() || $event->isOngoing())
-                                <li><a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
@@ -38,7 +36,17 @@
                                     </form>
                                 </li>
                             @endif
-                            <li><a class="dropdown-item" href="{{ route('events.show', $event->slug) }}">View</a>
+                        @endif
+                        @if (!$event->isOwner($user))
+                            <li>
+                                <a class="dropdown-item event-report" data-event="{{ $event->id }}"
+                                    href="javascript:void(0)">Report</a>
+                            </li>
+                        @endif
+                        @if (Request::routeIs('events.joined'))
+                            <li>
+                                <a class="dropdown-item leave-event" data-event="{{ $event->id }}"
+                                    href="javascript:void(0)">Leave</a>
                             </li>
                         @endif
                     </ul>

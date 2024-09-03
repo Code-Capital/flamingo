@@ -58,7 +58,7 @@
                         if (button) {
                             button.html(
                                 '<span class="px-2 py-1 bg-success text-white rounded">Request sent</span>'
-                                );
+                            );
                             button.attr('disabled', true);
                         }
                     } else {
@@ -81,6 +81,35 @@
                 }
             });
         }
+
+        body.on('click', '.leave-event', function(event) {
+            event.preventDefault();
+            let id = $(this).data('event');
+            let url = `{{ route('event.leave', ':id') }}`.replace(':id', id);
+
+            // Call the leave event function with named parameters
+            leaveThis({
+                url: url,
+                method: 'DELETE'
+            }).done(function(response) {
+                if (response.success) {
+                    newNotificationSound();
+                    toastr.success(response.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    errorNotificationSound();
+                    toastr.error(response.message ||
+                        'An error occurred while processing your request.');
+                }
+            }).fail(function(xhr) {
+                errorNotificationSound();
+                let errorMessage = xhr.responseJSON?.message ||
+                    'An error occurred while processing your request.';
+                toastr.error(errorMessage);
+            });
+        });
 
     });
 </script>

@@ -349,4 +349,21 @@
             }
         });
     }
+
+    function leaveThis({
+        url,
+        formData = null,
+        method = 'POST'
+    }) {
+        return $.ajax({
+            url: url,
+            type: method,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token in headers
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+        });
+    }
 </script>

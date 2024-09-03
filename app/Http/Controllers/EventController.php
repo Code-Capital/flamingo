@@ -203,6 +203,17 @@ class EventController extends Controller
         return back()->with('success', 'Member removed successfully');
     }
 
+
+    public function leaveEvent(Request $request, Event $event)
+    {
+        try {
+            $leave = $event->allMembers()->detach($request->user()->id);
+            return $this->sendSuccessResponse($leave, 'You have left the event successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function statusUpdateRequest(Request $request, Event $event, User $user)
     {
         // Validate the request

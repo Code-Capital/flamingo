@@ -44,7 +44,7 @@
         let url = `{{ route('page.leave', ':id') }}`.replace(':id', id);
 
         // Call the leavePage function with named parameters
-        leavePage({
+        leaveThis({
             url: url,
             method: 'DELETE'
         }).done(function(response) {
@@ -66,20 +66,4 @@
         });
     });
 
-    function leavePage({
-        url,
-        formData = null,
-        method = 'POST'
-    }) {
-        return $.ajax({
-            url: url,
-            type: method,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token in headers
-            },
-            data: formData,
-            processData: false,
-            contentType: false,
-        });
-    }
 </script>

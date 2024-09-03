@@ -87,6 +87,8 @@ Route::middleware('auth')->group(function () {
         Route::get('joined/events/{event:slug}/show', [EventController::class, 'show'])->name('joined.events.show');
         Route::post('/events/{event:slug}/close', [EventController::class, 'eventClose'])->name('events.close');
         Route::post('/events/{event}/join', [EventController::class, 'joinEvent'])->name('event.join');
+
+        Route::delete('/events/{event}/leave', [EventController::class, 'leaveEvent'])->name('event.leave');
         Route::delete('/events/{event}/members/{user}', [EventController::class, 'removeMember'])->name('events.remove.member');
         Route::put('/events/{event}/members/{user}', [EventController::class, 'statusUpdateRequest'])->name('events.status.update');
         Route::post('/events/{event}/post/store', [EventController::class, 'eventPost'])->name('events.post.store');
