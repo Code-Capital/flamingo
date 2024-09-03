@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\Postcontroller as AdminPostcontroller;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\TermsAndConditionsController;
@@ -157,6 +158,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
         Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');
+
+        Route::get('posts/list', [AdminPostcontroller::class, 'index'])->name('posts.list');
+        Route::delete('posts/{post}/delete', [AdminPostcontroller::class, 'destroy'])->name('posts.destroy');
 
         Route::get('announcements/list', [AdminAnnouncementController::class, 'index'])->name('announcements.list');
         Route::delete('admin/announcements/{announcement}/delete', [AdminAnnouncementController::class, 'destroy'])->name('admin.announcements.destroy');

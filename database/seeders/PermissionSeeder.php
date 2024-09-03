@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
             'view profile',
             'view users list',
             'view events list',
+            'view posts list',
             'view announcements',
             'view announcements list',
             'view pages list',
@@ -33,6 +34,7 @@ class PermissionSeeder extends Seeder
             'view subscribers',
             'view subscriptions',
             'view my subscription',
+            'view all posts',
         ];
 
         $this->command->getOutput()->progressStart(count($adminPermissions));
