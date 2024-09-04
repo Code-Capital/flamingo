@@ -22,14 +22,14 @@ return [
     |-------------------------------------
     */
     'routes' => [
-        'prefix' => env('CHATIFY_ROUTES_PREFIX', 'chatify'),
+        'prefix' => env('CHATIFY_ROUTES_PREFIX', 'messages'),
         'middleware' => env('CHATIFY_ROUTES_MIDDLEWARE', ['web','auth']),
-        'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'Chatify\Http\Controllers'),
+        'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify'),
     ],
     'api_routes' => [
         'prefix' => env('CHATIFY_API_ROUTES_PREFIX', 'chatify/api'),
         'middleware' => env('CHATIFY_API_ROUTES_MIDDLEWARE', ['api']),
-        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'Chatify\Http\Controllers\Api'),
+        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify\Api'),
     ],
 
     /*
@@ -58,7 +58,7 @@ return [
     |-------------------------------------
     */
     'user_avatar' => [
-        'folder' => 'users-avatar',
+        'folder' => 'avatars',
         'default' => 'avatar.png',
     ],
 
@@ -105,6 +105,7 @@ return [
     |-------------------------------------
     */
     'colors' => (array) [
+        '#de296a',
         '#2180f3',
         '#2196F3',
         '#00BCD4',
@@ -114,7 +115,6 @@ return [
         '#FFC107',
         '#FF9800',
         '#ff2522',
-        '#9C27B0',
     ],
     /*
     |-------------------------------------
