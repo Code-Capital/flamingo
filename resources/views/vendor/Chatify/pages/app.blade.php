@@ -120,12 +120,17 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // remove after code working
+            $('#sidebar-wrapper').remove();
+
             // Function to toggle class on #wrapper
             function toggleClassOnWrapper(className) {
                 $('#wrapper').toggleClass(className);
             }
 
             toggleClassOnWrapper('toggled');
+
+
         });
     </script>
 @endsection
