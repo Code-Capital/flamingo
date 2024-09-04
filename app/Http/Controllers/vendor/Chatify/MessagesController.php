@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\vendor\Chatify;
 
+use App\Chatify\CustomChatify;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -20,6 +21,12 @@ use Illuminate\Support\Facades\Log;
 class MessagesController extends Controller
 {
     protected $perPage = 30;
+    protected $customChatify;
+
+    public function __construct()
+    {
+        $this->customChatify = new CustomChatify();
+    }
 
     /**
      * Authenticate the connection for pusher
@@ -45,17 +52,19 @@ class MessagesController extends Controller
      */
     public function index($channel_id = null)
     {
-        $messenger_color = Auth::user()->messenger_color;
+        $user = Auth::user();
 
-        if (!Auth::user()->channel_id) {
-            Chatify::createPersonalChannel();
+        $messenger_color = $user->messenger_color;
+
+        if (!$user->channel_id) {
+            $this->customChatify->createPersonalChannel();
         }
 
         return view('Chatify::pages.app', [
             'channel_id' => $channel_id ?? 0,
             'channel' => $channel_id ? Channel::where('id', $channel_id)->first() : null,
             'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
-            'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
+            'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
         ]);
     }
 
@@ -137,6 +146,7 @@ class MessagesController extends Controller
         ];
         $attachment = null;
         $attachment_title = null;
+        $user = Auth::user();
 
         // if there is attachment [file]
         if ($request->hasFile('file')) {
@@ -167,7 +177,7 @@ class MessagesController extends Controller
         if (!$error->status) {
             $lastMess = Message::where('to_channel_id', $request['channel_id'])->latest()->first();
             $message = Chatify::newMessage([
-                'from_id' => Auth::user()->id,
+                'from_id' => $user->id,
                 'to_channel_id' => $request['channel_id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
                 'attachment' => ($attachment) ? json_encode((object)[
@@ -176,15 +186,15 @@ class MessagesController extends Controller
                 ]) : null,
             ]);
 
-            // load user info
-            $message->user_avatar = Auth::user()->avatar;
-            $message->user_name = Auth::user()->name;
-            $message->user_email = Auth::user()->email;
+            // load user infol;
+            $message->user_avatar = $user->avatar;
+            $message->user_name = $user->user_name;
+            $message->user_email = $user->email;
 
-            $messageData = Chatify::parseMessage($message, null, $lastMess ? $lastMess->from_id !== Auth::user()->id : true);
+            $messageData = Chatify::parseMessage($message, null, $lastMess ? $lastMess->from_id !== $user->id : true);
 
             Chatify::push("private-chatify." . $request['channel_id'], 'messaging', [
-                'from_id' => Auth::user()->id,
+                'from_id' => $user->id,
                 'to_channel_id' => $request['channel_id'],
                 'message' => Chatify::messageCard($messageData, true)
             ]);
@@ -207,7 +217,7 @@ class MessagesController extends Controller
      */
     public function fetch(Request $request)
     {
-        $query = Chatify::fetchMessagesQuery($request['id'])->latest();
+        $query = $this->customChatify->fetchMessagesQuery($request['id'])->latest();
         $messages = $query->paginate($request->per_page ?? $this->perPage);
         $totalMessages = $messages->total();
         $lastPage = $messages->lastPage();
@@ -314,7 +324,8 @@ class MessagesController extends Controller
         if (count($channelsList) > 0) {
             $contacts = '';
             foreach ($channelsList as $channel) {
-                $contacts .= Chatify::getContactItem($channel);
+                $contacts .= $this->customChatify->getContactItem($channel);
+                // $contacts .= $channel->id . '<br>';
             }
         } else {
             $contacts = '<p class="message-hint center-el"><span>Your contact list is empty</span></p>';
@@ -346,7 +357,7 @@ class MessagesController extends Controller
                 'message' => 'Channel not found!',
             ], 401);
         }
-        $contactItem = Chatify::getContactItem($channel);
+        $contactItem = $this->customChatify->getContactItem($channel);
 
         // send the response
         return Response::json([
@@ -433,12 +444,14 @@ class MessagesController extends Controller
         $getRecords = null;
         $input = trim(filter_var($request['input']));
         $records = User::where('id', '!=', Auth::user()->id)
-            ->where('user_name', 'LIKE', "%{$input}%")
+            ->orWhere('first_name', 'LIKE', "%{$input}%")
+            ->orWhere('user_name', 'LIKE', "%{$input}%")
+            ->orWhere('last_name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
                 'get' => 'search_item',
-                'user' => Chatify::getUserWithAvatar($record),
+                'user' => $this->customChatify->getUserWithAvatar($record),
             ])->render();
         }
         if ($records->total() < 1) {
@@ -656,7 +669,9 @@ class MessagesController extends Controller
         $getRecords = array();
         $input = trim(filter_var($request['input']));
         $records = User::where('id', '!=', Auth::user()->id)
-            ->where('name', 'LIKE', "%{$input}%")
+            ->where('first_name', 'LIKE', "%{$input}%")
+            ->where('user_name', 'LIKE', "%{$input}%")
+            ->where('last_name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords[] = array(
