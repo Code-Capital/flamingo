@@ -127,8 +127,6 @@
             }
 
             toggleClassOnWrapper('toggled');
-
-
         });
     </script>
 @endsection

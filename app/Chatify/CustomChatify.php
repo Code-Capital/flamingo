@@ -244,4 +244,23 @@ class CustomChatify extends ChatifyMessenger
             ->select('users.*')
             ->first();
     }
+
+    /**
+     * Count Unseen messages
+     *
+     * @param string $channel_id
+     * @return numeric
+     */
+    public function countUnseenMessages(string $channel_id)
+    {
+        $auth_id = Auth::user()->id;
+        return Message::where('to_channel_id', $channel_id)
+            ->where('from_id', '<>', $auth_id)
+            ->where(function ($query) use ($auth_id) {
+                $query
+                // ->whereJsonDoesntContain('seen', $auth_id)
+                    ->orWhereNull('seen');
+            })
+            ->count();
+    }
 }

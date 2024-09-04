@@ -271,51 +271,32 @@ class MessagesController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    // public function getContacts(Request $request)
-    // {
-    //     $query = Channel::join('ch_messages', 'ch_channels.id', '=', 'ch_messages.to_channel_id')
-    //         ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
-    //         ->where('ch_channel_user.user_id', '=', Auth::user()->id)
-    //         ->select('ch_channels.*', DB::raw('ch_messages.created_at messaged_at'))
-    //         ->groupBy('ch_channels.id')
-    //         ->orderBy('messaged_at', 'desc')
-    //         ->paginate($request->per_page ?? $this->perPage);
-
-    //     dd($query->toArray());
-
-    //     $channelsList = $query->items();
-
-    //     if (count($channelsList) > 0) {
-    //         $contacts = '';
-    //         foreach ($channelsList as $channel) {
-    //             $contacts .= Chatify::getContactItem($channel);
-    //         }
-    //     } else {
-    //         $contacts = '<p class="message-hint center-el"><span>Your contact list is empty</span></p>';
-    //     }
-
-    //     return Response::json([
-    //         'contacts' => $contacts,
-    //         'total' => $query->total() ?? 0,
-    //         'last_page' => $query->lastPage() ?? 1,
-    //     ], 200);
-    // }
     public function getContacts(Request $request)
     {
-        $query = Channel::join('ch_messages', 'ch_channels.id', '=', 'ch_messages.to_channel_id')
-            ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
-            ->where('ch_channel_user.user_id', '=', Auth::user()->id)
-            ->select(
-                'ch_channels.id',
-                'ch_channels.name', // Include other relevant columns from ch_channels
-                DB::raw('MAX(ch_messages.created_at) as messaged_at'),
-                DB::raw('GROUP_CONCAT(DISTINCT users.id) as user_ids')
-            )
-            ->leftJoin('users', 'ch_messages.from_id', '=', 'users.id')
-            ->groupBy(
-                'ch_channels.id',
-                'ch_channels.name' // Include all columns from ch_channels that are selected
-            )
+        // $query = Channel::join('ch_messages', 'ch_channels.id', '=', 'ch_messages.to_channel_id')
+        //     ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
+        //     ->where('ch_channel_user.user_id', '=', Auth::user()->id)
+        //     ->select('ch_channels.*', DB::raw('ch_messages.created_at messaged_at'))
+        //     ->groupBy('ch_channels.id')
+        //     ->orderBy('messaged_at', 'desc')
+        //     ->paginate($request->per_page ?? $this->perPage);
+
+        $query = Channel::join('ch_messages', function ($join) {
+            $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
+            // Handle private messages (optional, if applicable):
+            // ->orOn('ch_messages.user_id_1', '=', Auth::user()->id)
+            // ->orOn('ch_messages.user_id_2', '=', Auth::user()->id);
+        })
+            ->join('ch_channel_user', function ($join) {
+                $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
+                // Ensure user is part of the channel (assuming a foreign key):
+                $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
+            })
+            ->select([
+                'ch_channels.*',
+                DB::raw('MAX(ch_messages.created_at) AS messaged_at'), // Get latest message for each channel
+            ])
+            ->groupBy('ch_channels.id')
             ->orderBy('messaged_at', 'desc')
             ->paginate($request->per_page ?? $this->perPage);
 
@@ -325,7 +306,6 @@ class MessagesController extends Controller
             $contacts = '';
             foreach ($channelsList as $channel) {
                 $contacts .= $this->customChatify->getContactItem($channel);
-                // $contacts .= $channel->id . '<br>';
             }
         } else {
             $contacts = '<p class="message-hint center-el"><span>Your contact list is empty</span></p>';
