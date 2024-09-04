@@ -6,6 +6,7 @@ use App\Models\Interest;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PageSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class PageSeeder extends Seeder
             }
 
             $page->posts()->create([
+                'uuid' => Str::uuid(),
                 'user_id' => $page->user_id,
                 'body' => 'Welcome to '.$page->name.' page',
             ]);

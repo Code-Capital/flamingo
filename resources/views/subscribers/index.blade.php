@@ -1,0 +1,90 @@
+@extends('layouts.dashboard')
+@section('title', 'Subscribers list')
+@section('styles')
+@endsection
+@section('content')
+    <div class="px-0 px-md-2 px-lg-3 ">
+        <div class="row mx-0 pt-5">
+            <div class="col-lg-12 mb-3">
+                <div class="bg-white p-4 dashboardCard">
+                    <div class="row mx-0 mb-3">
+                        <div class="col-lg-12">
+                            <div class="d-flex align-items-center justify-content-between pb-3">
+                                <h3 class="marketHeading mb-0">Subscribers List</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-0">
+                        <table id="subscribers" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Active</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    @include('layouts.datatable-scripts')
+    <script>
+        $(document).ready(function() {
+            let table = $('#subscribers').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: "{{ route('subscribers.index') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    }
+                ]
+            });
+
+            let body = $('body');
+            $('body').on('click', '.delete', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('subscribers.destroy', ':id') }}".replace(':id', id);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteRecord(url, table);
+                    }
+                });
+            })
+        });
+    </script>
+@endsection

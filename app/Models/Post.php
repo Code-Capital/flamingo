@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
     use DateFormattingTrait;
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +21,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
+        'uuid',
         'event_id',
         'page_id',
         'user_id',
@@ -65,14 +68,19 @@ class Post extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function page()
+    public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class);
+    }
+
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
     }
 
     // ======================================================================
@@ -104,6 +112,11 @@ class Post extends Model
     public function likedByUser($id)
     {
         return $this->likes()->where('user_id', $id)->where('is_liked', true);
+    }
+
+    public function isPublic(): bool
+    {
+        return ! $this->is_private;
     }
 
     // ======================================================================
@@ -157,5 +170,18 @@ class Post extends Model
     public function scopeByNotEvent($query)
     {
         return $query->whereNull('event_id');
+    }
+
+    // public function scopeByNotReportedByUser($query, $user)
+    // {
+    //     return $query->whereDoesntHave('reports', function ($query) use ($user) {
+    //         $query->where('user_id', $user->id);
+    //     });
+    // }
+    public function scopeByNotReportedByUser($query, $user)
+    {
+        return $query->whereDoesntHave('reports', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
     }
 }

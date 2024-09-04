@@ -86,7 +86,9 @@
                         </div>
                     </div>
                     <div class="comments">
-                        <h5 class="py-3">Comments:</h5>
+                        @if ($post->comments_count > 0)
+                            <h5 class="py-3">Comments:</h5>
+                        @endif
                         <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
                             <form id="commentForm-{{ $post->id }}"
                                 action="{{ route('comment.store', $post->id) }}" method="POST"

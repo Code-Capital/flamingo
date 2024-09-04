@@ -20,7 +20,11 @@ class EventPolicy
      */
     public function view(User $user, Event $event): bool
     {
-        //
+        // Assuming you have a method to get remaining events in the User model
+        $remainingEvents = $user->getRemainingEvents();
+
+        // Allow the user to create an event if they have remaining events available
+        return $remainingEvents > 0;
     }
 
     /**
@@ -28,7 +32,11 @@ class EventPolicy
      */
     public function create(User $user): bool
     {
-        //
+        // Assuming you have a method to get remaining events in the User model
+        $remainingEvents = $user->getRemainingEvents();
+
+        // Allow the user to create an event if they have remaining events available
+        return $remainingEvents > 0;
     }
 
     /**
@@ -61,5 +69,14 @@ class EventPolicy
     public function forceDelete(User $user, Event $event): bool
     {
         //
+    }
+
+    public function canjoin(User $user, Event $event): bool
+    {
+        // Assuming you have a method to get remaining events in the User model
+        $count = $user->getRemainingEventsJoinings();
+
+        // Allow the user to create an event if they have remaining events available
+        return $count > 0;
     }
 }

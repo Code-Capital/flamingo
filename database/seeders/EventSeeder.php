@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Interest;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class EventSeeder extends Seeder
 {
@@ -29,6 +30,7 @@ class EventSeeder extends Seeder
             }
 
             $event->posts()->create([
+                'uuid' => Str::uuid(),
                 'user_id' => $event->user_id,
                 'body' => 'Welcome to '.$event->name.' event',
             ]);

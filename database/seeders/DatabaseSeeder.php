@@ -17,11 +17,17 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CountrySeeder::class,
             StateSeeder::class,
+            PermissionSeeder::class,
+            CountrySeeder::class,
+            StateSeeder::class,
+            LocationSeeder::class,
             UserSeeder::class,
             EventSeeder::class,
             AnnouncementSeeder::class,
             PostSeeder::class,
             PageSeeder::class,
+            SubscriberSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

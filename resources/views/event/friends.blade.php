@@ -3,7 +3,7 @@
 @section('styles')
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5">
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">
@@ -44,41 +44,7 @@
         $(document).ready(function() {
             let body = $('body');
 
-            body.on('click', '.unfriend', function(event) {
-                event.preventDefault();
-                let id = $(this).data('id');
-                unfriendUser(id, $(this));
-            });
-
-            function unfriendUser(id, button) {
-                $.ajax({
-                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
-                    type: 'DELETE',
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response.success == false) {
-                            toastr.error(response.message);
-                            errorNotificationSound();
-                            return false;
-                        }
-
-                        toastr.success(response.message);
-                        newNotificationSound();
-                        button.closest('.friend-request-' + id).fadeOut(300)
-                            .hide(); // Hide the parent element of the button
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                        errorNotificationSound();
-                    }
-                });
-            }
-
+            // add unfriend code in common scripts file
         });
     </script>
 @endsection

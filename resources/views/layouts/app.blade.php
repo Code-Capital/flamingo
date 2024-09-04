@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +17,13 @@
     <meta name="{{ config('app.name', 'Flamingo') }}" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <!-- Fonts -->
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">--}}
-    {{-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--}}
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">--}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">--}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">--}}
-    {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
-    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>--}}
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com"> --}}
+    {{-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"> --}}
+    {{--    <link rel="preconnect" href="https://fonts.bunny.net"> --}}
+    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -32,92 +33,108 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     @yield('styles')
 
 </head>
+
 <body class="font-sans antialiased">
-@include('layouts.partial.header')
-<main>
-    {{--    @include('layouts.partial.show-error')--}}
-    @yield('content')
-</main>
-@include('layouts.partial.footer')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src=" {{ asset('js/jquery-3.6.3.js') }} "></script>
-<script src=" {{ asset('js/popper.min.js') }} "></script>
-<script src=" {{ asset('js/bootstrap.min.js') }} "></script>
-{{--<script src=" {{ asset('js/chosen.jquery.min.js') }} "></script>--}}
-<script src=" {{ asset('js/select2.min.js') }} "></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-    function showBrowserStatus(status) {
-        const statusConfig = {
-            online: {
-                icon: 'success',
-                title: 'Great!',
-                text: 'You are online!',
-            },
-            offline: {
-                icon: 'error',
-                title: 'Oops...',
-                text: 'You are offline!'
-            }
-        };
+    @include('layouts.partial.header')
+    <main>
+        {{--    @include('layouts.partial.show-error') --}}
+        @yield('content')
+    </main>
+    @include('layouts.partial.footer')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src=" {{ asset('js/jquery-3.6.3.js') }} "></script>
+    <script src=" {{ asset('js/popper.min.js') }} "></script>
+    <script src=" {{ asset('js/bootstrap.min.js') }} "></script>
+    {{-- <script src=" {{ asset('js/chosen.jquery.min.js') }} "></script> --}}
+    <script src=" {{ asset('js/select2.min.js') }} "></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        function showBrowserStatus(status) {
+            const statusConfig = {
+                online: {
+                    icon: 'success',
+                    title: 'Great!',
+                    text: 'You are online!',
+                },
+                offline: {
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'You are offline!'
+                }
+            };
 
-        Swal.fire(statusConfig[status]);
-    }
+            Swal.fire(statusConfig[status]);
+        }
 
-    window.addEventListener('online', () => showBrowserStatus('online'));
-    window.addEventListener('offline', () => showBrowserStatus('offline'));
-</script>
-{{--<script>--}}
-{{--    $(document).ready(function () {--}}
-{{--        $("#imageUpload").change(function (data) {--}}
-{{--            var imageFile = data.target.files[0];--}}
-{{--            var reader = new FileReader();--}}
-{{--            reader.readAsDataURL(imageFile);--}}
-{{--            reader.onload = function (evt) {--}}
-{{--                $('#imagePreview').attr('src', evt.target.result);--}}
-{{--                $('#imagePreview').hide();--}}
-{{--                $('#imagePreview').fadeIn(650);--}}
-{{--            }--}}
-{{--        });--}}
-{{--    });--}}
-{{--</script>--}}
-{{--<script>--}}
-{{--    $("#imageUpload").change(function () {--}}
-{{--        const fileName = this.files[0]?.name; // Get the first selected file's name--}}
-{{--        const $fileNameSpan = $("#fileNameSpan");--}}
+        window.addEventListener('online', () => showBrowserStatus('online'));
+        window.addEventListener('offline', () => showBrowserStatus('offline'));
+    </script>
+    {{-- <script> --}}
+    {{--    $(document).ready(function () { --}}
+    {{--        $("#imageUpload").change(function (data) { --}}
+    {{--            var imageFile = data.target.files[0]; --}}
+    {{--            var reader = new FileReader(); --}}
+    {{--            reader.readAsDataURL(imageFile); --}}
+    {{--            reader.onload = function (evt) { --}}
+    {{--                $('#imagePreview').attr('src', evt.target.result); --}}
+    {{--                $('#imagePreview').hide(); --}}
+    {{--                $('#imagePreview').fadeIn(650); --}}
+    {{--            } --}}
+    {{--        }); --}}
+    {{--    }); --}}
+    {{-- </script> --}}
+    {{-- <script> --}}
+    {{--    $("#imageUpload").change(function () { --}}
+    {{--        const fileName = this.files[0]?.name; // Get the first selected file's name --}}
+    {{--        const $fileNameSpan = $("#fileNameSpan"); --}}
 
-{{--        if (fileName) {--}}
-{{--            $fileNameSpan.text(fileName); // Show the file name--}}
-{{--        } else {--}}
-{{--            $fileNameSpan.text(""); // If no file, ensure it's empty--}}
-{{--        }--}}
-{{--    });--}}
-{{--</script>--}}
+    {{--        if (fileName) { --}}
+    {{--            $fileNameSpan.text(fileName); // Show the file name --}}
+    {{--        } else { --}}
+    {{--            $fileNameSpan.text(""); // If no file, ensure it's empty --}}
+    {{--        } --}}
+    {{--    }); --}}
+    {{-- </script> --}}
 
-{{--<script>--}}
-{{--    const button = document.querySelector('#sidebar-toggle');--}}
-{{--    const wrapper = document.querySelector('#wrapper');--}}
+    {{-- <script> --}}
+    {{--    const button = document.querySelector('#sidebar-toggle'); --}}
+    {{--    const wrapper = document.querySelector('#wrapper'); --}}
 
-{{--    button.addEventListener('click', (e) => {--}}
-{{--        e.preventDefault();--}}
-{{--        wrapper.classList.toggle('toggled');--}}
-{{--    });--}}
-{{--</script>--}}
+    {{--    button.addEventListener('click', (e) => { --}}
+    {{--        e.preventDefault(); --}}
+    {{--        wrapper.classList.toggle('toggled'); --}}
+    {{--    }); --}}
+    {{-- </script> --}}
 
-{{--<script>--}}
-{{--    $(".chatBtn").click(function () {--}}
-{{--        $(".chatSidebar").toggleClass("chatSidebarshow");--}}
-{{--    });--}}
-{{--</script>--}}
-@yield('scripts')
+    {{-- <script> --}}
+    {{--    $(".chatBtn").click(function () { --}}
+    {{--        $(".chatSidebar").toggleClass("chatSidebarshow"); --}}
+    {{--    }); --}}
+    {{-- </script> --}}
+    @yield('scripts')
 
+
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('9a5d76ef216853ed60cf', {
+            cluster: 'us3'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            console.log(data);
+            alert(JSON.stringify(data));
+        });
+    </script>
 
 </body>
+
 </html>
-
-

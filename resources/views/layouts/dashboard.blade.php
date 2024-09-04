@@ -23,7 +23,6 @@
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
@@ -32,7 +31,7 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" rel="stylesheet">
+    <link href="{{ asset('css/dropzone.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
     @yield('styles')
     <style>
@@ -40,6 +39,16 @@
         label.required::after {
             content: " *";
             color: red;
+        }
+
+        .select2-container .select2-selection--multiple,
+        .select2-container .select2-selection--single {
+            width: 100% !important;
+            min-height: 44px !important;
+            border: 1px solid #ced4da !important;
+            border-radius: 8px !important;
+            line-height: 25px !important;
+            font-size: 16px !important;
         }
     </style>
 </head>
@@ -72,14 +81,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="#" method="POST" id="reportForm">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">Report reason</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea name="reason" id="" cols="30" rows="5" class="form-control"
+                                placeholder="Please provide proper reason" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src=" {{ asset('js/jquery-3.6.3.js') }} "></script>
-    <script src=" {{ asset('js/popper.min.js') }} "></script>
-    <script src=" {{ asset('js/bootstrap.min.js') }} "></script>
-    <script src=" {{ asset('js/select2.min.js') }} "></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.6.3.js') }} "></script>
+    <script src="{{ asset('js/popper.min.js') }} "></script>
+    <script src="{{ asset('js/bootstrap.min.js') }} "></script>
+    <script src="{{ asset('js/select2.min.js') }} "></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     <script src="{{ asset('js/toastr.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     @include('layouts.common-scripts')
@@ -108,6 +139,42 @@
     <script>
         $(".chatBtn").click(function() {
             $(".chatSidebar").toggleClass("chatSidebarshow");
+        });
+    </script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script>
+
+    <script>
+        let message = '';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('9a5d76ef216853ed60cf', {
+                cluster: 'us3',
+            });
+
+            userId = '{{ auth()->id() }}';
+
+            var channel = pusher.subscribe('notification.' + userId);
+            channel.bind('notification-created', function(data) {
+                console.log(data);
+                newNotificationSound();
+                // Display the notification as an HTML message
+                toastr.options = {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000, // Duration before the toast disappears
+                    extendedTimeOut: 3000,
+                    tapToDismiss: false,
+                    escapeHtml: false,
+                    allowHtml: true,
+                    onclick: function() {
+                        window.open(data.link);
+                    }
+                };
+                toastr.success(data.message);
+            });
         });
     </script>
     @yield('scripts')

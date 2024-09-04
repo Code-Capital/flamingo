@@ -5,7 +5,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\StatusEnum;
+use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -13,10 +15,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use Billable;
+    use DateFormattingTrait;
     use HasFactory, Notifiable;
     use HasRoles;
     use SoftDeletes;
@@ -33,6 +38,8 @@ class User extends Authenticatable
         'email',
         'avatar',
         'email_verified_at',
+        'is_block',
+        'location_id',
         'password',
         'remember_token',
         'gender',
@@ -40,9 +47,11 @@ class User extends Authenticatable
         'country',
         'state',
         'bio',
+        'about',
         'active_status',
         'dark_mode',
         'messenger_color',
+        'is_private',
     ];
 
     protected $appends = [
@@ -58,6 +67,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'deletd_at',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -124,6 +137,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function reverseFriends(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
     public function acceptedFriends(): BelongsToMany
     {
         return $this->friends()
@@ -180,6 +200,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function currentMonthJoinedEvent()
+    {
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')
+            ->whereMonth('events.created_at', now()->month)
+            ->whereYear('events.created_at', now()->year);
+    }
+
     // Pages Relationships
     public function pages(): HasMany
     {
@@ -191,6 +218,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
             ->withPivot('start_date', 'end_date', 'is_invited', 'status')
             ->withTimestamps();
+    }
+
+    public function currentMonthJoinedPages(): BelongsToMany
+    {
+        return $this->belongsToMany(Page::class, 'page_user', 'user_id', 'page_id')
+            ->whereMonth('pages.created_at', now()->month)
+            ->whereYear('pages.created_at', now()->year);
     }
 
     public function acceptedPages(): BelongsToMany
@@ -215,6 +249,12 @@ class User extends Authenticatable
     {
         return $this->joinedPages()
             ->wherePivot('is_invited', true);
+    }
+
+    // Location Relationship
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
     }
 
     // ======================================================================
@@ -307,6 +347,11 @@ class User extends Authenticatable
         return $this->id === $event->user_id;
     }
 
+    public function isBlocked(): bool
+    {
+        return $this->is_block;
+    }
+
     public function getUsersWithSameInterests($limit = 10)
     {
         // Get the interest IDs of the current user
@@ -325,17 +370,111 @@ class User extends Authenticatable
             ->get();
     }
 
+    public function isSubscribed(): bool
+    {
+        return $this->subscribed('default');
+    }
+
+    public function getCurrentMonthEvents(): int
+    {
+        return $this->events()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
+    public function getCurrentMonthJoinings(): int
+    {
+        return $this->currentMonthJoinedEvent()->count();
+    }
+
+    public function getRemainingEvents(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthEvents();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_event_create_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_event_create_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getRemainingEventsJoinings(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthJoinings();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_event_join_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_event_join_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getCurrentMonthPages(): int
+    {
+        return $this->pages()
+            ->whereMonth('created_at', now())
+            ->whereYear('created_at', now())
+            ->count();
+    }
+
+    public function getCurrentMonthPageJoinings(): int
+    {
+        return $this->currentMonthJoinedPages()->count();
+    }
+
+    public function getRemainingPages(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthPages();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_page_create_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_page_create_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+
+        return ($count > 0) ? $count : 0;
+    }
+
+    public function getRemainingPageJoinings(): int
+    {
+        $count = 0;
+        $monthCount = $this->getCurrentMonthPageJoinings();
+        $setting = Setting::first();
+        if ($this->isSubscribed()) {
+            $totalAllowed = $setting->sub_page_join_count ?? 0;
+        } else {
+            $totalAllowed = $setting->un_sub_page_join_count ?? 0;
+        }
+
+        $count = intval($totalAllowed) - intval($monthCount);
+
+        return ($count > 0) ? $count : 0;
+    }
+
     // ======================================================================
     // Scopes
     // ======================================================================
     public function scopeBySearch($query, ?string $search = null)
     {
-
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('user_name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where('first_name', 'like', '%'.$search.'%')
+                ->orWhere('last_name', 'like', '%'.$search.'%')
+                ->orWhere('user_name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
     }
 
@@ -345,6 +484,13 @@ class User extends Authenticatable
             $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
             });
+        });
+    }
+
+    public function scopeByLocation($query, $location = null)
+    {
+        return $query->when($location, function ($query) use ($location) {
+            $query->where('location_id', $location);
         });
     }
 

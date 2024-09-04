@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Location;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,9 +27,9 @@ class EventFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id,
             'title' => $title,
             'slug' => Str::slug($title),
-            'location' => $this->faker->address,
-            'start_date' => $this->faker->date(),
-            'end_date' => $this->faker->date(),
+            'location_id' => Location::inRandomOrder()->first()->id,
+            'start_date' => Carbon::now(),
+            'end_date' => Carbon::now()->addDays(3),
             'thumbnail' => null,
             'description' => $this->faker->paragraph,
             'rules' => $this->faker->paragraph,

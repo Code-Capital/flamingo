@@ -31,6 +31,7 @@ class Page extends Model
         'user_id',
         'cover_image',
         'profile_image',
+        'location_id',
     ];
 
     /**
@@ -82,6 +83,16 @@ class Page extends Model
         return $this->users()->wherePivot('status', StatusEnum::ACCEPTED->value);
     }
 
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -109,7 +120,7 @@ class Page extends Model
 
     public function isMainOwner($user)
     {
-        return $this->user_id === $user->id;
+        return $this->user_id == $user->id;
     }
 
     // ======================================================================
@@ -132,8 +143,23 @@ class Page extends Model
         });
     }
 
+    public function scopeByLocation($query, $locationId)
+    {
+        return $query->when($locationId, fn ($q) => $q->where('location_id', $locationId));
+    }
+
+    public function scopeByUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
     public function scopeByNotUser($query, $userId)
     {
         return $query->where('user_id', '!=', $userId);
+    }
+
+    public function scopeByPublic($query)
+    {
+        return $query->where('is_private', false);
     }
 }

@@ -32,6 +32,23 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label class="mb-1 required">
+                                        <span>Title</span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" name="title" type="text"
+                                                value="{{ old('title') }}" required>
+                                        </div>
+                                    </div>
+                                    @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="mb-1 required">
                                         <span>Start Datetime</span>
                                     </label>
                                     <div class="form-control">

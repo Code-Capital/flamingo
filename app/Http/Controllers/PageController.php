@@ -3,25 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
+use App\Jobs\PageCreationJob;
 use App\Models\Interest;
+use App\Models\Location;
 use App\Models\Page;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        $user = Auth::user();
-        $pages = $user->pages()->paginate(10);
+        $loggdInUser = Auth::user();
+        $user = $loggdInUser;
+        $pages = $user->pages()
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->paginate(getPaginated());
+        $remainingPagesCount = $user->getRemainingPages();
 
         return view('page.index', get_defined_vars());
     }
@@ -31,6 +44,8 @@ class PageController extends Controller
      */
     public function create(): View
     {
+        $user = Auth::user();
+        $this->authorize('create', Page::class);
         $interests = Interest::all();
 
         return view('page.create', get_defined_vars());
@@ -52,8 +67,9 @@ class PageController extends Controller
 
         try {
             DB::transaction(function () use ($request) {
+                $user = Auth::user();
                 $page = Page::create([
-                    'user_id' => Auth::id(),
+                    'user_id' => $user->id,
                     'name' => $request->name,
                     'slug' => Str::slug($request->name),
                     'profile_image' => $request->file('profile_image')->store('pages', 'public'),
@@ -63,11 +79,13 @@ class PageController extends Controller
                 ]);
 
                 $page->interests()->sync($request->interests);
+
+                dispatch(new PageCreationJob($page, $user));
             });
 
             return to_route('pages.index')->with('success', 'Page created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to create page'.$th->getMessage());
+            return back()->with('error', 'Failed to create page' . $th->getMessage());
         }
     }
 
@@ -87,12 +105,14 @@ class PageController extends Controller
                 'likes',
                 'comments' => function ($query) {
                     $query->withCount(['replies']);
-                }, 'comments.user', 'comments.replies',
+                },
+                'comments.user',
+                'comments.replies',
             ])
             ->withCount(['comments', 'likes'])
             ->latest()
             ->paginate(getPaginated());
-        $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated());
+        $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated(2));
 
         return view('page.show', get_defined_vars());
     }
@@ -154,7 +174,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to update page'.$th->getMessage());
+            return back()->with('error', 'Failed to update page' . $th->getMessage());
         }
     }
 
@@ -179,18 +199,21 @@ class PageController extends Controller
     public function pagesearch(Request $request): View
     {
         $user = Auth::user();
-        // Get the search term and interests from the request
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
-        $pages = [];
-        if (($request->search == 'submit') && ($searchTerm || $selectedInterests)) {
-            $pages = Page::bySearch($searchTerm)
-                ->byInterests($selectedInterests)
-                ->byNotUser(Auth::user()->id)
-                ->get();
-        }
+        $pages = Page::bySearch($searchTerm)
+            ->byInterests($selectedInterests)
+            ->byLocation($request->location)
+            ->byNotUser(Auth::user()->id)
+            ->byPublic()
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->paginate(getPaginated());
 
         $interests = Interest::all();
+        $locations = Location::all();
+        $remainingPagesCount = $user->getRemainingPages();
 
         return view('page.search', get_defined_vars());
     }
@@ -199,6 +222,7 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $post = $page->posts()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $user->id,
             'body' => $request->body,
             'is_private' => $request->is_private ?? false,
@@ -208,7 +232,7 @@ class PageController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/page/'.$post->id.'/posts/'.$user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/page/' . $post->id . '/posts/' . $user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -217,7 +241,7 @@ class PageController extends Controller
         }
 
         $post->notifications()->create([
-            'type' => 'post',
+            'type' => 'page',
             'data' => json_encode([
                 'message' => 'New post created',
                 'user_id' => $user->id,
@@ -247,21 +271,21 @@ class PageController extends Controller
             $isAssociated = $user->joinedPages()->where('pages.id', $page->id)->exists();
             // Generate HTML based on association status
             $html .= '
-                <div class="col-lg-6 mb-3 ">
+                <div class="col-lg-4 mb-3 ">
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="'.$user->avatar_url.'" class="rounded-circle">
+                                <img src="' . $user->avatar_url . '" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">'.$user->full_name.'</span>
+                                    <span class="d-block">' . $user->full_name . '</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
-                                '.(! $isAssociated ? '
-                                <a class="text-decoration-none send-invitation" data-page="'.$page->id.'" data-user="'.$user->id.'" href="javascript:void(0)">
-                                    <img src="'.$doneIcon.'">
+                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
+                                ' . (! $isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
+                                    <img src="' . $doneIcon . '">
                                 </a>
-                                ' : '<span class="small text-muted"> Invite sent </span>').'
+                                ' : '<span class="small text-muted"> Invite sent </span>') . '
                             </div>
                         </div>
                     </div>
@@ -274,32 +298,44 @@ class PageController extends Controller
 
     public function sendJoiningInvite(Request $request)
     {
-        $page = Page::where('id', $request->page_id)->first();
-        $user = User::where('id', $request->user_id)->first();
+        try {
+            $page = Page::where('id', $request->page_id)->first();
+            $user = User::where('id', $request->user_id)->first();
 
-        if (! $user || ! $page) {
-            return $this->sendErrorResponse('Error occured while processing');
+            $this->authorize('canjoin', $page);
+
+            if (! $user || ! $page) {
+                return $this->sendErrorResponse('Error occured while processing');
+            }
+
+            DB::transaction(function () use ($page, $user) {
+                $page->users()->attach($user->id, [
+                    'status' => 'pending',
+                    'start_date' => now(),
+                    'is_invited' => true,
+                ]);
+
+                $pageOwner = $page->owner;
+
+                $user->notifications()->create([
+                    'type' => 'invitation',
+                    'data' => json_encode([
+                        'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
+                        'user_id' => $user->id,
+                        'page_id' => $page->id,
+                        'page_owner_id' => $pageOwner->id,
+                    ]),
+                ]);
+            });
+
+            return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+        } catch (AuthorizationException $e) {
+            $message = 'Total limit reached. You cannot further send requests';
+
+            return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while sending invitation' . $th->getMessage());
         }
-
-        $page->users()->attach($user->id, [
-            'status' => 'pending',
-            'start_date' => now(),
-            'is_invited' => true,
-        ]);
-
-        $pageOwner = $page->owner;
-
-        $user->notifications()->create([
-            'type' => 'invitation',
-            'data' => json_encode([
-                'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
-                'user_id' => $user->id,
-                'page_id' => $page->id,
-                'page_owner_id' => $pageOwner->id,
-            ]),
-        ]);
-
-        return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
     }
 
     public function receivedJoiningInvites()
@@ -334,7 +370,18 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while removing this memeber'.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+        }
+    }
+
+    public function leavePage(Request $request, Page $page)
+    {
+        try {
+            $page->users()->detach($request->user()->id);
+
+            return $this->sendSuccessResponse($page, 'Page leaved successfully');
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occured while leaving this page' . $th->getMessage());
         }
     }
 }

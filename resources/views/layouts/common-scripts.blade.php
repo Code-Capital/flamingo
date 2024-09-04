@@ -37,7 +37,9 @@
         }
     });
 
-    $('body').on('submit', '.ajax-comment-form', function(event) {
+    let body = $('body');
+
+    body.on('submit', '.ajax-comment-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -83,7 +85,7 @@
         });
     });
 
-    $('body').on('submit', '.ajax-reply-form', function(event) {
+    body.on('submit', '.ajax-reply-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -101,8 +103,6 @@
                     return;
                 }
                 newNotificationSound();
-
-                console.log(response);
 
                 setTimeout(() => {
                     location.reload();
@@ -152,7 +152,7 @@
             `;
     }
 
-    $('body').on('submit', '.ajax-like-form', function(event) {
+    body.on('submit', '.ajax-like-form', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         let form = $(this);
@@ -222,6 +222,43 @@
         }
     });
 
+
+    body.on('click', '.add-friend', function(event) {
+        event.preventDefault();
+        let id = $(this).data('id');
+        $(this).remove();
+        addFriend(id);
+    });
+
+    function addFriend(id) {
+        // Construct the URL with the provided ID
+        let url = '{{ route('add-friend', ':id') }}'.replace(':id', id);
+
+        // Perform the AJAX request
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                if (response.success === true) {
+                    toastr.success(response.message);
+                    newNotificationSound();
+                } else {
+                    toastr.error(response.message);
+                    errorNotificationSound();
+                }
+            },
+            error: function() {
+                toastr.error('An error occurred while processing your request.');
+            }
+        });
+    }
+
+    body.on('click', '.unfriend', function(event) {
+        event.preventDefault();
+        let id = $(this).data('id');
+        unfriendUser(id, $(this));
+    });
+    
     function unfriendUser(id, button) {
         $.ajax({
             url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
@@ -245,9 +282,89 @@
                 }, 1000);
             },
             error: function(error) {
-                console.log(error);
+                console.error(error);
                 errorNotificationSound();
             }
+        });
+    }
+
+    function destroyPost(id) {
+        let url = "{{ route('post.destroy', ':id') }}".replace(':id', id);
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            data: {
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                if (response.success) {
+                    newNotificationSound();
+                    toastr.success(response.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    errorNotificationSound();
+                    toastr.error(response.message);
+                }
+            }
+        });
+    }
+
+    function sendReport(url, formData) {
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false
+        });
+    }
+
+    function deleteRecord(url, table = null, $loadingTitle = 'Processing...') {
+        loadingStart($loadingTitle);
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                loadingStop();
+                if (response.success) {
+
+                    newNotificationSound();
+                    if (table) {
+                        table.ajax.reload();
+                    }
+                    toastr.success(response.message);
+                } else {
+                    errorNotificationSound();
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                loadingStop();
+                errorNotificationSound();
+                toastr.error('Something went wrong');
+            }
+        });
+    }
+
+    function leaveThis({
+        url,
+        formData = null,
+        method = 'POST'
+    }) {
+        return $.ajax({
+            url: url,
+            type: method,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token in headers
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
         });
     }
 </script>

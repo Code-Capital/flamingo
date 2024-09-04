@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Country;
+use App\Models\Interest;
+use App\Models\Location;
+use App\Models\Plan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Laravel\Cashier\Subscription;
 
 class ProfileController extends Controller
 {
@@ -17,16 +22,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
+        $user = $request->user()->load(['interests', 'location']);
+        $interests = Interest::all();
+        $countries = Country::all();
+        $selectedInterests = $user->interests->pluck('id')->toArray();
+        $locations = Location::all();
 
-    public function force(Request $request): View
-    {
-        return view('profile.edit-bkp', [
-            'user' => $request->user(),
-        ]);
+        return view('profile.edit', get_defined_vars());
     }
 
     /**
@@ -41,6 +43,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        $request->user()->interests()->sync($request->input('interests'));
 
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully');
     }
@@ -79,7 +82,7 @@ class ProfileController extends Controller
 
         $request->user()->updateAvatar($request->file('avatar'));
 
-        return Redirect::route('profile.edit')->with('success', 'Profile avatar Updated!');
+        return Redirect::route('profile.edit')->with('success', 'Avatar update successfully!');
     }
 
     public function info(): View
@@ -97,6 +100,9 @@ class ProfileController extends Controller
             ->byNotUser($user->id)
             ->limit(10)
             ->get();
+
+        $subscriptions = Subscription::where('user_id', $user->id)->get();
+        $plans = Plan::all();
 
         return view('profile.info', get_defined_vars());
     }

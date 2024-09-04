@@ -3,7 +3,7 @@
 @section('styles')
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5 eventsInfoWrap">
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">
@@ -33,7 +33,7 @@
 
                                 <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
                                     type="button" role="tab" aria-controls="Requests" aria-selected="false">
-                                    <span class="px-1 px-md-2 px-lg-3">Invite Requests</span>
+                                    <span class="px-1 px-md-2 px-lg-3">Incoming Requests</span>
                                 </button>
 
                                 <button class="nav-link" id="Rejected-Requests-tab" data-bs-toggle="tab"
@@ -77,7 +77,7 @@
             let pendingRequestContainer = $('.pending-request-container');
 
             let fileInput = $('input[type="file"]');
-            
+
 
             $('.img-upload').click(function() {
                 fileInput.click();

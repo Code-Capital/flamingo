@@ -4,74 +4,99 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Jobs\EventCreatedJob;
 use App\Models\Event;
 use App\Models\Interest;
+use App\Models\Location;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): View
     {
+
         $user = Auth::user();
         $events = Event::byUser($user->id)
             ->with(['interests:id,name'])
             ->latest()
             ->paginate(getPaginated());
+        $remianingEventCount = $user->getRemainingEvents();
 
         return view('event.index', get_defined_vars());
     }
 
     public function create(): View
     {
+        $user = Auth::user();
+        $this->authorize('create', Event::class);
+
         $interests = Interest::get();
+        $locations = Location::get();
+        $remianingEventCount = $user->getRemainingEvents();
 
         return view('event.create', get_defined_vars());
     }
 
     public function store(StoreEventRequest $request)
     {
-        DB::beginTransaction();
         try {
-            $event = Event::create([
-                'user_id' => auth()->id(),
-                'title' => $request->title,
-                'slug' => Str::slug($request->title),
-                'location' => $request->location,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'thumbnail' => $request->file('thumbnail')->store('media/events/thumbnail/', 'public'),
-                'description' => $request->description,
-                'rules' => $request->rules,
-                'status' => $request->status,
-            ]);
+            $user = Auth::user();
+            $this->authorize('create', Event::class);
+            DB::transaction(function () use ($request, $user) {
 
-            if ($request->has('images') && is_array($request->images)) {
-                foreach ($request->images as $image) {
-                    $event->media()->create([
-                        'file_path' => $image->store('/media/events/'.$event->id, 'public'),
-                        'file_type' => $image->getClientOriginalExtension(),
-                    ]);
+                $thumbnailPath = $request->hasFile('thumbnail')
+                    ? $request->file('thumbnail')->store('media/events/thumbnail/', 'public')
+                    : null;
+                $event = Event::create([
+                    'user_id' => $user->id,
+                    'title' => $request->title,
+                    'slug' => Str::slug($request->title),
+                    'location_id' => $request->location_id,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                    'thumbnail' => $thumbnailPath,
+                    'description' => $request->description,
+                    'rules' => $request->rules,
+                    'status' => $request->status,
+                ]);
+
+                if ($request->has('images') && is_array($request->images)) {
+                    foreach ($request->file('images') as $image) {
+                        $event->media()->create([
+                            'file_path' => $image->store('/media/events/'.$event->id, 'public'),
+                            'file_type' => $image->getClientOriginalExtension(),
+                        ]);
+                    }
                 }
-            }
 
-            $event->interests()->sync((array) $request->interests);
+                $event->interests()->sync((array) $request->interests);
 
-            DB::commit();
+                if ($event->isPublished()) {
+                    Log::info('Event created and published and runnig job');
+                    dispatch(new EventCreatedJob($event, $user));
+                }
+            });
 
             return to_route('events.index')->with('success', 'Event created successfully');
+        } catch (AuthorizationException $e) {
+            return to_route('events.create')
+                ->with('error', 'You have reached the maximum number of events you can create this month.'.$th->getMessage());
         } catch (\Throwable $th) {
-            DB::rollBack();
-
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.');
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -92,6 +117,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $interests = Interest::get();
+        $locations = Location::get();
         $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
 
         return view('event.edit', get_defined_vars());
@@ -106,7 +132,7 @@ class EventController extends Controller
             $event->update([
                 'title' => $validated['title'],
                 'slug' => Str::slug($validated['title']),
-                'location' => $validated['location'],
+                'location_id' => $validated['location_id'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date'],
                 'thumbnail' => $request->file('thumbnail') ? $request->file('thumbnail')->store('media/events/thumbnail/', 'public') : $event->thumbnail,
@@ -178,6 +204,17 @@ class EventController extends Controller
         return back()->with('success', 'Member removed successfully');
     }
 
+    public function leaveEvent(Request $request, Event $event)
+    {
+        try {
+            $leave = $event->allMembers()->detach($request->user()->id);
+
+            return $this->sendSuccessResponse($leave, 'You have left the event successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function statusUpdateRequest(Request $request, Event $event, User $user)
     {
         // Validate the request
@@ -201,10 +238,11 @@ class EventController extends Controller
             : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function joinEvent(Event $event): JsonResponse
+    public function joinEvent(Request $request, Event $event): JsonResponse|RedirectResponse
     {
         try {
             $user = Auth::user();
+            $this->authorize('canjoin', $event);
 
             // Check if the user is already a member of the event
             if ($event->allMembers()->where('user_id', $user->id)->exists()) {
@@ -212,11 +250,21 @@ class EventController extends Controller
             }
 
             // Add the user as a member of the event
-            $event->allMembers()->attach($user->id);
+            $event->allMembers()->attach($user->id, [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             return $this->sendSuccessResponse($event, 'You have joined the event successfully', Response::HTTP_OK);
+        } catch (AuthorizationException $e) {
+            $isAjax = $request->ajax();
+            $message = 'Total limit reached. You cannot join this event';
+
+            return $isAjax
+                ? $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN)
+                : redirect()->back()->with('error', $message);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -224,6 +272,7 @@ class EventController extends Controller
     {
         $user = Auth::user();
         $post = $event->posts()->create([
+            'uuid' => Str::uuid(),
             'user_id' => $user->id,
             'body' => $request->body,
             'is_private' => $request->is_private ?? false,

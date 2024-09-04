@@ -25,4 +25,9 @@ trait DateFormattingTrait
     {
         return Carbon::parse($this->end_date)->translatedFormat('l, j F Y');
     }
+
+    public function getFormattedDateAttribute(string $format): string
+    {
+        return Carbon::parse($this->created_at)->translatedFormat($format);
+    }
 }

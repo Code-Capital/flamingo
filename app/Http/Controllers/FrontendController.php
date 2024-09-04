@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
+use App\Models\Plan;
+use App\Models\TermsAndConditions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
@@ -17,17 +20,27 @@ class FrontendController extends Controller
 
     public function pricing(): View
     {
-        return view('pricing');
+        $plans = Plan::active()->get();
+        $isSubscribed = Auth::user() ? Auth::user()->subscribed('default') : false;
+
+        return view('pricing', get_defined_vars());
     }
 
     public function terms(): View
     {
-        return view('terms');
+        $terms = TermsAndConditions::latest()->first();
+
+        return view('terms', get_defined_vars());
     }
 
     public function contact(): View
     {
         return view('contact');
+    }
+
+    public function verification(): View
+    {
+        return view('verification');
     }
 
     public function sendContact(Request $request): RedirectResponse

@@ -3,7 +3,7 @@
 @section('styles')
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5 eventsInfoWrap">
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">
@@ -74,11 +74,11 @@
 
             body.on('click', '.send-invitation', function(e) {
                 e.preventDefault();
+
                 let btn = $(this);
                 let userId = $(this).data('user');
                 let pageId = $(this).data('page');
-                let url = "{{ route('page.invite.sent') }}";
-                url = url.replace(':page', pageId).replace(':user', userId);
+                let url = "{{ route('page.invite.sent') }}"
                 let csrf = '{{ csrf_token() }}';
                 $.ajax({
                     url: url,
@@ -90,31 +90,28 @@
                     },
                     success: function(response) {
                         btn.closest('.invite-send-' + userId).remove();
+
+                        console.log(response);
+
                         if (response.success) {
                             toastr.success(response.message);
                             newNotificationSound();
                         } else {
-                            toastr.error(response.message);
+                            toastr.error(response.message ||
+                                'An error occurred while sending the invitation');
                             errorNotificationSound();
                         }
                     },
-                    error: function(error) {
-                        console.log(error.message);
-                        toastr.success(error.message);
+                    error: function(xhr) {
+                        // Get error message from response or use a fallback message
+                        const errorMessage = xhr.responseJSON?.message ||
+                        'Something went wrong';
+                        toastr.error(errorMessage);
                         errorNotificationSound();
                     }
                 });
-                // $.ajax({
-                //     url: url,
-                //     type: 'GET',
-                //     success: function(response) {
-                //         btn.closest('.user-container').remove();
-                //     },
-                //     error: function(error) {
-                //         console.log(error);
-                //     }
-                // });
             });
+
 
             body.on('click', '.remove-member', function(e) {
                 e.preventDefault();

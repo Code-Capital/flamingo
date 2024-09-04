@@ -1,20 +1,24 @@
 <div class="col-lg-6 mb-3">
     <div class="announcementCard p-2 d-flex align-items-start gap-4">
         <img src="{{ $event->thumbnail_url }}">
-        <div class="content">
+        <div class="content w-100">
             <div class="d-flex align-items-center">
                 <span>Starts from :{{ $event->formatted_start_date }} To:
                     {{ $event->formatted_end_date }} </span>
-                @if ($user && $event->isOwner($user))
-                    <div class="ms-auto dropdown">
-                        <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ...
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
-                            </li>
+                <div class="ms-auto dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        ...
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('events.show', $event->slug) }}">View</a>
+                        </li>
+                        @if ($user && $event->isOwner($user))
                             @if ($event->isUpcoming() || $event->isOngoing())
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
+                                </li>
                                 <li>
                                     <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
@@ -32,9 +36,21 @@
                                     </form>
                                 </li>
                             @endif
-                        </ul>
-                    </div>
-                @endif
+                        @endif
+                        @if (!$event->isOwner($user))
+                            <li>
+                                <a class="dropdown-item event-report" data-event="{{ $event->id }}"
+                                    href="javascript:void(0)">Report</a>
+                            </li>
+                        @endif
+                        @if (Request::routeIs('events.joined'))
+                            <li>
+                                <a class="dropdown-item leave-event" data-event="{{ $event->id }}"
+                                    href="javascript:void(0)">Leave</a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
             </div>
             <div class="tags mb-2">
                 @if ($event->isUpcoming())
@@ -58,6 +74,20 @@
                     @endforelse
                 </div>
             </a>
+            @if ($joiningCount > 0)
+                @if (!$event->allMembers()->where('user_id', $user->id)->exists())
+                    <div class="d-flex align-items-center pt-2">
+                        <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
+                            href="javascript:void(0)">
+                            <small class="text-white p-1 rounded bg-primary">Join Event</small>
+                        </a>
+                    </div>
+                @else
+                    <div class="tags d-flex align-items-center pt-2">
+                        <span class="px-2 py-1 bg-success text-white rounded">Request sent</span>
+                    </div>
+                @endif
+            @endif
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
 @section('styles')
 @endsection
 @section('content')
-    <div class="container px-0 px-md-2 px-lg-3 ">
+    <div class="px-0 px-md-2 px-lg-3 ">
         <div class="row mx-0 pt-5">
             <div class="col-lg-12 mb-3">
                 <div class="bg-white p-4 dashboardCard">
@@ -46,28 +46,14 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            let body = $('body');
+            // let body = $('body');
+            // body.on('click', '.unfriend', function(event) {
+            //     event.preventDefault();
+            //     let id = $(this).data('id');
+            //     unfriendUser(id, $(this));
+            // });
 
-            body.on('click', '.unfriend', function(event) {
-                event.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, unfriend!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let id = $(this).data('id');
-                        unfriendUser(id, $(this));
-                    }
-                });
-
-            });
-
-
+            //  Add friend in the common scripts file
         });
     </script>
 @endsection
