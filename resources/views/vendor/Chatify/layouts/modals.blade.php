@@ -10,7 +10,7 @@
                 <div class="app-modal-body">
                     {{-- channel avatar --}}
                     <div class="avatar av-l upload-avatar-preview chatify-d-flex"
-                        style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar_url }}');"></div>
+                        style="background-image: url('{{ Auth::user()->avatar_url }}');"></div>
                     <p class="upload-avatar-details"></p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{ $messengerColor }}">
                         Upload New
