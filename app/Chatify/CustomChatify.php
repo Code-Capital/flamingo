@@ -258,9 +258,38 @@ class CustomChatify extends ChatifyMessenger
             ->where('from_id', '<>', $auth_id)
             ->where(function ($query) use ($auth_id) {
                 $query
-                // ->whereJsonDoesntContain('seen', $auth_id)
+                    // ->whereJsonDoesntContain('seen', $auth_id)
                     ->orWhereNull('seen');
             })
             ->count();
+    }
+
+
+    /**
+     * Make messages between the sender [Auth user] and
+     * the receiver [User id] as seen.
+     *
+     * @param string $channel_id
+     * @return bool
+     */
+    public function makeSeen($channel_id)
+    {
+        $auth_id = Auth::user()->id;
+        $messages = Message::where('to_channel_id', $channel_id)
+            ->where('from_id', '<>', $auth_id)
+            ->where(function ($query) use ($auth_id) {
+                $query
+                    ->where('seen', 'NOT LIKE', "%,$auth_id,%")
+                    // ->whereJsonDoesntContain('seen', $auth_id)
+                    ->orWhereNull('seen');
+            })
+            ->get();
+
+        foreach ($messages as $mess) {
+            $mess->seen = !$mess->seen ? array($auth_id) : array_merge($mess->seen, array($auth_id));
+            $mess->save();
+        }
+
+        return 1;
     }
 }

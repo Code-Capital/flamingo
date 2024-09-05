@@ -258,7 +258,7 @@ class MessagesController extends Controller
     public function seen(Request $request)
     {
         // make as seen
-        $seen = Chatify::makeSeen($request['channel_id']);
+        $seen = $this->customChatify->makeSeen($request['channel_id']);
         // send the response
         return Response::json([
             'status' => $seen,
@@ -453,7 +453,7 @@ class MessagesController extends Controller
      */
     public function sharedPhotos(Request $request)
     {
-        $shared = Chatify::getSharedPhotos($request['channel_id']);
+        $shared = $this->customChatify->getSharedPhotos($request['channel_id']);
         $sharedPhotos = null;
 
         // shared with its template
