@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Chatify\CustomChatify;
-use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\UpdateEventRequest;
-use App\Jobs\EventCreatedJob;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Jobs\EventCreatedJob;
+use App\Chatify\CustomChatify;
+use Illuminate\Http\JsonResponse;
+use App\Jobs\GroupChatCreationJob;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Enums\NotificationStatusEnum;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 class EventController extends Controller
@@ -98,22 +100,52 @@ class EventController extends Controller
                 if ($event->isPublished()) {
                     Log::info('Event created and published and runnig job');
                     dispatch(new EventCreatedJob($event, $user));
+                    dispatch(new GroupChatCreationJob($request, 'Event ' . ucfirst($event->title), $event));
+
+                    // Create a group chat for the event
+                    // Log::info('Creating group chat for the event');
+                    // $response = $this->customChatify->createGroupChat(
+                    //     request: $request,
+                    //     groupName: 'Event ' . ucfirst($event->title),
+                    //     avatar: $thumbnailPath,
+                    // );
+
+                    // // Decode JSON into an associative array
+                    // $responseData = $response->getData(true);
+
+                    // if ($responseData['status'] && $responseData['channel']) {
+                    //     $event->update([
+                    //         'channel_id' => $responseData['channel']['id'],
+                    //     ]);
+
+                    //     $eventChatLink = route('channel_id', $responseData['channel']['id']);
+
+                    //     // Create the HTML message
+                    //     $body = limitString($event->title, 20);
+                    //     $message = "
+                    //         <div class='notification'>
+                    //             <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
+                    //         </div>
+                    //     ";
+
+                    //     $user->notifications()->create([
+                    //         'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
+                    //         'data' => json_encode([
+                    //             'message' => $message,
+                    //             'event_id' => $event->id,
+                    //             'channel_id' => $responseData['channel']['id'],
+                    //             'user_id' => $user->id,
+                    //             'user_name' => $user->full_name,
+                    //         ]),
+                    //     ]);
+                    // }
                 }
-
-                $request->merge([
-                    'avatar' => $request->hasFile('thumbnail'), // The avatar of the group
-                ]);
-
-                $this->customChatify->createGroupChat(
-                    request: $request,
-                    groupName: $event->title . ' Event',
-                );
             });
 
             return to_route('events.index')->with('success', 'Event created successfully');
         } catch (AuthorizationException $e) {
             return to_route('events.create')
-                ->with('error', 'You have reached the maximum number of events you can create this month.' . $th->getMessage());
+                ->with('error', 'You have reached the maximum number of events you can create this month.' . $e->getMessage());
         } catch (\Throwable $th) {
             return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }

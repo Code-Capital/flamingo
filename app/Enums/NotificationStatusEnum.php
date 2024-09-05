@@ -41,4 +41,7 @@ enum NotificationStatusEnum: string
     case PAGEJOINED = 'page_joined';
     case PAGELEFT = 'page_left';
     case PAGECLOSED = 'page_closed';
+
+    case EVENTCHATCREATED = 'event_chat_created';
+    case EVENTCHATUPDATED = 'event_chat_updated';
 }

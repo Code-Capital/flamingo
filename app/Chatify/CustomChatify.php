@@ -331,7 +331,7 @@ class CustomChatify extends ChatifyMessenger
         return 1;
     }
 
-    public function createGroupChat(Request $request, array $userIds = [], $groupName = 'Group')
+    public function createGroupChat(Request $request, $groupName = 'Group', array $userIds = [], $avatar = null)
     {
         $msg = null;
         $error = $success = 0;
@@ -366,11 +366,11 @@ class CustomChatify extends ChatifyMessenger
         ]);
 
         // if there is a [file]
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('thumbnail')) {
             // allowed extensions
             $allowed_images = $this->getAllowedImages();
 
-            $file = $request->file('avatar');
+            $file = $request->file('thumbnail');
             // check file size
             if ($file->getSize() < $this->getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
@@ -388,9 +388,14 @@ class CustomChatify extends ChatifyMessenger
             }
         }
 
+        if ($avatar) {
+            $update = $new_channel->update(['avatar' => $avatar]);
+            $success = $update ? 1 : 0;
+        }
+
         return Response::json([
-            'status' => $success ? 1 : 0,
-            'error' => $error ? 1 : 0,
+            'status' => $success ? true : false,
+            'error' => $error ? true : false,
             'message' => $error ? $msg : 0,
             'channel' => $new_channel
         ], 200);

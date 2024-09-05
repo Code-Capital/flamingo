@@ -37,6 +37,7 @@ class Event extends Model
         'status',
         'is_closed',
         'closed_at',
+        'channel_id',
     ];
 
     /**

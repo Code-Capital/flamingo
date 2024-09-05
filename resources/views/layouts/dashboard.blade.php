@@ -146,36 +146,36 @@
 
     <script>
         let message = '';
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     // Enable pusher logging - don't include this in production
-        //     Pusher.logToConsole = true;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
 
-        //     var pusher = new Pusher('9a5d76ef216853ed60cf', {
-        //         cluster: 'us3',
-        //     });
+            var pusher = new Pusher('9a5d76ef216853ed60cf', {
+                cluster: 'us3',
+            });
 
-        //     userId = '{{ auth()->id() }}';
+            userId = '{{ auth()->id() }}';
 
-        //     var channel = pusher.subscribe('notification.' + userId);
-        //     channel.bind('notification-created', function(data) {
-        //         console.log(data);
-        //         newNotificationSound();
-        //         // Display the notification as an HTML message
-        //         toastr.options = {
-        //             closeButton: true,
-        //             positionClass: 'toast-top-right',
-        //             timeOut: 3000, // Duration before the toast disappears
-        //             extendedTimeOut: 3000,
-        //             tapToDismiss: false,
-        //             escapeHtml: false,
-        //             allowHtml: true,
-        //             onclick: function() {
-        //                 window.open(data.link);
-        //             }
-        //         };
-        //         toastr.success(data.message);
-        //     });
-        // });
+            var channel = pusher.subscribe('notification.' + userId);
+            channel.bind('notification-created', function(data) {
+                console.log(data);
+                newNotificationSound();
+                // Display the notification as an HTML message
+                toastr.options = {
+                    closeButton: true,
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000, // Duration before the toast disappears
+                    extendedTimeOut: 3000,
+                    tapToDismiss: false,
+                    escapeHtml: false,
+                    allowHtml: true,
+                    onclick: function() {
+                        window.open(data.link);
+                    }
+                };
+                toastr.success(data.message);
+            });
+        });
     </script>
     @yield('scripts')
 </body>
