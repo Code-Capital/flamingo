@@ -36,7 +36,7 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
-        return Chatify::pusherAuth(
+        return $this->customChatify->pusherAuth(
             $request->user(),
             Auth::user(),
             $request['channel_name'],
