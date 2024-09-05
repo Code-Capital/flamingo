@@ -95,11 +95,11 @@ class MessagesController extends Controller
         // check if this channel is a group
         if (isset($channel->owner_id)) {
             $fetch = $channel;
-            $channel_avatar = Chatify::getChannelWithAvatar($channel)->avatar;
+            $channel_avatar = $this->customChatify->getChannelWithAvatar($channel)->avatar;
         } else {
-            $fetch = Chatify::getUserInOneChannel($request['channel_id']);
+            $fetch = $this->customChatify->getUserInOneChannel($request['channel_id']);
             if ($fetch) {
-                $channel_avatar = Chatify::getUserWithAvatar($fetch)->avatar;
+                $channel_avatar = $this->customChatify->getUserWithAvatar($fetch)->avatar;
             }
         }
 
@@ -521,20 +521,21 @@ class MessagesController extends Controller
         $user_id = $request['user_id'];
 
         // add last message
+        $user = Auth::user();
         $message = Chatify::newMessage([
-            'from_id' => Auth::user()->id,
+            'from_id' => $user->id,
             'to_channel_id' => $channel_id,
-            'body' => Auth::user()->name . ' has left the group',
+            'body' => $user->full_name . ' has left the group',
             'attachment' => null,
         ]);
-        $message->user_avatar = Auth::user()->avatar;
-        $message->user_name = Auth::user()->name;
-        $message->user_email = Auth::user()->email;
+        $message->user_avatar = $user->avatar;
+        $message->user_name = $user->full_name;
+        $message->user_email = $user->email;
 
         $messageData = Chatify::parseMessage($message, null);
 
         Chatify::push("private-chatify." . $channel_id, 'messaging', [
-            'from_id' => Auth::user()->id,
+            'from_id' => $user->id,
             'to_channel_id' => $channel_id,
             'message' => Chatify::messageCard($messageData, true)
         ]);
@@ -679,30 +680,31 @@ class MessagesController extends Controller
         $msg = null;
         $error = $success = 0;
 
+        $user = Auth::user();
         $user_ids = array_map('intval', explode(',', $request['user_ids']));
-        $user_ids[] = Auth::user()->id;
+        $user_ids[] = $user->id;
 
         $group_name = $request['group_name'];
 
         $new_channel = new Channel();
         $new_channel->name = $group_name;
-        $new_channel->owner_id = Auth::user()->id;
+        $new_channel->owner_id = $user->id;
         $new_channel->save();
         $new_channel->users()->sync($user_ids);
 
         // add first message
         $message = Chatify::newMessage([
-            'from_id' => Auth::user()->id,
+            'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => Auth::user()->name . ' has created a new chat group: ' . $group_name,
+            'body' => $user->full_name . ' has created a new chat group: ' . $group_name,
             'attachment' => null,
         ]);
-        $message->user_name = Auth::user()->name;
-        $message->user_email = Auth::user()->email;
+        $message->user_name = $user->full_name;
+        $message->user_email = $user->email;
 
         $messageData = Chatify::parseMessage($message, null);
         Chatify::push("private-chatify." . $new_channel->id, 'messaging', [
-            'from_id' => Auth::user()->id,
+            'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
             'message' => Chatify::messageCard($messageData, true)
         ]);
