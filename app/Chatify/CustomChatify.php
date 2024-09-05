@@ -4,6 +4,8 @@ namespace App\Chatify;
 
 use Exception;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Chatify\ChatifyMessenger;
 use Illuminate\Support\Facades\Log;
 use App\Models\ChChannel as Channel;
@@ -11,6 +13,7 @@ use App\Models\ChMessage as Message;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ChFavorite as Favorite;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class CustomChatify extends ChatifyMessenger
 {
@@ -326,5 +329,70 @@ class CustomChatify extends ChatifyMessenger
         }
 
         return 1;
+    }
+
+    public function createGroupChat(Request $request, array $userIds = [], $groupName = 'Group')
+    {
+        $msg = null;
+        $error = $success = 0;
+
+        $user = Auth::user();
+        $user_ids = $userIds ? $userIds : [];
+        $user_ids[] = $user->id;
+
+        $group_name = $groupName;
+
+        $new_channel = new Channel();
+        $new_channel->name = $group_name;
+        $new_channel->owner_id = $user->id;
+        $new_channel->save();
+        $new_channel->users()->sync($user_ids);
+
+        // add first message
+        $message = $this->newMessage([
+            'from_id' => $user->id,
+            'to_channel_id' => $new_channel->id,
+            'body' => $user->full_name . ' has created a new chat group: ' . $group_name,
+            'attachment' => null,
+        ]);
+        $message->user_name = $user->full_name;
+        $message->user_email = $user->email;
+
+        $messageData = $this->parseMessage($message, null);
+        $this->push("private-chatify." . $new_channel->id, 'messaging', [
+            'from_id' => $user->id,
+            'to_channel_id' => $new_channel->id,
+            'message' => $this->messageCard($messageData, true)
+        ]);
+
+        // if there is a [file]
+        if ($request->hasFile('avatar')) {
+            // allowed extensions
+            $allowed_images = $this->getAllowedImages();
+
+            $file = $request->file('avatar');
+            // check file size
+            if ($file->getSize() < $this->getMaxUploadSize()) {
+                if (in_array(strtolower($file->extension()), $allowed_images)) {
+                    $avatar = Str::uuid() . "." . $file->extension();
+                    $update = $new_channel->update(['avatar' => $avatar]);
+                    $file->storeAs(config('chatify.channel_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
+                    $success = $update ? 1 : 0;
+                } else {
+                    $msg = "File extension not allowed!";
+                    $error = 1;
+                }
+            } else {
+                $msg = "File size you are trying to upload is too large!";
+                $error = 1;
+            }
+        }
+
+        return Response::json([
+            'status' => $success ? 1 : 0,
+            'error' => $error ? 1 : 0,
+            'message' => $error ? $msg : 0,
+            'channel' => $new_channel
+        ], 200);
     }
 }

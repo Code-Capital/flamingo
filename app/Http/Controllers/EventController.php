@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Chatify\CustomChatify;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Jobs\EventCreatedJob;
@@ -22,9 +23,18 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class EventController extends Controller
 {
     use AuthorizesRequests;
+
+    public $customChatify;
+
+    public function __construct()
+    {
+        $this->customChatify = new CustomChatify();
+    }
+
 
     public function index(): View
     {
@@ -77,7 +87,7 @@ class EventController extends Controller
                 if ($request->has('images') && is_array($request->images)) {
                     foreach ($request->file('images') as $image) {
                         $event->media()->create([
-                            'file_path' => $image->store('/media/events/'.$event->id, 'public'),
+                            'file_path' => $image->store('/media/events/' . $event->id, 'public'),
                             'file_type' => $image->getClientOriginalExtension(),
                         ]);
                     }
@@ -89,14 +99,23 @@ class EventController extends Controller
                     Log::info('Event created and published and runnig job');
                     dispatch(new EventCreatedJob($event, $user));
                 }
+
+                $request->merge([
+                    'avatar' => $request->hasFile('thumbnail'), // The avatar of the group
+                ]);
+
+                $this->customChatify->createGroupChat(
+                    request: $request,
+                    groupName: $event->title . ' Event',
+                );
             });
 
             return to_route('events.index')->with('success', 'Event created successfully');
         } catch (AuthorizationException $e) {
             return to_route('events.create')
-                ->with('error', 'You have reached the maximum number of events you can create this month.'.$th->getMessage());
+                ->with('error', 'You have reached the maximum number of events you can create this month.' . $th->getMessage());
         } catch (\Throwable $th) {
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 
@@ -149,7 +168,7 @@ class EventController extends Controller
                 $newMediaIds = [];
 
                 foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/'.$event->id, 'public');
+                    $path = $image->store('/media/events/' . $event->id, 'public');
 
                     // Create new media record
                     $newMedia = $event->media()->create([
@@ -176,7 +195,7 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
+            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 
@@ -211,7 +230,7 @@ class EventController extends Controller
 
             return $this->sendSuccessResponse($leave, 'You have left the event successfully', Response::HTTP_OK);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -264,7 +283,7 @@ class EventController extends Controller
                 ? $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN)
                 : redirect()->back()->with('error', $message);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -282,7 +301,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type

@@ -681,7 +681,7 @@ class MessagesController extends Controller
         $error = $success = 0;
 
         $user = Auth::user();
-        $user_ids = array_map('intval', explode(',', $request['user_ids']));
+        $user_ids = array_map('intval', explode(',', $request['user_ids'])) ?? [];
         $user_ids[] = $user->id;
 
         $group_name = $request['group_name'];

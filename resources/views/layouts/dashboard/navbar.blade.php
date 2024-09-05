@@ -2,7 +2,7 @@
     use Illuminate\Support\Facades\Auth;
 @endphp
 
-@if (request()->is('messages'))
+@if (Request::routeIs('messages'))
     {{-- <div class="bg-primary ps-3 py-3">
         <a id="sidebar-toggle">
             <span></span>
@@ -69,6 +69,7 @@
         </div>
         @php
             $loginUser = $loginUser ?? Auth::user();
+            // @dd($loginUser);
         @endphp
         <div class="px-2 px-md-3 px-lg-5 bg-white pb-4">
 
