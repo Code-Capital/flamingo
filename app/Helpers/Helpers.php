@@ -90,18 +90,31 @@ if (! function_exists('getInterval')) {
             case 'year':
                 return 'Yearly';
             default:
-                return ucfirst($interval).'ly';
+                return ucfirst($interval) . 'ly';
         }
     }
 }
+if (! function_exists('getPeoples')) {
+    function getPeoples(User $user): Collection
+    {
+        $interests = $user->interests()->pluck('interest_id')->toArray();
 
-function getPeoples(User $user): Collection
-{
-    $interests = $user->interests()->pluck('interest_id')->toArray();
-
-    $peoples = $user->byInterests($interests)
-        ->byNotUser($user->id)
-        ->limit(10)
-        ->get();
-    return $peoples;
+        $peoples = $user->byInterests($interests)
+            ->byNotUser($user->id)
+            ->limit(10)
+            ->get();
+        return $peoples;
+    }
+}
+if (! function_exists('getAllowedENVs')) {
+    function getAllowedENVs(array $envs = [], array $discard = []): array
+    {
+        $allowed = [];
+        foreach ($envs as $env) {
+            if (! in_array($env, $discard)) {
+                $allowed[] = $env;
+            }
+        }
+        return $allowed;
+    }
 }

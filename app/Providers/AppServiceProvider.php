@@ -24,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         // Disable Debugbar
-        if (app()->environment('local')) {
+        if (in_array(app()->environment('local'), getAllowedENVs())) {
+            Debugbar::enable();
+        } else {
             Debugbar::disable();
         }
     }
