@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->foreignId('location_id')->nullable()->after('is_private')->constrained('locations')->onDelete('set null');
+            $table->after('is_private', function ($table) {
+                $table->string('channel_id')->nullable();
+            });
         });
     }
 
@@ -22,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('location_id');
+            $table->dropColumn('channel_id');
         });
     }
 };

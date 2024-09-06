@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\StatusEnum;
+use App\Models\ChChannel;
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Page extends Model
 {
@@ -24,14 +25,15 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'slug',
         'description',
-        'is_private',
-        'user_id',
         'cover_image',
         'profile_image',
+        'is_private',
         'location_id',
+        'channel_id',
     ];
 
     /**
@@ -93,6 +95,11 @@ class Page extends Model
         return $this->morphMany(Report::class, 'reportable');
     }
 
+    public function channel(): BelongsTo
+    {
+        return $this->belongsTo(ChChannel::class);
+    }
+
     // ======================================================================
     // Accessors
     // ======================================================================
@@ -145,7 +152,7 @@ class Page extends Model
 
     public function scopeByLocation($query, $locationId)
     {
-        return $query->when($locationId, fn ($q) => $q->where('location_id', $locationId));
+        return $query->when($locationId, fn($q) => $q->where('location_id', $locationId));
     }
 
     public function scopeByUser($query, $userId)
