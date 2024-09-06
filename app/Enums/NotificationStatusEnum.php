@@ -46,4 +46,7 @@ enum NotificationStatusEnum: string
 
     case EVENTCHATCREATED = 'event_chat_created';
     case EVENTCHATUPDATED = 'event_chat_updated';
+
+    case PAGECHATCREATED = 'page_chat_created';
+    case PAGECHATUPDATED = 'page_chat_updated';
 }

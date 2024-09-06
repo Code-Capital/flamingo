@@ -41,12 +41,12 @@
                             <!-- Event Thumbanil -->
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label class="mb-1 ">
+                                    <label class="mb-1 required">
                                         <span>Profile Image</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="profile_image" type="file" allow="images/*">
+                                            <input class="w-100" name="profile_image" type="file" allow="images/*" required>
                                         </div>
                                     </div>
                                     @error('profile_image')

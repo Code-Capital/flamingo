@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Page extends Model
 {
@@ -90,12 +91,12 @@ class Page extends Model
         return $this->belongsTo(Location::class);
     }
 
-    public function reports()
+    public function reports(): MorphMany
     {
         return $this->morphMany(Report::class, 'reportable');
     }
 
-    public function channel(): BelongsTo
+    public function channel()
     {
         return $this->belongsTo(ChChannel::class);
     }

@@ -69,7 +69,7 @@ return [
     */
     'channel_avatar' => [
         'folder' => 'channels-avatar',
-        'default' => 'avatar.png',
+        'default' => 'avatar.jpg',
     ],
 
     /*
