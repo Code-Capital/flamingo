@@ -69,7 +69,7 @@ class EventCreatedEvent implements ShouldBroadcast
 
         return [
             'message' => $message, // The complete HTML message
-            'evemt_id' => $this->event->id,
+            'event_id' => $this->event->id,
             'user_id' => $this->user->id,
             'full_name' => $this->user->full_name,
             'link' => $eventLink,

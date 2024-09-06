@@ -54,4 +54,6 @@ enum NotificationStatusEnum: string
 
     case EVENTPOSTCREATED = 'event_post_created';
     case PAGEPOSTCREATED = 'page_post_created';
+
+    case FRIENDREQUESTSENT = 'friend_request_sent';
 }

@@ -142,7 +142,7 @@
         });
     </script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script> --}}
 
     <script>
         let message = '';
@@ -154,9 +154,20 @@
                 cluster: 'us3',
             });
 
+            pusher.connection.bind("connected", function() {
+                console.log("connected");
+            })
+
+            pusher.connection.bind("error", function(error) {
+                console.error("connection error", error);
+                toastr.error('Connection error');
+            });
+
             userId = '{{ auth()->id() }}';
 
             var channel = pusher.subscribe('notification.' + userId);
+
+
             channel.bind('notification-created', function(data) {
                 console.log(data);
                 newNotificationSound();

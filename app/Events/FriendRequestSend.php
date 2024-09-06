@@ -2,25 +2,31 @@
 
 namespace App\Events;
 
-use App\Models\Page;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-class PageCreationEvent implements shouldBroadcast
+class FriendRequestSend implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $receiver;
+    public $sender;
     /**
      * Create a new event instance.
      */
-    public function __construct(public Page $page, public User $user)
+    public function __construct(User $receiver, $sender)
     {
-        $this->page = $page;
-        $this->user = $user;
+        $this->receiver = $receiver;
+        $this->sender = $sender;
     }
 
     /**
@@ -30,8 +36,9 @@ class PageCreationEvent implements shouldBroadcast
      */
     public function broadcastOn(): array
     {
+        Log::info('FRIEND REQUEST EVENT CHANNEL NAME -> notification.' . $this->receiver->id);
         return [
-            new Channel('notification.'.$this->user->id),
+            new Channel('notification.' . $this->receiver->id),
         ];
     }
 
@@ -45,30 +52,27 @@ class PageCreationEvent implements shouldBroadcast
         return 'notification-created';
     }
 
+
     /**
-     * Get the data to broadcast.
+     * Get the data to broadcast with the event.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function broadcastWith(): array
+    public function broadcastWith()
     {
         // Generate the link to the post
-        $pageLink = route('pages.show', $this->page->slug);
+        $link = route('profile.info');
 
         // Create the HTML message
-        $body = limitString($this->page->name, 20);
         $message = "
             <div class='notification'>
-                <strong>{$this->user->full_name}</strong> create a new page <a href='{$pageLink}' target='_blank'>{$body}</a>
+                    {$this->sender->full_name} send you a friend Request <a href='{$link}' target='_blank'>Please show</a>
             </div>
         ";
 
         return [
-            'message' => $message, // The complete HTML message
-            'page_id' => $this->page->id,
-            'user_id' => $this->user->id,
-            'full_name' => $this->user->full_name,
-            'link' => $pageLink,
+            'message' => $message,
+            'link' => $link,
         ];
     }
 }
