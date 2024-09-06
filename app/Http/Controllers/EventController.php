@@ -257,7 +257,7 @@ class EventController extends Controller
                                 'body' => $user?->full_name . ' has changed the group name to: ' . $eventChat->name,
                                 'attachment' => null,
                             ]);
-                            $message->user_name = $user->full_name;
+                            $message->user_name = $user->user_name;
                             $message->user_email = $user->email;
 
                             $messageData = $this->customChatify->parseMessage($message, null);
@@ -298,13 +298,13 @@ class EventController extends Controller
             $event->channel->users()->detach($user->id);
 
             $message = $this->customChatify->newMessage([
-                'from_id' => $user->id,
+                'from_id' => $event->user->id,
                 'to_channel_id' => $event->channel_id,
                 'body' => 'user ' . $user->full_name . ' has been removed from the group',
                 'attachment' => null,
             ]);
 
-            $message->user_name = $user->full_name;
+            $message->user_name = $user->user_name;
             $message->user_email = $user->email;
 
             $messageData = $this->customChatify->parseMessage($message, null);
@@ -361,7 +361,7 @@ class EventController extends Controller
                         'body' => $user->full_name . ' has joined the group',
                         'attachment' => null,
                     ]);
-                    $message->user_name = $user->full_name;
+                    $message->user_name = $user->user_name;
                     $message->user_email = $user->email;
 
                     $messageData = $this->customChatify->parseMessage($message, null);
