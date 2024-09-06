@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -71,7 +71,7 @@ class EventController extends Controller
             DB::transaction(function () use ($request, $user) {
 
                 $thumbnailPath = $request->hasFile('thumbnail')
-                    ? $request->file('thumbnail')->store('media/events/thumbnail/', 'public')
+                    ? $request->file('thumbnail')->store('media/events/thumbnail', 'public')
                     : null;
                 $event = Event::create([
                     'user_id' => $user->id,
@@ -100,45 +100,44 @@ class EventController extends Controller
                 if ($event->isPublished()) {
                     Log::info('Event created and published and runnig job');
                     dispatch(new EventCreatedJob($event, $user));
-                    dispatch(new GroupChatCreationJob($request, 'Event ' . ucfirst($event->title), $event));
 
                     // Create a group chat for the event
-                    // Log::info('Creating group chat for the event');
-                    // $response = $this->customChatify->createGroupChat(
-                    //     request: $request,
-                    //     groupName: 'Event ' . ucfirst($event->title),
-                    //     avatar: $thumbnailPath,
-                    // );
+                    Log::info('Creating group chat for the event');
+                    $response = $this->customChatify->createGroupChat(
+                        request: $request,
+                        groupName: 'Event ' . ucfirst($event->title),
+                        avatar: $thumbnailPath,
+                    );
 
-                    // // Decode JSON into an associative array
-                    // $responseData = $response->getData(true);
+                    // Decode JSON into an associative array
+                    $responseData = $response->getData(true);
 
-                    // if ($responseData['status'] && $responseData['channel']) {
-                    //     $event->update([
-                    //         'channel_id' => $responseData['channel']['id'],
-                    //     ]);
+                    if ($responseData['status'] && $responseData['channel']) {
+                        $event->update([
+                            'channel_id' => $responseData['channel']['id'],
+                        ]);
 
-                    //     $eventChatLink = route('channel_id', $responseData['channel']['id']);
+                        $eventChatLink = route('channel_id', $responseData['channel']['id']);
 
-                    //     // Create the HTML message
-                    //     $body = limitString($event->title, 20);
-                    //     $message = "
-                    //         <div class='notification'>
-                    //             <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
-                    //         </div>
-                    //     ";
+                        // Create the HTML message
+                        $body = limitString($event->title, 20);
+                        $message = "
+                            <div class='notification'>
+                                <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
+                            </div>
+                        ";
 
-                    //     $user->notifications()->create([
-                    //         'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
-                    //         'data' => json_encode([
-                    //             'message' => $message,
-                    //             'event_id' => $event->id,
-                    //             'channel_id' => $responseData['channel']['id'],
-                    //             'user_id' => $user->id,
-                    //             'user_name' => $user->full_name,
-                    //         ]),
-                    //     ]);
-                    // }
+                        $user->notifications()->create([
+                            'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
+                            'data' => json_encode([
+                                'message' => $message,
+                                'event_id' => $event->id,
+                                'channel_id' => $responseData['channel']['id'],
+                                'user_id' => $user->id,
+                                'user_name' => $user->full_name,
+                            ]),
+                        ]);
+                    }
                 }
             });
 
@@ -178,56 +177,104 @@ class EventController extends Controller
     {
         $validated = $request->validated();
 
-        DB::beginTransaction();
         try {
-            $event->update([
-                'title' => $validated['title'],
-                'slug' => Str::slug($validated['title']),
-                'location_id' => $validated['location_id'],
-                'start_date' => $validated['start_date'],
-                'end_date' => $validated['end_date'],
-                'thumbnail' => $request->file('thumbnail') ? $request->file('thumbnail')->store('media/events/thumbnail/', 'public') : $event->thumbnail,
-                'description' => $validated['description'],
-                'rules' => $validated['rules'],
-                'status' => $validated['status'],
-            ]);
-
-            // Get the IDs of the existing media to be removed later
-            $existingMediaIds = $event->media->pluck('id')->toArray();
-
-            // Store new media
-            if ($request->has('images') && is_array($request->images)) {
-                $newMediaIds = [];
-
-                foreach ($request->images as $image) {
-                    $path = $image->store('/media/events/' . $event->id, 'public');
-
-                    // Create new media record
-                    $newMedia = $event->media()->create([
-                        'file_path' => $path,
-                        'file_type' => $image->getClientOriginalExtension(),
-                    ]);
-
-                    // Collect the IDs of new media
-                    $newMediaIds[] = $newMedia->id;
+            DB::transaction(function () use ($request, $event, $validated) {
+                $validated['thumbnail'] = $event->thumbnail;
+                if ($request->hasFile('thumbnail')) {
+                    if (Storage::exists($event->thumbnail)) {
+                        Storage::delete($event->thumbnail);
+                    }
+                    $validated['thumbnail'] = $request->file('thumbnail')->store('media/events/thumbnail', 'public');
                 }
 
-                // Delete old media that is not in the new list
-                $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
-                if (! empty($mediaToDelete)) {
-                    $event->media()->whereIn('id', $mediaToDelete)->delete();
+                $event->update([
+                    'title' => $validated['title'],
+                    'slug' => Str::slug($validated['title']),
+                    'location_id' => $validated['location_id'],
+                    'start_date' => $validated['start_date'],
+                    'end_date' => $validated['end_date'],
+                    'thumbnail' => $validated['thumbnail'],
+                    'description' => $validated['description'],
+                    'rules' => $validated['rules'],
+                    'status' => $validated['status'],
+                ]);
+
+                // Get the IDs of the existing media to be removed later
+                $existingMediaIds = $event->media->pluck('id')->toArray();
+
+                // Store new media
+                if ($request->has('images') && is_array($request->images)) {
+                    $newMediaIds = [];
+
+                    foreach ($request->images as $image) {
+                        $path = $image->store('/media/events/' . $event->id, 'public');
+
+                        $newMedia = $event->media()->create([
+                            'file_path' => $path,
+                            'file_type' => $image->getClientOriginalExtension(),
+                        ]);
+
+                        $newMediaIds[] = $newMedia->id;
+                    }
+
+                    // Delete old media that is not in the new list
+                    $mediaToDelete = array_diff($existingMediaIds, $newMediaIds);
+                    if (! empty($mediaToDelete)) {
+                        $event->media()->whereIn('id', $mediaToDelete)->delete();
+                    }
                 }
-            }
 
-            $event->interests()->sync((array) $request->interests);
+                $event->interests()->sync((array) $request->interests);
 
-            DB::commit();
+                if ($event->isPublished()) {
+                    $eventChat = $event->channel;
+                    if ($eventChat) {
+                        $eventChat->name = $event->title ? 'Event ' . ucfirst($event->title) :  $eventChat;
 
+                        if ($request->hasFile('thumbnail')) {
+                            // allowed extensions
+                            $allowed_images = $this->customChatify->getAllowedImages();
+
+                            $file = $request->file('thumbnail');
+                            // check file size
+                            if ($file->getSize() <  $this->customChatify->getMaxUploadSize()) {
+                                if (in_array(strtolower($file->extension()), $allowed_images)) {
+                                    $avatar = Str::uuid() . "." . $file->extension();
+                                    // $update = $eventChat->update(['avatar' => $avatar]);
+                                    $eventChat->avatar = $avatar;
+                                    $file->storeAs(config('chatify.channel_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
+                                    // $success = $update ? 1 : 0;
+                                }
+                            }
+                        }
+
+                        $save = $eventChat->save();
+
+                        if ($save) {
+                            $user = Auth::user();
+                            $message = $this->customChatify->newMessage([
+                                'from_id' => $event->user_id,
+                                'to_channel_id' => $event->channel_id,
+                                'body' => $user?->full_name . ' has changed the group name to: ' . $eventChat->name,
+                                'attachment' => null,
+                            ]);
+                            $message->user_name = $user->full_name;
+                            $message->user_email = $user->email;
+
+                            $messageData = $this->customChatify->parseMessage($message, null);
+                            $this->customChatify->push("private-chatify." . $event->channel_id, 'messaging', [
+                                'from_id' => $user->id,
+                                'to_channel_id' =>  $event->channel_id,
+                                'message' => $this->customChatify->messageCard($messageData, true)
+                            ]);
+                        }
+                    }
+                }
+            });
             return to_route('events.index')->with('success', 'Event updated successfully');
         } catch (\Throwable $th) {
-            DB::rollBack();
-
-            return to_route('events.edit', $event)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            Log::error('Error occurred while updating event', json_encode(['error' => $th->getMessage()]));
+            return to_route('events.edit', $event->slug)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
         }
     }
 

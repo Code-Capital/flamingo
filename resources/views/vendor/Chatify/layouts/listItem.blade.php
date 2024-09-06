@@ -37,7 +37,7 @@
             {{-- center side --}}
             <td>
                 <p>
-                    {{ strlen($user->user_name) > 12 ? trim(substr($user->user_name, 0, 12)) . '..' : $user->user_name }}
+                    {{ strlen($user->user_name) > 30 ? trim(substr($user->user_name, 0, 30)) . '..' : $user->user_name }}
                     <span class="contact-item-time"
                         data-time="{{ $lastMessage->created_at }}">{{ $lastMessage->timeAgo }}</span>
                 </p>
@@ -74,7 +74,7 @@
             {{-- center side --}}
             <td>
                 <p>
-                    {{ strlen($channel->name) > 12 ? trim(substr($channel->name, 0, 12)) . '..' : $channel->name }}
+                    {{ strlen($channel->name) > 20 ? trim(substr($channel->name, 0, 20)) . '..' : $channel->name }}
                     <span class="contact-item-time"
                         data-time="{{ $lastMessage->created_at }}">{{ $lastMessage->timeAgo }}</span>
                 </p>

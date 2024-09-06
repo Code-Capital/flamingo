@@ -167,7 +167,7 @@
                             </label>
                             <div class="form-control form-control-lg">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="4" name="description" class="w-100" required placeholder="Describe the event rules description">{{ old('description') }}</textarea>
+                                    <textarea rows="4" name="description" class="w-100" required placeholder="Describe the event rules description">{{ $event->description }}</textarea>
                                 </div>
                             </div>
                             @error('description')
@@ -181,7 +181,7 @@
                             </label>
                             <div class="form-control form-control-lg">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <textarea rows="4" name="rules" class="w-100" placeholder="Describe the event rules" required>{{ old('rules') }}</textarea>
+                                    <textarea rows="4" name="rules" class="w-100" placeholder="Describe the event rules" required>{{ $event->rules }}</textarea>
                                 </div>
                             </div>
                             @error('rules')
