@@ -28,6 +28,8 @@ enum NotificationStatusEnum: string
     case EVENTJOINED = 'event_joined';
     case EVENTLEFT = 'event_left';
     case EVENTCLOSED = 'event_closed';
+    case EVENTREQUESTACCEPTED = 'event_request_accepted';
+    case EVENTREQUESTREJECTED = 'event_request_rejected';
 
     case PAGECREATED = 'page_created';
     case PAGEUPDATED = 'page_updated';

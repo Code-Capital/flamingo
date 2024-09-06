@@ -40,7 +40,6 @@ class EventController extends Controller
 
     public function index(): View
     {
-
         $user = Auth::user();
         $events = Event::byUser($user->id)
             ->with(['interests:id,name'])
@@ -253,7 +252,7 @@ class EventController extends Controller
                         if ($save) {
                             $user = Auth::user();
                             $message = $this->customChatify->newMessage([
-                                'from_id' => $event->user_id,
+                                'from_id' => $user->id,
                                 'to_channel_id' => $event->channel_id,
                                 'body' => $user?->full_name . ' has changed the group name to: ' . $eventChat->name,
                                 'attachment' => null,
@@ -294,7 +293,27 @@ class EventController extends Controller
 
     public function removeMember(Request $request, Event $event, User $user)
     {
-        $event->allMembers()->detach($user->id);
+        $deattach = $event->allMembers()->detach($user->id);
+        if ($deattach && $event->channel) {
+            $event->channel->users()->detach($user->id);
+
+            $message = $this->customChatify->newMessage([
+                'from_id' => $user->id,
+                'to_channel_id' => $event->channel_id,
+                'body' => 'user ' . $user->full_name . ' has been removed from the group',
+                'attachment' => null,
+            ]);
+
+            $message->user_name = $user->full_name;
+            $message->user_email = $user->email;
+
+            $messageData = $this->customChatify->parseMessage($message, null);
+            $this->customChatify->push("private-chatify." . $event->channel_id, 'messaging', [
+                'from_id' => $user->id,
+                'to_channel_id' =>  $event->channel_id,
+                'message' => $this->customChatify->messageCard($messageData, true)
+            ]);
+        }
         if ($request->ajax()) {
             return $this->sendSuccessResponse($user, 'Member removed successfully', Response::HTTP_OK);
         }
@@ -329,14 +348,62 @@ class EventController extends Controller
             'status' => $request->status,
         ]);
 
+        if ($request->status === 'accepted') {
+
+            if ($event->channel) {
+                $sync = $event->channel->users()->syncWithoutDetaching($user->id);
+
+                // Create a group chat for the event
+                if ($sync) {
+                    $message = $this->customChatify->newMessage([
+                        'from_id' => $user->id,
+                        'to_channel_id' => $event->channel_id,
+                        'body' => $user->full_name . ' has joined the group',
+                        'attachment' => null,
+                    ]);
+                    $message->user_name = $user->full_name;
+                    $message->user_email = $user->email;
+
+                    $messageData = $this->customChatify->parseMessage($message, null);
+                    $this->customChatify->push("private-chatify." . $event->channel_id, 'messaging', [
+                        'from_id' => $user->id,
+                        'to_channel_id' =>  $event->channel_id,
+                        'message' => $this->customChatify->messageCard($messageData, true)
+                    ]);
+                }
+            }
+
+            $eventLink = route('events.show', $event->slug);
+            $body = limitString($event->title, 20);
+            $type = NotificationStatusEnum::EVENTREQUESTACCEPTED->value;
+        } else {
+            $type = NotificationStatusEnum::EVENTREQUESTREJECTED->value;
+            $eventLink = 'javascript:void(0)';
+        }
+        $message = "<div class='notification'>
+                            <a href='{$eventLink}' target='_blank'>
+                                Your request sattus for <strong>{$event->title}</strong>  has been {$request->status}. {$body}
+                            </a>
+                        </div>
+                    ";
+
+        $user->notifications()->create([
+            'type' => $type,
+            'data' => json_encode([
+                'message' => $message,
+                'user_id' => $user->id,
+                'event_id' => $event->id,
+            ]),
+        ]);
+
         $messages = ($request->status === 'accepted') ? 'Request accepted successfully' : 'Request rejected successfully';
 
         return ($response)
             ? $this->sendSuccessResponse($user, $messages, Response::HTTP_OK)
-            : $this->sendErrorResponse('Error occurred', 'Error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
+            : $this->sendErrorResponse('Error occurred while updating request status', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function joinEvent(Request $request, Event $event): JsonResponse|RedirectResponse
+    public function joinEvent(Request $request, Event $event): JsonResponse
     {
         try {
             $user = Auth::user();
@@ -355,12 +422,9 @@ class EventController extends Controller
 
             return $this->sendSuccessResponse($event, 'You have joined the event successfully', Response::HTTP_OK);
         } catch (AuthorizationException $e) {
-            $isAjax = $request->ajax();
-            $message = 'Total limit reached. You cannot join this event';
+            $message = 'Total limit reached. You cannot join this event' . $e->getMessage();
 
-            return $isAjax
-                ? $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN)
-                : redirect()->back()->with('error', $message);
+            return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
         } catch (\Throwable $th) {
             return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -414,7 +478,6 @@ class EventController extends Controller
     public function eventClose(Event $event): RedirectResponse
     {
         $event->closeEvent();
-
         return back()->with('success', 'Event closed successfully');
     }
 }

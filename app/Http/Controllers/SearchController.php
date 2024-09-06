@@ -54,7 +54,7 @@ class SearchController extends Controller
                 $query->where('user_id', $user->id);
             })
             // ->upcoming()
-            // ->ongoing()
+            ->ongoing()
             ->latest()
             ->paginate(getPaginated());
 
