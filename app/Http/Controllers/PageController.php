@@ -408,7 +408,26 @@ class PageController extends Controller
                 $page->users()->updateExistingPivot(Auth::id(), ['status' => StatusEnum::ACCEPTED->value]);
 
                 if ($page->channel) {
-                    dd($page->channel);
+                    $user = Auth::user();
+                    // dd($page->channel->toArray(), $user->id);
+                    $sync = $page->channel->users()->syncWithoutDetaching($user->id);
+                    if ($sync) {
+                        $message = $this->customChatify->newMessage([
+                            'from_id' => $user->id,
+                            'to_channel_id' => $page->channel_id,
+                            'body' => $user->user_name . ' has joined the group',
+                            'attachment' => null,
+                        ]);
+                        $message->user_name = $user->user_name;
+                        $message->user_email = $user->email;
+
+                        $messageData = $this->customChatify->parseMessage($message, null);
+                        $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                            'from_id' => $user->id,
+                            'to_channel_id' => $page->channel_id,
+                            'message' => $this->customChatify->messageCard($messageData, true),
+                        ]);
+                    }
                 }
             });
             return $this->sendSuccessResponse($page, 'Invite accepted successfully');
@@ -430,7 +449,30 @@ class PageController extends Controller
     public function removeMemeber(Request $request, Page $page)
     {
         try {
-            $page->users()->detach($request->user_id);
+            DB::transaction(function () use ($request, $page) {
+                $deattach = $page->users()->detach($request->user_id);
+                $user = User::where('id', $request->user_id)->first();
+                if ($deattach && $page->channel) {
+                    $page->channel->users()->detach($request->user_id);
+
+                    $message = $this->customChatify->newMessage([
+                        'from_id' => $page->owner->id,
+                        'to_channel_id' => $page->channel_id,
+                        'body' =>  $user->user_name . ' removed from this group',
+                        'attachment' => null,
+                    ]);
+
+                    $message->user_name = $user->user_name;
+                    $message->user_email = $user->email;
+
+                    $messageData = $this->customChatify->parseMessage($message, null);
+                    $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                        'from_id' => $page->owner->id,
+                        'to_channel_id' => $page->channel_id,
+                        'message' => $this->customChatify->messageCard($messageData, true),
+                    ]);
+                }
+            });
 
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
@@ -438,10 +480,34 @@ class PageController extends Controller
         }
     }
 
-    public function leavePage(Request $request, Page $page)
+    public function leavePage(Page $page)
     {
         try {
-            $page->users()->detach($request->user()->id);
+
+            DB::transaction(function () use ($page) {
+                $user = Auth::user();
+                $deattach = $page->users()->detach($user->id);
+                if ($deattach && $page->channel) {
+                    $page->channel->users()->detach($user->id);
+
+                    $message = $this->customChatify->newMessage([
+                        'from_id' => $user->id,
+                        'to_channel_id' => $page->channel_id,
+                        'body' =>  $user->user_name . ' leave this group',
+                        'attachment' => null,
+                    ]);
+
+                    $message->user_name = $user->user_name;
+                    $message->user_email = $user->email;
+
+                    $messageData = $this->customChatify->parseMessage($message, null);
+                    $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                        'from_id' => $user->id,
+                        'to_channel_id' => $page->channel_id,
+                        'message' => $this->customChatify->messageCard($messageData, true),
+                    ]);
+                }
+            });
 
             return $this->sendSuccessResponse($page, 'Page leaved successfully');
         } catch (\Throwable $th) {

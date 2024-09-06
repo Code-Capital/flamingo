@@ -358,7 +358,7 @@ class EventController extends Controller
                     $message = $this->customChatify->newMessage([
                         'from_id' => $user->id,
                         'to_channel_id' => $event->channel_id,
-                        'body' => $user->full_name . ' has joined the group',
+                        'body' => $user->user_name . ' has joined the group',
                         'attachment' => null,
                     ]);
                     $message->user_name = $user->user_name;

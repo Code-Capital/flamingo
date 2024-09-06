@@ -127,13 +127,13 @@
                         user_id: userId,
                     },
                     success: function(response) {
-                        console.log('.member-' + userId)
+                        console.log(response)
                         if (response.success) {
                             newNotificationSound();
                             toastr.success(response.message);
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1000);
+                            // setTimeout(() => {
+                            //     location.reload();
+                            // }, 1000);
                         } else {
                             toastr.error(response.message);
                             errorNotificationSound();
