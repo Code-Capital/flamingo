@@ -125,7 +125,7 @@ class PageController extends Controller
                         </div>
                     ";
 
-                    $user->notifications()->create([
+                    $page->user->notifications()->create([
                         'type' => NotificationStatusEnum::PAGECHATCREATED->value,
                         'data' => json_encode([
                             'message' => $message,
@@ -294,11 +294,20 @@ class PageController extends Controller
                 ]);
             }
         }
+        $link = route('post.edit', $post->uuid);
 
-        $post->notifications()->create([
-            'type' => 'page',
+        // Create the HTML message
+        $body = limitString($post->title, 20);
+        $message = "
+                    <div class='notification'>
+                        New post create for page {$page->name} <a href='{$link}' target='_blank'>{$body}</a>
+                    </div>
+                ";
+
+        $page->user->notifications()->create([
+            'type' => NotificationStatusEnum::PAGEPOSTCREATED->value,
             'data' => json_encode([
-                'message' => 'New post created',
+                'message' => $message,
                 'user_id' => $user->id,
                 'post_id' => $post->id,
             ]),
@@ -384,7 +393,7 @@ class PageController extends Controller
 
 
                 $user->notifications()->create([
-                    'type' => 'invitation',
+                    'type' =>  NotificationStatusEnum::PAGEINVITED->value,
                     'data' => json_encode([
                         'message' => $message,
                         'user_id' => $user->id,

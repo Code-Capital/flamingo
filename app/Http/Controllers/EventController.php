@@ -124,7 +124,7 @@ class EventController extends Controller
                             </div>
                         ";
 
-                        $user->notifications()->create([
+                        $event->user->notifications()->create([
                             'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
                             'data' => json_encode([
                                 'message' => $message,
@@ -452,10 +452,20 @@ class EventController extends Controller
             }
         }
 
-        $post->notifications()->create([
-            'type' => 'post',
+        $link = route('post.edit', $post->uuid);
+
+        // Create the HTML message
+        $body = limitString($post->body, 20);
+        $message = "
+                    <div class='notification'>
+                        New post created for event: {$event->title} <a href='{$link}' target='_blank'>{$body}</a>
+                    </div>
+                ";
+
+        $post->user->notifications()->create([
+            'type' => NotificationStatusEnum::EVENTPOSTCREATED->value,
             'data' => json_encode([
-                'message' => 'New post created',
+                'message' => $message,
                 'user_id' => $user->id,
                 'post_id' => $post->id,
             ]),

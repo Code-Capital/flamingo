@@ -133,7 +133,7 @@ class PostController extends Controller
                         </div>
                     ";
 
-            $user->notifications()->create([
+            $post->user->notifications()->create([
                 'type' => NotificationStatusEnum::POSTCREATED->value,
                 'data' => json_encode([
                     'message' => $message,
