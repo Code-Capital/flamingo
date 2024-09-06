@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class Postcontroller extends Controller
@@ -26,23 +26,24 @@ class Postcontroller extends Controller
                     if ($row->media) {
                         foreach ($row->media as $media) {
                             if (in_array($media->file_type, ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'bmp'])) {
-                                $html .=  $media->file_path ? '<img src="' . $media->file_path . '" width="100px" height="100px">' : '';
+                                $html .= $media->file_path ? '<img src="'.$media->file_path.'" width="100px" height="100px">' : '';
                             } else {
                                 $html .= '<video width="100px" height="100px" controls>
-                                    <source src="' . $media->file_path . '" type="video/mp4">
+                                    <source src="'.$media->file_path.'" type="video/mp4">
                                     Your browser does not support the video tag. </video>';
                             }
                         }
-                    }else{
+                    } else {
                         $html = 'No media found';
                     }
+
                     return $html;
                 })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn
+                    $button = '<button type="button" name="delete" data-id="'.$row->id.'" class="delete btn
                     btn-danger btn-sm">Delete</button>';
 
                     return $button;
@@ -50,6 +51,7 @@ class Postcontroller extends Controller
                 ->rawColumns(['user_name', 'media', 'action'])
                 ->make(true);
         }
+
         return view('admin.posts.index');
     }
 
@@ -60,7 +62,7 @@ class Postcontroller extends Controller
 
             return $this->sendSuccessResponse(null, 'Post deletd successfully');
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Error occured while deleting post ' . $th->getMessage()]);
+            return response()->json(['error' => 'Error occured while deleting post '.$th->getMessage()]);
         }
     }
 }

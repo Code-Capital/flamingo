@@ -2,9 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\PageCreationEvent;
 use App\Enums\NotificationStatusEnum;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\PageCreationEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PageCreationListener implements ShouldQueue

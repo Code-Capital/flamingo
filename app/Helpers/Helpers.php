@@ -3,15 +3,14 @@
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 if (! function_exists('getPaginated')) {
     function getPaginated($limit = 25): int
@@ -90,7 +89,7 @@ if (! function_exists('getInterval')) {
             case 'year':
                 return 'Yearly';
             default:
-                return ucfirst($interval) . 'ly';
+                return ucfirst($interval).'ly';
         }
     }
 }
@@ -103,6 +102,7 @@ if (! function_exists('getPeoples')) {
             ->byNotUser($user->id)
             ->limit(10)
             ->get();
+
         return $peoples;
     }
 }
@@ -115,6 +115,7 @@ if (! function_exists('getAllowedENVs')) {
                 $allowed[] = $env;
             }
         }
+
         return $allowed;
     }
 }

@@ -6,18 +6,20 @@ use App\Events\PageCreationEvent;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class PageCreationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $page;
+
     public $user;
+
     /**
      * Create a new job instance.
      */
@@ -34,11 +36,10 @@ class PageCreationJob implements ShouldQueue
     {
         Log::info('PAGE CREATION JOB -> Stated: ');
         foreach ($this->user->friends as $friend) {
-            Log::info('CREATING JOB EVENTS->: ' . $this->page->name);
+            Log::info('CREATING JOB EVENTS->: '.$this->page->name);
             broadcast(new PageCreationEvent($this->page, $friend));
         }
 
         Log::info('PAGE CREATION JOB -> Completed: ');
     }
 }
-

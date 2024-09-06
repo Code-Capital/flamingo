@@ -4,12 +4,11 @@ namespace App\Events;
 
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\Channel;
 
 class EventCreatedEvent implements ShouldBroadcast
 {
@@ -36,7 +35,7 @@ class EventCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.' . $this->user->id),
+            new Channel('notification.'.$this->user->id),
         ];
     }
 

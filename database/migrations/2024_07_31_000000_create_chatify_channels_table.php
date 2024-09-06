@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateChatifyChannelsTable extends Migration
 {
@@ -15,8 +15,8 @@ class CreateChatifyChannelsTable extends Migration
     {
         Schema::create('ch_channels', function (Blueprint $table) {
             $table->uuid('id')->primary();
-	        $table->string('name')->nullable();
-	        $table->bigInteger('owner_id')->nullable();
+            $table->string('name')->nullable();
+            $table->bigInteger('owner_id')->nullable();
             $table->string('avatar')->default(config('chatify.channel_avatar.default'));
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class EventCreatedListener implements ShouldQueue
      */
     public function handle(EventCreatedEvent $event): void
     {
-        Log::info('LISTENER -> Event created: ' . $event->event->title);
+        Log::info('LISTENER -> Event created: '.$event->event->title);
         $eventLink = route('events.show', $event->event->slug);
 
         // Create the HTML message

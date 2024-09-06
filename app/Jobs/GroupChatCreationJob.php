@@ -2,32 +2,36 @@
 
 namespace App\Jobs;
 
-use App\Models\Event;
-use Illuminate\Http\Request;
-use Illuminate\Bus\Queueable;
 use App\Chatify\CustomChatify;
-use Illuminate\Support\Facades\Log;
 use App\Enums\NotificationStatusEnum;
 use App\Events\GroupChatCreatedEvent;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Event;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Request;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class GroupChatCreationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $event;
+
     public $request;
+
     public $groupName;
+
     public $groupImage;
+
     public $userIds;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(Request $request, string $groupName, Event $event, string $groupImage = null, array $userIds = [])
+    public function __construct(Request $request, string $groupName, Event $event, ?string $groupImage = null, array $userIds = [])
     {
         $this->event = $event;
         $this->request = $request;

@@ -6,8 +6,6 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -17,8 +15,11 @@ class GroupChatCreatedEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $event;
+
     public $user;
+
     public $channel;
+
     /**
      * Create a new event instance.
      */
@@ -37,10 +38,9 @@ class GroupChatCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.' . $this->user->id),
+            new Channel('notification.'.$this->user->id),
         ];
     }
-
 
     /**
      * Get the data to broadcast.

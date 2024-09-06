@@ -1,8 +1,8 @@
 <?php
 
 // use Chatify\Http\Controllers\MessagesController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
+use Illuminate\Support\Facades\Route;
 
 /*
 * This is the main app route [Chatify Messenger]

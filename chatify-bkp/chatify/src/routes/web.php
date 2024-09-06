@@ -106,9 +106,6 @@ Route::name('group-chat.')->prefix('group-chat')->group(function () {
     Route::post('/leave', 'MessagesController@leaveGroupChat')->name('delete');
 });
 
-
-
-
 /**
  * Channel id
  */
