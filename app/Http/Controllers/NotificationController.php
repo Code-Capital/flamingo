@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationController extends Controller
 {
@@ -12,14 +13,29 @@ class NotificationController extends Controller
         $user = Auth::user();
 
         // Fetch user's own notifications
-        $allNotifications = $user->notifications()->latest()->paginate(getPaginated());
-
-        // // Fetch notifications related to the user's posts
-        // $postNotifications = $user->posts()->with('notifications')->get()->pluck('notifications')->flatten();
-
-        // // Merge both collections
-        // $allNotifications = $notifications->merge($postNotifications);
+        $allNotifications = DatabaseNotification::where('notifiable_id', $user->id)
+            ->whereNull('read_at')->latest()->paginate(getPaginated());
 
         return view('user.notification', get_defined_vars());
+    }
+
+    public function readAll()
+    {
+        $user = Auth::user();
+        DatabaseNotification::where('notifiable_id', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return redirect()->back();
+    }
+
+    public function read($id)
+    {
+        $user = Auth::user();
+        DatabaseNotification::where('id', $id)
+            ->where('notifiable_id', $user->id)
+            ->update(['read_at' => now()]);
+
+        return redirect()->back();
     }
 }

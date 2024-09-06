@@ -10,7 +10,7 @@
                     <div class="notification">
                         <div class="d-flex align-items-center justify-content-between pb-4 ">
                             <button class="btn btn-primary">Notifications</button>
-                            <button class="btn btn-outline-primary">Mark all as read</button>
+                            <a href={{ route('read.all.notification') }} class="btn btn-outline-primary">Mark all as read</a>
                         </div>
                         @forelse($allNotifications as $notification)
                             <div class="d-flex align-items-center justify-content-between singleMessage py-4 border px-4">
@@ -21,14 +21,15 @@
                                     @endphp
                                     <p class="mb-0">{!! $dataArray['message'] ?? '' !!}</p>
                                 </div>
-                                @if(empty($notification->read_at))
-                                    <a class="text-decoration-none" href="javasctipt:void(0)">
+                                @if (empty($notification->read_at))
+                                    <a class="text-decoration-none"
+                                        href="{{ route('notification.read', $notification->id) }}">
                                         <img src="{{ asset('assets/cross.svg') }}" alt="Cross image">
                                     </a>
                                 @endif
                             </div>
                         @empty
-                            <x-no-data-found/>
+                            <x-no-data-found />
                         @endforelse
                     </div>
                 </div>

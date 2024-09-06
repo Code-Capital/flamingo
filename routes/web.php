@@ -50,6 +50,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
         Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('read/notification/{id}', [NotificationController::class, 'read'])->name('notification.read');
+        Route::get('read/all/notifications', [NotificationController::class, 'readAll'])->name('read.all.notification');
+
         Route::get('feed', [PostController::class, 'index'])->name('feed');
         Route::get('profile/{user:user_name?}/feed', [PostController::class, 'show'])->name('user.feed.show');
         Route::get('post/{post:uuid}/view', [PostController::class, 'edit'])->name('post.edit');
