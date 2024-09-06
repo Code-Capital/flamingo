@@ -19,7 +19,7 @@
                                     @php
                                         $dataArray = json_decode($notification->data, true);
                                     @endphp
-                                    <p class="mb-0">{{ $dataArray['message'] ?? '' }}</p>
+                                    <p class="mb-0">{!! $dataArray['message'] ?? '' !!}</p>
                                 </div>
                                 @if(empty($notification->read_at))
                                     <a class="text-decoration-none" href="javasctipt:void(0)">

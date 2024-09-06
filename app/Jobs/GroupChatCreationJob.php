@@ -56,27 +56,6 @@ class GroupChatCreationJob implements ShouldQueue
             ]);
 
             broadcast(new GroupChatCreatedEvent($this->event, $this->event->user, $responseData['channel']));
-
-            // $eventChatLink = route('channel_id', $responseData['channel']['id']);
-            // // Create the HTML message
-            // $body = limitString($this->event->title, 20);
-            // $user = $this->event->user;
-            // $message = "
-            //     <div class='notification'>
-            //         <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
-            //     </div>
-            // ";
-
-            // $user->notifications()->create([
-            //     'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
-            //     'data' => json_encode([
-            //         'message' => $message,
-            //         'event_id' => $this->event->id,
-            //         'channel_id' => $responseData['channel']['id'],
-            //         'user_id' => $user->id,
-            //         'user_name' => $user->full_name,
-            //     ]),
-            // ]);
         } else {
             Log::error('Group chat creation failed');
         }

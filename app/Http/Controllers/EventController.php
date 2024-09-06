@@ -120,7 +120,7 @@ class EventController extends Controller
                         $body = limitString($event->title, 20);
                         $message = "
                             <div class='notification'>
-                                <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
+                                new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
                             </div>
                         ";
 

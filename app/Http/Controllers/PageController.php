@@ -121,7 +121,7 @@ class PageController extends Controller
                     $body = limitString($page->name, 20);
                     $message = "
                         <div class='notification'>
-                            <strong>{$user->full_name}</strong> new group chat has been created <a href='{$pageChatLink}' target='_blank'>{$body}</a>
+                            New group chat has been created <a href='{$pageChatLink}' target='_blank'>{$body}</a>
                         </div>
                     ";
 

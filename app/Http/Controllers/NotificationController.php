@@ -12,13 +12,13 @@ class NotificationController extends Controller
         $user = Auth::user();
 
         // Fetch user's own notifications
-        $notifications = $user->notifications;
+        $allNotifications = $user->notifications()->paginate(getPaginated());
 
-        // Fetch notifications related to the user's posts
-        $postNotifications = $user->posts()->with('notifications')->get()->pluck('notifications')->flatten();
+        // // Fetch notifications related to the user's posts
+        // $postNotifications = $user->posts()->with('notifications')->get()->pluck('notifications')->flatten();
 
-        // Merge both collections
-        $allNotifications = $notifications->merge($postNotifications);
+        // // Merge both collections
+        // $allNotifications = $notifications->merge($postNotifications);
 
         return view('user.notification', get_defined_vars());
     }

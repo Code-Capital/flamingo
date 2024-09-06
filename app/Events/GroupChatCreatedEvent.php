@@ -66,7 +66,7 @@ class GroupChatCreatedEvent implements ShouldBroadcast
         $user = $this->event->user;
         $message = "
                 <div class='notification'>
-                    <strong>{$user->full_name}</strong> new group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
+                    New group chat has been created <a href='{$eventChatLink}' target='_blank'>{$body}</a>
                 </div>
             ";
 
