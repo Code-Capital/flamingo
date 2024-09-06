@@ -63,7 +63,7 @@ class EventCreatedEvent implements ShouldBroadcast
         $body = limitString($this->event->title, 20);
         $message = "
             <div class='notification'>
-                <strong>{$this->user->full_name}</strong> create a new event <a href='{$eventLink}' target='_blank'>{$body}</a>
+                Create a new event <a href='{$eventLink}' target='_blank'>{$body}</a>
             </div>
         ";
 

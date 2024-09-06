@@ -28,7 +28,7 @@ class PageCreationListener implements ShouldQueue
         $body = limitString($event->page->title, 20);
         $message = "
             <div class='notification'>
-                <strong>{$event->user->full_name}</strong> create a new event <a href='{$pageLink}' target='_blank'>{$body}</a>
+                <strong>{$event->user->full_name}</strong> Create a new Page <a href='{$pageLink}' target='_blank'>{$body}</a>
             </div>
         ";
 

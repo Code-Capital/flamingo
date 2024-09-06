@@ -514,7 +514,7 @@ class User extends Authenticatable
 
     public function scopeByNotUser($query, int $id)
     {
-        return $query->where('id', '<>', $id);
+        return $query->where('id', '!=', $id);
     }
 
     public function scopeByNotUsers($query, array $ids)

@@ -21,11 +21,12 @@ class SearchController extends Controller
 
         // Fetch users based on the filters if any of the filters are present
         $users = [];
-
-        $users = User::bySearch($searchTerm)
+        // dd(Auth::user()->id);
+        $users = User::where('id', '!=', Auth::user()->id)
+            // ->byNotUser(Auth::user()->id)
+            ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($location)
-            ->byNotUser(Auth::user()->id)
             ->paginate(getPaginated());
 
         // Fetch all interests

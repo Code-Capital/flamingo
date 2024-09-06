@@ -29,7 +29,7 @@ class EventCreatedListener implements ShouldQueue
         $body = limitString($event->event->title, 20);
         $message = "
             <div class='notification'>
-                <strong>{$event->user->full_name}</strong> create a new event <a href='{$eventLink}' target='_blank'>{$body}</a>
+                Create a new event <a href='{$eventLink}' target='_blank'>{$body}</a>
             </div>
         ";
 

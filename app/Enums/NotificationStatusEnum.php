@@ -49,4 +49,6 @@ enum NotificationStatusEnum: string
 
     case PAGECHATCREATED = 'page_chat_created';
     case PAGECHATUPDATED = 'page_chat_updated';
+
+    case MEDIAUPLOADED = 'media_uploaded';
 }

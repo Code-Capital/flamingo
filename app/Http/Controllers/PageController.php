@@ -372,10 +372,21 @@ class PageController extends Controller
 
                 $pageOwner = $page->owner;
 
+                $link = route('page.invite.received');
+
+                $body = limitString($page->name, 50);
+                $message = "<div class='notification'>
+                                <a href='{$link}' target='_blank'>
+                                    {$pageOwner->full_name} has invited you to join the page: {$body}.
+                                </a>
+                            </div>
+                        ";
+
+
                 $user->notifications()->create([
                     'type' => 'invitation',
                     'data' => json_encode([
-                        'message' => "{$pageOwner->full_name} has invited {$user->full_name} to join the page {$page->name}.",
+                        'message' => $message,
                         'user_id' => $user->id,
                         'page_id' => $page->id,
                         'page_owner_id' => $pageOwner->id,

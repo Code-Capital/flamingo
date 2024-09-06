@@ -42,27 +42,27 @@ class UserSeeder extends Seeder
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
         $simpleUser->interests()->attach($interests);
 
-        $users = User::inRandomOrder()->take(rand(1, 500))->get();
-        $simpleUser->friends()->attach($users, ['status' => 'accepted']);
+        // $users = User::inRandomOrder()->take(rand(1, 500))->get();
+        // $simpleUser->friends()->attach($users, ['status' => 'accepted']);
 
-        // Create 10 regular users and attach random interests
-        User::factory(25)->create()->each(function ($user) {
+        // // Create 10 regular users and attach random interests
+        // User::factory(25)->create()->each(function ($user) {
 
-            $user->assignRole('user');
+        //     $user->assignRole('user');
 
-            // Create 10 posts for each user
-            $user->posts()->createMany(Post::factory(5)->make()->toArray());
+        //     // Create 10 posts for each user
+        //     $user->posts()->createMany(Post::factory(5)->make()->toArray());
 
-            // Attach random interests
-            $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
-            $user->interests()->attach($interests);
+        //     // Attach random interests
+        //     $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
+        //     $user->interests()->attach($interests);
 
-            // create friends
-            $randomUsers = User::inRandomOrder()->take(rand(1, 5))->get();
-            foreach ($randomUsers as $randomUser) {
-                $user->friends()->attach($randomUser, ['status' => 'accepted']);
-                $randomUser->friends()->attach($user, ['status' => 'accepted']);
-            }
-        });
+        //     // create friends
+        //     $randomUsers = User::inRandomOrder()->take(rand(1, 5))->get();
+        //     foreach ($randomUsers as $randomUser) {
+        //         $user->friends()->attach($randomUser, ['status' => 'accepted']);
+        //         $randomUser->friends()->attach($user, ['status' => 'accepted']);
+        //     }
+        // });
     }
 }

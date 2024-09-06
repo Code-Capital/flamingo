@@ -113,7 +113,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -125,10 +125,18 @@ class PostController extends Controller
                 dispatch(new SendPostNotificationJob($post, $user));
             }
 
+            $link = route('post.edit', $post->uuid);
+
+            $body = limitString($post->body, 20);
+            $message = "<div class='notification'>
+                            New post has been created by {$user->full_name}: <a href='{$link}' target='_blank'> {$body}</a>
+                        </div>
+                    ";
+
             $user->notifications()->create([
                 'type' => NotificationStatusEnum::POSTCREATED->value,
                 'data' => json_encode([
-                    'message' => 'Post has been created',
+                    'message' => $message,
                     'user_id' => $user->id,
                     'post_id' => $post->id,
                     'post_body' => $post->body,

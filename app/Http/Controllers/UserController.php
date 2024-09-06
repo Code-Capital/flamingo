@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\NotificationStatusEnum;
 use App\Enums\StatusEnum;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -85,19 +87,29 @@ class UserController extends Controller
 
         $user = auth()->user();
         $mediaFiles = $request->file('media');
+        $media = [];
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
-            $user->media()->create([
+            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $media[] = $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),
             ]);
         }
 
+        $link = route('gallery');
+        $message = "<div class='notification'>
+                            <a href='{$link}' target='_blank'>
+                                Your media files have been uploaded successfully
+                            </a>
+                        </div>
+                    ";
+
         $user->notifications()->create([
-            'type' => 'post',
+            'type' => NotificationStatusEnum::MEDIAUPLOADED->value,
             'data' => json_encode([
-                'message' => 'Media uploaded',
+                'message' => $message,
+                'media_paths' => json_encode($media),
             ]),
         ]);
 
