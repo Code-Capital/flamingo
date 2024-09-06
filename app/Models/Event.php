@@ -125,6 +125,11 @@ class Event extends Model
         return $this->thumbnail ? Storage::url($this->thumbnail) : asset('assets/galleryImage.png');
     }
 
+    public function getTitleAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     // ======================================================================
     // Mutators
     // ======================================================================
@@ -242,10 +247,10 @@ class Event extends Model
     public function scopeBySearch(Builder $query, ?string $search = null)
     {
         return $query->when($search, function ($q) use ($search) {
-            $q->where('title', 'like', '%'.$search.'%')
-                ->orWhere('location_id', 'like', '%'.$search.'%')
-                ->orWhere('slug', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%');
+            $q->where('title', 'like', '%' . $search . '%')
+                ->orWhere('location_id', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
         });
     }
 
