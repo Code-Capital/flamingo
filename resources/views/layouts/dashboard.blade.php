@@ -169,7 +169,7 @@
 
 
             channel.bind('notification-created', function(data) {
-                console.log(data);
+                // console.log(data);
                 newNotificationSound();
                 // Display the notification as an HTML message
                 toastr.options = {
