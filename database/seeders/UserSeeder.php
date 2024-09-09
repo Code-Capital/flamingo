@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $adminUser = User::factory()->create([
-            'first_name' => 'admin',
+            'first_name' => 'Admin',
             'last_name' => 'user',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
 
         // Create an simple user
         $simpleUser = User::factory()->create([
-            'first_name' => 'muhammad',
+            'first_name' => 'M',
             'last_name' => 'arslan',
             'user_name' => 'user',
             'email' => 'user@gmail.com',
