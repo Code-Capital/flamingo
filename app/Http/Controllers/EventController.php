@@ -124,7 +124,7 @@ class EventController extends Controller
                             </div>
                         ";
 
-                        $event->user->notifications()->create([
+                        $user->notifications()->create([
                             'type' => NotificationStatusEnum::EVENTCHATCREATED->value,
                             'data' => json_encode([
                                 'message' => $message,
