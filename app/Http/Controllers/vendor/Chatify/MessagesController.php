@@ -281,24 +281,42 @@ class MessagesController extends Controller
         //     ->orderBy('messaged_at', 'desc')
         //     ->paginate($request->per_page ?? $this->perPage);
 
+        // $query = Channel::join('ch_messages', function ($join) {
+        //     $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
+        // })
+        //     ->join('ch_channel_user', function ($join) {
+        //         $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
+        //         // Ensure user is part of the channel (assuming a foreign key):
+        //         $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
+        //     })
+        //     ->select([
+        //         'ch_channels.*',
+        //         DB::raw('MAX(ch_messages.created_at) AS messaged_at'), // Get latest message for each channel
+        //     ])
+        //     ->groupBy('ch_channels.id')
+        //     ->orderBy('messaged_at', 'desc')
+        //     ->paginate($request->per_page ?? $this->perPage);
+        
+        
+        
         $query = Channel::join('ch_messages', function ($join) {
-            $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
-            // Handle private messages (optional, if applicable):
-            // ->orOn('ch_messages.user_id_1', '=', Auth::user()->id)
-            // ->orOn('ch_messages.user_id_2', '=', Auth::user()->id);
-        })
-            ->join('ch_channel_user', function ($join) {
-                $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
-                // Ensure user is part of the channel (assuming a foreign key):
-                $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
-            })
-            ->select([
-                'ch_channels.*',
-                DB::raw('MAX(ch_messages.created_at) AS messaged_at'), // Get latest message for each channel
-            ])
-            ->groupBy('ch_channels.id')
-            ->orderBy('messaged_at', 'desc')
-            ->paginate($request->per_page ?? $this->perPage);
+         $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
+             })
+             ->join('ch_channel_user', function ($join) {
+                 $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
+                 $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
+             })
+             ->select([
+                 'ch_channels.id',  // Select specific columns from ch_channels
+                 'ch_channels.name',
+                 'ch_channels.owner_id', // Add more columns as needed
+                 DB::raw('MAX(ch_messages.created_at) AS messaged_at') // Aggregate function
+             ])
+             ->groupBy('ch_channels.id', 'ch_channels.name', 'ch_channels.owner_id') // Group by all non-aggregate columns
+             ->orderBy('messaged_at', 'desc')
+             ->paginate($request->per_page ?? $this->perPage);
+
+
 
         // $query = Channel::join('ch_messages', function ($join) {
         //     $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
