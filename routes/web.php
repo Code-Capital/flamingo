@@ -42,13 +42,6 @@ Route::post('/contact', [FrontendController::class, 'sendContact'])->name('conta
 Route::view('/verification', [FrontendController::class, 'verification'])->name('verification');
 
 Route::middleware('auth')->group(function () {
-
-    Route::post('/broadcasting/auth', function (Request $request) {
-        return Auth::check()
-            ? response()->json(['auth' => 'Authenticated'])
-            : response()->json(['auth' => 'Not Authenticated'], 403);
-    });
-
     Route::middleware('role:user')->group(function () {
         Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('verified')->name('user.dashboard');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
