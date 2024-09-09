@@ -36,7 +36,7 @@ class PageCreationJob implements ShouldQueue
     {
         Log::info('PAGE CREATION JOB -> Stated: ');
         foreach ($this->user->acceptedFriends as $friend) {
-            Log::info('CREATING JOB EVENTS -> ' . $this->page->name);
+            Log::info('CREATING JOB EVENTS -> '.$this->page->name);
             broadcast(new PageCreationEvent($this->page, $friend));
         }
 

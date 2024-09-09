@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
-use App\Models\User;
+use App\Chatify\CustomChatify;
+use App\Enums\NotificationStatusEnum;
+use App\Enums\StatusEnum;
+use App\Jobs\PageCreationJob;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Jobs\PageCreationJob;
-use App\Chatify\CustomChatify;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use App\Enums\NotificationStatusEnum;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Page;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends Controller
 {
@@ -82,7 +81,7 @@ class PageController extends Controller
                 $user = Auth::user();
 
                 $thumbnailPath = $request->profile_image ? $request->file('profile_image')->store('pages', 'public') : null;
-                $coverImagePath =  $request->cover_image ? $request->file('cover_image')->store('pages', 'public') : null;
+                $coverImagePath = $request->cover_image ? $request->file('cover_image')->store('pages', 'public') : null;
 
                 $page = Page::create([
                     'user_id' => $user->id,
@@ -104,7 +103,7 @@ class PageController extends Controller
 
                 $response = $this->customChatify->createGroupChat(
                     request: $request,
-                    groupName: 'Page: ' . ucfirst($page->name),
+                    groupName: 'Page: '.ucfirst($page->name),
                 );
 
                 // Decode JSON into an associative array
@@ -139,7 +138,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page created successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to create page' . $th->getMessage());
+            return back()->with('error', 'Failed to create page'.$th->getMessage());
         }
     }
 
@@ -228,7 +227,7 @@ class PageController extends Controller
 
             return to_route('pages.index')->with('success', 'Page updated successfully');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Failed to update page' . $th->getMessage());
+            return back()->with('error', 'Failed to update page'.$th->getMessage());
         }
     }
 
@@ -286,7 +285,7 @@ class PageController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/page/' . $post->id . '/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/page/'.$post->id.'/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -338,17 +337,17 @@ class PageController extends Controller
                     <div class="eventCardInner p-3 friendRequest">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="' . $user->avatar_url . '" class="rounded-circle">
+                                <img src="'.$user->avatar_url.'" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">' . $user->full_name . '</span>
+                                    <span class="d-block">'.$user->full_name.'</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2 invite-send-' . $user->id . '">
-                                ' . (! $isAssociated ? '
-                                <a class="text-decoration-none send-invitation" data-page="' . $page->id . '" data-user="' . $user->id . '" href="javascript:void(0)">
-                                    <img src="' . $doneIcon . '">
+                            <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
+                                '.(! $isAssociated ? '
+                                <a class="text-decoration-none send-invitation" data-page="'.$page->id.'" data-user="'.$user->id.'" href="javascript:void(0)">
+                                    <img src="'.$doneIcon.'">
                                 </a>
-                                ' : '<span class="small text-muted"> Invite sent </span>') . '
+                                ' : '<span class="small text-muted"> Invite sent </span>').'
                             </div>
                         </div>
                     </div>
@@ -390,9 +389,8 @@ class PageController extends Controller
                             </div>
                         ";
 
-
                 $user->notifications()->create([
-                    'type' =>  NotificationStatusEnum::PAGEINVITED->value,
+                    'type' => NotificationStatusEnum::PAGEINVITED->value,
                     'data' => json_encode([
                         'message' => $message,
                         'user_id' => $user->id,
@@ -402,13 +400,13 @@ class PageController extends Controller
                 ]);
             });
 
-            return $this->sendSuccessResponse('Sending invitation to ' . $user->full_name);
+            return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
         } catch (AuthorizationException $e) {
             $message = 'Total limit reached. You cannot further send requests';
 
             return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while sending invitation' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while sending invitation'.$th->getMessage());
         }
     }
 
@@ -434,14 +432,14 @@ class PageController extends Controller
                         $message = $this->customChatify->newMessage([
                             'from_id' => $user->id,
                             'to_channel_id' => $page->channel_id,
-                            'body' => $user->user_name . ' has joined the group',
+                            'body' => $user->user_name.' has joined the group',
                             'attachment' => null,
                         ]);
                         $message->user_name = $user->user_name;
                         $message->user_email = $user->email;
 
                         $messageData = $this->customChatify->parseMessage($message, null);
-                        $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                        $this->customChatify->push('private-chatify.'.$page->channel_id, 'messaging', [
                             'from_id' => $user->id,
                             'to_channel_id' => $page->channel_id,
                             'message' => $this->customChatify->messageCard($messageData, true),
@@ -449,9 +447,10 @@ class PageController extends Controller
                     }
                 }
             });
+
             return $this->sendSuccessResponse($page, 'Invite accepted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while accepting this invite' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while accepting this invite'.$th->getMessage());
         }
     }
 
@@ -477,7 +476,7 @@ class PageController extends Controller
                     $message = $this->customChatify->newMessage([
                         'from_id' => $page->owner->id,
                         'to_channel_id' => $page->channel_id,
-                        'body' =>  $user->user_name . ' removed from this group',
+                        'body' => $user->user_name.' removed from this group',
                         'attachment' => null,
                     ]);
 
@@ -485,7 +484,7 @@ class PageController extends Controller
                     $message->user_email = $user->email;
 
                     $messageData = $this->customChatify->parseMessage($message, null);
-                    $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                    $this->customChatify->push('private-chatify.'.$page->channel_id, 'messaging', [
                         'from_id' => $page->owner->id,
                         'to_channel_id' => $page->channel_id,
                         'message' => $this->customChatify->messageCard($messageData, true),
@@ -495,7 +494,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse(null, 'Memeber deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while removing this memeber' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while removing this memeber'.$th->getMessage());
         }
     }
 
@@ -512,7 +511,7 @@ class PageController extends Controller
                     $message = $this->customChatify->newMessage([
                         'from_id' => $user->id,
                         'to_channel_id' => $page->channel_id,
-                        'body' =>  $user->user_name . ' leave this group',
+                        'body' => $user->user_name.' leave this group',
                         'attachment' => null,
                     ]);
 
@@ -520,7 +519,7 @@ class PageController extends Controller
                     $message->user_email = $user->email;
 
                     $messageData = $this->customChatify->parseMessage($message, null);
-                    $this->customChatify->push('private-chatify.' . $page->channel_id, 'messaging', [
+                    $this->customChatify->push('private-chatify.'.$page->channel_id, 'messaging', [
                         'from_id' => $user->id,
                         'to_channel_id' => $page->channel_id,
                         'message' => $this->customChatify->messageCard($messageData, true),
@@ -530,7 +529,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse($page, 'Page leaved successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while leaving this page' . $th->getMessage());
+            return $this->sendErrorResponse('Error occured while leaving this page'.$th->getMessage());
         }
     }
 }

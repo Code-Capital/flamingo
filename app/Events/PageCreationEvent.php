@@ -31,7 +31,7 @@ class PageCreationEvent implements shouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.' . $this->user->id),
+            new Channel('notification.'.$this->user->id),
         ];
     }
 
