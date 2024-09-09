@@ -36,7 +36,7 @@ class PostCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.'.$this->user->id),
+            new Channel('notification.' . $this->user->id),
         ];
     }
 
@@ -64,12 +64,12 @@ class PostCreatedEvent implements ShouldBroadcast
         $body = limitString($this->post->body, 20);
         $message = "
             <div class='notification'>
-                <strong>{$this->user->full_name}</strong> create a new post <a href='{$postLink}' target='_blank'>{$body}</a>
+                <strong>{$this->post?->user?->full_name}</strong> create a new post <a href='{$postLink}' target='_blank'>{$body}</a>
             </div>
         ";
 
         return [
-            'message' => $message, // The complete HTML message
+            'message' => $message,
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'full_name' => $this->user->full_name,
