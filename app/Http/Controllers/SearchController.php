@@ -28,7 +28,6 @@ class SearchController extends Controller
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($location)
-            ->byNotFriends($authUser->id)
             ->paginate(getPaginated());
 
         // Fetch all interests
