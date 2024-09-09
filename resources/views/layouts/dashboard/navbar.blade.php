@@ -69,7 +69,6 @@
         </div>
         @php
             $loginUser = $loginUser ?? Auth::user();
-            // @dd($loginUser);
         @endphp
         <div class="px-2 px-md-3 px-lg-5 bg-white pb-4">
 

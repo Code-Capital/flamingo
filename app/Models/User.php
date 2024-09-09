@@ -286,7 +286,7 @@ class User extends Authenticatable
             if (Storage::exists($this->avatar)) {
                 return Storage::url($this->avatar);
             } else {
-                return Storage::url('avatars/'.$this->avatar);
+                return Storage::url('avatars/' . $this->avatar);
             }
         } else {
             return asset('assets/profile.png');
@@ -479,10 +479,10 @@ class User extends Authenticatable
     public function scopeBySearch($query, ?string $search = null)
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 
@@ -520,5 +520,12 @@ class User extends Authenticatable
     public function scopeByNotUsers($query, array $ids)
     {
         return $query->whereIn('id', '!=', $ids);
+    }
+
+    public function scopeByNotFriends($query, int $id)
+    {
+        return $query->whereDoesntHave('friends', function ($q) use ($id) {
+            $q->where('friend_id', $id);
+        });
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Chatify Messenger')
+@section('title', config('chatify.name'))
 @section('styles')
 @endsection
 @section('content')
