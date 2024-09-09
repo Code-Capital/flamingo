@@ -34,9 +34,9 @@ class UserController extends Controller
     public function addFriend(Request $request, User $user): JsonResponse
     {
 
-        // $user->friends()->attach($request->user()->id, [
-        //     'status' => 'pending',
-        // ]);
+        $user->friends()->attach($request->user()->id, [
+            'status' => 'pending',
+        ]);
 
         broadcast(new FriendRequestSend($user, $request->user()));
 
