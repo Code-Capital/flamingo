@@ -39,8 +39,8 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $simpleUser->interests()->attach($interests);
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
 
         // Create an simple user
         $simpleUser = User::factory()->create([
@@ -53,8 +53,8 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $simpleUser->interests()->attach($interests);
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
 
         // Create an simple user
         $simpleUser = User::factory()->create([
@@ -67,8 +67,8 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $simpleUser->interests()->attach($interests);
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
 
         $simpleUser = User::factory()->create([
             'first_name' => 'user',
@@ -80,8 +80,8 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $simpleUser->interests()->attach($interests);
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
 
         // $users = User::inRandomOrder()->take(rand(1, 500))->get();
         // $simpleUser->friends()->attach($users, ['status' => 'accepted']);
