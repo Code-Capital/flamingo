@@ -28,6 +28,9 @@ class SearchController extends Controller
             ->bySearch($searchTerm)
             ->byInterests($selectedInterests)
             ->byLocation($location)
+            ->whereDoesntHave('friends', function ($query) use ($authUser) {
+                $query->where('user_id', $authUser->id);
+            })
             ->paginate(getPaginated());
 
         // Fetch all interests
