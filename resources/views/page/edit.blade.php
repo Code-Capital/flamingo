@@ -47,7 +47,7 @@
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="profile_image" type="file" allow="images/*">
+                                            <input class="w-100" name="profile_image" type="file" accept="images/*">
                                         </div>
                                     </div>
                                     @error('profile_image')
@@ -63,7 +63,7 @@
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="cover_image" type="file" allow="images/*">
+                                            <input class="w-100" name="cover_image" type="file" accept="images/*">
                                         </div>
                                     </div>
                                     @error('cover_image')
