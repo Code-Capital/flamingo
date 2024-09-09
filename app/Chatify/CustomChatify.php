@@ -161,7 +161,7 @@ class CustomChatify extends ChatifyMessenger
             $imageset = config('chatify.gravatar.imageset');
             $user->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
-            $user->avatar = self::getUserAvatarUrl($user->avatar);
+            $user->avatar = $user->avatar ? self::getUserAvatarUrl($user->avatar) : $user->avatar_url;
         }
 
         return $user;
