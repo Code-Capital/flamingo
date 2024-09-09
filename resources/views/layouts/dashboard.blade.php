@@ -176,7 +176,7 @@
                     closeButton: true,
                     positionClass: 'toast-top-right',
                     timeOut: 3000, // Duration before the toast disappears
-                    extendedTimeOut: 3000,
+                    extendedTimeOut: 4000,
                     tapToDismiss: false,
                     escapeHtml: false,
                     allowHtml: true,
