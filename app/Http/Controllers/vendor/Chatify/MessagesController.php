@@ -296,25 +296,26 @@ class MessagesController extends Controller
         //     ->groupBy('ch_channels.id')
         //     ->orderBy('messaged_at', 'desc')
         //     ->paginate($request->per_page ?? $this->perPage);
-        
-        
-        
+
+
+
         $query = Channel::join('ch_messages', function ($join) {
-         $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
-             })
-             ->join('ch_channel_user', function ($join) {
-                 $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
-                 $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
-             })
-             ->select([
-                 'ch_channels.id',  // Select specific columns from ch_channels
-                 'ch_channels.name',
-                 'ch_channels.owner_id', // Add more columns as needed
-                 DB::raw('MAX(ch_messages.created_at) AS messaged_at') // Aggregate function
-             ])
-             ->groupBy('ch_channels.id', 'ch_channels.name', 'ch_channels.owner_id') // Group by all non-aggregate columns
-             ->orderBy('messaged_at', 'desc')
-             ->paginate($request->per_page ?? $this->perPage);
+            $join->on('ch_messages.to_channel_id', '=', 'ch_channels.id');
+        })
+            ->join('ch_channel_user', function ($join) {
+                $join->on('ch_channel_user.channel_id', '=', 'ch_channels.id');
+                $join->where('ch_channel_user.user_id', '=', Auth::user()->id);
+            })
+            ->select([
+                'ch_channels.id',  // Select specific columns from ch_channels
+                'ch_channels.name',
+                'ch_channels.owner_id', // Add more columns as needed
+                'ch_channels.avatar', // Add more columns as needed
+                DB::raw('MAX(ch_messages.created_at) AS messaged_at') // Aggregate function
+            ])
+            ->groupBy('ch_channels.id', 'ch_channels.name', 'ch_channels.owner_id', 'ch_channels.avatar') // Group by all non-aggregate columns
+            ->orderBy('messaged_at', 'desc')
+            ->paginate($request->per_page ?? $this->perPage);
 
 
 
