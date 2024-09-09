@@ -109,7 +109,6 @@ class PageController extends Controller
 
                 // Decode JSON into an associative array
                 $responseData = $response->getData(true);
-
                 if ($responseData['status'] && $responseData['channel']) {
                     $page->update([
                         'channel_id' => $responseData['channel']['id'],
@@ -125,7 +124,7 @@ class PageController extends Controller
                         </div>
                     ";
 
-                    $page->user->notifications()->create([
+                    $user->notifications()->create([
                         'type' => NotificationStatusEnum::PAGECHATCREATED->value,
                         'data' => json_encode([
                             'message' => $message,

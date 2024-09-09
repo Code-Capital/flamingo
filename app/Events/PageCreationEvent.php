@@ -31,7 +31,7 @@ class PageCreationEvent implements shouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.'.$this->user->id),
+            new Channel('notification.' . $this->user->id),
         ];
     }
 
@@ -59,7 +59,7 @@ class PageCreationEvent implements shouldBroadcast
         $body = limitString($this->page->name, 20);
         $message = "
             <div class='notification'>
-                <strong>{$this->user->full_name}</strong> create a new page <a href='{$pageLink}' target='_blank'>{$body}</a>
+                <strong>{$this->page?->user?->full_name}</strong> create a new page <a href='{$pageLink}' target='_blank'>{$body}</a>
             </div>
         ";
 
