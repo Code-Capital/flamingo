@@ -141,8 +141,8 @@
             $(".chatSidebar").toggleClass("chatSidebarshow");
         });
     </script>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script> --}}
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <script>
         let message = '';

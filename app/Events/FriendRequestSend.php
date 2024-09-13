@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -23,7 +22,7 @@ class FriendRequestSend implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(User $receiver, $sender)
+    public function __construct($receiver, $sender)
     {
         $this->receiver = $receiver;
         $this->sender = $sender;
@@ -36,7 +35,6 @@ class FriendRequestSend implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        Log::info('FRIEND REQUEST EVENT CHANNEL NAME -> notification.' . $this->receiver->id);
         return [
             new Channel('notification.' . $this->receiver->id),
         ];
