@@ -88,7 +88,7 @@
                                     </label>
                                     <div class="form-control">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="thumbnail" type="file" allow="images/*">
+                                            <input class="w-100" name="thumbnail" type="file" accept="images/*">
                                         </div>
                                     </div>
                                     @error('thumbnail')

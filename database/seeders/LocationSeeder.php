@@ -12,6 +12,48 @@ class LocationSeeder extends Seeder
      */
     public function run(): void
     {
-        Location::factory()->count(10)->create();
+        // Location::factory()->count(10)->create();
+        Location::insert([
+            [
+                'name' => 'Lahore',
+                'slug' => 'lahore',
+            ],
+            [
+                'name' => 'Karachi',
+                'slug' => 'karachi',
+            ],
+            [
+                'name' => 'Islamabad',
+                'slug' => 'islamabad',
+            ],
+            [
+                'name' => 'Rawalpindi',
+                'slug' => 'rawalpindi',
+            ],
+            [
+                'name' => 'Faisalabad',
+                'slug' => 'faisalabad',
+            ],
+            [
+                'name' => 'Multan',
+                'slug' => 'multan',
+            ],
+            [
+                'name' => 'Peshawar',
+                'slug' => 'peshawar',
+            ],
+            [
+                'name' => 'Quetta',
+                'slug' => 'quetta',
+            ],
+            [
+                'name' => 'Gujranwala',
+                'slug' => 'gujranwala',
+            ],
+            [
+                'name' => 'Sialkot',
+                'slug' => 'sialkot',
+            ],
+        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Chatify\CustomChatify;
-use App\Enums\NotificationStatusEnum;
 use App\Events\GroupChatCreatedEvent;
 use App\Models\Event;
 use Illuminate\Bus\Queueable;

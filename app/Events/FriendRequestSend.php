@@ -4,13 +4,9 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class FriendRequestSend implements ShouldBroadcast
@@ -18,7 +14,9 @@ class FriendRequestSend implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $receiver;
+
     public $sender;
+
     /**
      * Create a new event instance.
      */
@@ -36,7 +34,7 @@ class FriendRequestSend implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.' . $this->receiver->id),
+            new Channel('notification.'.$this->receiver->id),
         ];
     }
 
@@ -49,7 +47,6 @@ class FriendRequestSend implements ShouldBroadcast
     {
         return 'notification-created';
     }
-
 
     /**
      * Get the data to broadcast with the event.

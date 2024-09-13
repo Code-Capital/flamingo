@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $adminUser = User::factory()->create([
-            'first_name' => 'admin',
+            'first_name' => 'Admin',
             'last_name' => 'user',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
@@ -28,19 +28,60 @@ class UserSeeder extends Seeder
         $adminUser->assignRole(['user', 'admin']);
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
 
-        // Create an admin user
+        // Create an simple user
         $simpleUser = User::factory()->create([
-            'first_name' => 'muhammad',
+            'first_name' => 'M',
             'last_name' => 'arslan',
-            'user_name' => 'tester',
+            'user_name' => 'user',
             'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
-        $simpleUser->interests()->attach($interests);
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
+
+        // Create an simple user
+        $simpleUser = User::factory()->create([
+            'first_name' => 'user',
+            'last_name' => '1',
+            'user_name' => 'user1',
+            'email' => 'user1@gmail.com',
+            'password' => Hash::make('password'),
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
+            'is_private' => false,
+        ]);
+        $simpleUser->assignRole('user');
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
+
+        // Create an simple user
+        $simpleUser = User::factory()->create([
+            'first_name' => 'user',
+            'last_name' => '2',
+            'user_name' => 'user2',
+            'email' => 'user2@gmail.com',
+            'password' => Hash::make('password'),
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
+            'is_private' => false,
+        ]);
+        $simpleUser->assignRole('user');
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
+
+        $simpleUser = User::factory()->create([
+            'first_name' => 'user',
+            'last_name' => '3',
+            'user_name' => 'user3',
+            'email' => 'user3@gmail.com',
+            'password' => Hash::make('password'),
+            'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
+            'is_private' => false,
+        ]);
+        $simpleUser->assignRole('user');
+        // $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        // $simpleUser->interests()->attach($interests);
 
         // $users = User::inRandomOrder()->take(rand(1, 500))->get();
         // $simpleUser->friends()->attach($users, ['status' => 'accepted']);

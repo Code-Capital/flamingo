@@ -96,10 +96,7 @@ class ProfileController extends Controller
         $friends = $user->acceptedFriends;
         $blockedUsers = $user->blockedFriends;
 
-        $peoples = $user->byInterests($user->interests->pluck('id')->toArray())
-            ->byNotUser($user->id)
-            ->limit(10)
-            ->get();
+        $peoples = getPeoples($user);
 
         $subscriptions = Subscription::where('user_id', $user->id)->get();
         $plans = Plan::all();

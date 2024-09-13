@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Enums\StatusEnum;
-use App\Models\Notification;
-use Illuminate\Http\Request;
-use App\Events\FriendRequestSend;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 use App\Enums\NotificationStatusEnum;
+use App\Enums\StatusEnum;
+use App\Events\FriendRequestSend;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -34,9 +33,9 @@ class UserController extends Controller
     public function addFriend(Request $request, User $user): JsonResponse
     {
 
-        // $user->friends()->attach($request->user()->id, [
-        //     'status' => 'pending',
-        // ]);
+        $user->friends()->attach($request->user()->id, [
+            'status' => 'pending',
+        ]);
 
         broadcast(new FriendRequestSend($user, $request->user()));
 
@@ -93,7 +92,7 @@ class UserController extends Controller
         $media = [];
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $media[] = $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

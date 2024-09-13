@@ -13,6 +13,9 @@
                                 <h3 class="marketHeading mb-0">My Shops</h3>
                                 @if ($remainingPagesCount > 0)
                                     <a class="btn btn-outline-primary px-4" href="{{ route('pages.create') }}">Create</a>
+                                @else
+                                    <a class="btn btn-outline-primary px-4" href="{{ route('pricing') }}">Please
+                                        subscribe</a>
                                 @endif
                             </div>
                         </div>

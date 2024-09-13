@@ -113,7 +113,7 @@ class PostController extends Controller
             if ($request->hasFile('media')) {
                 $mediaFiles = $request->file('media');
                 foreach ($mediaFiles as $mediaFile) {
-                    $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                    $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
                     $post->media()->create([
                         'file_path' => $mediaPath,
                         'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type

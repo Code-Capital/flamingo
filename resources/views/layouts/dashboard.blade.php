@@ -169,14 +169,14 @@
 
 
             channel.bind('notification-created', function(data) {
-                console.log(data);
+                // console.log(data);
                 newNotificationSound();
                 // Display the notification as an HTML message
                 toastr.options = {
                     closeButton: true,
                     positionClass: 'toast-top-right',
                     timeOut: 3000, // Duration before the toast disappears
-                    extendedTimeOut: 3000,
+                    extendedTimeOut: 4000,
                     tapToDismiss: false,
                     escapeHtml: false,
                     allowHtml: true,

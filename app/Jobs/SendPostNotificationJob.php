@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SendPostNotificationJob implements ShouldQueue
 {
@@ -33,7 +34,8 @@ class SendPostNotificationJob implements ShouldQueue
      */
     public function handle(): void
     {
-        foreach ($this->user->friends as $friend) {
+        foreach ($this->user->acceptedFriends as $index => $friend) {
+            Log::info('POST CREATION JOB FUNCTION'.$index);
             broadcast(new PostCreatedEvent($this->post, $friend));
         }
     }

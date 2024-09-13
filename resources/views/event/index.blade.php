@@ -13,6 +13,8 @@
                                 <a class="btn btn-primary px-4" href="javascript:void(0)">My Events</a>
                                 @if ($remianingEventCount > 0)
                                     <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
+                                @else
+                                    <a class="btn btn-outline-primary px-4" href="{{ route('pricing') }}">Please Subscribe</a>
                                 @endif
                             </div>
                         </div>

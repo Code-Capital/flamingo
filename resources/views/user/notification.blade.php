@@ -17,7 +17,9 @@
                                 <div class="d-flex align-items-start gap-3 ">
                                     <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
                                     @php
-                                        $dataArray = json_decode($notification->data, true);
+                                        $dataArray = !is_array($notification->data)
+                                            ? json_decode($notification->data, true)
+                                            : $notification->data;
                                     @endphp
                                     <p class="mb-0">{!! $dataArray['message'] ?? '' !!}</p>
                                 </div>

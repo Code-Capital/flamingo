@@ -521,4 +521,11 @@ class User extends Authenticatable
     {
         return $query->whereIn('id', '!=', $ids);
     }
+
+    public function scopeByNotFriends($query, int $id)
+    {
+        return $query->whereDoesntHave('friends', function ($q) use ($id) {
+            $q->where('friend_id', $id);
+        });
+    }
 }
