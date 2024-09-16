@@ -48,20 +48,6 @@
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group mb-3 position-relative">
-                                <label class="mb-1">{{ __('Interest') }} <span>(from 1 to 5)</span></label>
-                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div> --}}
-                                <select class="form-select" name="interests[]" multiple required>
-                                    @forelse($interests as $interest)
-                                        <option value="{{ $interest->id }}">{{ $interest->name }}</option>
-                                    @empty
-                                        <option value="">No interest found</option>
-                                    @endforelse
-                                </select>
-                                @error('interests')
-                                    <span class="text-danger mt-2">{{ $message }}</span>
-                                @enderror
-                            </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Email') }}</label>
                                 <input class="form-control form-control-lg" type="email" name="email"
@@ -87,6 +73,21 @@
                                 @enderror
 
                             </div>
+                            <div class="form-group mb-3 position-relative">
+                                <label class="mb-1 required">{{ __('Interest') }} <span>(from 1 to 5)</span></label>
+                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div> --}}
+                                <select class="form-select" name="interests[]" multiple required>
+                                    @forelse($interests as $interest)
+                                        <option value="{{ $interest->id }}">{{ $interest->name }}</option>
+                                    @empty
+                                        <option value="">No interest found</option>
+                                    @endforelse
+                                </select>
+                                @error('interests')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             <button type="submit" class="btn btn-primary w-100 mt-3">
                                 {{ __('Register') }}
                             </button>
