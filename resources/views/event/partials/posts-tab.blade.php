@@ -39,7 +39,7 @@
                     </form>
                 </div> --}}
 
-                @if ($isMember)
+                @if ($isOwnerOrMember)
                     <div class="innerCard p-3 bg-white">
                         <form action="{{ route('events.post.store', $event->id) }}" method="POST"
                             enctype="multipart/form-data" id="postForm">
@@ -106,50 +106,55 @@
                             @empty
                             @endforelse
                         </div>
-                        <div class="likes align-items-center justify-content-between pt-4">
-                            <div class="d-flex align-items-center gap-4 ">
-                                <form action="{{ route('post.like-or-unlike', $post->id) }}"
-                                    id="likeForm-{{ $post->id }}" class="ajax-like-form" method="post">
-                                    @csrf
-                                    <button class="btn" type="submit">
-                                        {{-- <img src="{{ asset('assets/like.svg') }}" alt="like"> --}}
-                                        <img src="{{ asset($post->likedByCurrentUser() ? 'assets/icon12.svg' : 'assets/like.svg') }}"
-                                            alt="like">
-                                        <span id="like_count_{{ $post->id }}">{{ $post->likes_count }}</span>
-                                    </button>
-                                </form>
+                        @if ($isOwnerOrMember)
+                            <div class="likes align-items-center justify-content-between pt-4">
+                                <div class="d-flex align-items-center gap-4 ">
+                                    <form action="{{ route('post.like-or-unlike', $post->id) }}"
+                                        id="likeForm-{{ $post->id }}" class="ajax-like-form" method="post">
+                                        @csrf
+                                        <button class="btn" type="submit">
+                                            {{-- <img src="{{ asset('assets/like.svg') }}" alt="like"> --}}
+                                            <img src="{{ asset($post->likedByCurrentUser() ? 'assets/icon12.svg' : 'assets/like.svg') }}"
+                                                alt="like">
+                                            <span id="like_count_{{ $post->id }}">{{ $post->likes_count }}</span>
+                                        </button>
+                                    </form>
 
-                                <div class="text d-flex align-items-center gap-3 show-comment-form"
-                                    data-id="{{ $post->id }}" role="button">
-                                    <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
-                                    <span id="comment_count_{{ $post->id }}">{{ $post->comments_count }}</span>
+                                    <div class="text d-flex align-items-center gap-3 show-comment-form"
+                                        data-id="{{ $post->id }}" role="button">
+                                        <img src="{{ asset('assets/icon13.svg') }} " alt="comment">
+                                        <span
+                                            id="comment_count_{{ $post->id }}">{{ $post->comments_count }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="comments">
-                        @if ($post->comments_count > 0)
-                            <h5 class="py-3">Comments:</h5>
                         @endif
-                        <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
-                            <form id="commentForm-{{ $post->id }}"
-                                action="{{ route('comment.store', $post->id) }}" method="POST"
-                                class="d-flex align-items-center gap-3 ajax-comment-form">
-                                @csrf
-                                <textarea class="form-control me-2" name="body" placeholder="please write comment"></textarea>
-                                <button class="btn" type="submit">
-                                    <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid" />
-                                </button>
-                            </form>
-                        </div>
-                        <div class="comment-container-{{ $post->id }}">
-                            @if ($post->comments_count > 0)
-                                @include('user.partials.comments', [
-                                    'comments' => $post->comments,
-                                ])
-                            @endif
-                        </div>
                     </div>
+                    @if ($isOwnerOrMember)
+                        <div class="comments">
+                            @if ($post->comments_count > 0)
+                                <h5 class="py-3">Comments:</h5>
+                            @endif
+                            <div class="comment-input-{{ $post->id }} bg-light p-2 mt-2 d-none">
+                                <form id="commentForm-{{ $post->id }}"
+                                    action="{{ route('comment.store', $post->id) }}" method="POST"
+                                    class="d-flex align-items-center gap-3 ajax-comment-form">
+                                    @csrf
+                                    <textarea class="form-control me-2" name="body" placeholder="please write comment"></textarea>
+                                    <button class="btn" type="submit">
+                                        <img src="{{ asset('assets/send.svg') }}" alt="Send" class="img-fluid" />
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="comment-container-{{ $post->id }}">
+                                @if ($post->comments_count > 0)
+                                    @include('user.partials.comments', [
+                                        'comments' => $post->comments,
+                                    ])
+                                @endif
+                            </div>
+                        </div>
+                    @endif
                 @empty
                     <div class="bg-white p-4 dashboardCard mt-4">
                         <div class="d-flex align-items-center flex-column justify-content-center noResult">

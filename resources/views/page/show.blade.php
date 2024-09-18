@@ -105,13 +105,12 @@
                     error: function(xhr) {
                         // Get error message from response or use a fallback message
                         const errorMessage = xhr.responseJSON?.message ||
-                        'Something went wrong';
+                            'Something went wrong';
                         toastr.error(errorMessage);
                         errorNotificationSound();
                     }
                 });
             });
-
 
             body.on('click', '.remove-member', function(e) {
                 e.preventDefault();
@@ -149,6 +148,62 @@
 
         });
     </script>
+    <script>
+        Dropzone.autoDiscover = false;
+        // Dropzone has been added as a global variable.
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var dropzone = new Dropzone("#upload-files", {
+            url: "{{ route('files.upload') }}",
+            paramName: "media",
+            maxFiles: 5,
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            parallelUploads: 10,
+            uploadMultiple: true,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf,.doc,.docx,.heic', // Include HEIC format
+            dictDefaultMessage: "Drag and drop files here or click to upload",
+        });
 
+        $('#postForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            loadingStart();
+            let formData = new FormData(this);
 
+            // Append Dropzone files
+            dropzone.getAcceptedFiles().forEach(file => {
+                formData.append('media[]', file);
+            });
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    loadingStop();
+                    if (response.success) {
+                        newNotificationSound();
+                        toastr.success(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        errorNotificationSound();
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    loadingStop();
+                    errorNotificationSound();
+                    let errorMessage = xhr.responseJSON.message;
+                    toastr.error(errorMessage);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\DateFormattingTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -133,18 +134,18 @@ class Page extends Model
     // ======================================================================
     // Scopes
     // ======================================================================
-    public function scopeBySearch($query, $search = null)
+    public function scopeBySearch(Builder $query, $search = null): Builder
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('name', 'like', "%$search%")
+            return $query->where('name', 'like', "%$search%")
                 ->orWhere('description', 'like', "%$search%");
         });
     }
 
-    public function scopeByInterests($query, array $interests = [])
+    public function scopeByInterests(Builder $query, array $interests = []): Builder
     {
         return $query->when($interests, function ($q) use ($interests) {
-            $q->whereHas('interests', function ($q) use ($interests) {
+            return $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
             });
         });
@@ -152,7 +153,7 @@ class Page extends Model
 
     public function scopeByLocation($query, $locationId)
     {
-        return $query->when($locationId, fn ($q) => $q->where('location_id', $locationId));
+        return $query->when($locationId, fn($q) => $q->where('location_id', $locationId));
     }
 
     public function scopeByUser($query, $userId)

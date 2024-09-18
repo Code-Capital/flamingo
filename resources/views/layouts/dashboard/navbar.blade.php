@@ -74,13 +74,35 @@
 
             <div class="d-flex align-items-center justify-content-between gap-4 pb-3">
                 <div class="profile position-relative">
-                    <img class="position-absolute" src="{{ $loginUser->avatar_url }}" alt="profile image">
+                    @php
+                        $avatar = $loginUser->avatar_url;
+                        if (Request::routeIs('events.show') || Request::routeIs('joined.events.show')) {
+                            $avatar = $event->thumbnail_url;
+                        } elseif (Request::routeIs('pages.show') || Request::routeIs('join.page.show')) {
+                            $avatar = $page->profile_image_url;
+                        }
+                    @endphp
+                    <img class="position-absolute" src="{{ $avatar }}" alt="profile image">
                 </div>
                 <div class="d-flex justify-content-between align-items-center flex-grow-1 pt-4">
                     <div class="name">
                         <span class="d-block">{{ $loginUser->user_name }}</span>
                         <span> {{ $loginUser->desingation }}</span>
-                        {{-- <span class="d-block"> <a href="javascript:void(0)" class="text-danger fw-bold"> Report Profile</a></span> --}}
+                        @if (Request::routeIs('events.show') || Request::routeIs('joined.events.show'))
+                            <span class="d-block">
+                                <a href="javascript:void(0)" class="text-danger fw-bold text-decoration-none">Event:
+                                    {{ $event->title }}
+                                </a>
+                            </span>
+                        @endif
+
+                        @if (Request::routeIs('pages.show') || Request::routeIs('join.page.show'))
+                            <span class="d-block">
+                                <a href="javascript:void(0)" class="text-danger fw-bold text-decoration-none">Page:
+                                    {{ $page->name }}
+                                </a>
+                            </span>
+                        @endif
                     </div>
                     <div class="d-flex gap-3 align-items-center">
                         <div class="notifications position-relative">

@@ -35,7 +35,7 @@
                                     name="q" value="{{ request()->q }}">
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <select class="form-control locations w-100" name="location">
+                                <select class="form-control locations w-100" name="location_id">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"

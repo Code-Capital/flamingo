@@ -15,7 +15,7 @@ class PageSeeder extends Seeder
      */
     public function run(): void
     {
-        Page::factory()->count(10)->create()->each(function ($page) {
+        Page::factory()->count(1000)->create()->each(function ($page) {
             $users = User::role('user')->inRandomOrder()->take(rand(1, 3))->get();
             foreach ($users as $user) {
                 $page->users()->attach($user->id, [
@@ -34,7 +34,7 @@ class PageSeeder extends Seeder
             $page->posts()->create([
                 'uuid' => Str::uuid(),
                 'user_id' => $page->user_id,
-                'body' => 'Welcome to '.$page->name.' page',
+                'body' => 'Welcome to ' . $page->name . ' page',
             ]);
         });
     }

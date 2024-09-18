@@ -155,7 +155,10 @@ class EventController extends Controller
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
             ->latest()->paginate(getPaginated());
-        $isMember = $event->acceptedMembers()->where('user_id', $user->id)->exists();
+        $isOwnerOrMember = false;
+        if ($event->user_id === $user->id  || $event->acceptedMembers()->where('user_id', $user->id)->exists()) {
+            $isOwnerOrMember = true;
+        }
         $media = $event->posts()->with('media')->get()->pluck('media')->flatten();
         $peoples = getPeoples($user);
 
