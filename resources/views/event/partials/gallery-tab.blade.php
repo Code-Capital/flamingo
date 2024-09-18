@@ -6,7 +6,7 @@
                 @forelse ($media as $post)
                     <div class="galleryCard text-center d-flex flex-column mb-3">
                         <img src="{{ $post->file_path }}">
-                        <span class="pt-1">Shine</span>
+                        {{-- <span class="pt-1">{{ $post->filepa }}</span> --}}
                     </div>
                 @empty
                     <x-no-data-found />
