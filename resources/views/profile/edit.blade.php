@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'Profile')
 @section('styles')
-    <style>
+    {{-- <style>
         .select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
             width: 100% !important;
             min-height: 44px !important;
@@ -10,7 +10,7 @@
             line-height: 25px !important;
             font-size: 16px !important;
         }
-    </style>
+    </style> --}}
 @endsection
 @section('content')
     <div class="px-0 px-md-2 px-lg-3 ">
