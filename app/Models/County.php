@@ -17,7 +17,9 @@ class County extends Model
      * @var array
      */
     protected $fillable = [
-       //
+        'name',
+        'code',
+        'country_id',
     ];
 
     /**
@@ -33,6 +35,10 @@ class County extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 
 
     // ======================================================================

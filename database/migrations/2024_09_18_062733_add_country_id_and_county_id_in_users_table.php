@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->after('remember_token', function ($table) {
-                $table->enum('gender', ['male', 'female', 'other'])->default('male')->nullable();
-                $table->string('age')->nullable();
-                $table->text('bio')->nullable();
+            $table->after('age', function($table){
+                $table->foreignId('country_id')->nullable()->constrained()->cascadeOnDelete();
+                $table->foreignId('county_id')->nullable()->constrained()->cascadeOnDelete();
+                $table->foreignId('state_id')->nullable()->constrained()->cascadeOnDelete();
             });
         });
     }
@@ -26,7 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['gender', 'age', 'bio']);
+            $table->dropConstrainedForeignId('country_id');
+            $table->dropConstrainedForeignId('county_id');
+            $table->dropConstrainedForeignId('state_id');
         });
     }
 };

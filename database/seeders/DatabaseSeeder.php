@@ -16,11 +16,13 @@ class DatabaseSeeder extends Seeder
             InterestSeeder::class,
             RoleSeeder::class,
             CountrySeeder::class,
+            CountySeeder::class,
             StateSeeder::class,
             PermissionSeeder::class,
             SettingSeeder::class,
             LocationSeeder::class,
             UserSeeder::class,
+
             // EventSeeder::class,
             // AnnouncementSeeder::class,
             // PostSeeder::class,

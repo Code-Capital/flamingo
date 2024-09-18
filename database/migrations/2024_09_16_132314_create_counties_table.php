@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('counties', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
+            $table->string('name');
+            $table->foreignId('country_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

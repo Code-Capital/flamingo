@@ -49,6 +49,14 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
+                                <label class="mb-1"> {{ __('Age') }} </label>
+                                <input class="form-control form-control-lg" name="age" type="number" placeholder="Doe"
+                                    value="{{ old('age') }}" required>
+                                @error('age')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Email') }}</label>
                                 <input class="form-control form-control-lg" type="email" name="email"
                                     value="{{ old('email') }}" placeholder="i.e. john@mail.com" required>
@@ -57,7 +65,30 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">Password</label>
+                                <label class="mb-1">{{ __('Profile type') }}</label>
+                                <select name="is_private" id="is_private" class="form-control form-select">
+                                    <option value="">{{ __('Please select profile type') }}</option>
+                                    <option value="0">{{ __('Public') }}</option>
+                                    <option value="1">{{ __('Private') }}</option>
+                                </select>
+                                @error('email')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="mb-1">{{ __('Gender') }}</label>
+                                <select name="gender" id="gender" class="form-control form-select">
+                                    <option value="">{{ __('Please select gender') }}</option>
+                                    <option value="male">{{ __('Male') }}</option>
+                                    <option value="female">{{ __('Female') }}</option>
+                                    <option value="other">{{ __('Other') }}</option>
+                                </select>
+                                @error('email')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="mb-1">{{ __('Password') }}</label>
                                 <input class="form-control form-control-lg" name="password" type="password"
                                     placeholder="**********" required>
                                 @error('password')
@@ -65,18 +96,17 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">Password Confirmation</label>
+                                <label class="mb-1">{{ __('Password Confirmation') }}</label>
                                 <input class="form-control form-control-lg" name="password_confirmation" type="password"
                                     placeholder="**********" required>
                                 @error('password_confirmation')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
-
                             </div>
+
                             <div class="form-group mb-3 position-relative">
                                 <label class="mb-1 required">{{ __('Interest') }} <span>(from 1 to 5)</span></label>
-                                {{--                            <div class="position-absolute arrow"><img src="assets/icon18.svg"></div> --}}
-                                <select class="form-select" name="interests[]" multiple required>
+                                <select class="form-select" name="interests[]" id="interests" multiple required>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}">{{ $interest->name }}</option>
                                     @empty
@@ -84,6 +114,36 @@
                                     @endforelse
                                 </select>
                                 @error('interests')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3 position-relative">
+                                <label class="mb-1 required">{{ __('Country') }}</label>
+                                <select class="form-select form-control" name="country_id" required>
+                                    <option value="">{{ __('Please select country') }} </option>
+                                    @forelse($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @empty
+                                        <option value="">{{ __('No country found') }}</option>
+                                    @endforelse
+                                </select>
+                                @error('country_id')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3 position-relative">
+                                <label class="mb-1 required">{{ __('County') }}</label>
+                                <select class="form-select form-control" name="county_id" required>
+                                    <option value="">{{ __('Please select county') }} </option>
+                                    @forelse($counties as $county)
+                                        <option value="{{ $county->id }}">{{ $county->name }}</option>
+                                    @empty
+                                        <option value="">{{ __('No county found') }}</option>
+                                    @endforelse
+                                </select>
+                                @error('county_id')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -105,7 +165,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $(".form-select").select2({
+            $("#interests").select2({
                 placeholder: "Select an interest",
                 allowClear: false
             });

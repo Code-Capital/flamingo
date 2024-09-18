@@ -44,8 +44,9 @@ class User extends Authenticatable
         'remember_token',
         'gender',
         'age',
-        'country',
-        'state',
+        'country_id',
+        'county_id',
+        'state_id',
         'bio',
         'about',
         'active_status',
@@ -255,6 +256,21 @@ class User extends Authenticatable
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function county(): BelongsTo
+    {
+        return $this->belongsTo(County::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
     }
 
     // ======================================================================
