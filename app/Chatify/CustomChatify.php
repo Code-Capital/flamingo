@@ -159,9 +159,9 @@ class CustomChatify extends ChatifyMessenger
         if ($user->avatar == config('chatify.user_avatar.default') && config('chatify.gravatar.enabled')) {
             $imageSize = config('chatify.gravatar.image_size');
             $imageset = config('chatify.gravatar.imageset');
-            $user->avatar = 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($user->email))).'?s='.$imageSize.'&d='.$imageset;
+            $user->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
-            $user->avatar = self::getUserAvatarUrl($user->avatar);
+            $user->avatar = $user->avatar ? self::getUserAvatarUrl($user->avatar) : null;
         }
 
         return $user;
@@ -178,7 +178,7 @@ class CustomChatify extends ChatifyMessenger
         if ($channel->avatar == config('chatify.user_avatar.default') && config('chatify.gravatar.enabled')) {
             $imageSize = config('chatify.gravatar.image_size');
             $imageset = config('chatify.gravatar.imageset');
-            $channel->avatar = 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($channel->name))).'?s='.$imageSize.'&d='.$imageset;
+            $channel->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($channel->name))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
             $channel->avatar = self::getChannelAvatarUrl($channel->avatar);
         }
@@ -194,7 +194,7 @@ class CustomChatify extends ChatifyMessenger
      */
     public function getUserAvatarUrl($user_avatar_name)
     {
-        return Storage::url(config('chatify.user_avatar.folder').'/'.$user_avatar_name);
+        return Storage::url(config('chatify.user_avatar.folder') . '/' . $user_avatar_name);
     }
 
     /**
@@ -205,7 +205,7 @@ class CustomChatify extends ChatifyMessenger
      */
     public function getAttachmentUrl($attachment_name)
     {
-        return Storage::url(config('chatify.attachments.folder').'/'.$attachment_name);
+        return Storage::url(config('chatify.attachments.folder') . '/' . $attachment_name);
     }
 
     /**
@@ -246,7 +246,7 @@ class CustomChatify extends ChatifyMessenger
             foreach ($this->fetchMessagesQuery($channel_id)->get() as $msg) {
                 // delete file attached if exist
                 if (isset($msg->attachment)) {
-                    $path = config('chatify.attachments.folder').'/'.json_decode($msg->attachment)->new_name;
+                    $path = config('chatify.attachments.folder') . '/' . json_decode($msg->attachment)->new_name;
                     if (self::storage()->exists($path)) {
                         self::storage()->delete($path);
                     }
@@ -362,14 +362,14 @@ class CustomChatify extends ChatifyMessenger
         $message = $this->newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => $user->full_name.' has created a new chat group: '.$group_name,
+            'body' => $user->full_name . ' has created a new chat group: ' . $group_name,
             'attachment' => null,
         ]);
         $message->user_name = $user->full_name;
         $message->user_email = $user->email;
 
         $messageData = $this->parseMessage($message, null);
-        $this->push('private-chatify.'.$new_channel->id, 'messaging', [
+        $this->push('private-chatify.' . $new_channel->id, 'messaging', [
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
             'message' => $this->messageCard($messageData, true),
@@ -384,7 +384,7 @@ class CustomChatify extends ChatifyMessenger
             // check file size
             if ($file->getSize() < $this->getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
-                    $avatar = Str::uuid().'.'.$file->extension();
+                    $avatar = Str::uuid() . '.' . $file->extension();
                     $update = $new_channel->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.channel_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;
@@ -409,5 +409,68 @@ class CustomChatify extends ChatifyMessenger
             'message' => $error ? $msg : 0,
             'channel' => $new_channel,
         ], 200);
+    }
+
+    public function messageCard($data, $renderDefaultCard = false)
+    {
+        if (! $data) {
+            return '';
+        }
+        if ($renderDefaultCard) {
+            $data['isSender'] = false;
+        }
+
+        return view('Chatify::layouts.messageCard', $data)->render();
+    }
+
+    public function parseMessage($prefetchedMessage = null, $id = null, $loadUserInfo = true)
+    {
+        $msg = null;
+        $attachment = null;
+        $attachment_type = null;
+        $attachment_title = null;
+
+        if ((bool) $prefetchedMessage) {
+            $msg = $prefetchedMessage;
+        } else {
+            $msg = Message::where('id', $id)
+                ->join('users', 'ch_messages.from_id', 'users.id')
+                // load user info
+                ->select('ch_messages.*', 'users.name as user_name', 'users.email as user_email', 'users.avatar as user_avatar')
+                ->first();
+            if (! $msg) {
+                return [];
+            }
+        }
+
+        if (isset($msg->attachment)) {
+            $attachmentOBJ = json_decode($msg->attachment);
+            $attachment = $attachmentOBJ->new_name;
+            $attachment_title = htmlentities(trim($attachmentOBJ->old_name), ENT_QUOTES, 'UTF-8');
+            $ext = pathinfo($attachment, PATHINFO_EXTENSION);
+            $attachment_type = in_array($ext, $this->getAllowedImages()) ? 'image' : 'file';
+        }
+
+        return [
+            'id' => $msg->id,
+            'from_id' => $msg->from_id,
+            'to_channel_id' => $msg->to_channel_id,
+            'message' => $msg->body,
+            'attachment' => (object) [
+                'file' => $attachment,
+                'title' => $attachment_title,
+                'type' => $attachment_type,
+            ],
+            'timeAgo' => $msg->created_at->diffForHumans(),
+            'created_at' => $msg->created_at->toIso8601String(),
+            'isSender' => ($msg->from_id == Auth::user()->id),
+            'seen' => $msg->seen,
+            'user' => $this->getUserWithAvatar((object) [
+                'avatar' => $msg->user_avatar,
+                'name' => $msg->user_name,
+                'email' => $msg->user_email,
+            ]),
+            'loadUserInfo' => $loadUserInfo,
+        ];
     }
 }

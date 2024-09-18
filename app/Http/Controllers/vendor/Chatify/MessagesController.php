@@ -240,8 +240,8 @@ class MessagesController extends Controller
         $allMessages = null;
         $prevMess = null;
         foreach ($messages->reverse() as $message) {
-            $allMessages .= Chatify::messageCard(
-                Chatify::parseMessage($message, null, $prevMess ? $prevMess->from_id != $message->from_id : true)
+            $allMessages .= $this->customChatify->messageCard(
+                $this->customChatify->parseMessage($message, null, $prevMess ? $prevMess->from_id != $message->from_id : true)
             );
             $prevMess = $message;
         }
@@ -464,6 +464,7 @@ class MessagesController extends Controller
             ->orWhere('user_name', 'LIKE', "%{$input}%")
             ->orWhere('last_name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
+
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
                 'get' => 'search_item',

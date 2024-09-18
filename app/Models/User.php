@@ -311,7 +311,7 @@ class User extends Authenticatable
                 return Storage::url('avatars/'.$this->avatar);
             }
         } else {
-            return asset('assets/profile.png');
+            return asset('assets/avatar.jpg');
         }
     }
 
