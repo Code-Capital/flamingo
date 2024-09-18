@@ -104,6 +104,14 @@ class ProfileController extends Controller
         return view('profile.info', get_defined_vars());
     }
 
+    public function pendingRequests(): View
+    {
+        $user = Auth::user();
+        $requests = $user->receivedRequests;
+
+        return view('user.pending-requests', get_defined_vars());
+    }
+
     /**
      * Update the user's password.
      */

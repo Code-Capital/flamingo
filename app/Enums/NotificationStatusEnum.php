@@ -56,4 +56,5 @@ enum NotificationStatusEnum: string
     case PAGEPOSTCREATED = 'page_post_created';
 
     case FRIENDREQUESTSENT = 'friend_request_sent';
+    case FRIENDREQUESTACCEPTED = 'friend_request_accepted';
 }

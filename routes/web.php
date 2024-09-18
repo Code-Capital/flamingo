@@ -30,7 +30,7 @@ use App\Http\Controllers\UserController;
 use Chatify\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::post('page/{page}/report', [ReportController::class, 'pageReport'])->name('page.report');
 
         Route::get('search/users', [SearchController::class, 'index'])->name('search.users');
+        Route::get('pending/friend/requests', [ProfileController::class, 'pendingRequests'])->name('pending.friend.requests');
         Route::get('add/friend/{user}', [UserController::class, 'addFriend'])->name('add-friend');
         Route::get('my/friends', [EventController::class, 'friends'])->name('user.friends');
         Route::put('/friend/{user}/status', [UserController::class, 'statusUpdate'])->name('friend.request.status');

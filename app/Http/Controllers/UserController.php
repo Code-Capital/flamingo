@@ -60,6 +60,16 @@ class UserController extends Controller
             $user->friends()->attach($authUser->id, [
                 'status' => $request->status,
             ]);
+
+            $authUser->notifications()->create([
+                'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
+                'data' => json_encode([
+                    'message' => 'Friend request accepted successfully',
+                    'user_id' => $user->authUser,
+                    'user_name' => $authUser->full_name,
+                ]),
+            ]);
+
         }
 
         if ($request->status == StatusEnum::BLOCKED->value) {
@@ -92,7 +102,7 @@ class UserController extends Controller
         $media = [];
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
+            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
             $media[] = $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

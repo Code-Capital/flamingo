@@ -69,6 +69,7 @@
                                                 <a class="text-decoration-none text-muted " href="javascript:void(0)">
                                                     Request sent
                                                 </a>
+                                            </h6>
                                         @endif
                                     </div>
                                 </div>
