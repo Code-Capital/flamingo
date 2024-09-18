@@ -67,7 +67,7 @@ class PageCreationEvent implements shouldBroadcast
             'message' => $message, // The complete HTML message
             'page_id' => $this->page->id,
             'user_id' => $this->user->id,
-            'full_name' => $this->user->full_name,
+            'full_name' => $this->user->user_name,
             'link' => $pageLink,
         ];
     }

@@ -75,7 +75,7 @@ class GroupChatCreatedEvent implements ShouldBroadcast
             'event_id' => $this->event->id,
             'channel_id' => $this->channel->id,
             'user_id' => $this->user->id,
-            'full_name' => $this->user->full_name,
+            'full_name' => $this->user->user_name,
             'link' => $eventChatLink,
         ];
     }

@@ -40,7 +40,7 @@ class EventCreatedListener implements ShouldQueue
                 'event_id' => $event->event->id,
                 'event' => $event->event,
                 'user_id' => $event->user->id,
-                'user_name' => $event->user->full_name,
+                'user_name' => $event->user->user_name,
             ]),
         ]);
     }

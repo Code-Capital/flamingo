@@ -14,7 +14,7 @@
                                     @endif
                                 </div>
                                 <div class="details">
-                                    <span class="d-block">{{ $user->full_name }}</span>
+                                    <span class="d-block">{{ $user->user_name }}</span>
                                     <span class="d-block">{{ $user->designation }}</span>
                                 </div>
                             </div>

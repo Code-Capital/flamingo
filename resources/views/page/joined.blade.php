@@ -79,7 +79,7 @@
                                                     <div class="text mb-2">Other Owners</div>
                                                     <div class="tags d-flex gap-3 align-items-center flex-wrap">
                                                         @forelse ($page->users as $user)
-                                                            <span class="px-2 py-1">{{ $user->full_name }}</span>
+                                                            <span class="px-2 py-1">{{ $user->user_name }}</span>
                                                         @empty
                                                             <span class="px-2 py-1">No other owners</span>
                                                         @endforelse

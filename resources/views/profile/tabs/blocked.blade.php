@@ -14,7 +14,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <img src="{{ $blockUser->avatar_url }}" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">{{ $blockUser->full_name }}</span>
+                                    <span class="d-block">{{ $blockuser->user_name }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2">

@@ -131,7 +131,7 @@ class EventController extends Controller
                                 'event_id' => $event->id,
                                 'channel_id' => $responseData['channel']['id'],
                                 'user_id' => $user->id,
-                                'user_name' => $user->full_name,
+                                'user_name' => $user->user_name,
                             ]),
                         ]);
                     }
@@ -300,7 +300,7 @@ class EventController extends Controller
             $message = $this->customChatify->newMessage([
                 'from_id' => $event->user->id,
                 'to_channel_id' => $event->channel_id,
-                'body' => 'user '.$user->full_name.' has been removed from the group',
+                'body' => 'user '.$user->user_name.' has been removed from the group',
                 'attachment' => null,
             ]);
 

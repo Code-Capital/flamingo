@@ -71,7 +71,7 @@ class EventCreatedEvent implements ShouldBroadcast
             'message' => $message, // The complete HTML message
             'event_id' => $this->event->id,
             'user_id' => $this->user->id,
-            'full_name' => $this->user->full_name,
+            'full_name' => $this->user->user_name,
             'link' => $eventLink,
         ];
     }

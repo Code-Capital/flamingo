@@ -51,7 +51,7 @@
                                                 @if ($post->user_id == $currentUser->id)
                                                     You
                                                 @else
-                                                    {{ $post->user->full_name }}
+                                                    {{ $post->user->user_name }}
                                                 @endif
                                             </a>
                                         </span>

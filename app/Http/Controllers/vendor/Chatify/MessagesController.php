@@ -562,11 +562,11 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $channel_id,
-            'body' => $user->full_name . ' has left the group',
+            'body' => $user->user_name . ' has left the group',
             'attachment' => null,
         ]);
         $message->user_avatar = $user->avatar;
-        $message->user_name = $user->full_name;
+        $message->user_name = $user->user_name;
         $message->user_email = $user->email;
 
         $messageData = Chatify::parseMessage($message, null);
@@ -734,10 +734,10 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => $user->full_name . ' has created a new chat group: ' . $group_name,
+            'body' => $user->user_name . ' has created a new chat group: ' . $group_name,
             'attachment' => null,
         ]);
-        $message->user_name = $user->full_name;
+        $message->user_name = $user->user_name;
         $message->user_email = $user->email;
 
         $messageData = Chatify::parseMessage($message, null);

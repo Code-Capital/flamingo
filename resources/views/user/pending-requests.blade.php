@@ -23,7 +23,7 @@
                                             <div class="d-flex align-items-center gap-3">
                                                 <img src="{{ $user->avatar_url }}" class="rounded-circle">
                                                 <div>
-                                                    <span class="d-block">{{ $user->full_name }}</span>
+                                                    <span class="d-block">{{ $user->user_name }}</span>
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center gap-2">

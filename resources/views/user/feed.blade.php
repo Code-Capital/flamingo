@@ -96,7 +96,7 @@
                                                     <small
                                                         class="badge bg-secondary small text-white px-1 py-1">Author</small>
                                                 @else
-                                                    {{ $post->user->full_name }}
+                                                    {{ $post->user->user_name }}
                                                 @endif
 
                                             </a>

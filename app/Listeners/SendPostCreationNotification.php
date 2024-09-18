@@ -27,7 +27,7 @@ class SendPostCreationNotification implements ShouldQueue
         // Create the HTML message
         $message = "
             <div class='notification'>
-                <strong>{$event->user->full_name}</strong> create a new post <a href='{$postLink}' target='_blank'>{$body}</a>
+                <strong>{$event->post->user->user_name}</strong> create a new post <a href='{$postLink}' target='_blank'>{$body}</a>
             </div>
         ";
 
@@ -37,8 +37,8 @@ class SendPostCreationNotification implements ShouldQueue
                 'message' => $message,
                 'post_id' => $event->post->id,
                 'post_body' => $event->post->body,
-                'user_id' => $event->user->id,
-                'full_name' => $event->user->full_name,
+                'user_id' => $event->post->user->id,
+                'full_name' => $event->post->user->user_name,
             ]),
         ]);
     }

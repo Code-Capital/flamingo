@@ -47,7 +47,7 @@
                                 <div class="details">
                                     <span class="d-block"> <a
                                             href="{{ route('user.feed.show', $post->user->user_name) }}"
-                                            class="text-decoration-none">{{ $post->user->full_name }}</a></span>
+                                            class="text-decoration-none">{{ $post->user->user_name }}</a></span>
                                     <span class="d-block">{{ $post->user->designation }}</span>
                                     <span class="d-block small">{{ $post->formatted_created_at }}</span>
                                 </div>

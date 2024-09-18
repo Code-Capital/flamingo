@@ -129,7 +129,7 @@ class PostController extends Controller
 
             $body = limitString($post->body, 20);
             $message = "<div class='notification'>
-                            New post has been created by {$user->full_name}: <a href='{$link}' target='_blank'> {$body}</a>
+                            New post has been created by {$user->user_name}: <a href='{$link}' target='_blank'> {$body}</a>
                         </div>
                     ";
 
@@ -140,7 +140,7 @@ class PostController extends Controller
                     'user_id' => $user->id,
                     'post_id' => $post->id,
                     'post_body' => $post->body,
-                    'user_name' => $user->full_name,
+                    'user_name' => $user->user_name,
                 ]),
             ]);
         });

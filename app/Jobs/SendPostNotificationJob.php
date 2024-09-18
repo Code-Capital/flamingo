@@ -35,7 +35,7 @@ class SendPostNotificationJob implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->user->acceptedFriends as $index => $friend) {
-            Log::info('POST CREATION JOB FUNCTION'.$index);
+            Log::info('POST CREATION JOB FUNCTION');
             broadcast(new PostCreatedEvent($this->post, $friend));
         }
     }

@@ -13,14 +13,18 @@
                             <a href={{ route('read.all.notification') }} class="btn btn-outline-primary">Mark all as read</a>
                         </div>
                         @forelse($allNotifications as $notification)
+                            @php
+                                $user = $notification->notifiable; // This fetches the user or notifiable entity
+                            @endphp
+                            @php
+                                $dataArray = !is_array($notification->data)
+                                    ? json_decode($notification->data, true)
+                                    : $notification->data;
+                                $creatorUser = \App\Models\User::find($dataArray['user_id']);
+                            @endphp
                             <div class="d-flex align-items-center justify-content-between singleMessage py-4 border px-4">
                                 <div class="d-flex align-items-start gap-3 ">
-                                    <img class="rounded-circle" src="{{ asset('assets/profile.png') }} ">
-                                    @php
-                                        $dataArray = !is_array($notification->data)
-                                            ? json_decode($notification->data, true)
-                                            : $notification->data;
-                                    @endphp
+                                    <img class="rounded-circle" src="{{ $creatorUser->avatar_url }} " alt="profile image">
                                     <p class="mb-0">{!! $dataArray['message'] ?? '' !!}</p>
                                 </div>
                                 @if (empty($notification->read_at))

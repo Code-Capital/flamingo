@@ -38,7 +38,7 @@
                         <div class="dropdown">
                             <button class=" btn btn-light dropdown-toggle" type="button" id="userDashboard"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $user->full_name }}
+                                {{ $user->user_name }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="userDashboard">
                                 <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>

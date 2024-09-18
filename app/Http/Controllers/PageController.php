@@ -130,7 +130,7 @@ class PageController extends Controller
                             'page_id' => $page->id,
                             'channel_id' => $responseData['channel']['id'],
                             'user_id' => $user->id,
-                            'user_name' => $user->full_name,
+                            'user_name' => $user->user_name,
                         ]),
                     ]);
                 }
@@ -339,7 +339,7 @@ class PageController extends Controller
                             <div class="d-flex align-items-center gap-3">
                                 <img src="'.$user->avatar_url.'" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">'.$user->full_name.'</span>
+                                    <span class="d-block">'.$user->user_name.'</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center gap-2 invite-send-'.$user->id.'">
@@ -400,7 +400,7 @@ class PageController extends Controller
                 ]);
             });
 
-            return $this->sendSuccessResponse('Sending invitation to '.$user->full_name);
+            return $this->sendSuccessResponse('Sending invitation to '.$user->user_name);
         } catch (AuthorizationException $e) {
             $message = 'Total limit reached. You cannot further send requests';
 

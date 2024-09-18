@@ -72,7 +72,7 @@ class PostCreatedEvent implements ShouldBroadcast
             'message' => $message,
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
-            'full_name' => $this->user->full_name,
+            'full_name' => $this->user->user_name,
             'link' => $postLink,
         ];
     }

@@ -78,7 +78,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center flex-grow-1 pt-4">
                     <div class="name">
-                        <span class="d-block">{{ $loginUser->full_name }} ({{ $loginUser->user_name }}) </span>
+                        <span class="d-block">{{ $loginUser->user_name }}</span>
                         <span> {{ $loginUser->desingation }}</span>
                         {{-- <span class="d-block"> <a href="javascript:void(0)" class="text-danger fw-bold"> Report Profile</a></span> --}}
                     </div>
