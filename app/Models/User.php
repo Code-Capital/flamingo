@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use Laravel\Cashier\Billable;
 use App\Traits\DateFormattingTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -308,7 +309,7 @@ class User extends Authenticatable
             if (Storage::exists($this->avatar)) {
                 return Storage::url($this->avatar);
             } else {
-                return Storage::url('avatars/'.$this->avatar);
+                return Storage::url('avatars/' . $this->avatar);
             }
         } else {
             return asset('assets/avatar.jpg');
@@ -498,17 +499,17 @@ class User extends Authenticatable
     // ======================================================================
     // Scopes
     // ======================================================================
-    public function scopeBySearch($query, ?string $search = null)
+    public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 
-    public function scopeByInterests($query, array $interests = [])
+    public function scopeByInterests(Builder $query, array $interests = []): Builder
     {
         return $query->when($interests, function ($q) use ($interests) {
             $q->whereHas('interests', function ($q) use ($interests) {
@@ -517,7 +518,7 @@ class User extends Authenticatable
         });
     }
 
-    public function scopeByLocation($query, $location = null)
+    public function scopeByLocation(Builder $query, $location = null): Builder
     {
         return $query->when($location, function ($query) use ($location) {
             $query->where('location_id', $location);

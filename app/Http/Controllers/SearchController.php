@@ -19,14 +19,16 @@ class SearchController extends Controller
         $selectedInterests = $request->input('interests', []);
         $location = $request->input('location', '');
 
+
         // Fetch users based on the filters if any of the filters are present
         $users = [];
         $authUser = Auth::user();
-        // dd(Auth::user()->id);
+        $authUser->interests->pluck('id')->toArray();
+        $merged = array_merge($authUser->interests->pluck('id')->toArray(), $selectedInterests);
         $users = User::where('id', '!=', $authUser->id)
             // ->byNotUser($authUser->id)
             ->bySearch($searchTerm)
-            ->byInterests($selectedInterests)
+            ->byInterests($merged)
             ->byLocation($location)
             ->whereDoesntHave('friends', function ($query) use ($authUser) {
                 $query->where('user_id', $authUser->id);

@@ -10,8 +10,8 @@
                 <div class="dashboardCard border-0">
                     <form action="{{ route('search.users') }}" method="GET">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-4 col-lg-4 form-group">
-                                <select class="form-control interests w-100" name="interests[]" multiple>
+                            <div class="col-lg-4 form-group">
+                                <select class="form-control interests" name="interests[]" multiple>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}"
                                             {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
@@ -21,11 +21,11 @@
                                     @endforelse
                                 </select>
                             </div>
-                            <div class="col-md-4 col-lg-3 form-group">
+                            <div class="col-lg-3 form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
                                     placeholder="Search by name & email" name="q" value="{{ request()->q }}">
                             </div>
-                            <div class="col-md-4 col-lg-3 form-group">
+                            <div class="col-lg-3 form-group">
                                 <select class="form-control locations w-100" name="location">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)

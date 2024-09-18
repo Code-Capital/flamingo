@@ -22,7 +22,7 @@ class SendPostCreationNotification implements ShouldQueue
     public function handle(PostCreatedEvent $event): void
     {
         $postLink = route('post.edit', $event->post->uuid);
-        $body = limitString($event->post->body, 20);
+        $body = limitString($event->post->body, 50);
 
         // Create the HTML message
         $message = "
