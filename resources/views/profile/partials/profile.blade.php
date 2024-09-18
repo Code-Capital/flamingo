@@ -68,23 +68,6 @@
                                             placeholder="i.e. support@flamingo.com">
                                     </div>
                                 </div>
-                                <div class=" col-lg-6 form-group mb-3">
-                                    <label class="mb-1">
-                                        <span>{{ __('Interest') }} (from 1 to 5)</span>
-                                    </label>
-                                    <select class="form-select intersts" name="interests[]" multiple required>
-                                        @forelse($interests as $interest)
-                                            <option value="{{ $interest->id }}"
-                                                {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
-                                                {{ $interest->name }}</option>
-                                        @empty
-                                            <option value="">No interest found</option>
-                                        @endforelse
-                                    </select>
-                                    @error('interests')
-                                        <span class="text-danger mt-2">{{ $message }}</span>
-                                    @enderror
-                                </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1"><span>Gender</span></label>
                                     <select class="form-select form-select-lg" name="gender">
@@ -117,13 +100,174 @@
                                         <option value="">Select location</option>
                                         @forelse ($locations as $location)
                                             <option value="{{ $location->id }}"
-                                                @if ($user?->location->id == $location->id) selected @endif>
+                                                @if ($user?->location?->id == $location->id) selected @endif>
                                                 {{ $location->name }}</option>
                                         @empty
                                             <option value="3">No location found</option>
                                         @endforelse
                                     </select>
                                 </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Municipality</span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="municipality"
+                                                value="{{ $user?->userInfo?->municipality }}"
+                                                placeholder="municipality">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Breed of dog</span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="dog_breed"
+                                                value="{{ $user?->userInfo?->dog_breed }}"
+                                                placeholder="Breed of dog">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Dog's gender</span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="dog_gender"
+                                                value="{{ $user?->userInfo?->dog_gender }}"
+                                                placeholder="Dog's gender">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Kennel club</span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="kennel_club"
+                                                value="{{ $user?->userInfo?->kennel_club }}"
+                                                placeholder="Kennel club">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Working dog club
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="dog_working_club"
+                                                value="{{ $user?->userInfo?->dog_working_club }}"
+                                                placeholder="Working dog club">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Height at the withers
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="dog_withers_height"
+                                                value="{{ $user?->userInfo?->dog_withers_height }}"
+                                                placeholder="Height at the withers">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Weight
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="weight"
+                                                value="{{ $user?->userInfo?->weight }}" placeholder="Weight">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Size
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="size"
+                                                value="{{ $user?->userInfo?->size }}" placeholder="size">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Castrated
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="castrated"
+                                                value="{{ $user?->userInfo?->castrated }}" placeholder="Castrated">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Targeting
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="targeting"
+                                                value="{{ $user?->userInfo?->targeting }}" placeholder="Targeting">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Fur
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="furr"
+                                                value="{{ $user?->userInfo?->furr }}" placeholder="Furr">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Drawing
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="drawing"
+                                                value="{{ $user?->userInfo?->drawing }}" placeholder="Drawing">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 form-group mb-3">
+                                    <label class="mb-1 d-flex align-items-center justify-content-between">
+                                        <span>Hills
+                                        </span>
+                                    </label>
+                                    <div class="form-control form-control-lg">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <input class="w-100" type="text" name="hills"
+                                                value="{{ $user?->userInfo?->hills }}" placeholder="hills">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {{-- Descriptions --}}
                                 <div class="form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Define yourself</span>
@@ -133,6 +277,24 @@
                                             <textarea rows="6" class="w-100" placeholder="Type you message" name="about">{{ $user->about }} </textarea>
                                         </div>
                                     </div>
+                                </div>
+                                {{-- Interests --}}
+                                <div class="form-group mb-3">
+                                    <label class="mb-1">
+                                        <span>{{ __('Interest') }} (from 1 to 5)</span>
+                                    </label>
+                                    <select class="form-select intersts" name="interests[]" multiple required>
+                                        @forelse($interests as $interest)
+                                            <option value="{{ $interest->id }}"
+                                                {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
+                                                {{ $interest->name }}</option>
+                                        @empty
+                                            <option value="">No interest found</option>
+                                        @endforelse
+                                    </select>
+                                    @error('interests')
+                                        <span class="text-danger mt-2">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <button class="btn btn-primary w-100 mt-3">

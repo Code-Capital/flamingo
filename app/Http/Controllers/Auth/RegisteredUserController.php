@@ -66,6 +66,10 @@ class RegisteredUserController extends Controller
         $user->assignRole('user');
         $user->interests()->attach($request->interests);
 
+        $user->userInfo()->create([
+            'municipality' => null,
+        ]);
+
         // $user->markEmailAsVerified();
         if ($user->messenger_color || $user->messenger_color == null) {
             $user->update([

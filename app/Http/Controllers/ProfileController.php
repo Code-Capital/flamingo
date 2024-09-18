@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user()->load(['interests', 'location']);
+        $user = $request->user()->load(['interests', 'location', 'userInfo']);
         $interests = Interest::all();
         $countries = Country::all();
         $selectedInterests = $user->interests->pluck('id')->toArray();
@@ -44,6 +44,22 @@ class ProfileController extends Controller
 
         $request->user()->save();
         $request->user()->interests()->sync($request->input('interests'));
+
+        $request->user()->userInfo()->update([
+            'municipality' => $request->input('municipality'),
+            'dog_breed' => $request->input('dog_breed'),
+            'dog_gender' => $request->input('dog_gender'),
+            'kennel_club' => $request->input('kennel_club'),
+            'dog_working_club' => $request->input('dog_working_club'),
+            'dog_withers_height' => $request->input('dog_withers_height'),
+            'weight' => $request->input('weight'),
+            'size' => $request->input('size'),
+            'castrated' => $request->input('castrated'),
+            'target' => $request->input('target'),
+            'furr' => $request->input('furr'),
+            'drawing' => $request->input('drawing'),
+            'hills' => $request->input('hills'),
+        ]);
 
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully');
     }

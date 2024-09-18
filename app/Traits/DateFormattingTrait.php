@@ -18,12 +18,12 @@ trait DateFormattingTrait
 
     public function getFormattedStartDateAttribute(): string
     {
-        return Carbon::parse($this->start_date)->translatedFormat('l, j F Y');
+        return $this->start_date ? Carbon::parse($this->start_date)->translatedFormat('l, j F Y') : null;
     }
 
     public function getFormattedEndDateAttribute(): string
     {
-        return Carbon::parse($this->end_date)->translatedFormat('l, j F Y');
+        return $this->end_date ? Carbon::parse($this->end_date)->translatedFormat('l, j F Y') : null;
     }
 
     public function getFormattedDateAttribute(string $format): string
