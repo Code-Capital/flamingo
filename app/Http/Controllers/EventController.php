@@ -149,14 +149,15 @@ class EventController extends Controller
 
     public function show(Event $event): View
     {
+        $user = Auth::user();
         $event = $event->load(['acceptedMembers', 'pendingRequests', 'rejectedRequests']);
         $posts = $event->posts()
             ->with(['user', 'media', 'likes', 'comments', 'comments.user', 'comments.replies'])
             ->withCount(['comments', 'likes'])
             ->latest()->paginate(getPaginated());
-        $user = Auth::user();
         $isMember = $event->acceptedMembers()->where('user_id', $user->id)->exists();
         $media = $event->posts()->with('media')->get()->pluck('media')->flatten();
+        $peoples = getPeoples($user);
 
         return view('event.show', get_defined_vars());
     }
