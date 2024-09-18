@@ -76,42 +76,42 @@
             let rejectedRequestContainer = $('.rejected-request-container');
             let pendingRequestContainer = $('.pending-request-container');
 
-            let fileInput = $('input[type="file"]');
+            // let fileInput = $('input[type="file"]');
 
 
-            $('.img-upload').click(function() {
-                fileInput.click();
-            });
+            // $('.img-upload').click(function() {
+            //     fileInput.click();
+            // });
 
 
-            fileInput.change(function(event) {
-                const files = event.target.files;
-                const container = $('.file-container');
-                container.empty(); // Clear previous previews
+            // fileInput.change(function(event) {
+            //     const files = event.target.files;
+            //     const container = $('.file-container');
+            //     container.empty(); // Clear previous previews
 
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
+            //     for (let i = 0; i < files.length; i++) {
+            //         const file = files[i];
 
-                    // Check if the file type is an image
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = $('<img>').attr('src', e.target.result);
-                            const fileItem = $('<div>').addClass('file-item p-1');
-                            fileItem.append(img);
-                            container.append(fileItem);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        // Handle non-image files (e.g., display file name)
-                        const fileItem = $('<div>').addClass('file-item p-1');
-                        const fileType = $('<span>').text(file.type);
-                        const fileName = $('<span>').text(file.name);
-                        fileItem.append(fileType).append(fileName);
-                        container.append(fileItem);
-                    }
-                }
-            });
+            //         // Check if the file type is an image
+            //         if (file.type.startsWith('image/')) {
+            //             const reader = new FileReader();
+            //             reader.onload = function(e) {
+            //                 const img = $('<img>').attr('src', e.target.result);
+            //                 const fileItem = $('<div>').addClass('file-item p-1');
+            //                 fileItem.append(img);
+            //                 container.append(fileItem);
+            //             };
+            //             reader.readAsDataURL(file);
+            //         } else {
+            //             // Handle non-image files (e.g., display file name)
+            //             const fileItem = $('<div>').addClass('file-item p-1');
+            //             const fileType = $('<span>').text(file.type);
+            //             const fileName = $('<span>').text(file.name);
+            //             fileItem.append(fileType).append(fileName);
+            //             container.append(fileItem);
+            //         }
+            //     }
+            // });
 
 
             body.on('click', '.remove-request', function(event) {
@@ -189,6 +189,65 @@
                     }
                 });
             }
+        });
+    </script>
+
+    <script>
+        Dropzone.autoDiscover = false;
+        // Dropzone has been added as a global variable.
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var dropzone = new Dropzone("#upload-files", {
+            url: "{{ route('files.upload') }}",
+            paramName: "media",
+            maxFiles: 5,
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            parallelUploads: 10,
+            uploadMultiple: true,
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf,.doc,.docx,.heic', // Include HEIC format
+            dictDefaultMessage: "Drag and drop files here or click to upload",
+        });
+
+        $('#postForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            loadingStart();
+            let formData = new FormData(this);
+
+            // Append Dropzone files
+            dropzone.getAcceptedFiles().forEach(file => {
+                formData.append('media[]', file);
+            });
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    loadingStop();
+                    if (response.success) {
+                        newNotificationSound();
+                        toastr.success(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        errorNotificationSound();
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    loadingStop();
+                    errorNotificationSound();
+                    let errorMessage = xhr.responseJSON.message;
+                    toastr.error(errorMessage);
+                }
+            });
         });
     </script>
     @include('event.partials.comment-scripts')

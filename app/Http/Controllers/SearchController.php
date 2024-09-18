@@ -19,7 +19,6 @@ class SearchController extends Controller
         $selectedInterests = $request->input('interests', []);
         $location = $request->input('location', '');
 
-
         // Fetch users based on the filters if any of the filters are present
         $users = [];
         $authUser = Auth::user();
@@ -50,18 +49,19 @@ class SearchController extends Controller
 
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
+        $merged = array_merge($user->interests->pluck('id')->toArray(), $userInterests);
 
         $events = Event::with(['interests', 'allMembers'])
-            ->byNotUser($user->id)
+            // ->byNotUser($user->id)
             ->published()
             ->bySearch($searchTerm)
-            ->byInterests($selectedInterests)
-            ->byLocation($request->location)
+            ->byInterests($merged)
+            ->byLocation($request->location_id)
             ->whereDoesntHave('reports', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             // ->upcoming()
-            ->ongoing()
+            // ->ongoing()
             ->latest()
             ->paginate(getPaginated());
 

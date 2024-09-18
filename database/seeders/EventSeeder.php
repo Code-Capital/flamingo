@@ -15,7 +15,7 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        Event::factory(10)->create()->each(function ($event) {
+        Event::factory(1000)->create()->each(function ($event) {
             $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
             $event->interests()->attach($interests);
 

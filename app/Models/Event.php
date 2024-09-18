@@ -213,7 +213,7 @@ class Event extends Model
         return $query->where('user_id', $id);
     }
 
-    public function scopeByNotUser(Builder $query, int $id)
+    public function scopeByNotUser(Builder $query, int $id): Builder
     {
         return $query->where('user_id', '<>', $id);
     }
@@ -230,41 +230,41 @@ class Event extends Model
 
     public function scopeUpcoming(Builder $query): Builder
     {
-        return $query->where('start_date', '>', now()->toDateString());
+        return $query->whereDate('start_date', '>', now()->format('Y-m-d'));
     }
 
     public function scopePast(Builder $query): Builder
     {
-        return $query->where('end_date', '<', now()->toDateString());
+        return $query->whereDate('end_date', '<', now()->format('Y-m-d'));
     }
 
     public function scopeOngoing(Builder $query): Builder
     {
-        return $query->where('start_date', '<', now()->toDateString())
-            ->where('end_date', '>', now()->toDateString());
+        return $query->where('start_date', '<', now()->format('Y-m-d'))
+            ->where('end_date', '>', now()->format('Y-m-d'));
     }
 
-    public function scopeBySearch(Builder $query, ?string $search = null)
+    public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($q) use ($search) {
-            $q->where('title', 'like', '%'.$search.'%')
-                ->orWhere('location_id', 'like', '%'.$search.'%')
-                ->orWhere('slug', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%');
+            return $q->where('title', 'like', '%' . $search . '%')
+                // ->orWhere('location_id', 'like', '%'.$search.'%')
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
         });
     }
 
-    public function scopeByLocation(Builder $query, ?string $search = null)
+    public function scopeByLocation(Builder $query, ?int $locationId = null): Builder
     {
-        $query->when($search, function ($q) use ($search) {
-            $q->where('location_id', $search);
+        return $query->when($locationId, function ($query) use ($locationId) {
+            return $query->where('location_id', $locationId);
         });
     }
 
-    public function scopeByInterests(Builder $query, array $interests = [])
+    public function scopeByInterests(Builder $query, array $interests = []): Builder
     {
         return $query->when($interests, function ($q) use ($interests) {
-            $q->whereHas('interests', function ($q) use ($interests) {
+            return $q->whereHas('interests', function ($q) use ($interests) {
                 $q->whereIn('interest_id', $interests);
             });
         });
