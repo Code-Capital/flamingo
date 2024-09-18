@@ -171,7 +171,7 @@ class PageController extends Controller
             $isOwnerOrMember = true;
         }
 
-        $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated(2));
+        $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated());
 
         return view('page.show', get_defined_vars());
     }
