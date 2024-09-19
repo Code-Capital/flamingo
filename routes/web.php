@@ -15,6 +15,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
@@ -160,6 +161,7 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('interests', AdminInterestController::class);
         Route::resource('locations', AdminLocationController::class);
+        Route::resource('faqs', FaqController::class);
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
         Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');

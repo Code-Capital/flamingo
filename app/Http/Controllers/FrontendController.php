@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
+use App\Models\Faq;
 use App\Models\Plan;
 use App\Models\Setting;
 use App\Models\TermsAndConditions;
@@ -16,7 +17,8 @@ class FrontendController extends Controller
 {
     public function home(): View
     {
-        return view('home');
+        $faqs = Faq::get();
+        return view('home', get_defined_vars());
     }
 
     public function pricing(): View

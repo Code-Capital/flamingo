@@ -66,110 +66,30 @@
                 <h2>Frequently Asked Questions</h2>
             </div>
             <div class="row mx-0" id="accordionExample">
-                <div class="col-lg-6 mb-3">
-                    <div class="accordion">
-                        <div class="accordion-item mb-5 border-0">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    What features does Flamingo offer?
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item mb-5">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    How does payment work on Flamingo?
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item mb-5">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Can I use Flamingo on mobile devices?
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
+                @forelse ($faqs as $faq)
+                    <div class="col-lg-6 mb-3">
+                        <div class="accordion">
+                            <div class="accordion-item mb-5 border-0">
+                                <h2 class="accordion-header" id="heading{{ $faq->id }}">
+                                    <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}"
+                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="collapse{{ $faq->id }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $faq->id }}"
+                                    class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                    aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        {{ $faq->answer }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-3">
-                    <div class="accordion">
-                        <div class="accordion-item mb-5 border-0">
-                            <h2 class="accordion-header" id="headingFour">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    Is Flamingo suitable for businesses?
-                                </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item mb-5">
-                            <h2 class="accordion-header" id="headingFive">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    How do I get support on Flamingo?
-                                </button>
-                            </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item mb-5">
-                            <h2 class="accordion-header" id="headingSix">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                    Is my data secure on Flamingo?
-                                </button>
-                            </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae esse incidunt
-                                    repellat tenetur. Illum nostrum odio quasi quo quod repellat sint unde vel veniam,
-                                    veritatis! Ad et suscipit voluptatibus. Quod?
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                @endforelse
             </div>
         </div>
     </div>
