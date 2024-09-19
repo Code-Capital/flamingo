@@ -52,7 +52,11 @@ class MessagesController extends Controller
      */
     public function index($channel_id = null)
     {
+
         $user = Auth::user();
+        if (!$user->isSubscribed()) {
+            abort(403, "You need to subscribe to access this page.");
+        }
 
         $messenger_color = $user->messenger_color;
 

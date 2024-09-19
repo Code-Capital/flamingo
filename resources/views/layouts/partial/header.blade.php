@@ -14,6 +14,12 @@
                     {{-- <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('home') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li> --}}
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link pe-4 {{ Request::routeIs('user.dashboard') ? 'active' : '' }}"
+                                href="{{ route('user.dashboard') }}">Dashboard</a>
+                        </li>
+                    @endauth
                     <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('pricing') ? 'active' : '' }}"
                             href="{{ route('pricing') }}">Pricing</a>
@@ -26,12 +32,6 @@
                         <a class="nav-link pe-4 {{ Request::routeIs('contact') ? 'active' : '' }}"
                             href="{{ route('contact') }}">Contact</a>
                     </li>
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link pe-4 {{ Request::routeIs('user.dashboard') ? 'active' : '' }}"
-                                href="{{ route('user.dashboard') }}">Dashboard</a>
-                        </li>
-                    @endauth
                 </ul>
                 <div class="d-flex gap-3">
                     @auth

@@ -104,7 +104,7 @@ class UserController extends Controller
 
         try {
             if ($user->is_subscribed) {
-                if ($user->isSubscribed()) {
+                if ($user->subscribed('default')) {
                     $user->subscription('default')->cancel();
                 }
                 $user->is_subscribed = false;
