@@ -14,7 +14,9 @@ class NotificationController extends Controller
 
         // Fetch user's own notifications
         $allNotifications = DatabaseNotification::where('notifiable_id', $user->id)
-            ->whereNull('read_at')->latest()->paginate(getPaginated());
+            // ->whereNull('read_at')
+            ->latest()
+            ->paginate(getPaginated());
 
         return view('user.notification', get_defined_vars());
     }

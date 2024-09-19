@@ -24,7 +24,7 @@
                             @endphp
                             <div class="d-flex align-items-center justify-content-between singleMessage py-4 border px-4">
                                 <div class="d-flex align-items-start gap-3 ">
-                                    <img class="rounded-circle" src="{{ $creatorUser->avatar_url }} " alt="profile image">
+                                    <img class="rounded-circle" src="{{ $user->avatar_url }} " alt="profile image">
                                     <p class="mb-0">{!! $dataArray['message'] ?? '' !!}</p>
                                 </div>
                                 @if (empty($notification->read_at))

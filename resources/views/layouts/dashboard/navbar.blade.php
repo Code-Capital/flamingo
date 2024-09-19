@@ -108,7 +108,9 @@
                         <div class="notifications position-relative">
                             <a class="text-decoration-none" href="{{ route('notifications.index') }}">
                                 <img src="{{ asset('assets/bell.svg') }}" alt="notification bell">
-                                <span class="position-absolute dot"></span>
+                                @if ($unreadNotificationCount > 0)
+                                    <span class="position-absolute dot"></span>
+                                @endif
                             </a>
                         </div>
                     </div>
