@@ -17,20 +17,20 @@
                     @auth
                         <li class="nav-item">
                             <a class="nav-link pe-4 {{ Request::routeIs('user.dashboard') ? 'active' : '' }}"
-                                href="{{ route('user.dashboard') }}">Dashboard</a>
+                                href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a>
                         </li>
                     @endauth
                     <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('pricing') ? 'active' : '' }}"
-                            href="{{ route('pricing') }}">Pricing</a>
+                            href="{{ route('pricing') }}">{{ __('Pricing') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('terms') ? 'active' : '' }}"
-                            href="{{ route('terms') }}">Terms</a>
+                            href="{{ route('terms') }}">{{ __('Terms') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pe-4 {{ Request::routeIs('contact') ? 'active' : '' }}"
-                            href="{{ route('contact') }}">Contact</a>
+                            href="{{ route('contact') }}">{{ __('Contact') }}</a>
                     </li>
                 </ul>
                 <div class="d-flex gap-3">
@@ -44,20 +44,22 @@
                                 {{ $user->user_name }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="userDashboard">
-                                <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
+                                </li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button class="dropdown-item" type="submit">Logout</button>
+                                        <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                                     </form>
                                 </li>
                             </ul>
                         </div>
                     @endauth
                     @guest
-                        <a class="btn btn-outline-primary px-4" href="{{ route('login') }}">Login</a>
-                        <a class="btn btn-primary px-4" href="{{ asset('register') }}">Register</a>
+                        <a class="btn btn-outline-primary px-4" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="btn btn-primary px-4" href="{{ asset('register') }}">{{ __('Register') }}</a>
                     @endguest
                 </div>
             </div>
