@@ -10,9 +10,9 @@
                     @csrf
                     <div class="col-lg-6 mx-auto px-0">
                         <div class="text-center pt-2">
-                            <h2>Login</h2>
+                            <h2>{{ __('Login') }}</h2>
                             <p class="px-0 px-md-3 px-lg-5">
-                                To embark on your journey, take the first step by signing in here
+                                {{ __('To embark on your journey, take the first step by signing in here') }}
                             </p>
                         </div>
                         <div class="loginCard bg-white p-3 p-md-3 p-lg-5 mt-4">
@@ -22,16 +22,15 @@
                             <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Email') }}</label>
                                 <input class="form-control form-control-lg" type="text" name="email"
-                                       value="{{ old('email') }}"
-                                       placeholder="email">
+                                    value="{{ old('email') }}" placeholder="i.e. john@mail.com">
                                 @error('email')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group mb-2">
-                                <label class="mb-1">Password</label>
+                                <label class="mb-1">{{ __('Password') }}</label>
                                 <input class="form-control form-control-lg" type="password" name="password"
-                                       placeholder="**********">
+                                    placeholder="**********">
                             </div>
                             @if (Route::has('password.request'))
                                 <div class="text-end">
@@ -52,7 +51,7 @@
 
                             <div class="linkText mt-3">
                                 <span>Don’t have an account? <a class="text-decoration-none"
-                                                                href="{{ route('register') }}">Create an account</a></span>
+                                        href="{{ route('register') }}">Create an account</a></span>
                             </div>
                         </div>
                     </div>

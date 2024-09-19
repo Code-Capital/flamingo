@@ -10,11 +10,12 @@
                     <div class="row mx-0">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <a class="btn btn-primary px-4" href="javascript:void(0)">My Events</a>
+                                <a class="btn btn-primary px-4" href="javascript:void(0)">{{ __('My events') }}</a>
                                 @if ($remianingEventCount > 0)
                                     <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
                                 @else
-                                    <a class="btn btn-outline-primary px-4" href="{{ route('pricing') }}">Please Subscribe</a>
+                                    <a class="btn btn-outline-primary px-4" href="{{ route('pricing') }}">Please
+                                        Subscribe</a>
                                 @endif
                             </div>
                         </div>

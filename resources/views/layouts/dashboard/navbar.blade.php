@@ -3,13 +3,6 @@
 @endphp
 
 @if (Request::routeIs('messages'))
-    {{-- <div class="bg-primary ps-3 py-3">
-        <a id="sidebar-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </a>
-    </div> --}}
     <div class="bg-primary py-3 d-flex justify-content-between align-items-center">
         <a id="sidebar-toggle">
             <span></span>
@@ -21,14 +14,14 @@
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="logoutDropdown" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Logout
+                {{ __('My profile') }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="logoutDropdown">
-                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button class="dropdown-item" type="submit">Logout</button>
+                        <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                     </form>
                 </li>
             </ul>
@@ -54,14 +47,14 @@
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="logoutDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
+                    {{ __('My profile') }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="logoutDropdown">
-                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button class="dropdown-item" type="submit">Logout</button>
+                            <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                         </form>
                     </li>
                 </ul>
@@ -116,7 +109,8 @@
                                         $style = 'display: block;';
                                     @endphp
                                 @endif
-                                <span class="position-absolute dot notification-dot" style="{{ $style }}"></span>
+                                <span class="position-absolute dot notification-dot"
+                                    style="{{ $style }}"></span>
                             </a>
                         </div>
                     </div>

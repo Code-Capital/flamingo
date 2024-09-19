@@ -25,7 +25,7 @@
                                 @include('layouts.partial.show-error')
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1"> {{ __('First Name') }} </label>
+                                <label class="mb-1"> {{ __('First name') }} </label>
                                 <input class="form-control form-control-lg" name="first_name" type="text"
                                     placeholder="John" value="{{ old('first_name') }}" required>
                                 @error('first_name')
@@ -33,7 +33,7 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1"> {{ __('Last Name') }} </label>
+                                <label class="mb-1"> {{ __('Last name') }} </label>
                                 <input class="form-control form-control-lg" name="last_name" type="text"
                                     placeholder="Doe" value="{{ old('last_name') }}" required>
                                 @error('last_name')
@@ -41,7 +41,7 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">{{ __('Username') }}</label>
+                                <label class="mb-1">{{ __('User name') }}</label>
                                 <input class="form-control form-control-lg" name="user_name" type="text"
                                     value="{{ old('user_name') }}" placeholder="i.e. John_Doe466" required>
                                 @error('user_name')
@@ -96,7 +96,7 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">{{ __('Password Confirmation') }}</label>
+                                <label class="mb-1">{{ __('Password') }} {{ __(' Confirmation') }} </label>
                                 <input class="form-control form-control-lg" name="password_confirmation" type="password"
                                     placeholder="**********" required>
                                 @error('password_confirmation')
@@ -105,7 +105,7 @@
                             </div>
 
                             <div class="form-group mb-3 position-relative">
-                                <label class="mb-1 required">{{ __('Interest') }} <span>(from 1 to 5)</span></label>
+                                <label class="mb-1 required">{{ __('Interests') }} <span>(from 1 to 5)</span></label>
                                 <select class="form-select" name="interests[]" id="interests" multiple required>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}">{{ $interest->name }}</option>

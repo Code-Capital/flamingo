@@ -59,7 +59,7 @@
                     <div class="row mx-0">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <a class="btn btn-primary px-4" href="javascript:void(0)">My Events</a>
+                                <a class="btn btn-primary px-4" href="javascript:void(0)">{{ __('My Events') }}</a>
                                 <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
                             </div>
                         </div>

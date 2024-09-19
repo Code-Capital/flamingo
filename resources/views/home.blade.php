@@ -14,7 +14,7 @@
                             engage with like-minded individuals. Join us to meet new people, explore shared interests,
                             and connect with your community!</p>
                         @guest
-                            <a href="{{ route('register') }}" class="btn btn-primary px-4">Join Now</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary px-4">{{ __('Join now') }}</a>
                         @endguest
                     </div>
                 </div>

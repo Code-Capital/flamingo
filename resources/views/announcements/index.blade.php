@@ -10,7 +10,7 @@
                     <div class="row mx-0">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <div class="heading pb-4">Announcements </div>
+                                <div class="heading pb-4">{{ __('Announcements') }} </div>
                                 <a class="btn btn-outline-primary px-4" href="{{ route('announcements.create') }}">Create</a>
                             </div>
                         </div>
@@ -22,7 +22,8 @@
                                     <img src="{{ asset($announcement->thumbnail_url) }}">
                                     <div class="content w-100">
                                         <div class="d-flex align-items-center">
-                                            <span> {{ $announcement->formatted_created_at }} ({{ $announcement->getStatus() }}) </span>
+                                            <span> {{ $announcement->formatted_created_at }}
+                                                ({{ $announcement->getStatus() }}) </span>
                                             <div class="ms-auto dropdown">
                                                 <button class="btn" type="button" id="dropdownMenuButton"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,9 +31,11 @@
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <li><a class="dropdown-item"
-                                                            href="{{ route('announcements.edit', $announcement->slug) }}">Edit</a></li>
+                                                            href="{{ route('announcements.edit', $announcement->slug) }}">Edit</a>
+                                                    </li>
                                                     <li>
-                                                        <form action="{{ route('announcements.destroy', $announcement->id) }}"
+                                                        <form
+                                                            action="{{ route('announcements.destroy', $announcement->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this event?');">
                                                             @csrf

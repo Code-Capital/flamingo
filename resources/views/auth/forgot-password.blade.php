@@ -15,7 +15,7 @@
                         </div>
                         <div class="loginCard bg-white p-3 p-md-3 p-lg-5 mt-4">
                             <div class="mt-3 mb-3">
-                                @if(session('status'))
+                                @if (session('status'))
                                     <div class="alert alert-success" role="alert">
                                         {{ session('status') }}
                                     </div>
@@ -26,10 +26,9 @@
                                     {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
                                 </label>
                                 <input class="form-control form-control-lg mt-3" type="text" name="email"
-                                       value="{{ old('email') }}"
-                                       placeholder="Please enter email">
+                                    value="{{ old('email') }}" placeholder="Please enter email">
                                 @error('email')
-                                <span class="text-danger mt-2">{{ $message }}</span>
+                                    <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mt-3">

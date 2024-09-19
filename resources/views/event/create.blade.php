@@ -193,9 +193,10 @@
                         </form>
                     @else
                         <div class="alert alert-danger" role="alert">
-                            You have reached the maximum limit of creating events for this month. Please delete some events
+                            You have reached the maximum limit of creating {{ __('events') }} for this month. Please
+                            delete some {{ __('events') }}
                             to create new
-                            events.
+                            {{ __('events') }}.
                         </div>
                     @endif
                 </div>

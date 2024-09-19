@@ -46,7 +46,7 @@
                             <ul class="dropdown-menu" aria-labelledby="userDashboard">
                                 <li><a class="dropdown-item"
                                         href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -58,7 +58,7 @@
                         </div>
                     @endauth
                     @guest
-                        <a class="btn btn-outline-primary px-4" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="btn btn-outline-primary px-4" href="{{ route('login') }}">{{ __('Log in') }}</a>
                         <a class="btn btn-primary px-4" href="{{ asset('register') }}">{{ __('Register') }}</a>
                     @endguest
                 </div>

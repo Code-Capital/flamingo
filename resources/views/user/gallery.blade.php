@@ -15,14 +15,15 @@
                 <div class="bg-white p-4 dashboardCard">
                     <div class="gallery">
                         <div class="d-flex align-items-center justify-content-between pb-4">
-                            <button class="btn btn-primary px-4">Gallery</button>
+                            <button class="btn btn-primary px-4">{{ __('Gallery') }}</button>
                             <label for="upload">
                                 <input id="upload" type="file" class="px-4 d-none">
                                 <div class="btn btn-outline-primary" id="uploadButton">Upload</div>
                             </label>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap bg-light" style="height: auto ;">
+                        <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap bg-light"
+                            style="height: auto ;">
                             @forelse($media as $item)
                                 <div class="galleryCard text-center d-flex flex-column mb-3">
                                     @if (in_array(pathinfo($item->file_path, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg', 'svg']))
