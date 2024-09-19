@@ -405,7 +405,7 @@ class User extends Authenticatable
 
     public function isSubscribed(): bool
     {
-        return $this->subscribed('default');
+        return ($this->subscribed('default') || $this->is_subscribed) ? true : false;
     }
 
     public function getCurrentMonthEvents(): int
