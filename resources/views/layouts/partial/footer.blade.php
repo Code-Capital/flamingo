@@ -57,7 +57,7 @@
                     Copyright © {{ date('Y') }} People Connect. All rights reserved.
                 </div>
             </div>
-            <div class="col-lg-6 px-0">
+            {{-- <div class="col-lg-6 px-0">
                 <div class="socialLinks d-flex gap-4 justify-content-end">
                     <a class="text-decoration-none" href="javascript:void(0)">
                         <svg width="18" height="15" viewBox="0 0 18 15" xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
                         </svg>
                     </a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>
