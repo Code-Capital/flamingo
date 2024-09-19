@@ -28,9 +28,10 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -192,4 +193,13 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
+});
+
+Route::get('storage-link', function () {
+    Artisan::call('storage:link');
+    return 'storage link created';
+});
+Route::get('cache-clear', function () {
+    Artisan::call('optimize:clear');
+    return 'optimize successfully';
 });
