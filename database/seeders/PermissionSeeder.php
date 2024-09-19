@@ -34,6 +34,7 @@ class PermissionSeeder extends Seeder
             'view joined pages',
             'view page invites',
             'view my subscription',
+            'view faqs list',
 
             // Admin permissions
             'view admin dashboard',
