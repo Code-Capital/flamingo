@@ -49,7 +49,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>User Name</th>
-                                <th>Subscription name</th>
+                                <th>{{ __('Subscription') }} name</th>
                                 <th>Stripe id</th>
                                 <th>Stripe status</th>
                                 <th>Ends at</th>

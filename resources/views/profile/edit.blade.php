@@ -21,15 +21,15 @@
                         <div class="nav nav-tabs border-0 mb-0" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="Profile-tab" data-bs-toggle="tab" data-bs-target="#Profile"
                                 type="button" role="tab" aria-controls="Profile" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Profile</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Profile') }}</span>
                             </button>
                             <button class="nav-link " id="Info-tab" data-bs-toggle="tab" data-bs-target="#Update-Password"
                                 type="button" role="tab" aria-controls="Info" aria-selected="true"><span
-                                    class="px-1 px-md-2 px-lg-3">Update password</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Update password') }}</span>
                             </button>
                             <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab"
                                 data-bs-target="#Delete-Account" type="button" role="tab" aria-controls="Photos"
-                                aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Delete Account</span>
+                                aria-selected="false"><span class="px-1 px-md-2 px-lg-3">{{ __('Delete account') }}</span>
                             </button>
                         </div>
                     </nav>

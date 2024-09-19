@@ -34,9 +34,9 @@
                                     </div>
                                 </div>
                                 <p class="text pe-5 pt-3">{{ $plan->description }}</p>
-                                <div class="heading mb-4"><span
-                                        class="h2">{{ env('CASHIER_CURRENCY_SYMBOL', '$') }} {{ $plan->amount }}</span><span
-                                        class="month">/ {{ getInterval($plan->interval) }}</span>
+                                <div class="heading mb-4"><span class="h2">{{ env('CASHIER_CURRENCY_SYMBOL', '$') }}
+                                        {{ $plan->amount }}</span><span class="month">/
+                                        {{ getInterval($plan->interval) }}</span>
                                 </div>
                                 @if ($settings)
                                     <h5 class="mb-3">What’s included</h5>
@@ -82,7 +82,8 @@
                     <div class="col-lg-12">
                         <div class="alert alert-success">
                             <strong>You're already subscribed!</strong> Thank you for being a part of our service.
-                            If you need any assistance or want to upgrade your plan, please <a>view your subscription
+                            If you need any assistance or want to upgrade your plan, please <a>view your
+                                {{ __('subscription') }}
                                 details</a>.
                         </div>
                     </div>

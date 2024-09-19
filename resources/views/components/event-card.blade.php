@@ -24,11 +24,11 @@
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="dropdown-item">Delete</button>
+                                        <button type="submit" class="dropdown-item">{{ __('Delete') }}</button>
                                     </form>
                                 </li>
                                 <li>
-                                    <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
+                                    <form action="{{ route('events.close', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
                                         @csrf
                                         @method('DELETE')

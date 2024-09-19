@@ -2,43 +2,6 @@
     <div class="row mx-0">
         <div class="col-lg-8 ps-0 ps-md-0 ps-lg-auto pe-0 pe-md-0 pe-lg-2 mb-3">
             <div class="bg-white p-4 dashboardCard">
-
-                {{-- <div class="innerCard p-3 bg-white">
-                    <form action="{{ route('events.post.store', $event->id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="avatar align-items-center gap-3 py-4">
-                            <img class="rounded-circle" src="{{ asset('assets/profile.png') }}" alt="user image">
-                            <input class="border-0 form-control" name="body" type="text"
-                                placeholder="What's on your mind?" required>
-                        </div>
-                        <div class="file-container bg-light"></div>
-                        <div class="border-top d-flex align-items-center justify-content-between pt-3">
-                            <div class="d-flex align-items-center gap-4">
-                                <div class="text " role="button">
-                                    <img class="img-upload img-fluid" src="{{ asset('assets/icon9.svg') }}"
-                                        alt="pic image">
-                                    <span>Photo</span>
-                                    <input type="file" name="media[]" multiple hidden accept="image/*">
-                                </div>
-                                <div class="text" role="button">
-                                    <div class="d-flex align-items-center gap-1">
-                                        <img src=" {{ asset('assets/icon11.svg') }} ">
-                                        <select class="form-select border-0 p-1 custom-select-styling" role="button"
-                                            name="is_private">
-                                            <option value="0">Public</option>
-                                            <option value="1">Private</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
-                                <button class="btn btn-primary px-4" type="submit">Post</button>
-                            </div>
-                        </div>
-                    </form>
-                </div> --}}
-
                 @if ($isOwnerOrMember)
                     <div class="innerCard p-3 bg-white">
                         <form action="{{ route('events.post.store', $event->id) }}" method="POST"
@@ -47,7 +10,7 @@
                             <div class="avatar align-items-center gap-3 py-4">
                                 <img class="rounded-circle" src="{{ $user->avatar_url }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
-                                    placeholder="What's on your mind?" required>
+                                    placeholder="{{ __('What`s on your mind?') }}" required>
                             </div>
 
                             <div class="dz-default dz-message dropzone" id="upload-files"></div>
@@ -67,14 +30,14 @@
                                             <img src=" {{ asset('assets/icon11.svg') }} ">
                                             <select class="form-select border-0 p-1 custom-select-styling"
                                                 role="button" name="is_private">
-                                                <option value="0">Public</option>
-                                                <option value="1">Private</option>
+                                                <option value="0">{{ __('Public') }}</option>
+                                                <option value="1">{{ __('Private') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-primary px-4" type="submit">Post</button>
+                                    <button class="btn btn-primary px-4" type="submit">{{ __('Post') }}</button>
                                 </div>
                             </div>
                         </form>

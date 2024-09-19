@@ -50,7 +50,7 @@
                             <div class="avatar align-items-center gap-3 py-4">
                                 <img class="rounded-circle" src="{{ $user->avatar_url }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
-                                    placeholder="What's on your mind?" required>
+                                    placeholder="{{ __('What`s on your mind?') }}" required>
                             </div>
 
                             <div class="dz-default dz-message dropzone" id="upload-files"></div>
@@ -70,14 +70,14 @@
                                             <img src=" {{ asset('assets/icon11.svg') }} ">
                                             <select class="form-select border-0 p-1 custom-select-styling" role="button"
                                                 name="is_private">
-                                                <option value="0">Public</option>
-                                                <option value="1">Private</option>
+                                                <option value="0">{{ __('Public') }}</option>
+                                                <option value="1">{{ __('Private') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-primary px-4" type="submit">Post</button>
+                                    <button class="btn btn-primary px-4" type="submit">{{ __('Post') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -113,7 +113,7 @@
                                         @if ($currentUser->id == $post->user_id)
                                             <li>
                                                 <a class="dropdown-item post-destroy" data-post="{{ $post->id }}"
-                                                    href="javascript::void(0)">Delete</a>
+                                                    href="javascript::void(0)">{{ __('Delete') }}</a>
                                             </li>
                                         @else
                                             <li><a class="dropdown-item post-report" data-post="{{ $post->id }}"
@@ -205,7 +205,7 @@
                         <div class="d-flex align-items-center flex-column justify-content-center noResult">
                             <img src="{{ asset('assets/secure.svg') }}">
                             <h2 class="mb-0 py-3">This Account is Private</h2>
-                            <p>Follow this account to see their Friends and Photos</p>
+                            <p>Follow this account to see their {{ __('Friends') }} and {{ __('Photos') }}</p>
                         </div>
                     </div>
                 @endif
@@ -266,6 +266,7 @@
 
     <script>
         Dropzone.autoDiscover = false;
+
         // Dropzone has been added as a global variable.
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var dropzone = new Dropzone("#upload-files", {
@@ -281,7 +282,7 @@
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
             acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf,.doc,.docx,.heic', // Include HEIC format
-            dictDefaultMessage: "Drag and drop files here or click to upload",
+            dictDefaultMessage: "{{ __('Drag and drop files here or click to upload') }}",
         });
 
         $('#postForm').on('submit', function(event) {

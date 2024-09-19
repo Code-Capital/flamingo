@@ -8,11 +8,12 @@
             <div class="row mx-0 py-5">
                 <div class="col-lg-6 mb-3 mx-auto">
                     <div class="createProductForm bg-white py-4">
-                        <label class="imageUploadLabel mx-auto mb-3 mb-md-4 mb-lg-5 px-4 py-3 d-flex align-items-center justify-content-center"
-                               for="imageUpload">
+                        <label
+                            class="imageUploadLabel mx-auto mb-3 mb-md-4 mb-lg-5 px-4 py-3 d-flex align-items-center justify-content-center"
+                            for="imageUpload">
                             <div class="imageUploadWrapper d-flex align-items-center justify-content-between flex-column">
                                 <img class="mb-2" src=" {{ asset('assets/imageUpload.svg') }}" alt="">
-                                <h5 class="mb-2">Add Photos</h5>
+                                <h5 class="mb-2">Add {{ __('Photos') }}</h5>
                                 <p class="mb-0">or drag and drop</p>
                                 <span id="fileNameSpan"></span>
                             </div>
@@ -23,7 +24,7 @@
                                 <span>Product Title</span>
                             </label>
                             <input class="w-100 form-control form-control-lg" type="text"
-                                   placeholder="Family Room Couch">
+                                placeholder="Family Room Couch">
                         </div>
                         <div class="form-group mb-3">
                             <label class="mb-1 d-flex align-items-center justify-content-between">
@@ -36,8 +37,7 @@
                             <label class="mb-1 d-flex align-items-center justify-content-between">
                                 <span>Product Description</span>
                             </label>
-                            <textarea rows="6" class="w-100 form-control form-control-lg"
-                                      placeholder="About the product"></textarea>
+                            <textarea rows="6" class="w-100 form-control form-control-lg" placeholder="About the product"></textarea>
                         </div>
                         <div class="form-group mb-3 mt-5">
                             <label class="mb-3 d-flex align-items-center justify-content-between">

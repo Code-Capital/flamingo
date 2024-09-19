@@ -69,7 +69,7 @@
                                             {{-- <li><a class="dropdown-item" href="#">Edit</a></li> --}}
                                             <li>
                                                 <a class="dropdown-item post-destroy" data-post="{{ $post->id }}"
-                                                    href="javascript::void(0)">Delete</a>
+                                                    href="javascript::void(0)">{{ __('Delete') }}</a>
                                             </li>
                                         </ul>
                                     </div>

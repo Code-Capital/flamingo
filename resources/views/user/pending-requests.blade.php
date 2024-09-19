@@ -11,7 +11,8 @@
                     <div class="bg-white p-4 dashboardCard">
                         <div class="row mx-0">
                             <div class="col-lg-12">
-                                <div class="heading pb-4">Pending Friend Requests <span>{{ $requests->count() }}</span>
+                                <div class="heading pb-4">Pending Friend {{ __('Requests') }}
+                                    <span>{{ $requests->count() }}</span>
                                 </div>
                             </div>
                         </div>

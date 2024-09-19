@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class=" col-lg-6 form-group mb-3">
                                     <label class="mb-1 required">
-                                        <span>First Name</span>
+                                        <span>{{ __('First name') }}</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class=" col-lg-6 form-group mb-3">
                                     <label class="mb-1 ">
-                                        <span>Last Name</span>
+                                        <span> {{ __('Last name') }} </span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="">
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class=" col-lg-6 form-group mb-3">
                                     <label class="mb-1 ">
-                                        <span>User Name</span>
+                                        <span> {{ __('User name') }} </span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
-                                    <label class="mb-1"><span>Gender</span></label>
+                                    <label class="mb-1"><span>{{ __('Gender') }}</span></label>
                                     <select class="form-select form-select-lg" name="gender">
                                         <option value="">Please Select Gender</option>
                                         <option value="male" @if ($user->gender == 'male') selected @endif>
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Age</span>
+                                        <span>{{ __('Age') }}</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
-                                    <label class="mb-1"><span> Locations</span></label>
+                                    <label class="mb-1"><span> {{ __('Location') }}</span></label>
                                     <select class="form-select locations" name="location_id">
                                         <option value="">Select location</option>
                                         @forelse ($locations as $location)
@@ -265,12 +265,10 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 {{-- Descriptions --}}
                                 <div class="form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Define yourself</span>
+                                        <span>{{ __('Define yourself') }}</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -298,7 +296,7 @@
                                 </div>
                             </div>
                             <button class="btn btn-primary w-100 mt-3">
-                                Update
+                                {{ __('Update') }}
                             </button>
                         </div>
                     </div>

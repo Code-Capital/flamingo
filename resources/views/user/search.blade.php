@@ -61,7 +61,7 @@
                                             <h6 class="mb-0">
                                                 <a class="text-decoration-none add-friend" data-id="{{ $user->id }}"
                                                     href="javascript:void(0)">
-                                                    Add friend
+                                                    {{ __('Add friend') }}
                                                 </a>
                                             </h6>
                                         @else

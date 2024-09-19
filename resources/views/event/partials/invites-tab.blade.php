@@ -2,7 +2,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Requests to join
+                <div class="heading pb-4">{{ __('Requests') }} to join
                     <span>({{ $event->pendingRequests->count() }})</span>
                 </div>
             </div>

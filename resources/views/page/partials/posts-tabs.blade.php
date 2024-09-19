@@ -11,7 +11,7 @@
                             <div class="avatar align-items-center gap-3 py-4">
                                 <img class="rounded-circle" src="{{ $user->avatar_url }}" alt="user image">
                                 <input class="border-0 form-control" name="body" type="text"
-                                    placeholder="What's on your mind?" required>
+                                    placeholder="{{ __('What`s on your mind?') }}" required>
                             </div>
 
                             <div class="dz-default dz-message dropzone" id="upload-files"></div>
@@ -25,14 +25,14 @@
                                             <img src=" {{ asset('assets/icon11.svg') }} ">
                                             <select class="form-select border-0 p-1 custom-select-styling"
                                                 role="button" name="is_private">
-                                                <option value="0">Public</option>
-                                                <option value="1">Private</option>
+                                                <option value="0">{{ __('Public') }}</option>
+                                                <option value="1">{{ __('Private') }}</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-primary px-4" type="submit">Post</button>
+                                    <button class="btn btn-primary px-4" type="submit">{{ __('Post') }}</button>
                                 </div>
                             </div>
                         </form>

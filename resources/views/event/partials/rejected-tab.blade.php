@@ -2,7 +2,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Reject Requests
+                <div class="heading pb-4">Reject {{ __('Requests') }}
                     <span>({{ $event->rejectedRequests->count() }})</span>
                 </div>
             </div>

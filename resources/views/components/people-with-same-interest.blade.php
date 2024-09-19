@@ -1,6 +1,6 @@
 <div class="col-lg-4 mb-3">
     <div class="bg-white p-4 dashboardCard ">
-        <h5>People you may know</h5>
+        <h5>{{ __('People you may know') }}</h5>
         <div class="list">
             @forelse ($peoples as $user)
                 <div class="singlePerson py-2">
@@ -22,9 +22,9 @@
                         <div class="buttonWrapper">
                             <div class="d-flex align-items-center gap-1 flex-column">
                                 <small>
-                                    <a class="add-friend small text-white bg-primary p-1 rounded text-decoration-none" data-id="3"
-                                        href="javascript:void(0)">
-                                        Add friend
+                                    <a class="add-friend small text-white bg-primary p-1 rounded text-decoration-none"
+                                        data-id="3" href="javascript:void(0)">
+                                        {{ __('Add friend') }}
                                     </a>
                                 </small>
                                 {{-- <a data-bs-toggle="modal" data-bs-target="#joinCommunity" class="text-decoration-none">
@@ -39,8 +39,8 @@
                 <div class="text-danger text-center">No Data Found</div>
             @endforelse
         </div>
-        <h5 class="mb-0 mt-3"><a href="{{ route('people.with.same.interest') }}" class="text-decoration-none">See
-                all...</a> </h5>
+        <h5 class="mb-0 mt-3"><a href="{{ route('people.with.same.interest') }}"
+                class="text-decoration-none">{{ __('See all') }}...</a> </h5>
     </div>
     {{-- <div class="bg-white p-4 dashboardCard mt-4"> --}}
     {{--     <h5>Advertizement</h5> --}}

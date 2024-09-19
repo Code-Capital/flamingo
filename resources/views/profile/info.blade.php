@@ -12,26 +12,26 @@
                         <div class="nav nav-tabs border-0 mb-0" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="Info-tab" data-bs-toggle="tab" data-bs-target="#Info"
                                 type="button" role="tab" aria-controls="Info" aria-selected="true"><span
-                                    class="px-1 px-md-2 px-lg-3">Info</span></button>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Info') }}</span></button>
                             <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab" data-bs-target="#Photos"
                                 type="button" role="tab" aria-controls="Photos" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Photos</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Photos') }}</span>
                             </button>
                             <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
                                 type="button" role="tab" aria-controls="Requests" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Requests</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Requests') }}</span>
                             </button>
                             <button class="nav-link" id="Friends-tab" data-bs-toggle="tab" data-bs-target="#Friends"
                                 type="button" role="tab" aria-controls="Friends" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Friends</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Friends') }}</span>
                             </button>
                             <button class="nav-link" id="Blocked-tab" data-bs-toggle="tab" data-bs-target="#Blocked"
                                 type="button" role="tab" aria-controls="Requests" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Blocked</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Blocked') }}</span>
                             </button>
                             <button class="nav-link" id="Subscription-tab" data-bs-toggle="tab"
                                 data-bs-target="#Subscription" type="button" role="tab" aria-controls="Subscription"
-                                aria-selected="false"><span class="px-1 px-md-2 px-lg-3">Subscription</span>
+                                aria-selected="false"><span class="px-1 px-md-2 px-lg-3">{{ __('Subscription') }}</span>
                             </button>
                         </div>
                     </nav>

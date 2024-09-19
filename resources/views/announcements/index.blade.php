@@ -23,7 +23,8 @@
                                     <div class="content w-100">
                                         <div class="d-flex align-items-center">
                                             <span> {{ $announcement->formatted_created_at }}
-                                                ({{ $announcement->getStatus() }}) </span>
+                                                ({{ $announcement->getStatus() }})
+                                            </span>
                                             <div class="ms-auto dropdown">
                                                 <button class="btn" type="button" id="dropdownMenuButton"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,7 +41,8 @@
                                                             onsubmit="return confirm('Are you sure you want to delete this event?');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="dropdown-item">Delete</button>
+                                                            <button type="submit"
+                                                                class="dropdown-item">{{ __('Delete') }}</button>
                                                         </form>
                                                     </li>
                                                 </ul>

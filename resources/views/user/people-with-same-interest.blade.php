@@ -26,7 +26,7 @@
                                         </div>
                                         <h6 class="mb-0">
                                             <a class="text-decoration-none add-friend" href="javascript:void(0)"
-                                                data-id="{{ $people->id }}">Add Friends</a>
+                                                data-id="{{ $people->id }}">Add {{ __('Friends') }}</a>
                                         </h6>
                                     </div>
                                 </div>

@@ -33,13 +33,13 @@
 
                                 <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
                                     type="button" role="tab" aria-controls="Requests" aria-selected="false">
-                                    <span class="px-1 px-md-2 px-lg-3">Incoming Requests</span>
+                                    <span class="px-1 px-md-2 px-lg-3">Incoming {{ __('Requests') }}</span>
                                 </button>
 
                                 <button class="nav-link" id="Rejected-Requests-tab" data-bs-toggle="tab"
                                     data-bs-target="#Rejected-Requests" type="button" role="tab"
                                     aria-controls="Rejected-Requests" aria-selected="false">
-                                    <span class="px-1 px-md-2 px-lg-3">Rejected Requests</span>
+                                    <span class="px-1 px-md-2 px-lg-3">Rejected {{ __('Requests') }}</span>
                                 </button>
                             @endif
 
@@ -209,7 +209,7 @@
                 'X-CSRF-TOKEN': CSRF_TOKEN
             },
             acceptedFiles: '.jpeg,.jpg,.png,.gif,.pdf,.doc,.docx,.heic', // Include HEIC format
-            dictDefaultMessage: "Drag and drop files here or click to upload",
+            dictDefaultMessage: "{{ __('Drag and drop files here or click to upload') }}",
         });
 
         $('#postForm').on('submit', function(event) {

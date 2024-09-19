@@ -50,7 +50,7 @@
             <div class="app-modal-body">You can not undo this action</div>
             <div class="app-modal-footer">
                 <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">Delete</a>
+                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">{{ __('Delete') }}</a>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
             <div class="app-modal-body">You can not undo this action</div>
             <div class="app-modal-footer">
                 <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">Delete</a>
+                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">{{ __('Delete') }}</a>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Friends <span>{{ $friends->count() }}</span></div>
+                <div class="heading pb-4">{{ __('Friends') }} <span>{{ $friends->count() }}</span></div>
             </div>
         </div>
         <div class="row mx-0">

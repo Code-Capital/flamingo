@@ -46,7 +46,7 @@
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit"
-                                                                        class="dropdown-item">Delete</button>
+                                                                        class="dropdown-item">{{ __('Delete') }}</button>
                                                                 </form>
                                                             </li>
                                                         @endif

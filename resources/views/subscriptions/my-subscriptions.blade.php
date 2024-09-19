@@ -11,7 +11,7 @@
                     <div class="row mx-0 mb-3">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <h3 class="marketHeading mb-0">User Subscriptions</h3>
+                                <h3 class="marketHeading mb-0">User {{ __('Subscriptions') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>User Name</th>
-                                    <th>Subscription name</th>
+                                    <th>{{ __('Subscription') }} name</th>
                                     <th>Stripe id</th>
                                     <th>Stripe status</th>
                                     <th>Ends at</th>

@@ -121,7 +121,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span>Pending Requests</span>
+                        <span>Pending {{ __('Requests') }}</span>
                     </a>
                 </li>
             @endcan
@@ -501,7 +501,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        <span>Subscriptions</span>
+                                        <span>{{ __('Subscriptions') }}</span>
                                     </a>
                                 </li>
                             @endcan

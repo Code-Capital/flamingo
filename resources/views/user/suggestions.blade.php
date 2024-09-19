@@ -138,7 +138,7 @@
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="bg-white p-4 dashboardCard ">
-                    <h5>My Friends</h5>
+                    <h5>My {{ __('Friends') }}</h5>
                     <div class="list">
                         <div class="singlePerson py-2">
                             <div class="d-flex align-items-center justify-content-between">
@@ -158,7 +158,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -184,7 +184,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -210,7 +210,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -236,7 +236,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -262,7 +262,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -288,7 +288,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -314,7 +314,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -340,7 +340,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
