@@ -217,20 +217,22 @@
             @endcan
 
             @can('view messages')
-                <li>
-                    <a id="messages" href="{{ route('messages') }}"
-                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('messages') ? 'active' : '' }}">
-                        <svg class="message" width="24" height="25" viewBox="0 0 24 25" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 12.5H17M7 8.5H13" stroke="#5C5C5C" stroke-opacity="0.3" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path
-                                d="M3 20.79V5.5C3 4.96957 3.21071 4.46086 3.58579 4.08579C3.96086 3.71071 4.46957 3.5 5 3.5H19C19.5304 3.5 20.0391 3.71071 20.4142 4.08579C20.7893 4.46086 21 4.96957 21 5.5V15.5C21 16.0304 20.7893 16.5391 20.4142 16.9142C20.0391 17.2893 19.5304 17.5 19 17.5H7.961C7.66123 17.5 7.36531 17.5675 7.09511 17.6973C6.82491 17.8271 6.58735 18.016 6.4 18.25L4.069 21.164C3.99143 21.2612 3.88556 21.3319 3.76604 21.3664C3.64652 21.4008 3.51926 21.3972 3.40186 21.3561C3.28446 21.315 3.18273 21.2385 3.11073 21.1371C3.03874 21.0357 3.00005 20.9144 3 20.79Z"
-                                stroke="#5C5C5C" stroke-opacity="0.3" stroke-width="1.5" />
-                        </svg>
-                        <span>Messages</span>
-                    </a>
-                </li>
+            @if (Auth::user()->isSubscribed())
+            <li>
+                <a id="messages" href="{{ route('messages') }}"
+                    class="text-decoration-none d-flex align-items-center {{ Request::routeIs('messages') ? 'active' : '' }}">
+                    <svg class="message" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 12.5H17M7 8.5H13" stroke="#5C5C5C" stroke-opacity="0.3" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M3 20.79V5.5C3 4.96957 3.21071 4.46086 3.58579 4.08579C3.96086 3.71071 4.46957 3.5 5 3.5H19C19.5304 3.5 20.0391 3.71071 20.4142 4.08579C20.7893 4.46086 21 4.96957 21 5.5V15.5C21 16.0304 20.7893 16.5391 20.4142 16.9142C20.0391 17.2893 19.5304 17.5 19 17.5H7.961C7.66123 17.5 7.36531 17.5675 7.09511 17.6973C6.82491 17.8271 6.58735 18.016 6.4 18.25L4.069 21.164C3.99143 21.2612 3.88556 21.3319 3.76604 21.3664C3.64652 21.4008 3.51926 21.3972 3.40186 21.3561C3.28446 21.315 3.18273 21.2385 3.11073 21.1371C3.03874 21.0357 3.00005 20.9144 3 20.79Z"
+                            stroke="#5C5C5C" stroke-opacity="0.3" stroke-width="1.5" />
+                    </svg>
+                    <span>Messages</span>
+                </a>
+            </li>
+            @endif
             @endcan
 
             @can('view gallery')

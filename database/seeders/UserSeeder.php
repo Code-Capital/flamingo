@@ -23,6 +23,8 @@ class UserSeeder extends Seeder
             'user_name' => 'admin',
             'about' => null,
             'is_private' => false,
+            'email_verified_at' => now(),
+            'is_subscribed' => true,
         ]);
 
         $adminUser->assignRole(['user', 'admin']);
