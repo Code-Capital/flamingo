@@ -102,7 +102,7 @@ class UserController extends Controller
         $media = [];
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
+            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
             $media[] = $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->after('age', function($table){
+            $table->after('age', function ($table) {
                 $table->foreignId('country_id')->nullable()->constrained()->cascadeOnDelete();
                 $table->foreignId('county_id')->nullable()->constrained()->cascadeOnDelete();
                 $table->foreignId('state_id')->nullable()->constrained()->cascadeOnDelete();

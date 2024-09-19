@@ -27,10 +27,9 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\UserController;
-use Chatify\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/home', [FrontendController::class, 'home'])->name('home');
 Route::get('/pricing', [FrontendController::class, 'pricing'])->name('pricing');
@@ -158,7 +157,6 @@ Route::middleware('auth')->group(function () {
         Route::put('users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
         Route::put('users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
         Route::post('/admin/users/toggle-subscription', [AdminUserController::class, 'toggleSubscription'])->name('admin.users.toggle.subscription');
-
 
         Route::resource('interests', AdminInterestController::class);
         Route::resource('locations', AdminLocationController::class);

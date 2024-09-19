@@ -86,7 +86,7 @@ class EventController extends Controller
                 if ($request->has('images') && is_array($request->images)) {
                     foreach ($request->file('images') as $image) {
                         $event->media()->create([
-                            'file_path' => $image->store('/media/events/' . $event->id, 'public'),
+                            'file_path' => $image->store('/media/events/'.$event->id, 'public'),
                             'file_type' => $image->getClientOriginalExtension(),
                         ]);
                     }
@@ -102,7 +102,7 @@ class EventController extends Controller
                     Log::info('Creating group chat for the event');
                     $response = $this->customChatify->createGroupChat(
                         request: $request,
-                        groupName: 'Event: ' . ucfirst($event->title),
+                        groupName: 'Event: '.ucfirst($event->title),
                         avatar: $thumbnailPath,
                     );
 
@@ -141,9 +141,9 @@ class EventController extends Controller
             return to_route('events.index')->with('success', 'Event created successfully');
         } catch (AuthorizationException $e) {
             return to_route('events.create')
-                ->with('error', 'You have reached the maximum number of events you can create this month.' . $e->getMessage());
+                ->with('error', 'You have reached the maximum number of events you can create this month.'.$e->getMessage());
         } catch (\Throwable $th) {
-            return to_route('events.create')->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.create')->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -156,7 +156,7 @@ class EventController extends Controller
             ->withCount(['comments', 'likes'])
             ->latest()->paginate(getPaginated());
         $isOwnerOrMember = false;
-        if ($event->user_id === $user->id  || $event->acceptedMembers()->where('user_id', $user->id)->exists()) {
+        if ($event->user_id === $user->id || $event->acceptedMembers()->where('user_id', $user->id)->exists()) {
             $isOwnerOrMember = true;
         }
         $media = $event->posts()->with('media')->get()->pluck('media')->flatten();
@@ -208,7 +208,7 @@ class EventController extends Controller
                     $newMediaIds = [];
 
                     foreach ($request->images as $image) {
-                        $path = $image->store('/media/events/' . $event->id, 'public');
+                        $path = $image->store('/media/events/'.$event->id, 'public');
 
                         $newMedia = $event->media()->create([
                             'file_path' => $path,
@@ -230,7 +230,7 @@ class EventController extends Controller
                 if ($event->isPublished()) {
                     $eventChat = $event->channel;
                     if ($eventChat) {
-                        $eventChat->name = $event->title ? 'Event ' . ucfirst($event->title) : $eventChat;
+                        $eventChat->name = $event->title ? 'Event '.ucfirst($event->title) : $eventChat;
 
                         if ($request->hasFile('thumbnail')) {
                             // allowed extensions
@@ -240,7 +240,7 @@ class EventController extends Controller
                             // check file size
                             if ($file->getSize() < $this->customChatify->getMaxUploadSize()) {
                                 if (in_array(strtolower($file->extension()), $allowed_images)) {
-                                    $avatar = Str::uuid() . '.' . $file->extension();
+                                    $avatar = Str::uuid().'.'.$file->extension();
                                     // $update = $eventChat->update(['avatar' => $avatar]);
                                     $eventChat->avatar = $avatar;
                                     $file->storeAs(config('chatify.channel_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
@@ -256,14 +256,14 @@ class EventController extends Controller
                             $message = $this->customChatify->newMessage([
                                 'from_id' => $user->id,
                                 'to_channel_id' => $event->channel_id,
-                                'body' => $user?->full_name . ' has changed the group name to: ' . $eventChat->name,
+                                'body' => $user?->full_name.' has changed the group name to: '.$eventChat->name,
                                 'attachment' => null,
                             ]);
                             $message->user_name = $user->user_name;
                             $message->user_email = $user->email;
 
                             $messageData = $this->customChatify->parseMessage($message, null);
-                            $this->customChatify->push('private-chatify.' . $event->channel_id, 'messaging', [
+                            $this->customChatify->push('private-chatify.'.$event->channel_id, 'messaging', [
                                 'from_id' => $user->id,
                                 'to_channel_id' => $event->channel_id,
                                 'message' => $this->customChatify->messageCard($messageData, true),
@@ -277,7 +277,7 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             Log::error('Error occurred while updating event', json_encode(['error' => $th->getMessage()]));
 
-            return to_route('events.edit', $event->slug)->with('error', 'Error occurred. Please try again later.' . $th->getMessage());
+            return to_route('events.edit', $event->slug)->with('error', 'Error occurred. Please try again later.'.$th->getMessage());
         }
     }
 
@@ -304,7 +304,7 @@ class EventController extends Controller
             $message = $this->customChatify->newMessage([
                 'from_id' => $event->user->id,
                 'to_channel_id' => $event->channel_id,
-                'body' => 'user ' . $user->user_name . ' has been removed from the group',
+                'body' => 'user '.$user->user_name.' has been removed from the group',
                 'attachment' => null,
             ]);
 
@@ -312,7 +312,7 @@ class EventController extends Controller
             $message->user_email = $user->email;
 
             $messageData = $this->customChatify->parseMessage($message, null);
-            $this->customChatify->push('private-chatify.' . $event->channel_id, 'messaging', [
+            $this->customChatify->push('private-chatify.'.$event->channel_id, 'messaging', [
                 'from_id' => $user->id,
                 'to_channel_id' => $event->channel_id,
                 'message' => $this->customChatify->messageCard($messageData, true),
@@ -332,7 +332,7 @@ class EventController extends Controller
 
             return $this->sendSuccessResponse($leave, 'You have left the event successfully', Response::HTTP_OK);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -362,14 +362,14 @@ class EventController extends Controller
                     $message = $this->customChatify->newMessage([
                         'from_id' => $user->id,
                         'to_channel_id' => $event->channel_id,
-                        'body' => $user->user_name . ' has joined the group',
+                        'body' => $user->user_name.' has joined the group',
                         'attachment' => null,
                     ]);
                     $message->user_name = $user->user_name;
                     $message->user_email = $user->email;
 
                     $messageData = $this->customChatify->parseMessage($message, null);
-                    $this->customChatify->push('private-chatify.' . $event->channel_id, 'messaging', [
+                    $this->customChatify->push('private-chatify.'.$event->channel_id, 'messaging', [
                         'from_id' => $user->id,
                         'to_channel_id' => $event->channel_id,
                         'message' => $this->customChatify->messageCard($messageData, true),
@@ -426,11 +426,11 @@ class EventController extends Controller
 
             return $this->sendSuccessResponse($event, 'You have joined the event successfully', Response::HTTP_OK);
         } catch (AuthorizationException $e) {
-            $message = 'Total limit reached. You cannot join this event' . $e->getMessage();
+            $message = 'Total limit reached. You cannot join this event'.$e->getMessage();
 
             return $this->sendErrorResponse($message, Response::HTTP_FORBIDDEN);
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occurred' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendErrorResponse('Error occurred'.$th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -459,7 +459,7 @@ class EventController extends Controller
         if ($request->hasFile('media')) {
             $mediaFiles = $request->file('media');
             foreach ($mediaFiles as $mediaFile) {
-                $mediaPath = $mediaFile->store('/media/posts/' . $user->id, 'public'); // Example storage path
+                $mediaPath = $mediaFile->store('/media/posts/'.$user->id, 'public'); // Example storage path
                 $post->media()->create([
                     'file_path' => $mediaPath,
                     'file_type' => $mediaFile->getClientOriginalExtension(), // Example file type
@@ -489,6 +489,7 @@ class EventController extends Controller
         if ($request->ajax()) {
             return $this->sendSuccessResponse(null, 'Post created successfully', Response::HTTP_CREATED);
         }
+
         return back()->with('success', 'Post created successfully');
     }
 

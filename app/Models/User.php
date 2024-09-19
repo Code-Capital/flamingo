@@ -5,20 +5,20 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\StatusEnum;
-use Laravel\Cashier\Billable;
 use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Cashier\Billable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -311,7 +311,7 @@ class User extends Authenticatable
             if (Storage::exists($this->avatar)) {
                 return Storage::url($this->avatar);
             } else {
-                return Storage::url('avatars/' . $this->avatar);
+                return Storage::url('avatars/'.$this->avatar);
             }
         } else {
             return asset('assets/avatar.jpg');
@@ -504,10 +504,10 @@ class User extends Authenticatable
     public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('user_name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where('first_name', 'like', '%'.$search.'%')
+                ->orWhere('last_name', 'like', '%'.$search.'%')
+                ->orWhere('user_name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
         });
     }
 

@@ -103,16 +103,14 @@
     "Stripe status": "Stripe status",
     "Ends at": "Slutar",
     "Action": "Åtgärd",
-
     "entries per page": "visningar per sida",
     "Showing 0 to 0 of 0 entries": "Visar 0 till 0 av 0 visningar",
-
     "Pricing plan": "Alternativ abonnemang",
     "Pro plan": "Premium per månad",
     "Popluar": "Populär",
     "Forgot password": "Glömt lösenord",
     "Remeber me": "Håll mig inloggad",
     "Don`t have an account?": "Har du inget konto? ",
-    "Create an account":"Skapa ett konto",
+    "Create an account": "Skapa ett konto",
     "Notifications": "Notiser"
 }

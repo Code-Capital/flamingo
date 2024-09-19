@@ -34,7 +34,7 @@ class PageSeeder extends Seeder
             $page->posts()->create([
                 'uuid' => Str::uuid(),
                 'user_id' => $page->user_id,
-                'body' => 'Welcome to ' . $page->name . ' page',
+                'body' => 'Welcome to '.$page->name.' page',
             ]);
         });
     }

@@ -247,10 +247,10 @@ class Event extends Model
     public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($q) use ($search) {
-            return $q->where('title', 'like', '%' . $search . '%')
+            return $q->where('title', 'like', '%'.$search.'%')
                 // ->orWhere('location_id', 'like', '%'.$search.'%')
-                ->orWhere('slug', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%');
+                ->orWhere('slug', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%');
         });
     }
 

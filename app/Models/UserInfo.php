@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Traits\DateFormattingTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserInfo extends Model
 {
-    use HasFactory;
     use DateFormattingTrait;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +43,6 @@ class UserInfo extends Model
         //
     ];
 
-
     // ======================================================================
     // Relationships
     // ======================================================================
@@ -52,21 +51,17 @@ class UserInfo extends Model
         return $this->belongsTo(User::class);
     }
 
-
     // ======================================================================
     // Accessors
     // ======================================================================
-
 
     // ======================================================================
     // Mutators
     // ======================================================================
 
-
     // ======================================================================
     // Custom Functions
     // ======================================================================
-
 
     // ======================================================================
     // Scopes

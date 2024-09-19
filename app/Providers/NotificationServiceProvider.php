@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Notifications\DatabaseNotification;
-
 
 class NotificationServiceProvider extends ServiceProvider
 {
@@ -29,7 +28,7 @@ class NotificationServiceProvider extends ServiceProvider
             $unreadCount = 0;
 
             if ($user) {
-                $unreadCount =  DatabaseNotification::where('notifiable_id', $user->id)
+                $unreadCount = DatabaseNotification::where('notifiable_id', $user->id)
                     ->whereNull('read_at')->count();
             }
 
