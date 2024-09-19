@@ -157,6 +157,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('users/{user}/delete', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::put('users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
         Route::put('users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
+        Route::post('/admin/users/toggle-subscription', [AdminUserController::class, 'toggleSubscription'])->name('admin.users.toggle.subscription');
+
 
         Route::resource('interests', AdminInterestController::class);
         Route::resource('locations', AdminLocationController::class);

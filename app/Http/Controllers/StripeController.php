@@ -29,7 +29,7 @@ class StripeController extends Controller
                     return $plan->id;
                 })
                 ->editColumn('amount', function ($plan) {
-                    return '$'.number_format($plan->amount, 2);
+                    return '$' . number_format($plan->amount, 2);
                 })
                 ->editColumn('interval', function ($plan) {
                     return ucfirst($plan->interval);
@@ -39,7 +39,7 @@ class StripeController extends Controller
                 })
                 ->addColumn('action', function ($plan) {
                     // return $plan;
-                    return '<button type="button" data-id="'.$plan->id.'" class="btn btn-danger btn-sm delete" disabled>Delete</button>';
+                    return '<button type="button" data-id="' . $plan->id . '" class="btn btn-danger btn-sm delete" disabled>Delete</button>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -65,7 +65,7 @@ class StripeController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'amount' => ['required', 'numeric', 'gt:0'],
+            // 'amount' => ['required', 'numeric',],
             'interval' => ['required', 'string'],
         ]);
 
@@ -75,22 +75,8 @@ class StripeController extends Controller
                 // Set the Stripe API key
                 Stripe::setApiKey(config('cashier.secret'));
 
-                // // Create a Stripe product
-                // $product = Product::create([
-                //     'name' => $request->name,
-                //     'description' => $request->description,
-                // ]);
-
-                // // Create a Stripe price (which acts as a plan)
-                // $price = Price::create([
-                //     'unit_amount' => $request->amount * 100, // Convert to cents
-                //     'currency' => env('CASHIER_CURRENCY', 'usd'),
-                //     'recurring' => ['interval' => $request->interval],
-                //     'product' => $product->id,
-                // ]);
-
                 $plan = Plan::create([
-                    'amount' => $request->amount * 100,
+                    'amount' => $request->amount ? $request->amount * 100 : 0,
                     'currency' => env('CASHIER_CURRENCY', 'usd'),
                     'interval' => $request->interval,
                     'product' => [
@@ -118,7 +104,7 @@ class StripeController extends Controller
             return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully.');
         } catch (\Throwable $th) {
             // Handle any errors that occurred during the process
-            return redirect()->route('admin.plans.create')->with('error', 'Error occurred while creating the plan: '.$th->getMessage());
+            return redirect()->route('admin.plans.create')->with('error', 'Error occurred while creating the plan: ' . $th->getMessage());
         }
     }
 
@@ -143,7 +129,7 @@ class StripeController extends Controller
             return $this->sendSuccessResponse('Plan deleted successfully.');
         } catch (\Exception $e) {
             // Return an error response if something goes wrong
-            return $this->sendErrorResponse('Error occurred while deleting the plan: '.$e->getMessage());
+            return $this->sendErrorResponse('Error occurred while deleting the plan: ' . $e->getMessage());
         }
     }
 }

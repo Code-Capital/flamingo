@@ -22,6 +22,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Subscribed</th>
                                     <th>Created At</th>
                                     <th>Action</th>
                                 </tr>
@@ -58,6 +59,10 @@
                         name: 'email'
                     },
                     {
+                        data: 'is_subscribed',
+                        name: 'is_subscribed'
+                    },
+                    {
                         data: 'created_at',
                         name: 'created_at'
                     },
@@ -70,7 +75,7 @@
             });
 
             let body = $('body');
-            $('body').on('click', '.delete', function() {
+            body.on('click', '.delete', function() {
                 let id = $(this).data('id');
                 let url = "{{ route('users.destroy', ':id') }}".replace(':id', id);
                 Swal.fire({
@@ -87,7 +92,8 @@
                     }
                 });
             })
-            $('body').on('click', '.block', function() {
+
+            body.on('click', '.block', function() {
                 let id = $(this).data('id');
                 let url = "{{ route('admin.users.block', ':id') }}".replace(':id', id);
                 Swal.fire({
@@ -104,7 +110,8 @@
                     }
                 });
             })
-            $('body').on('click', '.unblock', function() {
+
+            body.on('click', '.unblock', function() {
                 let id = $(this).data('id');
                 let url = "{{ route('admin.users.unblock', ':id') }}".replace(':id', id);
                 Swal.fire({
@@ -121,6 +128,36 @@
                     }
                 });
             })
+
+            body.on('change', '.toggle-subscribe', function() {
+                loadingStart();
+                var userId = $(this).data('id');
+                var isSubscribed = $(this).is(':checked') ? 1 : 0;
+
+                $.ajax({
+                    url: '{{ route('admin.users.toggle.subscription') }}', // Your route for toggling subscription
+                    method: 'POST',
+                    data: {
+                        id: userId,
+                        is_subscribed: isSubscribed,
+                        _token: '{{ csrf_token() }}' // CSRF token
+                    },
+                    success: function(response) {
+                        loadingStop();
+                        if (response.success) {
+                            newNotificationSound();
+                            toastr.success(response.message);
+                        } else {
+                            errorNotificationSound();
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        loadingStop();
+                        toastr.error(xhr.responseJSON.message);
+                    }
+                });
+            });
 
             function updateUserStatus(url, table) {
                 $.ajax({

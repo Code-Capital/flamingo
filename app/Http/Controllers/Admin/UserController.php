@@ -7,13 +7,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Laravel\Cashier\Exceptions\SubscriptionUpdateFailure;
+
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::role('user')->latest()->get();
+            $data = User::role('user')->where('id', '!=', User::ADMIN_ID)->latest()->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -23,14 +25,22 @@ class UserController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d/m/Y');
                 })
+                ->addColumn('is_subscribed', function ($row) {
+                    $checked = $row->isSubscribed() ? 'checked' : '';
+
+                    return '
+                        <div class="form-check form-switch">
+                            <input class="form-check-input toggle-subscribe" type="checkbox" data-id="' . $row->id . '" ' . $checked . '>
+                        </div>';
+                })
                 ->addColumn('action', function ($row) {
                     $button = '';
                     if ($row->isBlocked()) {
-                        $button = '<button type="button" name="unblock" data-id="'.$row->id.'" class="btn btn-danger btn-sm unblock">
+                        $button = '<button type="button" name="unblock" data-id="' . $row->id . '" class="btn btn-danger btn-sm unblock">
                             <img src="https://img.icons8.com/ios/50/000000/lock.png" width="20" height="20" alt="unlock">
                         </button>';
                     } else {
-                        $button = '<button type="button" name="block" data-id="'.$row->id.'" class="btn btn-info btn-sm block">
+                        $button = '<button type="button" name="block" data-id="' . $row->id . '" class="btn btn-info btn-sm block">
                             <img src="https://img.icons8.com/ios/50/000000/unlock.png" width="20" height="20" alt="lock">
                         </button>';
                     }
@@ -38,7 +48,7 @@ class UserController extends Controller
                     // $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="btn btn-danger btn-sm delete">Delete</button>';
                     return $button;
                 })
-                ->rawColumns(['name', 'action'])
+                ->rawColumns(['name', 'is_subscribed', 'action'])
                 ->make(true);
         }
 
@@ -57,7 +67,7 @@ class UserController extends Controller
                 return $this->sendSuccessResponse(null, 'User deleted successfully');
             });
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while deleting user '.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while deleting user ' . $th->getMessage());
         }
     }
 
@@ -68,7 +78,7 @@ class UserController extends Controller
 
             return $this->sendSuccessResponse(null, 'User blocked successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while blocking user '.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while blocking user ' . $th->getMessage());
         }
     }
 
@@ -79,7 +89,33 @@ class UserController extends Controller
 
             return $this->sendSuccessResponse(null, 'User unblocked successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while unblocking user '.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while unblocking user ' . $th->getMessage());
+        }
+    }
+
+
+    public function toggleSubscription(Request $request)
+    {
+        $user = User::find($request->id);
+
+        if (!$user) {
+            return $this->sendErrorResponse('User not found');
+        }
+
+        try {
+            if ($user->is_subscribed) {
+                if ($user->isSubscribed()) {
+                    $user->subscription('default')->cancel();
+                }
+                $user->is_subscribed = false;
+                $user->save();
+            } else {
+                $user->is_subscribed = true;
+                $user->save();
+            }
+            return $this->sendSuccessResponse(null, 'Subscription updated successfully');
+        } catch (SubscriptionUpdateFailure $e) {
+            return $this->sendErrorResponse('Error occured while updating subscription ' . $e->getMessage());
         }
     }
 }

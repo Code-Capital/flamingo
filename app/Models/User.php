@@ -28,6 +28,8 @@ class User extends Authenticatable
     use HasRoles;
     use SoftDeletes;
 
+    public const ADMIN_ID = 1;
+
     /**
      * The attributes that are mass assignable.
      *
