@@ -146,6 +146,7 @@
 
     <script>
         let message = '';
+        let notificationDot = document.querySelector('.notification-dot');
         document.addEventListener('DOMContentLoaded', function() {
             // Enable pusher logging - don't include this in production
             Pusher.logToConsole = true;
@@ -185,6 +186,7 @@
                     }
                 };
                 toastr.success(data.message);
+                notificationDot.style.display = 'block';
             });
         });
     </script>

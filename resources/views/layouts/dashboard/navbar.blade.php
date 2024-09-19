@@ -108,9 +108,15 @@
                         <div class="notifications position-relative">
                             <a class="text-decoration-none" href="{{ route('notifications.index') }}">
                                 <img src="{{ asset('assets/bell.svg') }}" alt="notification bell">
+                                @php
+                                    $style = 'display: none;';
+                                @endphp
                                 @if ($unreadNotificationCount > 0)
-                                    <span class="position-absolute dot"></span>
+                                    @php
+                                        $style = 'display: block;';
+                                    @endphp
                                 @endif
+                                <span class="position-absolute dot notification-dot" style="{{ $style }}"></span>
                             </a>
                         </div>
                     </div>
