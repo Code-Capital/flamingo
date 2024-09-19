@@ -92,12 +92,11 @@
                                         <span class="d-block"> <a
                                                 href="{{ route('user.feed.show', $post->user->user_name) }}"
                                                 class="text-decoration-none">
-                                                @if ($post->user_id == $currentUser->id)
+                                                {{ $post->user->user_name }}
+                                                {{-- @if ($post->user_id == $currentUser->id)
                                                     <small
-                                                        class="badge bg-secondary small text-white px-1 py-1">Author</small>
-                                                @else
-                                                    {{ $post->user->user_name }}
-                                                @endif
+                                                        class="badge bg-secondary small fw-lighter text-white px-1 py-1">Author</small>
+                                                @endif --}}
 
                                             </a>
                                         </span>
