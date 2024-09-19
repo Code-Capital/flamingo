@@ -89,6 +89,9 @@
                         </div>
                     </div>
                 @empty
+                    <div class="d-flex justify-content-center align-items-center bg-light p-4 rounded">
+                        <h3 class="text-center mb-0">No FAQ found</h3>
+                    </div>
                 @endforelse
             </div>
         </div>
