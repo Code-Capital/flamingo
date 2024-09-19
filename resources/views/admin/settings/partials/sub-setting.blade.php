@@ -45,7 +45,7 @@
             <div class="col-md-6 mb-3">
                 <div class="form-group">
                     <label class="mb-1 required">
-                        <span>Page Creation Count</span>
+                        <span>{{ __('Page') }} Creation Count</span>
                     </label>
                     <div class="form-control form-control-lg">
                         <div class="d-flex align-items-center justify-content-between">
@@ -63,7 +63,7 @@
             <div class="col-md-6 mb-3">
                 <div class="form-group">
                     <label class="mb-1 required">
-                        <span>Page Joining Count</span>
+                        <span>{{ __('Page') }} Joining Count</span>
                     </label>
                     <div class="form-control form-control-lg">
                         <div class="d-flex align-items-center justify-content-between">

@@ -19,12 +19,12 @@
                             </div>
                             <div class="dropdown">
                                 <button class="btn p-0 rounded-0 outline-0 dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/dropdown.svg">
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">{{ __('Action') }}</a></li>
+                                    <li><a class="dropdown-item" href="#">Another {{ __('Action') }}</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </div>
@@ -68,7 +68,7 @@
 
                     </div>
                     <div class="comments">
-                        <h5 class="py-3">Comments:</h5>
+                        <h5 class="py-3">{{ __('Comments') }}:</h5>
                         <div class="commentbox p-3">
                             <div class="d-flex align-items-start gap-2">
                                 <img class="rounded-circle" src="assets/profile.png">
@@ -78,7 +78,7 @@
                                     <div class="d-flex align-items-center gap-3">
                                         <a class="text-decoration-none" href=""><span>14</span> Likes</a>
                                         <a class="text-decoration-none" href="">Like</a>
-                                        <a class="text-decoration-none" href="">Reply</a>
+                                        <a class="text-decoration-none" href="">{{ __('Reply') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                     <p class="mb-3">Thanks Musk!!</p>
                                     <div class="d-flex align-items-center gap-3">
                                         <a class="text-decoration-none" href="">Like</a>
-                                        <a class="text-decoration-none" href="">Reply</a>
+                                        <a class="text-decoration-none" href="">{{ __('Reply') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="dropdown">
                                 <button class="btn p-0 rounded-0 outline-0 dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/dropdown.svg">
                                 </button>
                                 <ul class="dropdown-menu">
@@ -189,7 +189,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -215,7 +215,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -241,7 +241,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -267,7 +267,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -293,7 +293,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -319,7 +319,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -345,7 +345,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>
@@ -371,7 +371,7 @@
                                 <div class="buttonWrapper">
                                     <div class="d-flex align-items-center gap-1 flex-column">
                                         <a data-bs-toggle="modal" data-bs-target="#joinCommunity"
-                                           class="text-decoration-none">
+                                            class="text-decoration-none">
                                             <img src="assets/icon7.svg">
                                         </a>
                                         <span class="d-block">Join</span>

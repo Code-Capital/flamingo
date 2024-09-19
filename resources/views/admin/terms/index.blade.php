@@ -30,7 +30,6 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <!-- Create Button -->
                                 <button type="submit" class="btn btn-primary w-100 mt-3">
                                     Submit
                                 </button>

@@ -362,7 +362,7 @@ class CustomChatify extends ChatifyMessenger
         $message = $this->newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => $user->user_name . ' has created a new chat group: ' . $group_name,
+            'body' => $user->user_name  . __('has created a new chat group') . ': ' . $group_name,
             'attachment' => null,
         ]);
         $message->user_name = $user->user_name;

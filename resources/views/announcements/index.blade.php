@@ -11,7 +11,8 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <div class="heading pb-4">{{ __('Announcements') }} </div>
-                                <a class="btn btn-outline-primary px-4" href="{{ route('announcements.create') }}">Create</a>
+                                <a class="btn btn-outline-primary px-4"
+                                    href="{{ route('announcements.create') }}">{{ __('Create') }}</a>
                             </div>
                         </div>
                     </div>

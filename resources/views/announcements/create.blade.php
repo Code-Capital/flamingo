@@ -36,8 +36,8 @@
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="title" type="text"
-                                                value="{{ old('title') }}" required>
+                                            <input class="w-100" name="title" type="text" value="{{ old('title') }}"
+                                                required>
                                         </div>
                                     </div>
                                     @error('title')
@@ -131,9 +131,8 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- Create Button -->
                         <button type="submit" class="btn btn-primary w-100 mt-3">
-                            Create
+                            {{ __('Create') }}
                         </button>
                     </div>
                 </form>

@@ -21,7 +21,7 @@
                             </div>
                             <h6 class="mb-0">
                                 <a class="text-decoration-none remove-request" href="javascript:void(0)"
-                                    data-id="{{ $user->id }}">Remove</a>
+                                    data-id="{{ $user->id }}">{{ __('Remove') }}</a>
                             </h6>
                         </div>
                     </div>

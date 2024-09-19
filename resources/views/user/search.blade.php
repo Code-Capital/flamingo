@@ -17,13 +17,14 @@
                                             {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
                                             {{ $interest->name }}</option>
                                     @empty
-                                        <option value="">Please Select Interests</option>
+                                        <option value="">{{ __('Please Select Interests') }}</option>
                                     @endforelse
                                 </select>
                             </div>
                             <div class="col-lg-3 form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by name & email" name="q" value="{{ request()->q }}">
+                                    placeholder="{{ __('Search by name or email') }}" name="q"
+                                    value="{{ request()->q }}">
                             </div>
                             <div class="col-lg-3 form-group">
                                 <select class="form-control locations w-100" name="location">
@@ -92,15 +93,14 @@
     <script>
         $(document).ready(function() {
             $('.interests').select2({
-                placeholder: "Please Select Interests",
-                allowClear: true
-            });
-            $('.locations').select2({
-                placeholder: "Please Select location",
+                placeholder: "{{ __('Please Select Interests') }}",
                 allowClear: true
             });
 
-            // add freinds move in the common scripts file
+            $('.locations').select2({
+                placeholder: "{{ __('Please Select location') }}",
+                allowClear: true
+            });
         });
     </script>
 @endsection

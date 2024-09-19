@@ -5,7 +5,7 @@
                 <button class="btn btn-primary px-4">Gallery</button>
                 <label for="upload_new">
                     <input id="upload_new" type="file" class="px-4 d-none">
-                    <div class="btn btn-outline-primary">Upload</div>
+                    <div class="btn btn-outline-primary">{{ __('Upload') }}</div>
                 </label>
             </div>
             <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap">

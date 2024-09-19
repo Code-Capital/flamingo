@@ -9,7 +9,7 @@
                 <div class="bg-white p-4 dashboardCard">
                     <div class="notification">
                         <div class="d-flex align-items-center justify-content-between pb-4 ">
-                            <button class="btn btn-primary">Notifications</button>
+                            <button class="btn btn-primary">{{ __('Notifications') }}</button>
                             <a href={{ route('read.all.notification') }} class="btn btn-outline-primary">Mark all as read</a>
                         </div>
                         @forelse($allNotifications as $notification)

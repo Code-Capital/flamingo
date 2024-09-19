@@ -11,7 +11,7 @@
             </td>
             {{-- center side --}}
             <td>
-                <p>Saved Messages <span>You</span></p>
+                <p>{{ __('Saved Messages ') }}<span>You</span></p>
                 <span>Save messages secretly</span>
             </td>
         </tr>

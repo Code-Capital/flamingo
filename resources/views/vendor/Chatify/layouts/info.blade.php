@@ -2,7 +2,7 @@
 $isGroup = isset($channel->owner_id);
 ?>
 <nav>
-    <p>{{ isset($channel->owner_id) ? 'Group Details' : 'User Details' }}</p>
+    <p>{{ isset($channel->owner_id) ? __('Group Details') : 'User Details' }}</p>
     <a href="#"><i class="fas fa-times"></i></a>
 </nav>
 
@@ -11,7 +11,7 @@ $isGroup = isset($channel->owner_id);
 @if ($isGroup)
     <div style="max-width: 250px; margin: auto">
         <h4 style="text-align: center; margin-bottom: 10px; margin-top: 30px; font-weight: normal; font-size: 14px">Users
-            in this group</h4>
+            in this {{ __('group') }}</h4>
         <div class="app-scroll users-list">
             @foreach ($channel->users as $user)
                 {!! view('Chatify::layouts.listItem', [
@@ -25,9 +25,9 @@ $isGroup = isset($channel->owner_id);
 
 <div class="messenger-infoView-btns">
     @if ($isGroup && $channel && $channel->owner_id === Auth::user()->id)
-        <a href="#" class="danger delete-group">{{ __('Delete') }} Group</a>
+        <a href="#" class="danger delete-group">{{ __('Delete') }} {{ __('Group') }}</a>
     @elseif($isGroup)
-        <a href="#" class="danger leave-group">Leave Group</a>
+        <a href="#" class="danger leave-group">Leave {{ __('Group') }}</a>
     @else
         <a href="#" class="danger delete-conversation">{{ __('Delete') }} Conversation</a>
     @endif

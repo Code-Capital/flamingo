@@ -13,7 +13,7 @@
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <h3 class="marketHeading mb-0">Location List</h3>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdropCreate"> Create
+                                    data-bs-target="#staticBackdropCreate"> {{ __('Create') }}
                                     Location </button>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Action</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,7 +44,7 @@
                 <form action="{{ route('locations.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create location</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ __('Create') }} location</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

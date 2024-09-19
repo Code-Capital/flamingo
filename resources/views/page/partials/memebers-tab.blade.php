@@ -20,8 +20,9 @@
                             </div>
                             <h6 class="mb-0">
                                 @if ($page->isMainOwner($user))
-                                    <a class="text-decoration-none remove-member" data-user="{{ $member->id }}" data-page="{{ $page->id }}"
-                                        href="javascript:void(0)">Remove</a>
+                                    <a class="text-decoration-none remove-member" data-user="{{ $member->id }}"
+                                        data-page="{{ $page->id }}"
+                                        href="javascript:void(0)">{{ __('Remove') }}</a>
                                 @endif
                             </h6>
                         </div>

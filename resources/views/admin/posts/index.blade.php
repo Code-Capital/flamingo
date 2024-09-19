@@ -23,7 +23,7 @@
                                     <th>Body</th>
                                     <th>media</th>
                                     <th>Published at</th>
-                                    <th>Action</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

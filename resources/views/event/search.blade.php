@@ -27,7 +27,7 @@
                                             {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
                                             {{ $interest->name }}</option>
                                     @empty
-                                        <option value="">Please Select Interests</option>
+                                        <option value="">{{ __('Please Select Interests') }}</option>
                                     @endforelse
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <a class="btn btn-primary px-4" href="javascript:void(0)">{{ __('My Events') }}</a>
-                                <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
+                                <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">{{ __('Create') }}</a>
                             </div>
                         </div>
                     </div>
@@ -85,12 +85,12 @@
     <script>
         $(document).ready(function() {
             $('.interests').select2({
-                placeholder: "Please Select Interests",
+                placeholder: "{{ __('Please Select Interests') }}",
                 allowClear: true
             });
 
             $('.locations').select2({
-                placeholder: "Please Select Locations",
+                placeholder: "{{ __('Please Select Location') }}",
                 allowClear: true
             });
         });

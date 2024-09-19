@@ -186,16 +186,15 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- Create Button -->
                             <button type="submit" class="btn btn-primary w-100 mt-3">
-                                Create
+                                {{ __('Create') }}
                             </button>
                         </form>
                     @else
                         <div class="alert alert-danger" role="alert">
                             You have reached the maximum limit of creating {{ __('events') }} for this month. Please
                             delete some {{ __('events') }}
-                            to create new
+                            to {{ __('Create') }} new
                             {{ __('events') }}.
                         </div>
                     @endif

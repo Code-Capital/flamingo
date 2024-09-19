@@ -88,9 +88,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Create Button -->
                                 <button type="submit" class="btn btn-primary w-100 mt-3">
-                                    Create
+                                    {{ __('Create') }}
                                 </button>
                             </div>
                         </form>

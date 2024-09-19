@@ -3,7 +3,7 @@
         <img src="{{ $event->thumbnail_url }}">
         <div class="content w-100">
             <div class="d-flex align-items-center">
-                <span>Starts from :{{ $event->formatted_start_date }} To:
+                <span>{{ __('Starts from') }} :{{ $event->formatted_start_date }} {{ __('To') }}:
                     {{ $event->formatted_end_date }} </span>
                 <div class="ms-auto dropdown">
                     <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
@@ -56,7 +56,7 @@
                 @if ($event->isUpcoming())
                     <span class="px-1 py-1 fw-bold bg-success text-white">Upcoming</span>
                 @elseif ($event->isOngoing())
-                    <span class="px-1 py-1 fw-bold bg-warning text-white">Ongoing</span>
+                    <span class="px-1 py-1 fw-bold bg-warning text-white">{{ __('Ongoing') }}</span>
                 @else
                     <span class="px-1 py-1 fw-bold bg-danger text-white">Ended</span>
                 @endif

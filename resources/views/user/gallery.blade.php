@@ -18,7 +18,7 @@
                             <button class="btn btn-primary px-4">{{ __('Gallery') }}</button>
                             <label for="upload">
                                 <input id="upload" type="file" class="px-4 d-none">
-                                <div class="btn btn-outline-primary" id="uploadButton">Upload</div>
+                                <div class="btn btn-outline-primary" id="uploadButton">{{ __('Upload') }}</div>
                             </label>
                         </div>
 

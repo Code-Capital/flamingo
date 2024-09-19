@@ -11,7 +11,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <a class="btn btn-primary px-4" href="">{{ __('My joint events') }}</a>
-                                {{-- <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a> --}}
+                                {{-- <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">{{ __('Create') }}</a> --}}
                             </div>
                         </div>
                     </div>

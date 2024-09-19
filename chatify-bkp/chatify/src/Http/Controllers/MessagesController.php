@@ -650,7 +650,7 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => Auth::user()->id,
             'to_channel_id' => $new_channel->id,
-            'body' => Auth::user()->name.' has created a new chat group: '.$group_name,
+            'body' => Auth::user()->name. __('has created a new chat group') . ' '.$group_name,
             'attachment' => null,
         ]);
         $message->user_name = Auth::user()->name;

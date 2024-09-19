@@ -5,7 +5,7 @@
             <form id="addGroupForm" action="{{ route('group-chat.create') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="app-modal-header">
-                    Create a Group Channel
+                    {{ __('Create') }} a {{ __('Group') }} Channel
                 </div>
                 <div class="app-modal-body">
                     {{-- channel avatar --}}
@@ -13,18 +13,18 @@
                         style="background-image: url('{{ Auth::user()->avatar_url }}');"></div>
                     <p class="upload-avatar-details"></p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{ $messengerColor }}">
-                        Upload New
+                        {{ __('Upload') }} New
                         <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
                     </label>
                     {{-- End channel avatar --}}
 
                     <div class="form-control">
-                        <label class="form-label" for="group_name">Group Name</label>
+                        <label class="form-label" for="group_name">{{ __('Group') }} Name</label>
                         <input class="form-input" type="text" name="group_name" id="group_name"
                             placeholder="Enter a name" required="required" />
                     </div>
                     <div class="form-control">
-                        <label class="form-label" for="search">Select user(s) to the group</label>
+                        <label class="form-label" for="search">Select user(s) to the {{ __('group') }}</label>
                         <input class="form-input user-search" type="text" name="search" placeholder="Search" />
                     </div>
                     <div class="search-records app-scroll users-list"></div>
@@ -112,10 +112,11 @@
                 <div class="app-modal-body">
                     {{-- Udate profile avatar --}}
                     <div class="avatar av-l upload-avatar-preview chatify-d-flex"
-                        style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"></div>
+                        style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');">
+                    </div>
                     <p class="upload-avatar-details"></p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{ $messengerColor }}">
-                        Upload New
+                        {{ __('Upload') }} New
                         <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar"
                             type="file" />
                     </label>

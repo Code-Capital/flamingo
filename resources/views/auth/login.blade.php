@@ -50,8 +50,8 @@
                             </button>
 
                             <div class="linkText mt-3">
-                                <span>Don’t have an account? <a class="text-decoration-none"
-                                        href="{{ route('register') }}">Create an account</a></span>
+                                <span>{{ __('Don`t have an account?') }} <a class="text-decoration-none"
+                                        href="{{ route('register') }}">{{ __('Create an account') }}</a></span>
                             </div>
                         </div>
                     </div>

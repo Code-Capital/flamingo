@@ -10,8 +10,8 @@
                     <div class="row mx-0 mb-3">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <h3 class="marketHeading mb-0">Marketplace</h3>
-                                <a class="btn btn-outline-primary px-4" href="createEvent">Create</a>
+                                <h3 class="marketHeading mb-0">{{ __('Marketplace') }}</h3>
+                                <a class="btn btn-outline-primary px-4" href="javascript:void(0)">{{ __('Create') }}</a>
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,8 @@
                                         <img src=" {{ $page->profile_image_url }} ">
                                         <div class="content w-100">
                                             <div class="d-flex align-items-center">
-                                                <span>Starts from :{{ $page->formatted_start_date }} To:
+                                                <span>{{ __('Starts from') }} :{{ $page->formatted_start_date }}
+                                                    {{ __('To') }}:
                                                     {{ $page->formatted_end_date }} </span>
                                                 <div class="ms-auto dropdown">
                                                     <a class="btn" href="javascript:void(0)" role="button"
@@ -76,12 +77,12 @@
                                                 <h5 class="mb-1">{{ $page->name }}</h5>
                                                 <p class="mb-2"> {{ limitString($page->description) }} </p>
                                                 <div class="owners">
-                                                    <div class="text mb-2">Other Owners</div>
+                                                    <div class="text mb-2">{{ __('Other Owners') }}</div>
                                                     <div class="tags d-flex gap-3 align-items-center flex-wrap">
                                                         @forelse ($page->users as $user)
                                                             <span class="px-2 py-1">{{ $user->user_name }}</span>
                                                         @empty
-                                                            <span class="px-2 py-1">No other owners</span>
+                                                            <span class="px-2 py-1">No {{ __('other owners') }}</span>
                                                         @endforelse
                                                     </div>
                                                 </div>

@@ -23,7 +23,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Created At</th>
-                                    <th>Action</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

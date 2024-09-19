@@ -54,7 +54,7 @@
                         </div>
 
                         <button class="btn btn-primary w-100 mt-3">
-                            Create Listing
+                            {{ __('Create') }} Listing
                         </button>
                     </div>
                 </div>

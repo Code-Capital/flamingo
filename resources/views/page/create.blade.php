@@ -25,7 +25,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label class="mb-1 required">
-                                        <span>Page Name</span>
+                                        <span>{{ __('Page') }} Name</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -46,7 +46,8 @@
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" name="profile_image" type="file" accept="images/*" required>
+                                            <input class="w-100" name="profile_image" type="file" accept="images/*"
+                                                required>
                                         </div>
                                     </div>
                                     @error('profile_image')
@@ -112,9 +113,8 @@
                             <label class="form-check-label" for="private">Is Private </label>
                         </div>
 
-                        <!-- Create Button -->
                         <button type="submit" class="btn btn-primary w-100 mt-3">
-                            Create
+                            {{ __('Create') }}
                         </button>
                     </div>
                 </form>

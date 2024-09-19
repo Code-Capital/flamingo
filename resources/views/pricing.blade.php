@@ -81,8 +81,8 @@
                     <!-- Content to show when the user is subscribed -->
                     <div class="col-lg-12">
                         <div class="alert alert-success">
-                            <strong>You're already subscribed!</strong> Thank you for being a part of our service.
-                            If you need any assistance or want to upgrade your plan, please <a>view your
+                            <strong>{{('You')}}'re already subscribed!</strong> Thank {{('you')}} for being a part of our service.
+                            If {{('you')}} need any assistance or want to upgrade {{('you')}}r plan, please <a>view your
                                 {{ __('subscription') }}
                                 details</a>.
                         </div>

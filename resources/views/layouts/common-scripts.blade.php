@@ -144,7 +144,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <a class="text-decoration-none" href="javascript:void(0)"><span>${comment.likes_count}</span> Likes</a>
                                 <a class="text-decoration-none" href="javascript:void(0)">Like</a>
-                                <a class="text-decoration-none" href="javascript:void(0)">Reply</a>
+                                <a class="text-decoration-none" href="javascript:void(0)">'Reply'</a>
                             </div>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
         let id = $(this).data('id');
         unfriendUser(id, $(this));
     });
-    
+
     function unfriendUser(id, button) {
         $.ajax({
             url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),

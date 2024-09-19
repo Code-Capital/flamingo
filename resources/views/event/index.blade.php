@@ -12,7 +12,7 @@
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <a class="btn btn-primary px-4" href="javascript:void(0)">{{ __('My events') }}</a>
                                 @if ($remianingEventCount > 0)
-                                    <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">Create</a>
+                                    <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">{{ __('Create') }}</a>
                                 @else
                                     <a class="btn btn-outline-primary px-4" href="{{ route('pricing') }}">Please
                                         Subscribe</a>

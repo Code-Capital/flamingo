@@ -3,10 +3,10 @@
 @section('styles')
 @endsection
 @section('content')
-    <h1>Notifications</h1>
+    <h1>{{ __('Notifications') }}</h1>
 
     <ul>
-        @foreach($notifications as $notification)
+        @foreach ($notifications as $notification)
             <li>
                 {{ $notification->data['message'] }}
                 <br>

@@ -25,12 +25,12 @@
                         <div class="d-flex gap-2 align-items-center flex-grow-1">
                             <div class="dropdown">
                                 <button class="btn p-0 dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     Messages
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">{{ __('Action') }}</a></li>
+                                    <li><a class="dropdown-item" href="#">Another {{ __('Action') }}</a></li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </div>
@@ -41,8 +41,7 @@
                         </a>
                     </div>
                     <div class="searchInput p-3">
-                        <input class="form-control form-control-lg" type="search"
-                               placeholder="Search by name or message ">
+                        <input class="form-control form-control-lg" type="search" placeholder="Search by name or message ">
                     </div>
                     @forelse($friends as $friend)
                         <div class="singleMessage mx-3 px-2 py-1 mb-2">
@@ -81,9 +80,9 @@
                         </div>
                     </div>
                     <a type="button" class="btn d-flex gap-1 align-items-center" data-bs-toggle="modal"
-                       data-bs-target="#groupMemberModal">
+                        data-bs-target="#groupMemberModal">
                         <!--                            <img src="assets/icon19.svg" alt="">-->
-                        Group Members
+                        {{ __('Group') }} Members
                     </a>
                 </div>
                 <div class="p-4">

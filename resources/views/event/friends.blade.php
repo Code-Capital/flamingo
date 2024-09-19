@@ -25,7 +25,8 @@
                                             </div>
                                         </div>
                                         <h6 class="mb-0"><a class="text-decoration-none unfriend"
-                                                href="javascript:void(0)" data-id="{{ $friend->id }}">Remove</a>
+                                                href="javascript:void(0)"
+                                                data-id="{{ $friend->id }}">{{ __('Remove') }}</a>
                                         </h6>
                                     </div>
                                 </div>

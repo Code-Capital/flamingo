@@ -10,7 +10,7 @@
                     <div class="row mx-0 mb-3">
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
-                                <h3 class="marketHeading mb-0">Page Invites</h3>
+                                <h3 class="marketHeading mb-0">{{ __('Page') }} Invites</h3>
                             </div>
                         </div>
                     </div>

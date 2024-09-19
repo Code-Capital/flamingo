@@ -10,7 +10,7 @@
                         <div class=" show-comment-form-{{ $comment->id }} d-flex align-items-center gap-3">
                             {{-- <a class="text-decoration-none" href="javascript:void(0)"> Like {{ $comment->likes_count ?? 0 }} </a> --}}
                             <a class="text-decoration-none show-reply-form" data-id="{{ $comment->id }}"
-                                href="javascript:void(0)">Reply</a>
+                                href="javascript:void(0)">{{ __('Reply') }}</a>
                         </div>
                     </div>
                 </div>

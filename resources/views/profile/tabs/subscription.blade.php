@@ -48,12 +48,12 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>User Name</th>
+                                <th>{{ __('User name') }}</th>
                                 <th>{{ __('Subscription') }} name</th>
                                 <th>Stripe id</th>
                                 <th>Stripe status</th>
-                                <th>Ends at</th>
-                                <th>Action</th>
+                                <th>{{ __('Ends at') }}</th>
+                                <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
