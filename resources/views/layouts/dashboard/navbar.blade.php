@@ -2,7 +2,7 @@
     use Illuminate\Support\Facades\Auth;
 @endphp
 
-@if (Request::routeIs('messages'))
+@if (Request::routeIs('messages') || Request::routeIs('channel_id'))
     <div class="bg-primary py-3 d-flex justify-content-between align-items-center">
         <a id="sidebar-toggle">
             <span></span>
