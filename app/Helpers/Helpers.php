@@ -57,16 +57,19 @@ if (! function_exists('convertSnakeCaseToUpperCase')) {
             : '';
     }
 }
-
 if (! function_exists('getPeoples')) {
     function getPeoples(?User $user = null, int $limit = 10, bool $pagination = false)
     {
+        // Get user interests and friend IDs
         $interests = $user->interests()->pluck('interest_id')->toArray();
         $friendsIds = $user->reverseFriends->pluck('id')->toArray();
 
+        // Build the query
         $query = $user->byInterests($interests)
-            ->whereNotIn('id', $friendsIds)
-            ->byNotUser($user->id);
+            ->whereNotIn('id', $friendsIds) // Exclude friends
+            ->byNotUser($user->id); // Exclude the current user
+
+        // Return the result based on pagination
         if ($pagination) {
             return $query->paginate(getPaginated($limit));
         } else {
@@ -74,6 +77,7 @@ if (! function_exists('getPeoples')) {
         }
     }
 }
+
 if (! function_exists('getInterval')) {
     function getInterval($interval)
     {
@@ -89,7 +93,7 @@ if (! function_exists('getInterval')) {
             case 'year':
                 return 'Yearly';
             default:
-                return ucfirst($interval).'ly';
+                return ucfirst($interval) . 'ly';
         }
     }
 }

@@ -23,7 +23,7 @@
                             <div class="d-flex align-items-center gap-1 flex-column">
                                 <small>
                                     <a class="add-friend small text-white bg-primary p-1 rounded text-decoration-none"
-                                        data-id="3" href="javascript:void(0)">
+                                        data-id="{{ $user->id }}" href="javascript:void(0)">
                                         {{ __('Add friend') }}
                                     </a>
                                 </small>

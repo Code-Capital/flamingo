@@ -66,7 +66,7 @@ class UserController extends Controller
                 'data' => json_encode([
                     'message' => 'Friend request accepted successfully',
                     'user_id' => $user->authUser,
-                    'user_name' => $authuser->user_name,
+                    'user_name' => $authUser->user_name,
                 ]),
             ]);
 

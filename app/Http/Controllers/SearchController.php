@@ -24,7 +24,7 @@ class SearchController extends Controller
         $authUser = Auth::user();
         $authUser->interests->pluck('id')->toArray();
         $merged = array_merge($authUser->interests->pluck('id')->toArray(), $selectedInterests);
-        $users = User::where('id', '!=', $authUser->id)
+        $users = User::where('id', '!=', Auth::id())
             // ->byNotUser($authUser->id)
             ->bySearch($searchTerm)
             ->byInterests($merged)
