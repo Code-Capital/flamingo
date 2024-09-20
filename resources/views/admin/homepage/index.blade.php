@@ -118,55 +118,63 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <div class="form-group mb-3">
-                            <label class="mb-1">
-                                <span>All Features</span>
-                            </label>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Feature Title</th>
-                                        <th scope="col">Feature Description</th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($homePage->features as $feature)
-                                        <tr>
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $feature->heading }}</td>
-                                            <td>{{ $feature->description }}</td>
-                                            <td>
-                                                @if ($feature->image)
-                                                    <img src="{{ $feature->image }}" alt="Feature image" class="img-fluid"
-                                                        style="height: 50px; width: 50px;">
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('admin.homepage.feature.edit', $feature->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('admin.homepage.feature.destroy', $feature->id) }}"
-                                                    method="POST" style="display:inline-block;"
-                                                    onsubmit="return confirm('Are you sure?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-
                         <button type="submit" class="btn btn-primary w-100 mt-3">
                             {{ __('Update') }}
                         </button>
                     </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="px-0 px-md-2 px-lg-3">
+        <div class="row mx-0 pt-3">
+            <div class="col-lg-12 mb-3 mx-auto">
+                <div class="profileForm bg-white p-3 p-md-3 p-lg-5 mt-4">
+                    <div class="form-group mb-3">
+                        <label class="mb-1">
+                            <span>All Features</span>
+                        </label>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Feature Title</th>
+                                    <th scope="col">Feature Description</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($homePage->features as $feature)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $feature->heading }}</td>
+                                        <td>{{ $feature->description }}</td>
+                                        <td>
+                                            @if ($feature->image)
+                                                <img src="{{ $feature->image }}" alt="Feature image" class="img-fluid"
+                                                    style="height: 50px; width: 50px;">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.homepage.feature.edit', $feature->id) }}"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="{{ route('admin.homepage.feature.destroy', $feature->id) }}"
+                                                method="POST" style="display:inline-block;"
+                                                onsubmit="return confirm('Are you sure?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
