@@ -620,10 +620,10 @@
                                 </li>
                             @endcan
 
-                            @can('view faqs list')
+                            @can('edit home page')
                                 <li>
-                                    <a id="settings" href="{{ route('faqs.index') }}"
-                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('plans.index') ? 'active' : '' }}">
+                                    <a id="settings" href="{{ route('admin.homepage.edit') }}"
+                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('admin.homepage.edit') ? 'active' : '' }}">
                                         <svg class="settings" width="24" height="25" viewBox="0 0 24 25"
                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -641,7 +641,7 @@
                             @can('view plans list')
                                 <li>
                                     <a id="settings" href="{{ route('admin.plans.index') }}"
-                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('plans.index') ? 'active' : '' }}">
+                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('admin.plans.index') ? 'active' : '' }}">
                                         <svg class="settings" width="24" height="25" viewBox="0 0 24 25"
                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path

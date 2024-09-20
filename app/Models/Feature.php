@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Traits\DateFormattingTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Feature extends Model
 {
@@ -46,6 +47,10 @@ class Feature extends Model
     // ======================================================================
     // Accessors
     // ======================================================================
+    public function getImageAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
 
 
     // ======================================================================

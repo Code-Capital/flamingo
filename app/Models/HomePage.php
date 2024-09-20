@@ -6,6 +6,7 @@ use App\Traits\DateFormattingTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class HomePage extends Model
 {
@@ -38,7 +39,7 @@ class HomePage extends Model
     // ======================================================================
     // Relationships
     // ======================================================================
-    public function features() : HasMany
+    public function features(): HasMany
     {
         return $this->hasMany(Feature::class);
     }
@@ -47,6 +48,10 @@ class HomePage extends Model
     // ======================================================================
     // Accessors
     // ======================================================================
+    public function getHeroImageAttribute($value)
+    {
+        return $value ? Storage::url($value) : null;
+    }
 
 
     // ======================================================================

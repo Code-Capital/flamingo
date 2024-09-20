@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->text('hero_heading')->nullable();
             $table->text('hero_description')->nullable();
-            $table->string('hero_image');
-            $table->text('feature_heading');
-            $table->text('feature_description');
+            $table->string('hero_image')->nullable();
+            $table->text('feature_heading')->nullable();
+            $table->text('feature_description')->nullable();
             $table->timestamps();
         });
     }

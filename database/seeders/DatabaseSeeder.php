@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             LocationSeeder::class,
             UserSeeder::class,
+            HomePageSeeder::class
 
             // EventSeeder::class,
             // AnnouncementSeeder::class,

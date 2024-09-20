@@ -311,7 +311,7 @@ class User extends Authenticatable
             if (Storage::exists($this->avatar)) {
                 return Storage::url($this->avatar);
             } else {
-                return Storage::url('avatars/'.$this->avatar);
+                return Storage::url('avatars/' . $this->avatar);
             }
         } else {
             return asset('assets/avatar.jpg');
@@ -504,10 +504,10 @@ class User extends Authenticatable
     public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($query) use ($search) {
-            $query->where('first_name', 'like', '%'.$search.'%')
-                ->orWhere('last_name', 'like', '%'.$search.'%')
-                ->orWhere('user_name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%');
+            $query->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('user_name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
 

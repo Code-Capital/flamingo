@@ -8,11 +8,9 @@
             <div class="row mx-0 align-items-center">
                 <div class="col-lg-6">
                     <div class="content pe-5">
-                        <h1 class="mb-0 ">Discover Flamingo - Where Vibrancy Meets Connections</h1>
-                        <p class="mb-0 py-4">Discover a place where connections, friendships, and communities thrive.
-                            Flamingo is your gateway to an inclusive online space where you can interact, share, and
-                            engage with like-minded individuals. Join us to meet new people, explore shared interests,
-                            and connect with your community!</p>
+                        <h1 class="mb-0 ">
+                            {{ $homePage->hero_heading ?? 'Discover Flamingo - Where Vibrancy Meets Connections' }} </h1>
+                        <p class="mb-0 py-4">{{ $homePage->hero_description }}</p>
                         @guest
                             <a href="{{ route('register') }}" class="btn btn-primary px-4">{{ __('Join now') }}</a>
                         @endguest
@@ -20,7 +18,10 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="image text-center">
-                        <img class="img-fluid" src=" {{ asset('assets/hero-image.png') }} " alt="">
+                        @php
+                            $heroImage = $homePage->hero_image ? $homePage->hero_image : asset('assets/hero-image.png');
+                        @endphp
+                        <img class="img-fluid" src="{{ $heroImage }}" alt="">
                     </div>
                 </div>
             </div>
@@ -29,19 +30,23 @@
     <div class="featureWrapper py-5">
         <div class="container">
             <div class="text-center pb-4">
-                <h2>Discover the Features</h2>
-                <p>Discover the Abundance of Features and Benefits with Flamingo</p>
+                <h2>{{ $homePage->feature_heading ?? 'Discover the Features' }}</h2>
+                <p>
+                    {{ $homePage->feature_description ?? 'Discover the Abundance of Features and Benefits with Flamingo' }}
+                </p>
             </div>
             <div class="row mx-0 align-items-stretch">
-                <div class="col-lg-4 mb-3">
-                    <div class="content bg-white px-4 py-5 h-100">
-                        <img class="img-fluid" src="{{ asset('assets/icon1.svg') }}" alt="">
-                        <h4 class="mb-0 py-3">Profile Creation</h4>
-                        <p class="pe-0 pe-md-3 pe-lg-5">Craft a vibrant, personalized profile to connect with
-                            like-minded individuals.</p>
+                @forelse ($homePage->features as $feature)
+                    <div class="col-lg-4 mb-3">
+                        <div class="content bg-white px-4 py-5 h-100">
+                            <img class="img-fluid" src="{{ $feature->image }}" alt="">
+                            <h4 class="mb-0 py-3">{{ $feature->heading }}</h4>
+                            <p class="pe-0 pe-md-3 pe-lg-5">{{ $feature->description }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 mb-3">
+                @empty
+                @endforelse
+                {{-- <div class="col-lg-4 mb-3">
                     <div class="content bg-white px-4 py-5 h-100">
                         <img class="img-fluid" src="{{ asset('assets/icon2.svg') }}" alt="">
                         <h4 class="mb-0 py-3">Communicate & Connect</h4>
@@ -56,7 +61,7 @@
                         <p class="pe-0 pe-md-3 pe-lg-5">Share captivating stories, spark engaging conversations, and
                             inspire others' creativity.</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

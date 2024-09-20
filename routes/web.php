@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\InterestController as AdminInterestController;
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -190,14 +191,23 @@ Route::middleware('auth')->group(function () {
         Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
         Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+
+        Route::get('/homepage/edit', [AdminHomePageController::class, 'index'])->name('admin.homepage.edit');
+        Route::put('/homepage/update/hero', [AdminHomePageController::class, 'editOrUpdateHero'])->name('admin.homepage.update.hero');
+        Route::put('/homepage/update/feature', [AdminHomePageController::class, 'editOrUpdateFeature'])->name('admin.homepage.update.feature');
+        Route::get('feature/create', [AdminHomePageController::class, 'featureCreate'])->name('admin.homepage.feature.create');
+        Route::post('feature/store', [AdminHomePageController::class, 'featureStore'])->name('admin.homepage.feature.store');
+        Route::get('feature/{feature}/edit', [AdminHomePageController::class, 'featureEdit'])->name('admin.homepage.feature.edit');
+        Route::put('feature/{feature}/update', [AdminHomePageController::class, 'featureUpdate'])->name('admin.homepage.feature.update');
+        Route::delete('feature/{feature}/delete', [AdminHomePageController::class, 'featureDestroy'])->name('admin.homepage.feature.destroy');
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
 });
 
 Route::get('storage-link', function () {
-    Artisan::call('storage:link');
-    return 'storage link created';
+    $response = Artisan::call('storage:link');
+    return 'storage link created ' . $response;
 });
 Route::get('cache-clear', function () {
     Artisan::call('optimize:clear');

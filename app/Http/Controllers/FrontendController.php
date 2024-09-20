@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ContactMail;
 use App\Models\Faq;
 use App\Models\Plan;
 use App\Models\Setting;
+use App\Models\HomePage;
+use App\Mail\ContactMail;
+use Illuminate\Http\Request;
 use App\Models\TermsAndConditions;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
 
 class FrontendController extends Controller
 {
     public function home(): View
     {
         $faqs = Faq::get();
+        $homePage = HomePage::with('features')->first();
+        // dd($homePage->toArray());
         return view('home', get_defined_vars());
     }
 

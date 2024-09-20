@@ -35,6 +35,7 @@ class PermissionSeeder extends Seeder
             'view page invites',
             'view my subscription',
             'view faqs list',
+            'edit home page',
 
             // Admin permissions
             'view admin dashboard',
