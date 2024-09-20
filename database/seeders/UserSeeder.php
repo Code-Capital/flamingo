@@ -105,29 +105,29 @@ class UserSeeder extends Seeder
         // $simpleUser->friends()->attach($users, ['status' => 'accepted']);
 
         // // Create 10 regular users and attach random interests
-        User::factory(100)->create()->each(function ($user) {
+        // User::factory(100)->create()->each(function ($user) {
 
-            $user->assignRole('user');
+        //     $user->assignRole('user');
 
-            // Create 10 posts for each user
-            $user->posts()->createMany(Post::factory(5)->make()->toArray());
+        //     // Create 10 posts for each user
+        //     $user->posts()->createMany(Post::factory(5)->make()->toArray());
 
-            // Attach random interests
-            $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
-            $user->interests()->attach($interests);
+        //     // Attach random interests
+        //     $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
+        //     $user->interests()->attach($interests);
 
-            $user->userInfo()->create([
-                'municipality' => null,
-            ]);
+        //     $user->userInfo()->create([
+        //         'municipality' => null,
+        //     ]);
 
-            // create friends
-            $randomUsers = User::inRandomOrder()->take(rand(1, 20))->get();
+        //     // create friends
+        //     $randomUsers = User::inRandomOrder()->take(rand(1, 20))->get();
 
-            $status = ['accepted', 'pending', 'rejected'];
-            foreach ($randomUsers as $randomUser) {
-                $user->friends()->attach($randomUser, ['status' => $status[array_rand($status)]]);
-                $randomUser->friends()->attach($user, ['status' => $status[array_rand($status)]]);
-            }
-        });
+        //     $status = ['accepted', 'pending', 'rejected'];
+        //     foreach ($randomUsers as $randomUser) {
+        //         $user->friends()->attach($randomUser, ['status' => $status[array_rand($status)]]);
+        //         $randomUser->friends()->attach($user, ['status' => $status[array_rand($status)]]);
+        //     }
+        // });
     }
 }
