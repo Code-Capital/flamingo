@@ -20,10 +20,10 @@
                                 @include('layouts.partial.show-error')
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">{{ __('Email') }}</label>
-                                <input class="form-control form-control-lg" type="text" name="email"
-                                    value="{{ old('email') }}" placeholder="i.e. john@mail.com">
-                                @error('email')
+                                <label class="mb-1">{{ __('User name') }}</label>
+                                <input class="form-control form-control-lg" type="text" name="user_name"
+                                    value="{{ old('user_name') }}" placeholder="username">
+                                @error('user_name')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
