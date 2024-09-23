@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Chatify\CustomChatify;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
+
+    public $customChatify;
+
+    public function __construct()
+    {
+        $this->customChatify = new CustomChatify();
+    }
+
     /**
      * Display the login view.
      */
@@ -27,6 +36,14 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        // Get the authenticated user
+        $user = Auth::user();  // You were missing this part
+
+        // Check if the user doesn't have a channel_id and create one if needed
+        if (!$user->channel_id) {
+            $this->customChatify->createPersonalChannel();
+        }
 
         return redirect()->intended(route('home', absolute: false));
     }

@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'user_name' => 'admin',
             'about' => null,
             'is_private' => false,
+            'is_subscribed' => true,
             'email_verified_at' => now(),
             'is_subscribed' => true,
         ]);
@@ -43,6 +44,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
+            'is_subscribed' => true,
         ]);
         $simpleUser->assignRole('user');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
@@ -60,6 +62,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
+            'is_subscribed' => true,
         ]);
         $simpleUser->assignRole('user');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
@@ -77,6 +80,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
+            'is_subscribed' => true,
         ]);
         $simpleUser->assignRole('user');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
@@ -93,6 +97,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'about' => 'Lorem Ipsum is simply dummy text of the printing er and typesetting industry.',
             'is_private' => false,
+            'is_subscribed' => true,
         ]);
         $simpleUser->assignRole('user');
         $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();

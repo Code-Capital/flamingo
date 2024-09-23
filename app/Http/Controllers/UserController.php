@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\NotificationStatusEnum;
-use App\Enums\StatusEnum;
-use App\Events\FriendRequestSend;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
+use App\Enums\StatusEnum;
 use Illuminate\Http\Request;
+use App\Chatify\CustomChatify;
+use App\Events\FriendRequestSend;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\NotificationStatusEnum;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
+    public $customChatify;
+
+    public function __construct(CustomChatify $customChatify)
+    {
+        $this->customChatify = $customChatify;
+    }
+
     public function gallery(): View
     {
         $user = auth()->user();
@@ -51,34 +61,47 @@ class UserController extends Controller
         if (! $friend) {
             return $this->sendErrorResponse('Friend not found', Response::HTTP_NOT_FOUND);
         }
+        try {
+            DB::transaction(function () use ($user, $authUser, $request) {
+                $authUser->friends()->updateExistingPivot($user->id, [
+                    'status' => $request->status,
+                ]);
 
-        $authUser->friends()->updateExistingPivot($user->id, [
-            'status' => $request->status,
-        ]);
+                if ($request->status == StatusEnum::ACCEPTED->value) {
+                    $user->friends()->attach($authUser->id, [
+                        'status' => $request->status,
+                    ]);
 
-        if ($request->status == StatusEnum::ACCEPTED->value) {
-            $user->friends()->attach($authUser->id, [
-                'status' => $request->status,
-            ]);
+                    $response = $this->customChatify->getOrCreateChannel($user->id);
 
-            $authUser->notifications()->create([
-                'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
-                'data' => json_encode([
-                    'message' => 'Friend request accepted successfully',
-                    'user_id' => $user->authUser,
-                    'user_name' => $authUser->user_name,
-                ]),
-            ]);
+                    if ($response && $response->channel_id) {
+                        $this->customChatify->newMessage([
+                            'from_id' => $authUser->id,
+                            'to_channel_id' => $response->channel_id,
+                            'body' => $user->user_name . __(' accepted your friend request'),
+                            'attachment' => null,
+                        ]);
+                    }
 
+                    $user->notifications()->create([
+                        'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
+                        'data' => json_encode([
+                            'message' => 'Friend request accepted successfully',
+                            'user_id' => $user->authUser,
+                            'user_name' => $authUser->user_name,
+                        ]),
+                    ]);
+                }
+
+                if ($request->status == StatusEnum::BLOCKED->value) {
+                    $user->friends()->detach($authUser->id);
+                }
+            });
+            $message = "Friend request {$request->status} successfully.";
+            return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->sendErrorResponse('Something went wrong' . $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        if ($request->status == StatusEnum::BLOCKED->value) {
-            $user->friends()->detach($authUser->id);
-        }
-
-        $message = "Friend request {$request->status} successfully.";
-
-        return $this->sendSuccessResponse(null, $message, Response::HTTP_OK);
     }
 
     public function removeFriend(Request $request, User $user): JsonResponse
@@ -102,7 +125,7 @@ class UserController extends Controller
         $media = [];
 
         foreach ($mediaFiles as $mediaFile) {
-            $mediaPath = $mediaFile->store('media/'.$user->id, 'public');
+            $mediaPath = $mediaFile->store('media/' . $user->id, 'public');
             $media[] = $user->media()->create([
                 'file_path' => $mediaPath,
                 'file_type' => $mediaFile->getClientOriginalExtension(),
