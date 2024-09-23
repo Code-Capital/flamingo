@@ -75,17 +75,23 @@
                 </div>
             </a>
             @if ($joiningCount > 0)
-                @if (!$event->allMembers()->where('user_id', $user->id)->exists())
-                    <div class="d-flex align-items-center pt-2">
-                        <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
-                            href="javascript:void(0)">
-                            <small class="text-white p-1 rounded bg-primary">Join Event</small>
-                        </a>
+                @if ($event->isPast())
+                    <div class="tags d-flex align-items-center pt-2">
+                        <span class="px-2 py-1 bg-light text-white rounded">Unable to join</span>
                     </div>
                 @else
-                    <div class="tags d-flex align-items-center pt-2">
-                        <span class="px-2 py-1 bg-success text-white rounded">Request sent</span>
-                    </div>
+                    @if (!$event->allMembers()->where('user_id', $user->id)->exists())
+                        <div class="d-flex align-items-center pt-2">
+                            <a class="join-event text-decoration-none" data-id="{{ $event->id }}"
+                                href="javascript:void(0)">
+                                <small class="text-white p-1 rounded bg-primary">Join Event</small>
+                            </a>
+                        </div>
+                    @else
+                        <div class="tags d-flex align-items-center pt-2">
+                            <span class="px-2 py-1 bg-success text-white rounded">Request sent</span>
+                        </div>
+                    @endif
                 @endif
             @endif
         </div>

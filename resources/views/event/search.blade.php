@@ -40,7 +40,7 @@
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"
-                                            {{ request()->location == $location->id ? 'selected' : '' }}>
+                                            {{ request()->location_id == $location->id ? 'selected' : '' }}>
                                             {{ $location->name }}</option>
                                     @endforeach
                                 </select>

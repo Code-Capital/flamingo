@@ -24,6 +24,9 @@ class SearchController extends Controller
         $authUser = Auth::user();
         $authUser->interests->pluck('id')->toArray();
         $merged = array_merge($authUser->interests->pluck('id')->toArray(), $selectedInterests);
+        if (!empty($selectedInterests)) {
+            $merged = $selectedInterests;
+        }
         $users = User::where('id', '!=', Auth::id())
             // ->byNotUser($authUser->id)
             ->bySearch($searchTerm)
@@ -45,18 +48,22 @@ class SearchController extends Controller
     {
         $user = Auth::user();
         $eventJoiningCount = $user->getRemainingEventsJoinings();
-        $userInterests = $user->interests->pluck('id')->toArray();
+        // $userInterests = $user->interests->pluck('id')->toArray();
 
         $searchTerm = $request->input('q', '');
         $selectedInterests = $request->input('interests', []);
-        $merged = array_merge($user->interests->pluck('id')->toArray(), $userInterests);
+        $location_id = (int) $request->input('location_id', '');
+        $merged = array_merge($user->interests->pluck('id')->toArray(), $selectedInterests);
+        if ($selectedInterests) {
+            $merged = $selectedInterests;
+        }
 
         $events = Event::with(['interests', 'allMembers'])
             // ->byNotUser($user->id)
             ->published()
             ->bySearch($searchTerm)
             ->byInterests($merged)
-            ->byLocation($request->location_id)
+            ->byLocation($location_id)
             ->whereDoesntHave('reports', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
