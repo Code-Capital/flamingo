@@ -27,6 +27,20 @@
                                         class="px-1 px-md-2 px-lg-3">Send Invite {{ __('Requests') }}</span>
                                 </button>
                             @endif
+
+                            @if ($page->channel_id)
+                                @php
+                                    // if ($page->isMainOwner($user) || $page->isOwner($user)) {
+                                    //     $route = route('channel_id', $page->channel_id);
+                                    // } else {
+                                    $route = route('chat.join', $page->slug);
+                                    // }
+                                @endphp
+                                <a href="{{ $route }}" class="btn btn-primary">
+                                    <span class="px-1 px-md-2 px-lg-3">Start Chat</span>
+                                </a>
+                            @endif
+
                         </div>
                     </nav>
                 </div>

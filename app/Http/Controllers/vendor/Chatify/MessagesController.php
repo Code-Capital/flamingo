@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\vendor\Chatify;
 
+use App\Models\Page;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class MessagesController extends Controller
      * @param string $channel_id
      * @return Application|Factory|View
      */
-    public function index($channel_id = null)
+    public function index(Request $request, $channel_id = null)
     {
 
         $user = Auth::user();
@@ -740,7 +741,7 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => $user->user_name . __('has created a new chat group') . ': ' . $group_name,
+            'body' => $user->user_name . __(' has created a new chat group') . ': ' . $group_name,
             'attachment' => null,
         ]);
         $message->user_name = $user->user_name;
@@ -783,5 +784,43 @@ class MessagesController extends Controller
             'message' => $error ? $msg : 0,
             'channel' => $new_channel
         ], 200);
+    }
+
+    public function joinChat(Request $request, Page $page)
+    {
+        // Get the list of user IDs associated with the channel
+        $userIds = $page->acceptedUsers()->pluck('user_id')->toArray();
+
+        // Find the channel or fail if not found
+        $channel = Channel::findOrFail($page->channel_id);
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Create a dynamic channel name based on the channel and user info
+        $channelName = $channel->name . ' - ' . $user->id . ' ' . $user->user_name;
+        $avatar = $this->customChatify->createGravatarChannelAvatar($channelName);
+
+        // Call the custom Chatify method to create the group chat
+        $response = $this->customChatify->createGroupChat(
+            request: $request,
+            groupName: $channelName,
+            userIds: $userIds,
+            avatar: $avatar
+        );
+
+        // Access the response content (JSON format) and decode it into an array
+        $responseData = $response->getData(true); // Convert JSON response to an associative array
+
+        // Extract the 'channel_id' from the decoded JSON response
+        $channelId = $responseData['channel']['id'] ?? null; // Safely access 'channel' and 'id'
+
+        // If channel_id is found, redirect to the desired route
+        if ($channelId) {
+            return redirect()->route('channel_id', ['channel_id' => $channelId]);
+        }
+
+        // Handle case if channel_id is not found (optional)
+        return back()->withErrors(['error' => 'Channel creation failed.']);
     }
 }

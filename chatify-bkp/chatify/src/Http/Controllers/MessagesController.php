@@ -115,7 +115,7 @@ class MessagesController extends Controller
      */
     public function download($fileName)
     {
-        $filePath = config('chatify.attachments.folder').'/'.$fileName;
+        $filePath = config('chatify.attachments.folder') . '/' . $fileName;
         if (Chatify::storage()->exists($filePath)) {
             return Chatify::storage()->download($filePath);
         }
@@ -152,7 +152,7 @@ class MessagesController extends Controller
                     // get attachment name
                     $attachment_title = $file->getClientOriginalName();
                     // upload attachment and store the new name
-                    $attachment = Str::uuid().'.'.$file->extension();
+                    $attachment = Str::uuid() . '.' . $file->extension();
                     $file->storeAs(config('chatify.attachments.folder'), $attachment, config('chatify.storage_disk_name'));
                 } else {
                     $error->status = 1;
@@ -183,7 +183,7 @@ class MessagesController extends Controller
 
             $messageData = Chatify::parseMessage($message, null, $lastMess ? $lastMess->from_id !== Auth::user()->id : true);
 
-            Chatify::push('private-chatify.'.$request['channel_id'], 'messaging', [
+            Chatify::push('private-chatify.' . $request['channel_id'], 'messaging', [
                 'from_id' => Auth::user()->id,
                 'to_channel_id' => $request['channel_id'],
                 'message' => Chatify::messageCard($messageData, true),
@@ -484,7 +484,7 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => Auth::user()->id,
             'to_channel_id' => $channel_id,
-            'body' => Auth::user()->name.' has left the group',
+            'body' => Auth::user()->name . ' has left the group',
             'attachment' => null,
         ]);
         $message->user_avatar = Auth::user()->avatar;
@@ -493,7 +493,7 @@ class MessagesController extends Controller
 
         $messageData = Chatify::parseMessage($message, null);
 
-        Chatify::push('private-chatify.'.$channel_id, 'messaging', [
+        Chatify::push('private-chatify.' . $channel_id, 'messaging', [
             'from_id' => Auth::user()->id,
             'to_channel_id' => $channel_id,
             'message' => Chatify::messageCard($messageData, true),
@@ -560,7 +560,7 @@ class MessagesController extends Controller
                         }
                     }
                     // upload
-                    $avatar = Str::uuid().'.'.$file->extension();
+                    $avatar = Str::uuid() . '.' . $file->extension();
                     $update = User::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;
@@ -650,14 +650,14 @@ class MessagesController extends Controller
         $message = Chatify::newMessage([
             'from_id' => Auth::user()->id,
             'to_channel_id' => $new_channel->id,
-            'body' => Auth::user()->name.__('has created a new chat group').' '.$group_name,
+            'body' => Auth::user()->name . __(' has created a new chat group') . ' ' . $group_name,
             'attachment' => null,
         ]);
         $message->user_name = Auth::user()->name;
         $message->user_email = Auth::user()->email;
 
         $messageData = Chatify::parseMessage($message, null);
-        Chatify::push('private-chatify.'.$new_channel->id, 'messaging', [
+        Chatify::push('private-chatify.' . $new_channel->id, 'messaging', [
             'from_id' => Auth::user()->id,
             'to_channel_id' => $new_channel->id,
             'message' => Chatify::messageCard($messageData, true),
@@ -672,7 +672,7 @@ class MessagesController extends Controller
             // check file size
             if ($file->getSize() < Chatify::getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
-                    $avatar = Str::uuid().'.'.$file->extension();
+                    $avatar = Str::uuid() . '.' . $file->extension();
                     $update = $new_channel->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.channel_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;

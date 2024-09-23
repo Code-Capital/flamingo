@@ -131,6 +131,11 @@ class Page extends Model
         return $this->user_id == $user->id;
     }
 
+    public function isOwner($user)
+    {
+        return $this->users->contains($user);
+    }
+
     // ======================================================================
     // Scopes
     // ======================================================================

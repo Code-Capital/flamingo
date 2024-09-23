@@ -29,8 +29,10 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\UserController;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 
 require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -79,7 +81,6 @@ Route::middleware('auth')->group(function () {
         Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
         Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
         Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
-
         // Route::get('messages', [MessagesController::class, 'index'])->name('messages');
 
         // events
@@ -203,6 +204,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
+    Route::get('join/{page:slug}/chat', [MessagesController::class, 'joinChat'])->name('chat.join');
 });
 
 Route::get('storage-link', function () {

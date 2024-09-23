@@ -168,6 +168,13 @@ class CustomChatify extends ChatifyMessenger
         return $user;
     }
 
+    public function createGravatarChannelAvatar($chanelName)
+    {
+        $imageSize = config('chatify.gravatar.image_size');
+        $imageset = config('chatify.gravatar.imageset');
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($chanelName))) . '?s=' . $imageSize . '&d=' . $imageset;
+    }
+
     /**
      * Get user with avatar (formatted).
      *
@@ -363,7 +370,7 @@ class CustomChatify extends ChatifyMessenger
         $message = $this->newMessage([
             'from_id' => $user->id,
             'to_channel_id' => $new_channel->id,
-            'body' => $user->user_name . __('has created a new chat group') . ': ' . $group_name,
+            'body' => $user->user_name . __(' has created a new chat group') . ': ' . $group_name,
             'attachment' => null,
         ]);
         $message->user_name = $user->user_name;
