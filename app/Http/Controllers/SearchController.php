@@ -14,23 +14,22 @@ class SearchController extends Controller
 {
     public function index(Request $request): View
     {
-        // Get the search term and interests from the request
-        $searchTerm = $request->input('q', '');
-        $selectedInterests = $request->input('interests', []);
-        $location = $request->input('location', '');
-
-        // Fetch users based on the filters if any of the filters are present
-        $users = [];
         $authUser = Auth::user();
-        $authUser->interests->pluck('id')->toArray();
-        $merged = array_merge($authUser->interests->pluck('id')->toArray(), $selectedInterests);
-        if (!empty($selectedInterests)) {
-            $merged = $selectedInterests;
+        $searchTerm = null;
+        $location = null;
+        $interests = array_merge($authUser->interests->pluck('id')->toArray());
+        $selectedInterests = [];
+        if ($request->has('find')) {
+            $searchTerm = $request->input('q', '');
+            $location = $request->input('location_id', '');
+            $interests = $request->input('interests', []);
+            $selectedInterests = $interests;
         }
+
         $users = User::where('id', '!=', Auth::id())
             // ->byNotUser($authUser->id)
             ->bySearch($searchTerm)
-            ->byInterests($merged)
+            ->byInterests($interests)
             ->byLocation($location)
             ->whereDoesntHave('friends', function ($query) use ($authUser) {
                 $query->where('user_id', $authUser->id);
@@ -50,19 +49,21 @@ class SearchController extends Controller
         $eventJoiningCount = $user->getRemainingEventsJoinings();
         // $userInterests = $user->interests->pluck('id')->toArray();
 
-        $searchTerm = $request->input('q', '');
-        $selectedInterests = $request->input('interests', []);
-        $location_id = (int) $request->input('location_id', '');
-        $merged = array_merge($user->interests->pluck('id')->toArray(), $selectedInterests);
-        if ($selectedInterests) {
-            $merged = $selectedInterests;
+        $searchTerm = null;
+        $location_id = null;
+        $interests = array_merge($user->interests->pluck('id')->toArray());
+        $selectedInterests = [];
+        if ($request->has('find')) {
+            $searchTerm = $request->input('q', '');
+            $location_id = (int) $request->input('location_id', '');
+            $interests = $request->input('interests', []);
+            $selectedInterests = $interests;
         }
-
         $events = Event::with(['interests', 'allMembers'])
             // ->byNotUser($user->id)
             ->published()
             ->bySearch($searchTerm)
-            ->byInterests($merged)
+            ->byInterests($interests)
             ->byLocation($location_id)
             ->whereDoesntHave('reports', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
