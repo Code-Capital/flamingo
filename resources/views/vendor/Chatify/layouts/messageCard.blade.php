@@ -7,7 +7,7 @@ $timeAndSeen = "<span data-time='$created_at' class='message-time'>
 <div class="message-card-wrapper @if($isSender) mc-sender @endif">
     @if($loadUserInfo)
     <div class="message-user">
-        <img src="{{$user->avatar}}"/>
+        {{-- <img src="{{$user->avatar}}"/> --}}
         <p>{{$user->name}}</p>
     </div>
     @endif

@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         ]);
 
         $adminUser->assignRole(['user', 'admin']);
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
         $adminUser->interests()->attach($interests);
         $adminUser->userInfo()->create([
             'municipality' => 'Municipality',
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
         $simpleUser->interests()->attach($interests);
         $simpleUser->userInfo()->create([
             'municipality' => 'Municipality',
@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
         $simpleUser->interests()->attach($interests);
         $simpleUser->userInfo()->create([
             'municipality' => 'Municipality',
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
         $simpleUser->interests()->attach($interests);
         $simpleUser->userInfo()->create([
             'municipality' => 'Municipality',
@@ -95,7 +95,7 @@ class UserSeeder extends Seeder
             'is_private' => false,
         ]);
         $simpleUser->assignRole('user');
-        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get(); // Attach 1 to 3 random interests
+        $interests = Interest::inRandomOrder()->take(rand(1, 3))->get();
         $simpleUser->interests()->attach($interests);
         $simpleUser->userInfo()->create([
             'municipality' => 'Municipality',
@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
         //     $user->posts()->createMany(Post::factory(5)->make()->toArray());
 
         //     // Attach random interests
-        //     $interests = Interest::inRandomOrder()->take(rand(1, 2))->get(); // Attach 1 to 3 random interests
+        //     $interests = Interest::inRandomOrder()->take(rand(1, 2))->get();
         //     $user->interests()->attach($interests);
 
         //     $user->userInfo()->create([
