@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
@@ -77,5 +78,31 @@ class SearchController extends Controller
         $locations = Location::get();
 
         return view('event.search', get_defined_vars());
+    }
+
+
+    public function pagesearch(Request $request): View
+    {
+        $user = Auth::user();
+        $searchTerm = $request->input('q', '');
+        $selectedInterests = $request->input('interests', []);
+
+        $mergedInterests = array_merge($selectedInterests, $user->interests->pluck('id')->toArray());
+
+        $pages = Page::bySearch($searchTerm)
+            ->byInterests($mergedInterests)
+            ->byLocation($request->location_id)
+            ->byNotUser(Auth::user()->id)
+            ->byPublic()
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->paginate(getPaginated());
+
+        $interests = Interest::all();
+        $locations = Location::all();
+        $remainingPagesCount = $user->getRemainingPages();
+
+        return view('page.search', get_defined_vars());
     }
 }

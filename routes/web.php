@@ -119,7 +119,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('pages/{page:slug}/delete', [PageController::class, 'destroy'])->name('pages.destroy');
         Route::get('pages/joined', [PageController::class, 'joinedPages'])->name('pages.joined');
         Route::get('pages/joined/{page:slug}/show', [PageController::class, 'show'])->name('join.page.show');
-        Route::get('search/pages', [PageController::class, 'pagesearch'])->name('search.pages');
+        Route::get('search/pages', [SearchController::class, 'pagesearch'])->name('search.pages');
         Route::post('/pages/{page}/post/store', [PageController::class, 'pagePost'])->name('pages.post.store');
         Route::post('/search/user/owners', [PageController::class, 'searchOwnersForPage'])->name('search.users.page.owners');
         Route::post('/invite/send', [PageController::class, 'sendJoiningInvite'])->name('page.invite.sent');
