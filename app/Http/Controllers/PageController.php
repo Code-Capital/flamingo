@@ -6,6 +6,7 @@ use App\Chatify\CustomChatify;
 use App\Enums\NotificationStatusEnum;
 use App\Enums\StatusEnum;
 use App\Jobs\PageCreationJob;
+use App\Models\ChChannel;
 use App\Models\Interest;
 use App\Models\Location;
 use App\Models\Page;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\ChChannel as Channel;
 
 class PageController extends Controller
 {
@@ -172,6 +174,18 @@ class PageController extends Controller
         }
 
         $JoinedUsers = $page->acceptedUsers()->paginate(getPaginated());
+
+        $isExists = false;
+        if ($page->channel_id) {
+            $channel = Channel::findOrFail($page->channel_id);
+
+            // Check if the logged-in user exists in the channel's users
+            $userExists = $channel->users()->where('user_id', $user->id)->exists();
+
+            if ($userExists) {
+                $isExists = true;
+            }
+        }
 
         return view('page.show', get_defined_vars());
     }

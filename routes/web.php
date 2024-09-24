@@ -130,6 +130,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/remove/member/{page}', [PageController::class, 'removeMemeber'])->name('page.member.remove');
         Route::delete('/leave/page/{page}', [PageController::class, 'leavePage'])->name('page.leave');
 
+        Route::get('join/{page:slug}/chat', [MessagesController::class, 'joinChat'])->name('chat.join');
+
         Route::get('checkout/{plan:uuid}/subscription', [CheckoutController::class, 'checkout'])->name('stripe.subscription.checkout');
         Route::match(['get', 'post'], 'success', [CheckoutController::class, 'success'])->name('success');
         Route::match(['get', 'post'], 'cancelled', [CheckoutController::class, 'cancel'])->name('cancel');
@@ -204,7 +206,6 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
-    Route::get('join/{page:slug}/chat', [MessagesController::class, 'joinChat'])->name('chat.join');
 });
 
 Route::get('storage-link', function () {
