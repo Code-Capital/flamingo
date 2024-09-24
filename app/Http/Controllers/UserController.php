@@ -89,7 +89,7 @@ class UserController extends Controller
                             'message' => __(':user_name accepted your friend request', [
                                 'user_name' => $authUser->user_name,
                             ]),
-                            'user_id' => $user->authUser,
+                            'user_id' => $authUser->id,
                             'user_name' => $authUser->user_name,
                         ]),
                     ]);
