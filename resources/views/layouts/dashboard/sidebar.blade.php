@@ -605,7 +605,7 @@
                             @can('view faqs list')
                                 <li>
                                     <a id="settings" href="{{ route('faqs.index') }}"
-                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('plans.index') ? 'active' : '' }}">
+                                        class="text-decoration-none d-flex align-items-center {{ Request::routeIs('faqs.index') ? 'active' : '' }}">
                                         <svg class="settings" width="24" height="25" viewBox="0 0 24 25"
                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path

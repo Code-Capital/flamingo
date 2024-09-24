@@ -16,14 +16,7 @@ class BlockUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->expectsJson()) {
-            // Return a JSON response for AJAX requests
-            return response()->json([
-                'success' => false,
-                'message' => 'Your account is blocked. Please contact the administrator.'
-            ], 403);
-        } else {
-            // Return a standard abort response for regular requests
+        if (Auth::check() && Auth::user()->isBlocked()) {
             return abort(403, 'You are blocked. Please contact the administrator.');
         }
         return $next($request);
