@@ -86,7 +86,9 @@ class UserController extends Controller
                     $user->notifications()->create([
                         'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
                         'data' => json_encode([
-                            'message' => 'Friend request accepted successfully',
+                            'message' => __(':user_name accepted your friend request', [
+                                'user_name' => $authUser->user_name,
+                            ]),
                             'user_id' => $user->authUser,
                             'user_name' => $authUser->user_name,
                         ]),

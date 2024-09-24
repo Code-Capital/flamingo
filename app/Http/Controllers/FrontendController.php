@@ -27,7 +27,7 @@ class FrontendController extends Controller
     public function pricing(): View
     {
         $plans = Plan::active()->get();
-        $isSubscribed = Auth::user() ? Auth::user()->subscribed('default') : false;
+        $isSubscribed = Auth::user() ? Auth::user()->isSubscribed() : false;
         $settingsArray = Setting::first()->toArray();
         // Filter the keys that start with 'sub_'
         $filteredSettings = array_filter($settingsArray, function ($key) {
@@ -59,15 +59,17 @@ class FrontendController extends Controller
 
     public function sendContact(Request $request): RedirectResponse
     {
-        // Validate the form data
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'message' => 'required|string',
         ]);
 
-        Mail::to(config('mail.from.address'))->send(new ContactMail($data));
-
-        return redirect()->route('contact')->with('success', 'Your message has been sent successfully!');
+        try {
+            Mail::to(config('mail.from.address'))->send(new ContactMail($data));
+            return redirect()->route('contact')->with('success', 'Your message has been sent successfully!');
+        } catch (\Throwable $th) {
+            return redirect()->route('contact')->with('error', 'An error occurred while sending your message. Please try again later.');
+        }
     }
 }
