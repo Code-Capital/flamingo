@@ -134,12 +134,13 @@ class ProfileController extends Controller
     public function updatePassword(Request $request): RedirectResponse
     {
         $request->validate([
-            'current_password' => ['required', 'password', 'current_password'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'current_password' => ['required', 'current_password'], // Correctly validate current password
+            'password' => ['required', 'string', 'min:8', 'confirmed'], // New password validation
         ]);
 
+        // Update the user's password
         $user = $request->user();
-        $user->password = Hash::make($request->input('new_password'));
+        $user->password = Hash::make($request->input('password')); // 'password' is the name from form input
         $user->save();
 
         return Redirect::route('profile.edit')->with('success', 'Password updated successfully');

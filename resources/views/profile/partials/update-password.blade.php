@@ -3,7 +3,6 @@
         <div class="row mx-0">
             <form method="post" action="{{ route('profile.password.update') }}" class="mt-6 space-y-6">
                 @csrf
-                @method('patch')
                 <div class="col-lg-6 mb-3 mx-auto">
                     <div class="profileForm bg-white p-3 p-md-3 p-lg-4">
                         <div class="form-group mb-3">
