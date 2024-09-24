@@ -44,7 +44,7 @@ Route::post('/contact', [FrontendController::class, 'sendContact'])->name('conta
 Route::view('/verification', [FrontendController::class, 'verification'])->name('verification');
 
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:user')->group(function () {
+    Route::middleware(['role:user', 'blockuser'])->group(function () {
         Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('verified')->name('user.dashboard');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('update/profile', [ProfileController::class, 'update'])->name('profile.update');
