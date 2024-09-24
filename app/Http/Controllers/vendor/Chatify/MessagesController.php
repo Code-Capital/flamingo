@@ -791,6 +791,7 @@ class MessagesController extends Controller
     {
         // Get the list of user IDs associated with the channel
         $userIds = $page->acceptedUsers()->pluck('user_id')->toArray();
+        $userIds[] = $page->user_id; // Add the page owner's user ID
 
         // Find the channel or fail if not found
         $channel = Channel::findOrFail($page->channel_id);
