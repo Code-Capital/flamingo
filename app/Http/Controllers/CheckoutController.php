@@ -15,6 +15,10 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request, Plan $plan)
     {
+        if ($request->user()->isSubscribedToPlan($plan->stripe_plan_id)) {
+            return redirect()->route('home');
+        }
+
         Stripe::setApiKey(config('cashier.secret'));
 
         return $request->user()

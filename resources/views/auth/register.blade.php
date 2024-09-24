@@ -50,7 +50,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label class="mb-1"> {{ __('Age') }} </label>
-                                <input class="form-control form-control-lg" name="age" type="number" placeholder="Doe"
+                                <input class="form-control form-control-lg" name="age" type="number" placeholder="18"
                                     value="{{ old('age') }}" required>
                                 @error('age')
                                     <span class="text-danger mt-2">{{ $message }}</span>

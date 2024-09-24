@@ -40,12 +40,12 @@ class RegisteredUserController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'], // 'last_name' is a new field that we added to the 'users' table
-            'user_name' => ['required', 'string', 'max:255', 'unique:'.User::class], // 'user_name' is a new field that we added to the 'users' table
+            'user_name' => ['required', 'string', 'max:255', 'unique:' . User::class], // 'user_name' is a new field that we added to the 'users' table
             'interests' => ['required', 'array'], // 'exists' rule checks if the value exists in the 'interests' table with the column 'id
             'interests.*' => ['exists:interests,id'], // 'interests.*' means that each value in the 'interests' array should be validated against the 'exists' rule
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'age' => ['nullable', 'integer', 'min:18', 'max:100'], // 'age' is a new field that we added to the 'users' table
+            'age' => ['nullable', 'integer',], // 'age' is a new field that we added to the 'users' table
             'country_id' => ['nullable', 'exists:countries,id'], // 'country_id' is a new field that we added to the 'users' table
             'county_id' => ['nullable', 'exists:counties,id'], // 'county_id' is a new field that we added to the 'users' table
         ]);

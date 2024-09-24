@@ -58,7 +58,8 @@ class MessagesController extends Controller
 
         $user = Auth::user();
         if (!$user->isSubscribed()) {
-            abort(403, "You need to subscribe to access this page.");
+            // abort(403, "You need to subscribe to access this page.");
+            return to_route('pricing');
         }
 
         $messenger_color = $user->messenger_color;
