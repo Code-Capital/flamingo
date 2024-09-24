@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Plan;
 use App\Models\Country;
+use App\Models\Setting;
 use App\Models\Interest;
 use App\Models\Location;
-use App\Models\Plan;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Laravel\Cashier\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-use Laravel\Cashier\Subscription;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -116,6 +117,13 @@ class ProfileController extends Controller
 
         $subscriptions = Subscription::where('user_id', $user->id)->get();
         $plans = Plan::all();
+
+        $settingsArray = Setting::first()->toArray();
+        $filteredSettings = array_filter($settingsArray, function ($key) {
+            return strpos($key, 'sub_') === 0;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $settings = $filteredSettings;
 
         return view('profile.info', get_defined_vars());
     }
