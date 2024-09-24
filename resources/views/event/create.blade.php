@@ -92,8 +92,8 @@
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <input class="w-100" name="thumbnail" type="file" accept="images/*"
-                                                    required>
+                                                <input class="w-100" name="thumbnail" type="file"
+                                                    accept=".png, .jpg, .jpeg" required>
                                             </div>
                                         </div>
                                         @error('thumbnail')
@@ -109,8 +109,8 @@
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <input class="w-100" name="images[]" type="file" accept="images/*"
-                                                    multiple>
+                                                <input class="w-100" name="images[]" type="file"
+                                                    accept=".png, .jpg, .jpeg" multiple>
                                             </div>
                                         </div>
                                         @error('images')

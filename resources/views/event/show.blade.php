@@ -44,10 +44,10 @@
                                 </button>
                             @endif
 
-                            @if ($event->channel_id)
-                                <a class="btn btn-primary"
-                                    href="{{ route('channel_id', $event->channel_id) }}" role="tab">
-                                    <span class="px-1 px-md-2 px-lg-3">Start Chat</span>
+                            @if ($event->channel_id  && $user->isSubscribed() && ($event->isMember($user) || $user->isEventOwner($event)))
+                                <a class="btn btn-primary" href="{{ route('channel_id', $event->channel_id) }}"
+                                    role="tab">
+                                    <span class="small">Chat</span>
                                 </a>
                             @endif
 
