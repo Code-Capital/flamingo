@@ -5,7 +5,7 @@
         <div class="row mx-0">
             <div class="col-12">
                 <h2 class="text-lg font-semibold text-gray-900 mb-3">
-                    {{ __('Delete Account') }}
+                    {{ __('Delete account') }}
                 </h2>
 
                 <p class="text-sm text-gray-600 mb-4">
@@ -15,7 +15,7 @@
                 <!-- Trigger modal -->
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#deleteAccountModal">
-                    {{ __('Delete Account') }}
+                    {{ __('Delete account') }}
                 </button>
             </div>
         </div>

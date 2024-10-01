@@ -803,7 +803,7 @@ body {
 }
 .dashboardWrapper .sidebar .list-unstyled li a {
   cursor: pointer;
-  color: rgba(92, 92, 92, 0.3);
+  color: rgb(8, 8, 8);
   font-feature-settings: "clig" off, "liga" off;
   font-size: 16px;
   font-weight: 700;

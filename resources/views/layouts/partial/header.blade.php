@@ -16,8 +16,8 @@
                     </li> --}}
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link pe-4 {{ Request::routeIs('user.dashboard') ? 'active' : '' }}"
-                                href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a>
+                            <a class="nav-link pe-4 {{ Request::routeIs('profile.edit') ? 'active' : '' }}"
+                                href="{{ route('profile.edit') }}">{{ __('Dashboard') }}</a>
                         </li>
                     @endauth
                     <li class="nav-item">

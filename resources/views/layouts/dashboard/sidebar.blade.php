@@ -6,7 +6,6 @@
             </a>
         </div>
         <ul class="list-unstyled px-2">
-
             @can('view profile')
                 <li>
                     {{--  @if (Request::routeIs('profile.edit')) active @endif --}}

@@ -81,9 +81,8 @@ Route::middleware('auth')->group(function () {
         Route::get('gallery', [UserController::class, 'gallery'])->name('gallery');
         Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
         Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
-        // Route::get('messages', [MessagesController::class, 'index'])->name('messages');
 
-        // events
+        // eventsx  
         Route::get('events', [EventController::class, 'index'])->name('events.index');
         Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
         Route::get('events/create', [EventController::class, 'create'])->name('events.create');
