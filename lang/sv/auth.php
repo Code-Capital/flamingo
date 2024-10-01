@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'failed' => 'Användarnamnet eller lösenordet är felaktigt.',
-    'password' => 'Det angivna lösenordet är felaktigt.',
-    'throttle' => 'För många inloggningsförsök. Försök igen om :seconds sekunder.',
-    'blocked' => 'Ditt konto har blockerats. Kontakta administratören.',
+    'failed' => 'These credentials do not match our records.',
+    'password' => 'The provided password is incorrect.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'blocked' => 'Your account has been blocked. Please contact the administrator.',
 
 ];

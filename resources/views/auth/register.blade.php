@@ -64,7 +64,7 @@
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Profile type') }}</label>
                                 <select name="is_private" id="is_private" class="form-control form-select">
                                     <option value="">{{ __('Please select profile type') }}</option>
@@ -74,7 +74,7 @@
                                 @error('email')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="form-group mb-3">
                                 <label class="mb-1">{{ __('Gender') }}</label>
                                 <select name="gender" id="gender" class="form-control form-select">
