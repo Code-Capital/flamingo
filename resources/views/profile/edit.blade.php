@@ -53,12 +53,12 @@
         $(document).ready(function() {
 
             $(".intersts").select2({
-                placeholder: "Select an interest",
+                placeholder: "{{ __('Please select interests') }}",
                 allowClear: false
             });
 
             $(".locations").select2({
-                placeholder: "Select your location",
+                placeholder: "{{ __('Please select location') }}",
                 allowClear: false
             });
 

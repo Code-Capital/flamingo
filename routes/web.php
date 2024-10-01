@@ -42,6 +42,7 @@ Route::get('/terms', [FrontendController::class, 'terms'])->name('terms');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [FrontendController::class, 'sendContact'])->name('contact.send');
 Route::view('/verification', [FrontendController::class, 'verification'])->name('verification');
+Route::post('/subscribers', [SubscriberController::class, 'store'])->name('subscribers.store');
 
 Route::middleware('auth')->group(function () {
     Route::middleware(['role:user', 'blockuser'])->group(function () {
@@ -82,7 +83,7 @@ Route::middleware('auth')->group(function () {
         Route::post('media/upload', [UserController::class, 'uploadMedia'])->name('media.upload');
         Route::get('users/same-interests', [UserController::class, 'peopleWithSameInterest'])->name('people.with.same.interest');
 
-        // eventsx  
+        // eventsx
         Route::get('events', [EventController::class, 'index'])->name('events.index');
         Route::get('events/{event:slug}/show', [EventController::class, 'show'])->name('events.show');
         Route::get('events/create', [EventController::class, 'create'])->name('events.create');
@@ -189,7 +190,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('terms-conditions', TermsAndConditionsController::class);
 
         Route::get('/subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
-        Route::post('/subscribers', [SubscriberController::class, 'store'])->name('subscribers.store');
         Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
         Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');

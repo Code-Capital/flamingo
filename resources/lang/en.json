@@ -55,9 +55,7 @@
     "Comments": "Comments",
     "Showing 1-5 of 7 results": "Showing 1-5 of 7 results",
     "Reply": "Reply",
-    "please select interests": "please select interests",
     "Seach by name or email": "Seach by name or email",
-    "Please select location": "Please select location",
     "Remove": "Remove",
     "Create": "Create",
     "Ongoing": "Ongoing",
@@ -110,5 +108,8 @@
     "To begin your journey, sign up here and unlock endless possibilities": "To begin your journey, sign up here and unlock endless possibilities",
     "Already have an account?": "Already have an account?",
     "Delete Account": "Delete Account",
-    "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain."
+    "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
+    "Mark all as read": "Mark all as read",
+    "Please select interests": "Please select interests",
+    "Please select location": "Sök via plats"
 }
