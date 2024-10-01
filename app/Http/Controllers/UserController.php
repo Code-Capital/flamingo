@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\NotificationStatusEnum;
+use App\Notifications\FriendRequestSendNotification;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,10 +43,11 @@ class UserController extends Controller
 
     public function addFriend(Request $request, User $user): JsonResponse
     {
-
         $user->friends()->attach($request->user()->id, [
             'status' => 'pending',
         ]);
+
+        $user->notify(new FriendRequestSendNotification($user));
 
         broadcast(new FriendRequestSend($user, $request->user()));
 
