@@ -9,7 +9,7 @@
                 <div class="bg-white p-4 dashboardCard">
                     <div class="row mx-0">
                         <div class="col-lg-12">
-                            <div class="heading pb-4">Peoples <span>({{ $peoples->count() }})</span></div>
+                            <div class="heading pb-4">{{ __('Peoples') }} <span>({{ $peoples->count() }})</span></div>
                         </div>
                     </div>
                     <div class="row mx-0">
@@ -20,13 +20,13 @@
                                         <div class="d-flex align-items-center gap-3">
                                             <img src="{{ asset($people->avatar_url) }}" class="rounded-circle">
                                             <div>
-                                                <span class="d-block"> {{ $people->full_name }} </span>
+                                                <span class="d-block"> {{ $people->user_name }} </span>
                                                 <span class="d-block"> {{ $people->designation }} </span>
                                             </div>
                                         </div>
                                         <h6 class="mb-0">
                                             <a class="text-decoration-none add-friend" href="javascript:void(0)"
-                                                data-id="{{ $people->id }}">Add {{ __('Friends') }}</a>
+                                                data-id="{{ $people->id }}"> {{ __('Add friend') }} </a>
                                         </h6>
                                     </div>
                                 </div>

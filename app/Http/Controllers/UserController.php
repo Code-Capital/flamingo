@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\NotificationStatusEnum;
+use App\Notifications\FriendRequestAcceptedNotificatition;
 use App\Notifications\FriendRequestSendNotification;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,7 @@ class UserController extends Controller
             'status' => 'pending',
         ]);
 
-        $user->notify(new FriendRequestSendNotification($user));
+        // $user->notify(new FriendRequestSendNotification($user));
 
         broadcast(new FriendRequestSend($user, $request->user()));
 
@@ -85,16 +86,18 @@ class UserController extends Controller
                         ]);
                     }
 
-                    $user->notifications()->create([
-                        'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
-                        'data' => json_encode([
-                            'message' => __(':user_name accepted your friend request', [
-                                'user_name' => $authUser->user_name,
-                            ]),
-                            'user_id' => $authUser->id,
-                            'user_name' => $authUser->user_name,
-                        ]),
-                    ]);
+                    // $user->notify(new FriendRequestAcceptedNotificatition($authUser));
+
+                    // $user->notifications()->create([
+                    //     'type' => NotificationStatusEnum::FRIENDREQUESTACCEPTED->value,
+                    //     'data' => json_encode([
+                    //         'message' => __(':user_name accepted your friend request', [
+                    //             'user_name' => $authUser->user_name,
+                    //         ]),
+                    //         'user_id' => $authUser->id,
+                    //         'user_name' => $authUser->user_name,
+                    //     ]),
+                    // ]);
                 }
 
                 if ($request->status == StatusEnum::BLOCKED->value) {

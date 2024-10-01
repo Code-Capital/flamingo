@@ -260,33 +260,47 @@
     });
 
     function unfriendUser(id, button) {
-        $.ajax({
-            url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
-            type: 'DELETE',
-            data: {
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                if (response.success == false) {
-                    toastr.error(response.message);
-                    errorNotificationSound();
-                    return false;
-                }
+        // Show a SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, unfriend it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('friend.remove', ':id') }}'.replace(':id', id),
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response.success == false) {
+                            toastr.error(response.message);
+                            errorNotificationSound();
+                            return false;
+                        }
 
-                toastr.success(response.message);
-                newNotificationSound();
-                button.closest('.friend-request-' + id).fadeOut(300)
+                        toastr.success(response.message);
+                        newNotificationSound();
+                        button.closest('.friend-request-' + id).fadeOut(300)
                     .hide(); // Hide the parent element of the button
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-            },
-            error: function(error) {
-                console.error(error);
-                errorNotificationSound();
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        errorNotificationSound();
+                    }
+                });
             }
         });
     }
+
 
     function destroyPost(id) {
         let url = "{{ route('post.destroy', ':id') }}".replace(':id', id);
