@@ -15,9 +15,9 @@
                     @csrf
                     <div class="col-lg-6 mx-auto px-0">
                         <div class="text-center pt-2">
-                            <h2>Register</h2>
+                            <h2>{{ __('Register') }}</h2>
                             <p class="px-0 px-md-3 px-lg-5">
-                                To begin your journey, sign up here and unlock endless possibilities
+                                {{ __('To begin your journey, sign up here and unlock endless possibilities') }}
                             </p>
                         </div>
                         <div class="registerCard bg-white p-3 p-md-3 p-lg-5 mt-4">
@@ -79,9 +79,12 @@
                                 <label class="mb-1">{{ __('Gender') }}</label>
                                 <select name="gender" id="gender" class="form-control form-select">
                                     <option value="">{{ __('Please select gender') }}</option>
-                                    <option value="male">{{ __('Male') }}</option>
-                                    <option value="female">{{ __('Female') }}</option>
-                                    <option value="other">{{ __('Other') }}</option>
+                                    <option value="male" @if (old('gender') == 'male') selected @endif>
+                                        {{ __('Male') }}</option>
+                                    <option value="female" @if (old('gender') == 'Female') selected @endif>
+                                        {{ __('Female') }}</option>
+                                    <option value="other" @if (old('gender') == 'other') selected @endif>
+                                        {{ __('Other') }}</option>
                                 </select>
                                 @error('email')
                                     <span class="text-danger mt-2">{{ $message }}</span>
@@ -108,9 +111,11 @@
                                 <label class="mb-1 required">{{ __('Interests') }} <span>(from 1 to 5)</span></label>
                                 <select class="form-select" name="interests[]" id="interests" multiple required>
                                     @forelse($interests as $interest)
-                                        <option value="{{ $interest->id }}">{{ $interest->name }}</option>
+                                        <option value="{{ $interest->id }}"
+                                            @if (in_array($interest->id, old('interests') ?? [])) selected @endif>
+                                            {{ $interest->name }}</option>
                                     @empty
-                                        <option value="">No interest found</option>
+                                        <option value="">{{ __('No interest found') }}</option>
                                     @endforelse
                                 </select>
                                 @error('interests')
@@ -123,7 +128,9 @@
                                 <select class="form-select form-control" name="country_id" required>
                                     <option value="">{{ __('Please select country') }} </option>
                                     @forelse($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        <option value="{{ $country->id }}"
+                                            @if ($country->id == old('country_id')) selected @endif>
+                                            {{ $country->name }}</option>
                                     @empty
                                         <option value="">{{ __('No country found') }}</option>
                                     @endforelse
@@ -138,7 +145,8 @@
                                 <select class="form-select form-control" name="county_id" required>
                                     <option value="">{{ __('Please select county') }} </option>
                                     @forelse($counties as $county)
-                                        <option value="{{ $county->id }}">{{ $county->name }}</option>
+                                        <option value="{{ $county->id }}"
+                                            @if ($county->id == old('county_id')) selected @endif>{{ $county->name }}</option>
                                     @empty
                                         <option value="">{{ __('No county found') }}</option>
                                     @endforelse
@@ -152,7 +160,7 @@
                                 {{ __('Register') }}
                             </button>
                             <div class="linkText mt-3">
-                                <span>Already have an account? <a class="text-decoration-none"
+                                <span>{{ __('Already have an account?') }} <a class="text-decoration-none"
                                         href="{{ route('login') }}">{{ __('Login') }}</a></span>
                             </div>
                         </div>

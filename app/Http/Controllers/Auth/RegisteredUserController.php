@@ -37,18 +37,48 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['nullable', 'string', 'max:255'], // 'last_name' is a new field that we added to the 'users' table
-            'user_name' => ['required', 'string', 'max:255', 'unique:' . User::class], // 'user_name' is a new field that we added to the 'users' table
-            'interests' => ['required', 'array'], // 'exists' rule checks if the value exists in the 'interests' table with the column 'id
-            'interests.*' => ['exists:interests,id'], // 'interests.*' means that each value in the 'interests' array should be validated against the 'exists' rule
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'age' => ['nullable', 'integer',], // 'age' is a new field that we added to the 'users' table
-            'country_id' => ['nullable', 'exists:countries,id'], // 'country_id' is a new field that we added to the 'users' table
-            'county_id' => ['nullable', 'exists:counties,id'], // 'county_id' is a new field that we added to the 'users' table
-        ]);
+        $request->validate(
+            [
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['nullable', 'string', 'max:255'],
+                'user_name' => ['required', 'string', 'max:255', 'unique:' . User::class],
+                'interests' => ['required', 'array'],
+                'interests.*' => ['exists:interests,id'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Password::defaults()],
+                'age' => ['nullable', 'integer'],
+                'country_id' => ['nullable', 'exists:countries,id'],
+                'county_id' => ['nullable', 'exists:counties,id'],
+            ],
+            [
+                // English Custom Messages
+                'first_name.required' => __('First name is required.'),
+                'user_name.required' => __('User name is required.'),
+                'user_name.unique' => __('The username is already taken, please choose a new one.'),
+                'email.unique' => __('The email is already taken, please choose a different one.'),
+                'email.email' => __('Please enter a valid email address.'),
+                'interests.required' => __('You must select at least one interest.'),
+                'interests.*.exists' => __('The selected interest is invalid.'),
+                'password.required' => __('Password is required.'),
+                'password.confirmed' => __('Password confirmation does not match.'),
+                'country_id.exists' => __('The selected country is invalid.'),
+                'county_id.exists' => __('The selected county is invalid.'),
+
+                // Swedish Custom Messages
+                'first_name.required' => __('Förnamn är obligatoriskt.'),
+                'user_name.required' => __('Användarnamn är obligatoriskt.'),
+                'user_name.unique' => __('Användarnamnet är upptaget, välj ett nytt.'),
+                'email.unique' => __('E-postadressen är redan upptagen, välj en annan.'),
+                'email.email' => __('Vänligen ange en giltig e-postadress.'),
+                'interests.required' => __('Du måste välja minst ett intresse.'),
+                'interests.*.exists' => __('Det valda intresset är ogiltigt.'),
+                'password.required' => __('Lösenord är obligatoriskt.'),
+                'password.confirmed' => __('Lösenordsbekräftelsen matchar inte.'),
+                'country_id.exists' => __('Det valda landet är ogiltigt.'),
+                'county_id.exists' => __('Det valda länet är ogiltigt.'),
+            ]
+        );
+
 
         $user = User::create([
             'first_name' => $request->first_name,
