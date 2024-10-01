@@ -99,5 +99,12 @@
     "Forgot password": "Forgot password",
     "Remeber me": "Remeber me",
     "Don't have an account? Create an account": "Don't have an account? Create an account",
-    "Notifications": "Notifications"
+    "Notifications": "Notifications",
+    "===================================": "===================================",
+    "Forgot password?": "Forgot password?",
+    "Remember me": "Remember me",
+    "Forget Password": "Forget Password",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.",
+    "Please enter email": "Please enter email",
+    "Email Password Reset Link": "Email Password Reset Link"
 }

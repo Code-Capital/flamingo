@@ -11,7 +11,7 @@
                     @csrf
                     <div class="col-lg-6 mx-auto px-0">
                         <div class="text-center pt-2">
-                            <h2>Forget Password</h2>
+                            <h2>{{ __('Forget Password') }}</h2>
                         </div>
                         <div class="loginCard bg-white p-3 p-md-3 p-lg-5 mt-4">
                             <div class="mt-3 mb-3">
@@ -26,7 +26,7 @@
                                     {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
                                 </label>
                                 <input class="form-control form-control-lg mt-3" type="text" name="email"
-                                    value="{{ old('email') }}" placeholder="Please enter email">
+                                    value="{{ old('email') }}" placeholder="{{ __('Please enter email') }}">
                                 @error('email')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror

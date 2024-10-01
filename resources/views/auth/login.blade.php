@@ -10,7 +10,7 @@
                     @csrf
                     <div class="col-lg-6 mx-auto px-0">
                         <div class="text-center pt-2">
-                            <h2>{{ __('Login') }}</h2>
+                            <h2> {{ __('Sign in') }}</h2>
                             <p class="px-0 px-md-3 px-lg-5">
                                 {{ __('To embark on your journey, take the first step by signing in here') }}
                             </p>

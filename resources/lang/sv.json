@@ -112,5 +112,13 @@
     "Remeber me": "Håll mig inloggad",
     "Don`t have an account?": "Har du inget konto? ",
     "Create an account": "Skapa ett konto",
-    "Notifications": "Notiser"
+    "Notifications": "Notiser",
+    "===================================": "===================================",
+    "Forgot password?": "Glömt lösenord?",
+    "Remember me": "Kom ihåg mig",
+    "Forget Password": "Glömt lösenord",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Glömt ditt lösenord? Inga problem. Skriv in din mailadress och vi skickar en länk för att återställa ditt lösenord och du får välja ett nytt.",
+    "Please enter email": "Skriv in din mailadress",
+    "Email Password Reset Link": "Maila återställningslänk"
+
 }
