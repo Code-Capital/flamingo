@@ -10,11 +10,15 @@
                 <div class="footerLinks">
                     <h6 class="mb-4"> {{ config('app.name') }} </h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a class="text-decoration-none" href="{{ route('home') }}">Home</a></li>
-                        <li class="mb-2"><a class="text-decoration-none" href="{{ route('pricing') }}">Pricing</a>
+                        <li class="mb-2"><a class="text-decoration-none"
+                                href="{{ route('home') }}">{{ __('Home') }}</a></li>
+                        <li class="mb-2"><a class="text-decoration-none"
+                                href="{{ route('pricing') }}">{{ __('Pricing') }}</a>
                         </li>
-                        <li class="mb-2"><a class="text-decoration-none" href="{{ route('terms') }}">Terms</a></li>
-                        <li class="mb-2"><a class="text-decoration-none" href="{{ route('contact') }}">Contact</a>
+                        <li class="mb-2"><a class="text-decoration-none"
+                                href="{{ route('terms') }}">{{ __('Terms') }}</a></li>
+                        <li class="mb-2"><a class="text-decoration-none"
+                                href="{{ route('contact') }}">{{ __('Contact') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -41,12 +45,12 @@
             </div> --}}
             <div class="col-lg-3">
                 <div class="footerLinks">
-                    <h6 class="mb-4">Contact us</h6>
+                    <h6 class="mb-4">{{ __('Contact us') }}</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a class="text-decoration-none"
-                                href="javascript:void(0)">support@flamingo.com</a></li>
-                        <li class="mb-2"><a class="text-decoration-none"
-                                href="javascript:void(0)">+133-983-0942-1675</a></li>
+                                href="javascript:void(0)">admin@hundklubbenflamingoo.se</a></li>
+                        {{-- <li class="mb-2"><a class="text-decoration-none"
+                                href="javascript:void(0)">+133-983-0942-1675</a></li> --}}
                     </ul>
                 </div>
             </div>

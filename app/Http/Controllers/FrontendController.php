@@ -66,7 +66,8 @@ class FrontendController extends Controller
         ]);
 
         try {
-            Mail::to(config('mail.from.address'))->send(new ContactMail($data));
+            $admin_mail = env('MAIL_SEND_TO');
+            Mail::to($admin_mail)->send(new ContactMail($data));
             return redirect()->route('contact')->with('success', 'Your message has been sent successfully!');
         } catch (\Throwable $th) {
             return redirect()->route('contact')->with('error', 'An error occurred while sending your message. Please try again later.');

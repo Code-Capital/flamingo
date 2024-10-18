@@ -22,18 +22,18 @@
                             </label>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-center pt-4 gap-4 flex-wrap bg-light"
-                            style="height: auto ;">
+                        <div class="d-flex align-items-center p-4 gap-4 flex-wrap bg-light" style="height: auto ;">
                             @forelse($media as $item)
-                                <div class="galleryCard text-center d-flex flex-column mb-3">
+                                <div class="galleryCard text-center d-flex flex-column">
                                     @if (in_array(pathinfo($item->file_path, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg', 'svg']))
-                                        <img src="{{ $item->file_path }}" alt="{{ $item->name ?? 'gallery image' }}"
-                                            class="img-fluid">
+                                        <a class="js-gallery" data-gallery="gallery2" href="{{ $item->file_path }}">
+                                            <img width="158px" height="158px" class="object-cover"
+                                                src="{{ $item->file_path }}" alt="{{ $item->name ?? 'gallery image' }}">
+                                        </a>
                                     @else
                                         <!-- Optional: Use a placeholder image for unsupported file types -->
                                         <img src="/path/to/default/image.png" alt="default image" class="img-fluid">
                                     @endif
-                                    <span class="pt-1">{{ $item->name ?? 'Unnamed Media' }}</span>
                                 </div>
                             @empty
                                 <x-no-data-found />

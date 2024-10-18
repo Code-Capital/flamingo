@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DogsInformation;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Event;
@@ -20,6 +21,11 @@ class SearchController extends Controller
         $location = null;
         $interests = array_merge($authUser->interests->pluck('id')->toArray());
         $selectedInterests = [];
+
+
+
+
+
         if ($request->has('find')) {
             $searchTerm = $request->input('q', '');
             $location = $request->input('location_id', '');
@@ -27,11 +33,38 @@ class SearchController extends Controller
             $selectedInterests = $interests;
         }
 
+        $dog_breed = $request->input('dog_breed', '');
+        $dog_gender = $request->input('dog_gender', '');
+        $kennel_club = $request->input('kennel_club', '');
+        $dog_working_club = $request->input('dog_working_club', '');
+        $dog_withers_height = $request->input('dog_withers_height', '');
+        $weight = $request->input('weight', '');
+        $size = $request->input('size', '');
+        $castrated = $request->input('castrated', '');
+        $target = $request->input('target', '');
+        $furr = $request->input('furr', '');
+        $drawing = $request->input('drawing', '');
+        $hills = $request->input('hills', '');
+
         $users = User::where('id', '!=', Auth::id())
             // ->byNotUser($authUser->id)
             ->bySearch($searchTerm)
             ->byInterests($interests)
             ->byLocation($location)
+
+            ->byDogBreed($dog_breed)
+            ->byDogGender($dog_gender)
+            ->byKennelClub($kennel_club)
+            ->byDogWorkingClub($dog_working_club)
+            ->byDogWithersHeight($dog_withers_height)
+            ->byWeight($weight)
+            ->bySize($size)
+            ->byCastrated($castrated)
+            ->byTarget($target)
+            ->byFurr($furr)
+            ->byDrawing($drawing)
+            ->byHills($hills)
+
             ->whereDoesntHave('friends', function ($query) use ($authUser) {
                 $query->where('user_id', $authUser->id);
             })
@@ -40,7 +73,7 @@ class SearchController extends Controller
         // Fetch all interests
         $interests = Interest::get();
         $locations = Location::get();
-
+        $dogs_information = DogsInformation::all();
         return view('user.search', get_defined_vars());
     }
 
@@ -53,6 +86,7 @@ class SearchController extends Controller
         $searchTerm = null;
         $location_id = null;
         $interests = array_merge($user->interests->pluck('id')->toArray());
+
         $selectedInterests = [];
         if ($request->has('find')) {
             $searchTerm = $request->input('q', '');
@@ -102,7 +136,7 @@ class SearchController extends Controller
         $interests = Interest::all();
         $locations = Location::all();
         $remainingPagesCount = $user->getRemainingPages();
-
+        // dd($pages);
         return view('page.search', get_defined_vars());
     }
 }

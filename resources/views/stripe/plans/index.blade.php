@@ -12,7 +12,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <h3 class="marketHeading mb-0">Plans List</h3>
-                                @if ($planCount == 0)
+                                @if ($planCount < 2 )
                                     <a href="{{ route('admin.plans.create') }}" class="btn btn-primary"> {{ __('Create') }}
                                         Plan</a>
                                 @endif

@@ -2,7 +2,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Invite Member</div>
+                <div class="heading pb-4">{{ __('Invite Member') }}</div>
             </div>
         </div>
         <div class="row mx-0">
@@ -14,12 +14,12 @@
                         <div class="col-md-5 col-12">
                             <div class="form-group">
                                 <input class="form-control form-control-lg w-100" type="search"
-                                    placeholder="Search by name or email" name="q" value="">
+                                    placeholder="{{ __('Search by name or email') }}" name="q" value="">
                             </div>
                         </div>
                         <div class="col-md-2 col-12 d-flex align-items-center">
                             <button class="btn btn-primary w-100" type="submit" value="submit" name="search">
-                                Search
+                                {{__("Search")}}
                             </button>
                         </div>
                     </div>

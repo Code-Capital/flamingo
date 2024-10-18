@@ -61,7 +61,7 @@ class FaqController extends Controller
             'answer' => $request->answer
         ]);
 
-        return to_route('faqs.index')->with('success', 'Faq created successfullyu');
+        return to_route('faqs.index')->with('success', 'Faq created successfully');
     }
 
     /**

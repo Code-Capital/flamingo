@@ -23,7 +23,7 @@
     "My joint events": "Mina besvarade annonser",
     "Messages": "Chat",
     "messages": "Chat",
-    "Gallery": "Bilder",
+    "Gallery": "Galleri",
     "Shops": "Parprofil",
     "Search shops": "Sök parprofil",
     "My Shops": "Mina parprofiler",
@@ -122,7 +122,81 @@
     "Already have an account?": "Har du redan ett konto?",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "När du har raderat ditt konto kommer all din data att raderas permanent. Innan du raderar se till att ladda ner data eller information som du vill spara.",
     "Mark all as read": "Markera alla som lästa",
-    "Please select interests": "Sök via intresse",
-    "Please select location": "Sök via plats",
-    "Peoples": "Personer"
+    "select interests": "Sök via intresse",
+    "select location": "Sök via plats",
+    "Peoples": "Personer",
+    "Pricing Plans": "Prislista",
+    "Popular": "Populär",
+    "What’s included": "Vad som ingår",
+    "Get started": "Kom igång",
+
+    "Event Title": "Annonsens titel",
+    "Event Location": "Plats",
+    "Start Datetime": "Startar",
+    "End Datetime": "Slutar",
+    "Event Thumbnail": "Annonsbild (optional)",
+    "Event Gallery": "Annonsgalleri",
+    "Select interest": "Välj intresse",
+    "Event Description": "Beskrivning",
+    "Describe the event rules description": "Beskriv vad du söker",
+    "View": "Visa",
+    "Edit": "Redigera",
+
+    "Name": "Namn",
+    "Contact Email": "Mailadress",
+    "Contact Massage": "Meddelande",
+    "Send": "Skicka",
+    "Type your message": "Skriv ditt meddelande",
+
+    "Home": "Hem",
+    "Contact us": "Kontakta oss",
+
+    "Pending Friend Requests": "Vänförfrågningar",
+
+    "The username is already taken, please choose a new one.": "Användarnamnet är upptaget.",
+    "First name is required.": "Förnamn är obligatoriskt.",
+    "User name is required.": "Användarnamn är obligatoriskt.",
+    "The email is already taken, please choose a different one.": "E-postadressen är redan upptagen, välj en annan.",
+    "Please enter a valid email address.": "Vänligen ange en giltig e-postadress.",
+    "You must select at least one interest.": "Du måste välja minst ett intresse.",
+    "The selected interest is invalid.": "Det valda intresset är ogiltigt.",
+    "Password is required.": "Lösenord är obligatoriskt.",
+    "Password confirmation does not match.": "Lösenordsbekräftelsen matchar inte.",
+    "The selected country is invalid.": "Det valda landet är ogiltigt.",
+    "The selected county is invalid.": "Det valda länet är ogiltigt.",
+    "Event created successfully": "Annonsen är skapad",
+
+    "Are you sure you want to delete this friend?": "Är du säker att du vill ta bort denna vän?",
+
+    "Are you sure?": "Är du säker?",
+
+    "Posts": "Inlägg",
+    "Members": "Medlemmar",
+    "Start Chat": "Starta chatt",
+    "Invite Member": "Bjud in medlem",
+    "Search": "Söka",
+    "New group chat has been created": "Ny gruppchatt har skapats",
+
+    "New post create for page": "Nytt inlägg skapas för sidan",
+
+    "has invited you to join the page": "har bjudit in dig att gå med på sidan",
+
+    "New post has been created by": "Nytt inlägg har skapats av",
+
+    "has sent you a friend request": "har skickat en vänförfrågan till dig",
+
+    "Your media files have been uploaded successfully": "Dina mediefiler har laddats upp",
+
+    "New post created for event": "Nytt inlägg skapat för event",
+
+    "Country": "Land",
+    "County": "Län",
+
+    "Questions or feedback? Reach out to us! Your input matters. Contact us now": "Fråga eller feedback? Ta kontakt med oss! Dina åsikter har betydelse. Kontakta oss nu",
+
+    "Start time": "Starttid",
+    "End time": "Sluttid",
+
+    "Start date": "Startdatum",
+    "End date": "Slutdatum"
 }

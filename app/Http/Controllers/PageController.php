@@ -70,12 +70,14 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:pages,name'],
             'description' => ['required', 'string', 'max:255'],
             'cover_image' => ['nullable', 'image'],
             'profile_image' => ['required', 'image'],
             'interests' => ['required', 'array'],
             'interests.*' => ['exists:interests,id'],
+        ], [
+            'name.unique' => 'The page name has already been taken.',
         ]);
 
         try {
@@ -117,11 +119,13 @@ class PageController extends Controller
 
                     $pageChatLink = route('channel_id', $responseData['channel']['id']);
 
+                    $notification_message = __("New group chat has been created");
+
                     // Create the HTML message
                     $body = limitString($page->name, 20);
                     $message = "
                         <div class='notification'>
-                            New group chat has been created <a href='{$pageChatLink}' target='_blank'>{$body}</a>
+                            " . $notification_message . " <a href='{$pageChatLink}' target='_blank'>{$body}</a>
                         </div>
                     ";
 
@@ -292,11 +296,13 @@ class PageController extends Controller
         }
         $link = route('post.edit', $post->uuid);
 
+        $notification_message = __('New post create for page');
+
         // Create the HTML message
         $body = limitString($post->title, 20);
         $message = "
                     <div class='notification'>
-                        New post create for page {$page->name} <a href='{$link}' target='_blank'>{$body}</a>
+                        " . $notification_message . " {$page->name} <a href='{$link}' target='_blank'>{$body}</a>
                     </div>
                 ";
 
@@ -383,10 +389,12 @@ class PageController extends Controller
 
                 $link = route('page.invite.received');
 
+                $notification_message = __("has invited you to join the page");
+
                 $body = limitString($page->name, 50);
                 $message = "<div class='notification'>
                                 <a href='{$link}' target='_blank'>
-                                    {$pageOwner->full_name} has invited you to join the page: {$body}.
+                                    {$pageOwner->full_name} {$notification_message}: {$body}.
                                 </a>
                             </div>
                         ";

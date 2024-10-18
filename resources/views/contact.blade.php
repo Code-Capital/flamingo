@@ -10,30 +10,29 @@
                     @csrf
                     <div class="col-lg-5 mx-auto px-0">
                         <div class="text-center pt-2">
-                            <h2>Contact us</h2>
+                            <h2>{{ __('Contact us') }}</h2>
                             <p class="px-0 px-md-3 px-lg-5">
-                                Questions or feedback? Reach out to us! Your input matters. Contact us now
+                                {{ __('Questions or feedback? Reach out to us! Your input matters. Contact us now') }}
                             </p>
                         </div>
                         <div class="contactCard bg-white p-3 p-md-3 p-lg-5 mt-4">
                             @include('layouts.partial.show-error')
                             <div class="form-group mb-3">
-                                <label class="mb-1">Name</label>
+                                <label class="mb-1">{{ __('Name') }}</label>
                                 <input class="form-control form-control-lg" type="text" name="name"
-                                       value="{{ old('name') }}" placeholder="i.e. John Doe">
+                                    value="{{ old('name') }}" placeholder="i.e. John Doe">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">Email</label>
+                                <label class="mb-1">{{ __('Contact Email') }}</label>
                                 <input class="form-control form-control-lg" type="email" name="email"
-                                       value="{{ old('email') }}" placeholder="i.e. John Doe">
+                                    value="{{ old('email') }}" placeholder="i.e. John Doe">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="mb-1">Message</label>
-                                <textarea rows="5" name="message" class="form-control"
-                                          placeholder="Type you message">{{ old('message') }}</textarea>
+                                <label class="mb-1">{{ __('Contact Massage') }}</label>
+                                <textarea rows="5" name="message" class="form-control" placeholder="{{ __('Type your message') }}">{{ old('message') }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mt-3">
-                                Send
+                                {{ __('Send') }}
                             </button>
                         </div>
                     </div>

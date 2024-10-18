@@ -52,8 +52,8 @@ class StripeController extends Controller
 
     public function create(): View|RedirectResponse
     {
-        if (ModelsPlan::count() > 0) {
-            return redirect()->route('admin.plans.index')->with('error', 'You can only create one plan.');
+        if (ModelsPlan::count() >= 2) {
+            return redirect()->route('admin.plans.index')->with('error', 'You can only create two plans.');
         }
 
         return view('stripe.plans.create');
@@ -81,7 +81,6 @@ class StripeController extends Controller
                     'interval' => $request->interval,
                     'product' => [
                         'name' => $request->name,
-                        // 'description' => $request->description,
                     ],
                 ]);
 

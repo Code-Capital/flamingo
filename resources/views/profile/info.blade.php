@@ -293,4 +293,39 @@
             });
         </script>
     @endif
+    <script>
+        $(".delete_btn").on("click", function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let url = "{{ route('profile.media.delete', ':id') }}".replace(':id', id);
+            let element = $(this).parent();
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.success) {
+                        // newNotificationSound();
+                        toastr.success(response.message);
+                        console.log(response.message);
+                        $(`.galleryCard[data-id=${id}]`).remove();
+                    } else {
+                        // errorNotificationSound();
+                        toastr.error(response.message);
+                        console.log(response.message);
+                    }
+
+                    element.remove();
+                },
+                error: function(error) {
+                    // errorNotificationSound();
+                    toastr.error(error.message);
+                    // console.log(error.message);
+                }
+            });
+        });
+    </script>
 @endsection

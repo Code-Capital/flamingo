@@ -33,7 +33,7 @@ class FriendRequestSend implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('notification.'.$this->receiver->id),
+            new Channel('notification.' . $this->receiver->id),
         ];
     }
 
@@ -55,7 +55,7 @@ class FriendRequestSend implements ShouldBroadcast
     public function broadcastWith()
     {
         // Generate the link to the post
-        $link = route('profile.info');
+        $link = route('pending.friend.requests');
 
         // Create the HTML message
         $message = "

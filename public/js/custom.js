@@ -109,3 +109,12 @@ function typingSound() {
     let audio = new Audio("/audio/whatsapp-typing.mp3");
     audio.play();
 }
+
+document.addEventListener("DOMContentLoaded",()=>{
+    GLightbox({
+        selector: '.js-gallery',
+        loop: false,
+        touchNavigation: true,
+    });
+
+})

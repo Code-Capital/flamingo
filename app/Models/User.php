@@ -57,6 +57,8 @@ class User extends Authenticatable
         'dark_mode',
         'messenger_color',
         'is_private',
+        'is_subscribed',
+        'premium_expires_at'
     ];
 
     protected $appends = [
@@ -403,9 +405,24 @@ class User extends Authenticatable
             ->get();
     }
 
+    // public function isSubscribed(): bool
+    // {
+    //     return ($this->subscribed('default') || $this->is_subscribed) ? true : false;
+    // }
+
     public function isSubscribed(): bool
     {
-        return ($this->subscribed('default') || $this->is_subscribed) ? true : false;
+        // Check if the user is subscribed via Stripe or similar service
+        $isStripeSubscribed = $this->subscribed('default');
+
+        // Check if the user has manual subscription
+        $isManualSubscribed = $this->is_subscribed;
+
+        // Check if the user is within the 3-day premium trial period
+        $isTrialActive = $this->premium_expires_at && now()->lt($this->premium_expires_at);
+
+        // Return true if the user is subscribed via Stripe, manual subscription, or is still on trial
+        return $isStripeSubscribed || $isManualSubscribed || $isTrialActive;
     }
 
     public function getCurrentMonthEvents(): int
@@ -551,6 +568,119 @@ class User extends Authenticatable
     {
         return $query->whereDoesntHave('friends', function ($q) use ($id) {
             $q->where('friend_id', $id);
+        });
+    }
+
+    // Dog Information
+
+    public function scopeByDogBreed(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('dog_breed', $search);
+            }
+        });
+    }
+    public function scopeByDogGender(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('dog_gender', $search);
+            }
+        });
+    }
+
+
+    public function scopeByKennelClub(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('kennel_club', $search);
+            }
+        });
+    }
+
+    public function scopeByDogWorkingClub(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('dog_working_club', $search);
+            }
+        });
+    }
+
+    public function scopeByDogWithersHeight(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('dog_withers_height', $search);
+            }
+        });
+    }
+
+    public function scopeByWeight(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('weight', $search);
+            }
+        });
+    }
+
+
+    public function scopeBySize(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('size', $search);
+            }
+        });
+    }
+
+
+    public function scopeByCastrated(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('castrated', $search);
+            }
+        });
+    }
+
+
+    public function scopeByTarget(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('target', $search);
+            }
+        });
+    }
+
+    public function scopeByFurr(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('furr', $search);
+            }
+        });
+    }
+
+    public function scopeByDrawing(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('drawing', $search);
+            }
+        });
+    }
+
+    public function scopeByHills(Builder $query, ?string $search = null): Builder
+    {
+        return $query->whereHas('userInfo', function ($q) use ($search) {
+            if ($search) {
+                $q->where('hills', $search);
+            }
         });
     }
 }

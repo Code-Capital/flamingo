@@ -3,8 +3,18 @@
         <img src="{{ $event->thumbnail_url }}">
         <div class="content w-100">
             <div class="d-flex align-items-center">
-                <span>{{ __('Starts from') }} :{{ $event->formatted_start_date }} {{ __('To') }}:
-                    {{ $event->formatted_end_date }} </span>
+                <div>
+                    @if ($event->start_date != '' && $event->end_date)
+                        <span>{{ __('Starts from') }} :{{ $event->formatted_start_date }} {{ __('To') }}:
+                            {{ $event->formatted_end_date }} </span>
+                    @endif
+                    <br>
+                    @if ($event->start_time != '' && $event->end_time)
+                        <span>{{ __('Starts from') }} :{{ $event->start_time }} {{ __('To') }}:
+                            {{ $event->end_time }} </span>
+                    @endif
+                </div>
+
                 <div class="ms-auto dropdown">
                     <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -12,14 +22,17 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                            <a class="dropdown-item" href="{{ route('events.show', $event->slug) }}">View</a>
+                            <a class="dropdown-item"
+                                href="{{ route('events.show', $event->slug) }}">{{ __('View') }}</a>
                         </li>
                         @if ($user && $event->isOwner($user))
                             @if ($event->isUpcoming() || $event->isOngoing())
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('events.edit', $event->slug) }}">Edit</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('events.edit', $event->slug) }}">{{ __('Edit') }}</a>
                                 </li>
                                 <li>
+                                    {{-- {{ route('events.destroy', $event->slug) }} --}}
                                     <form action="{{ route('events.destroy', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
                                         @csrf
@@ -27,14 +40,14 @@
                                         <button type="submit" class="dropdown-item">{{ __('Delete') }}</button>
                                     </form>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <form action="{{ route('events.close', $event->slug) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this event?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item">Close Event</button>
                                     </form>
-                                </li>
+                                </li> --}}
                             @endif
                         @endif
                         @if (!$event->isOwner($user))
@@ -53,13 +66,16 @@
                 </div>
             </div>
             <div class="tags mb-2">
-                @if ($event->isUpcoming())
-                    <span class="px-1 py-1 fw-bold bg-success text-white">Upcoming</span>
-                @elseif ($event->isOngoing())
-                    <span class="px-1 py-1 fw-bold bg-warning text-white">{{ __('Ongoing') }}</span>
-                @else
-                    <span class="px-1 py-1 fw-bold bg-danger text-white">Ended</span>
+                @if ($event->start_date != '' && $event->end_date != '')
+                    @if ($event->isUpcoming())
+                        <span class="px-1 py-1 fw-bold bg-success text-white">Upcoming</span>
+                    @elseif ($event->isOngoing())
+                        <span class="px-1 py-1 fw-bold bg-warning text-white">{{ __('Ongoing') }}</span>
+                    @else
+                        <span class="px-1 py-1 fw-bold bg-danger text-white">Ended</span>
+                    @endif
                 @endif
+
             </div>
 
             <a href="{{ $url ?? route('events.show', $event->slug) }}" class="text-decoration-none">

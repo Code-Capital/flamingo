@@ -20,7 +20,7 @@
                 <div class="dashboardCard border-0">
                     <form action="{{ route('search.events') }}" method="GET">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-4 col-lg-4 form-group">
+                            <div class="col-md-4 col-lg-4 outlined_select2">
                                 <select class="form-control interests w-100" name="interests[]" multiple>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}"
@@ -31,11 +31,11 @@
                                     @endforelse
                                 </select>
                             </div>
-                            <div class="col-md-4 col-lg-3 form-group">
+                            <div class="col-md-4 col-lg-3">
                                 <input class="form-control form-control-lg w-100" type="search"
                                     placeholder="Search by name & title" name="q" value="{{ request()->q }}">
                             </div>
-                            <div class="col-md-4 col-lg-3 form-group">
+                            <div class="col-md-4 col-lg-3 outlined_select2">
                                 <select class="form-control locations w-100" name="location_id">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
@@ -60,7 +60,8 @@
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center justify-content-between pb-3">
                                 <a class="btn btn-primary px-4" href="javascript:void(0)">{{ __('Search Events') }}</a>
-                                <a class="btn btn-outline-primary px-4" href="{{ route('events.create') }}">{{ __('Create') }}</a>
+                                <a class="btn btn-outline-primary px-4"
+                                    href="{{ route('events.create') }}">{{ __('Create') }}</a>
                             </div>
                         </div>
                     </div>

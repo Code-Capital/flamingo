@@ -45,7 +45,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="userDashboard">
                                 <li><a class="dropdown-item"
-                                        href="{{ route('user.dashboard') }}">{{ __('Dashboard') }}</a></li>
+                                        href="{{ route('profile.edit') }}">{{ __('Dashboard') }}</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('My profile') }}</a>
                                 </li>
                                 <li>

@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 form-group mb-3">
+                                <div class="col-lg-6 outlined_select2 form-group mb-3">
                                     <label class="mb-1"><span> {{ __('Location') }}</span></label>
                                     <select class="form-select locations" name="location_id">
                                         <option value="">Select location</option>
@@ -107,7 +107,7 @@
                                         @endforelse
                                     </select>
                                 </div>
-                                <div class="col-lg-6 form-group mb-3">
+                                <div class="col-lg-6  form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Municipality</span>
                                     </label>
@@ -123,158 +123,258 @@
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Breed of dog</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <input class="w-100" type="text" name="dog_breed"
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between"> --}}
+                                    {{-- <input class="w-100" type="text" name="dog_breed"
                                                 value="{{ $user?->userInfo?->dog_breed }}"
-                                                placeholder="Breed of dog">
-                                        </div>
-                                    </div>
+                                                placeholder="Breed of dog"> --}}
+                                    <select class="w-100 form-select" name="dog_breed" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'dog_breed') as $row)
+                                            <option @selected($user?->userInfo?->dog_breed == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                        {{-- <option @selected($user?->userInfo?->dog_breed == 'Labrador Retriever') value="Labrador Retriever">Labrador
+                                            Retriever</option>
+                                        <option @selected($user?->userInfo?->dog_breed == 'German Shepherd') value="German Shepherd">German
+                                            Shepherd</option>
+                                        <option @selected($user?->userInfo?->dog_breed == 'French Bulldog') value="French Bulldog">French Bulldog
+                                        </option>
+                                        <option @selected($user?->userInfo?->dog_breed == 'Bulldog') value="Bulldog">Bulldog</option> --}}
+                                    </select>
+                                    {{-- </div> --}}
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Dog's gender</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="dog_gender"
                                                 value="{{ $user?->userInfo?->dog_gender }}"
                                                 placeholder="Dog's gender">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="form-select" name="dog_gender" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'dog_gender') as $row)
+                                            <option @selected($user?->userInfo?->dog_gender == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                        {{-- <option @selected($user?->userInfo?->dog_gender == 'Male') value="Male">Male</option>
+                                        <option @selected($user?->userInfo?->dog_gender == 'Female') value="Female">Female</option> --}}
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Kennel club</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="kennel_club"
                                                 value="{{ $user?->userInfo?->kennel_club }}"
                                                 placeholder="Kennel club">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="kennel_club" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'kennel_club') as $row)
+                                            <option @selected($user?->userInfo?->kennel_club == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Working dog club
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="dog_working_club"
                                                 value="{{ $user?->userInfo?->dog_working_club }}"
                                                 placeholder="Working dog club">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="dog_working_club" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'dog_working_club') as $row)
+                                            <option @selected($user?->userInfo?->dog_working_club == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                        {{-- <option @selected($user?->userInfo?->dog_working_club == 'Dog Club 1') value="Dog Club 1">Dog Club 1
+                                        </option>
+                                        <option @selected($user?->userInfo?->dog_working_club == 'Dog Club 2') value="Dog Club 2">Dog Club 2
+                                        </option>
+                                        <option @selected($user?->userInfo?->dog_working_club == 'Dog Club 3') value="Dog Club 3">Dog Club 3
+                                        </option> --}}
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Height at the withers
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="dog_withers_height"
                                                 value="{{ $user?->userInfo?->dog_withers_height }}"
                                                 placeholder="Height at the withers">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="dog_withers_height" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'dog_withers_height') as $row)
+                                            <option @selected($user?->userInfo?->dog_withers_height == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Weight
+                                        <span>
+                                            Weight
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="weight"
                                                 value="{{ $user?->userInfo?->weight }}" placeholder="Weight">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="weight" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'weight') as $row)
+                                            <option @selected($user?->userInfo?->weight == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Size
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="size"
                                                 value="{{ $user?->userInfo?->size }}" placeholder="size">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="size" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'size') as $row)
+                                            <option @selected($user?->userInfo?->size == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Castrated
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="castrated"
                                                 value="{{ $user?->userInfo?->castrated }}" placeholder="Castrated">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="castrated" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'castrated') as $row)
+                                            <option @selected($user?->userInfo?->castrated == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Targeting
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="targeting"
                                                 value="{{ $user?->userInfo?->targeting }}" placeholder="Targeting">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="target" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'target') as $row)
+                                            <option @selected($user?->userInfo?->target == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Fur
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="furr"
                                                 value="{{ $user?->userInfo?->furr }}" placeholder="Furr">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="furr" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'furr') as $row)
+                                            <option @selected($user?->userInfo?->furr == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Drawing
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="drawing"
                                                 value="{{ $user?->userInfo?->drawing }}" placeholder="Drawing">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="drawing" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'drawing') as $row)
+                                            <option @selected($user?->userInfo?->drawing == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>Hills
                                         </span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between">
                                             <input class="w-100" type="text" name="hills"
                                                 value="{{ $user?->userInfo?->hills }}" placeholder="hills">
-                                        </div>
-                                    </div>
+                                        </div> --}}
+                                    <select class="w-100 form-select" name="hills" id="">
+                                        <option value="" selected disabled>Please Select</option>
+                                        @foreach ($dogs_information->where('type', 'hills') as $row)
+                                            <option @selected($user?->userInfo?->hills == $row->info) value="{{ $row->info }}">
+                                                {{ $row->info }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- </div> --}}
                                 </div>
                                 {{-- Descriptions --}}
                                 <div class="form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>{{ __('Define yourself') }}</span>
                                     </label>
-                                    <div class="form-control form-control-lg">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <textarea rows="6" class="w-100" placeholder="Type you message" name="about">{{ $user->about }} </textarea>
-                                        </div>
-                                    </div>
+                                    {{-- <div class="form-control form-control-lg"> --}}
+                                    {{-- <div class="d-flex align-items-center justify-content-between"> --}}
+                                    <textarea rows="6" class="form-control" placeholder="Type you message" name="about">{{ $user->about }} </textarea>
+                                    {{-- </div> --}}
+                                    {{-- </div> --}}
                                 </div>
                                 {{-- Interests --}}
                                 <div class="form-group mb-3">

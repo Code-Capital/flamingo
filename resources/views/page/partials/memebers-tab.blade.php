@@ -3,7 +3,7 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">Members <span>({{ $JoinedUsers->count() }})</span></div>
+                <div class="heading pb-4">{{__("Members")}} <span>({{ $JoinedUsers->count() }})</span></div>
             </div>
         </div>
         <div class="row mx-0">

@@ -23,13 +23,13 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255', 'unique:events,title'],
             'location_id' => ['required', 'string', 'max:255', 'exists:locations,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
-            'thumbnail' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'description' => ['required', 'string'],
-            'rules' => ['required', 'string'],
+            'rules' => ['nullable', 'string'],
             'status' => ['required', 'in:draft,published'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
@@ -44,6 +44,8 @@ class StoreEventRequest extends FormRequest
      */
     public function messages(): array
     {
-        return [];
+        return [
+            'title.unique' => 'An event with this title already exists.',
+        ];
     }
 }

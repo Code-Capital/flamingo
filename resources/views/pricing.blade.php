@@ -6,7 +6,7 @@
     <div class="pricingWrapper pb-5">
         <div class="container">
             <div class="text-center py-5">
-                <h2>Pricing Plans</h2>
+                <h2>{{__("Pricing Plans")}}</h2>
                 {{-- <p>Choose the plan that best fits your needs</p>
                 <div class="d-flex align-items-center gap-4 toggler justify-content-center">
                     <span>Monthly</span>
@@ -22,7 +22,7 @@
                         <div class="col-lg-5 mb-4 mx-auto">
                             <div class="pricingCard px-5 pt-3 pb-5 h-100">
                                 <div class="text-end">
-                                    <div class="badge bg-white px-3">Popular</div>
+                                    <div class="badge bg-white px-3">{{__("Popular")}}</div>
                                 </div>
                                 <div class="d-flex gap-3">
                                     <div class="icon d-flex align-items-center justify-content-center">
@@ -39,7 +39,7 @@
                                         {{ getInterval($plan->interval) }}</span>
                                 </div>
                                 @if ($settings)
-                                    <h5 class="mb-3">What’s included</h5>
+                                    <h5 class="mb-3">{{__("What’s included")}}</h5>
                                     <ul class="list-unstyled">
                                         @forelse ($settings as $key => $setting)
                                             <li class="mb-4">
@@ -71,7 +71,7 @@
                                     </ul>
                                 @endif
                                 <a href="{{ route('stripe.subscription.checkout', $plan->uuid) }}"
-                                    class="btn-primary btn w-100 mt-3">Get started</a>
+                                    class="btn-primary btn w-100 mt-3">{{__("Get started")}}</a>
                             </div>
                         </div>
                     @empty

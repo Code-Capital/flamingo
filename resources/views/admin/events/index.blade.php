@@ -72,7 +72,7 @@
             let body = $('body');
             $('body').on('click', '.delete', function() {
                 let id = $(this).data('id');
-                let url = "{{ route('events.destroy', ':id') }}".replace(':id', id);
+                let url = "{{ route('admin.events.destroy', ':id') }}".replace(':id', id);
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'This action cannot be undone!',

@@ -11,7 +11,7 @@
                     <div class="bg-white p-4 dashboardCard">
                         <div class="row mx-0">
                             <div class="col-lg-12">
-                                <div class="heading pb-4">Pending Friend {{ __('Requests') }}
+                                <div class="heading pb-4">{{ __('Pending Friend Requests') }}
                                     <span>{{ $requests->count() }}</span>
                                 </div>
                             </div>
@@ -19,12 +19,15 @@
                         <div class="row mx-0">
                             @forelse($requests as $user)
                                 <div class="col-lg-6 mb-3 friend-request-{{ $user->id }}">
+
                                     <div class="eventCardInner p-3 friendRequest">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center gap-3">
                                                 <img src="{{ $user->avatar_url }}" class="rounded-circle">
                                                 <div>
-                                                    <span class="d-block">{{ $user->user_name }}</span>
+                                                    <a href="{{ route('user.users.show', $user->id) }}">
+                                                        <span class="d-block">{{ $user->user_name }}</span>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center gap-2">

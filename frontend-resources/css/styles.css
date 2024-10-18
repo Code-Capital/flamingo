@@ -15,8 +15,8 @@ main {
 }
 
 body {
-  background-color: var(--body-color);
   font-family: "Lato", sans-serif;
+  background-color: red !important;
 }
 
 .bg-primary {
@@ -945,6 +945,8 @@ body {
 .dashboardWrapper .contentWrapper .hero .profile .avatar-upload .avatar-preview img {
   width: 145px;
   height: 145px;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
 }
 .dashboardWrapper .contentWrapper .hero .profile .form-check-input {
   border-color: var(--primary-color) !important;
@@ -1081,6 +1083,7 @@ body {
   font-weight: 300;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .profile {
+  border: 2px solid red;
   top: 4rem;
   width: -webkit-fill-available;
 }
@@ -1116,10 +1119,15 @@ body {
   background: #f1f1f1;
   border-color: #d6d6d6;
 }
+.dashboardWrapper .contentWrapper .dashboardCard .profile .avatar-upload .avatar-preview {
+  border: 2px solid red;
+}
 .dashboardWrapper .contentWrapper .dashboardCard .profile .avatar-upload .avatar-preview img {
   width: 145px;
   height: 145px;
   border-radius: 50%;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .profile .form-check-input {
   border-color: var(--primary-color) !important;

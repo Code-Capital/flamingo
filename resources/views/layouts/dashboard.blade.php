@@ -24,13 +24,14 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
     <!-- Styling -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }} ">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('css/glightbox/glightbox.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="{{ asset('css/dropzone.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
     @yield('styles')
@@ -54,143 +55,141 @@
 </head>
 
 <body>
-    <main>
-        <div id="wrapper" class="dashboardWrapper d-flex align-items-stretch">
-            @include('layouts.dashboard.sidebar')
-            <div id="content-wrapper" class="contentWrapper h-100">
-                @include('layouts.dashboard.navbar')
-                @include('layouts.partial.show-error')
-                @yield('content')
-            </div>
+<main>
+    <div id="wrapper" class="dashboardWrapper d-flex align-items-stretch">
+        @include('layouts.dashboard.sidebar')
+        <div id="content-wrapper" class="contentWrapper h-100">
+            @include('layouts.dashboard.navbar')
+            @include('layouts.partial.show-error')
+            @yield('content')
         </div>
-        <div class="modal fade" id="joinCommunity" tabindex="-1" aria-labelledby="joinCommunityLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body p-3 p-md-3 p-lg-5">
-                        <div class="text-center px-0 px-md-0 px-lg-5">
-                            <img src=" {{ asset('assets/icon8.svg') }}">
-                            <h1 class="my-4">Join Our Community</h1>
-                            <p>Ready to dive in? Join our community today to start connecting, sharing, and discovering
-                                with
-                                individuals who share your interests and passions. Subscribe now to become part of our
-                                growing community!</p>
-                            <a href="friends-feed" type="button" class="btn btn-primary mt-5 px-4">Subscribe Now</a>
-                        </div>
+    </div>
+    <div class="modal fade" id="joinCommunity" tabindex="-1" aria-labelledby="joinCommunityLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-3 p-md-3 p-lg-5">
+                    <div class="text-center px-0 px-md-0 px-lg-5">
+                        <img src=" {{ asset('assets/icon8.svg') }}">
+                        <h1 class="my-4">Join Our Community</h1>
+                        <p>Ready to dive in? Join our community today to start connecting, sharing, and discovering
+                            with
+                            individuals who share your interests and passions. Subscribe now to become part of our
+                            growing community!</p>
+                        <a href="friends-feed" type="button" class="btn btn-primary mt-5 px-4">Subscribe Now</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <form action="#" method="POST" id="reportForm">
-                        @csrf
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reportModalLabel">Report reason</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+    <!-- Modal -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="#" method="POST" id="reportForm">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reportModalLabel">Report reason</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
+                    </div>
+                    <div class="modal-body">
                             <textarea name="reason" id="" cols="30" rows="5" class="form-control"
-                                placeholder="Please provide proper reason" required></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
+                                      placeholder="Please provide proper reason" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </main>
-    <script src="{{ asset('js/sweetalert.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.6.3.js') }} "></script>
-    <script src="{{ asset('js/popper.min.js') }} "></script>
-    <script src="{{ asset('js/bootstrap.min.js') }} "></script>
-    <script src="{{ asset('js/select2.min.js') }} "></script>
-    <script src="{{ asset('js/dropzone.js') }}"></script>
-    <script src="{{ asset('js/toastr.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
-    @include('layouts.common-scripts')
+    </div>
+</main>
+<script src="{{ asset('js/sweetalert.js') }}"></script>
+<script src="{{ asset('js/jquery-3.6.3.js') }} "></script>
+<script src="{{ asset('js/glightbox/glightbox.min.js') }} "></script>
+<script src="{{ asset('js/popper.min.js') }} "></script>
+<script src="{{ asset('js/bootstrap.min.js') }} "></script>
+<script src="{{ asset('js/select2.min.js') }} "></script>
+<script src="{{ asset('js/dropzone.js') }}"></script>
+<script src="{{ asset('js/toastr.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
+@include('layouts.common-scripts')
 
-    <script>
-        $("#imageUpload").change(function() {
-            const fileName = this.files[0]?.name; // Get the first selected file's name
-            const $fileNameSpan = $("#fileNameSpan");
+<script>
+    $("#imageUpload").change(function () {
+        const fileName = this.files[0]?.name; // Get the first selected file's name
+        const $fileNameSpan = $("#fileNameSpan");
 
-            if (fileName) {
-                $fileNameSpan.text(fileName); // Show the file name
-            } else {
-                $fileNameSpan.text(""); // If no file, ensure it's empty
-            }
+        if (fileName) {
+            $fileNameSpan.text(fileName); // Show the file name
+        } else {
+            $fileNameSpan.text(""); // If no file, ensure it's empty
+        }
+    });
+</script>
+<script>
+    $(document).on('click', '.sidebar-toggle', function (e) {
+        e.preventDefault();
+        $('#wrapper').toggleClass('toggled');
+    });
+</script>
+<script>
+    $(".chatBtn").click(function () {
+        $(".chatSidebar").toggleClass("chatSidebarshow");
+    });
+</script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script> --}}
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+<script>
+    let message = '';
+    let notificationDot = document.querySelector('.notification-dot');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
+            cluster: '{{ env("PUSHER_APP_CLUSTER") }}'
         });
-    </script>
-    <script>
-        const $button = document.querySelector('#sidebar-toggle');
-        const $wrapper = document.querySelector('#wrapper');
 
-        $button.addEventListener('click', (e) => {
-            e.preventDefault();
-            $wrapper.classList.toggle('toggled');
+        pusher.connection.bind("connected", function () {
+            console.log("connected");
+        })
+
+        pusher.connection.bind("error", function (error) {
+            console.error("connection error", error);
+            toastr.error('Connection error');
         });
-    </script>
-    <script>
-        $(".chatBtn").click(function() {
-            $(".chatSidebar").toggleClass("chatSidebarshow");
+
+        userId = '{{ auth()->id() }}';
+
+        var channel = pusher.subscribe('notification.' + userId);
+
+
+        channel.bind('notification-created', function (data) {
+            // console.log(data);
+            newNotificationSound();
+            // Display the notification as an HTML message
+            toastr.options = {
+                closeButton: true,
+                positionClass: 'toast-top-right',
+                timeOut: 3000, // Duration before the toast disappears
+                extendedTimeOut: 4000,
+                tapToDismiss: false,
+                escapeHtml: false,
+                allowHtml: true,
+                onclick: function () {
+                    window.open(data.link);
+                }
+            };
+            toastr.success(data.message);
+            notificationDot.style.display = 'block';
         });
-    </script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.11.1/echo.js"></script> --}}
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-
-    <script>
-        let message = '';
-        let notificationDot = document.querySelector('.notification-dot');
-        document.addEventListener('DOMContentLoaded', function() {
-            // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
-
-            var pusher = new Pusher('9a5d76ef216853ed60cf', {
-                cluster: 'us3',
-            });
-
-            pusher.connection.bind("connected", function() {
-                console.log("connected");
-            })
-
-            pusher.connection.bind("error", function(error) {
-                console.error("connection error", error);
-                toastr.error('Connection error');
-            });
-
-            userId = '{{ auth()->id() }}';
-
-            var channel = pusher.subscribe('notification.' + userId);
-
-
-            channel.bind('notification-created', function(data) {
-                // console.log(data);
-                newNotificationSound();
-                // Display the notification as an HTML message
-                toastr.options = {
-                    closeButton: true,
-                    positionClass: 'toast-top-right',
-                    timeOut: 3000, // Duration before the toast disappears
-                    extendedTimeOut: 4000,
-                    tapToDismiss: false,
-                    escapeHtml: false,
-                    allowHtml: true,
-                    onclick: function() {
-                        window.open(data.link);
-                    }
-                };
-                toastr.success(data.message);
-                notificationDot.style.display = 'block';
-            });
-        });
-    </script>
-    @yield('scripts')
+    });
+</script>
+@yield('scripts')
 </body>
 
 </html>

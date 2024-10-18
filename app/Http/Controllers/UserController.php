@@ -15,6 +15,7 @@ use App\Notifications\FriendRequestAcceptedNotificatition;
 use App\Notifications\FriendRequestSendNotification;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -51,6 +52,21 @@ class UserController extends Controller
         // $user->notify(new FriendRequestSendNotification($user));
 
         broadcast(new FriendRequestSend($user, $request->user()));
+
+        $receiver = $user;
+        $sender = $request->user();
+        $notification_message = __('has sent you a friend request');
+
+        $receiver->notifications()->create([
+            'type' => NotificationStatusEnum::FRIENDREQUESTRECEIVED->value,
+            'data' => json_encode([  // Ensure the data array is JSON-encoded
+                'message' => "{$sender->full_name} {$notification_message}. <a href='" . route('pending.friend.requests') . "'>View</a>",
+                'sender_id' => $sender->id,
+                'sender_name' => $sender->full_name,
+                'user_id' => $request->user()->id,
+                'link' => route('pending.friend.requests'), // Link to the friend request page
+            ]),
+        ]);
 
         return $this->sendSuccessResponse(null, 'Friend request sent successfully', Response::HTTP_CREATED);
     }
@@ -138,11 +154,12 @@ class UserController extends Controller
                 'file_type' => $mediaFile->getClientOriginalExtension(),
             ]);
         }
-
+        $notification_message = __("Your media files have been uploaded successfully");
         $link = route('gallery');
         $message = "<div class='notification'>
+                                {$notification_message}
                             <a href='{$link}' target='_blank'>
-                                Your media files have been uploaded successfully
+                               View
                             </a>
                         </div>
                     ";
@@ -151,7 +168,8 @@ class UserController extends Controller
             'type' => NotificationStatusEnum::MEDIAUPLOADED->value,
             'data' => json_encode([
                 'message' => $message,
-                'media_paths' => json_encode($media),
+                'user_id' => $request->user()->id,
+                'link' => $link,
             ]),
         ]);
 

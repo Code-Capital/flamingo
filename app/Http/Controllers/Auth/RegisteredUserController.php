@@ -65,17 +65,17 @@ class RegisteredUserController extends Controller
                 'county_id.exists' => __('The selected county is invalid.'),
 
                 // Swedish Custom Messages
-                'first_name.required' => __('Förnamn är obligatoriskt.'),
-                'user_name.required' => __('Användarnamn är obligatoriskt.'),
-                'user_name.unique' => __('Användarnamnet är upptaget, välj ett nytt.'),
-                'email.unique' => __('E-postadressen är redan upptagen, välj en annan.'),
-                'email.email' => __('Vänligen ange en giltig e-postadress.'),
-                'interests.required' => __('Du måste välja minst ett intresse.'),
-                'interests.*.exists' => __('Det valda intresset är ogiltigt.'),
-                'password.required' => __('Lösenord är obligatoriskt.'),
-                'password.confirmed' => __('Lösenordsbekräftelsen matchar inte.'),
-                'country_id.exists' => __('Det valda landet är ogiltigt.'),
-                'county_id.exists' => __('Det valda länet är ogiltigt.'),
+                // 'first_name.required' => __('Förnamn är obligatoriskt.'),
+                // 'user_name.required' => __('Användarnamn är obligatoriskt.'),
+                // 'user_name.unique' => __('Användarnamnet är upptaget, välj ett nytt.'),
+                // 'email.unique' => __('E-postadressen är redan upptagen, välj en annan.'),
+                // 'email.email' => __('Vänligen ange en giltig e-postadress.'),
+                // 'interests.required' => __('Du måste välja minst ett intresse.'),
+                // 'interests.*.exists' => __('Det valda intresset är ogiltigt.'),
+                // 'password.required' => __('Lösenord är obligatoriskt.'),
+                // 'password.confirmed' => __('Lösenordsbekräftelsen matchar inte.'),
+                // 'country_id.exists' => __('Det valda landet är ogiltigt.'),
+                // 'county_id.exists' => __('Det valda länet är ogiltigt.'),
             ]
         );
 
@@ -105,13 +105,14 @@ class RegisteredUserController extends Controller
             $user->update([
                 'messenger_color' => '#d63384',
                 'active_status' => 1,
+                'is_subscribed' => 1, // Mark them as subscribed for the trial
+                'premium_expires_at' => now()->addDays(3), // 3-day premium trial
             ]);
         }
 
         event(new Registered($user));
 
         Auth::login($user);
-
         return redirect(route('home', absolute: false));
     }
 }

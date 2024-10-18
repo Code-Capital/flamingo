@@ -16,8 +16,9 @@ main {
 }
 
 body {
-  background-color: var(--body-color);
+//   background-color: var(--body-color);
   font-family: "Lato", sans-serif;
+  background-color: red !important;
 }
 
 .bg-primary {
@@ -1276,6 +1277,7 @@ body {
             img {
               width: 145px;
               height: 145px;
+              object-fit: cover !important;
             }
           }
         }
@@ -1469,6 +1471,7 @@ body {
         }
       }
       .profile {
+        border: 2px solid red;
         top: 4rem;
         width: -webkit-fill-available;
 
@@ -1510,10 +1513,12 @@ body {
           }
 
           .avatar-preview {
+            border: 2px solid red;
             img {
               width: 145px;
               height: 145px;
               border-radius: 50%;
+              object-fit: cover !important;
             }
           }
         }

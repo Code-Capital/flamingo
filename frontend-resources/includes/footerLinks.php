@@ -26,7 +26,7 @@
     });
 </script>
 <script>
-    $("#imageUpload").change(function() {
+    $("#imageUpload").change(function () {
         const fileName = this.files[0]?.name; // Get the first selected file's name
         const $fileNameSpan = $("#fileNameSpan");
 
@@ -38,16 +38,24 @@
     });
 </script>
 <script>
-    const $button  = document.querySelector('#sidebar-toggle');
+    const $button = document.querySelector('.sidebar-toggle');
     const $wrapper = document.querySelector('#wrapper');
 
     $button.addEventListener('click', (e) => {
         e.preventDefault();
         $wrapper.classList.toggle('toggled');
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        function handleResize() {
+            console.log({this})
+        }
+
+        document.addEventListener('resize', handleResize)
+    })
 </script>
 <script>
-    $(".chatBtn").click(function() {
+    $(".chatBtn").click(function () {
         $(".chatSidebar").toggleClass("chatSidebarshow");
     });
 </script>

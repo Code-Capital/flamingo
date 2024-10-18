@@ -42,6 +42,7 @@ class EventController extends Controller
     {
         try {
             // $event->allMembers()->delete();
+
             $event->delete();
 
             return $this->sendSuccessResponse(null, 'Event deleted successfully');

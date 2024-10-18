@@ -262,8 +262,8 @@
     function unfriendUser(id, button) {
         // Show a SweetAlert confirmation dialog
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: "{{ __('Are you sure?') }}",
+            text: "{{ __('Are you sure you want to delete this friend?') }}",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -287,7 +287,7 @@
                         toastr.success(response.message);
                         newNotificationSound();
                         button.closest('.friend-request-' + id).fadeOut(300)
-                    .hide(); // Hide the parent element of the button
+                            .hide(); // Hide the parent element of the button
                         setTimeout(() => {
                             location.reload();
                         }, 1000);

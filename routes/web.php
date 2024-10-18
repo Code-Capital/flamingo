@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\DogsInformationController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\HomePageController as AdminHomePageController;
 use App\Http\Controllers\Admin\InterestController as AdminInterestController;
@@ -44,14 +45,15 @@ Route::post('/contact', [FrontendController::class, 'sendContact'])->name('conta
 Route::view('/verification', [FrontendController::class, 'verification'])->name('verification');
 Route::post('/subscribers', [SubscriberController::class, 'store'])->name('subscribers.store');
 
-Route::middleware('auth')->group(function () {
-    Route::middleware(['role:user', 'blockuser'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['role:user', 'blockuser', 'check-premium'])->group(function () {
         Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware('verified')->name('user.dashboard');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('update/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('avatar/upload', [ProfileController::class, 'upload'])->name('avatar.upload');
         Route::get('profile/info', [ProfileController::class, 'info'])->name('profile.info');
+        Route::delete('/profile/image/delete/{id}', [ProfileController::class, 'deleteImage'])->name('profile.media.delete');
         Route::post('/password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
         Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
@@ -90,7 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::post('events/store', [EventController::class, 'store'])->name('events.store');
         Route::get('events/{event:slug}/edit', [EventController::class, 'edit'])->name('events.edit');
         Route::put('events/{event:slug}/update', [EventController::class, 'update'])->name('events.update');
-        Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
+        // Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
         Route::get('search/events', [SearchController::class, 'eventSearch'])->name('search.events');
         Route::get('joined/events', [EventController::class, 'joinedEvents'])->name('events.joined');
         Route::get('joined/events/{event:slug}/show', [EventController::class, 'show'])->name('joined.events.show');
@@ -162,14 +164,16 @@ Route::middleware('auth')->group(function () {
         Route::delete('users/{user}/delete', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::put('users/{user}/block', [AdminUserController::class, 'block'])->name('admin.users.block');
         Route::put('users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('admin.users.unblock');
+        Route::get('users/{user}/show', [AdminUserController::class, 'show'])->name('admin.users.show');
         Route::post('/admin/users/toggle-subscription', [AdminUserController::class, 'toggleSubscription'])->name('admin.users.toggle.subscription');
 
         Route::resource('interests', AdminInterestController::class);
         Route::resource('locations', AdminLocationController::class);
         Route::resource('faqs', FaqController::class);
+        Route::resource('dogs-information', DogsInformationController::class);
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
-        Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('events.destroy');
+        Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
 
         Route::get('posts/list', [AdminPostcontroller::class, 'index'])->name('posts.list');
         Route::delete('posts/{post}/delete', [AdminPostcontroller::class, 'destroy'])->name('posts.destroy');
@@ -201,7 +205,7 @@ Route::middleware('auth')->group(function () {
         Route::post('feature/store', [AdminHomePageController::class, 'featureStore'])->name('admin.homepage.feature.store');
         Route::get('feature/{feature}/edit', [AdminHomePageController::class, 'featureEdit'])->name('admin.homepage.feature.edit');
         Route::put('feature/{feature}/update', [AdminHomePageController::class, 'featureUpdate'])->name('admin.homepage.feature.update');
-        Route::delete('feature/{feature}/delete', [AdminHomePageController::class, 'featureDestroy'])->name('admin.homepage.feature.destroy');
+        Route::delete('feature/{feature}/delete', [AdminHomePageController::class, 'featureDelete'])->name('admin.homepage.feature.destroy');
     });
 
     Route::post('file/upload', [FrontendController::class, 'uploadFile'])->name('files.upload');
@@ -214,4 +218,15 @@ Route::get('storage-link', function () {
 Route::get('cache-clear', function () {
     Artisan::call('optimize:clear');
     return 'optimize successfully';
+});
+
+Route::middleware('auth')->group(function () {
+    Route::middleware(['role:user', 'blockuser', 'check-premium'])->group(function () {
+        Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
+        Route::get('user-detail/{user}/show', [AdminUserController::class, 'showUser'])->name('user.users.show');
+    });
+});
+
+Route::get('profile-detail', function () {
+    return view("admin.users.show");
 });

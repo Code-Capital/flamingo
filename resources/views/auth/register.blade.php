@@ -161,7 +161,7 @@
                             </button>
                             <div class="linkText mt-3">
                                 <span>{{ __('Already have an account?') }} <a class="text-decoration-none"
-                                        href="{{ route('login') }}">{{ __('Login') }}</a></span>
+                                        href="{{ route('login') }}">{{ __('Log in') }}</a></span>
                             </div>
                         </div>
                     </div>
@@ -173,6 +173,13 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+
+            // Apply to all input, select, and textarea elements
+            $('input, select, textarea').on('input change', function() {
+                // Find the closest parent form-group and clear the span error message within it
+                $(this).closest('.form-group').find('span.text-danger').text('');
+            });
+
             $("#interests").select2({
                 placeholder: "Select an interest",
                 allowClear: false

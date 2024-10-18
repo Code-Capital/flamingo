@@ -11,15 +11,15 @@
                         <div class="nav nav-tabs border-0 mb-0" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="Posts-tab" data-bs-toggle="tab" data-bs-target="#Posts"
                                 type="button" role="tab" aria-controls="Posts" aria-selected="true">
-                                <span class="px-1 px-md-2 px-lg-3">Posts</span>
+                                <span class="px-1 px-md-2 px-lg-3">{{ __('Posts') }}</span>
                             </button>
                             <button class="nav-link " id="Info-tab" data-bs-toggle="tab" data-bs-target="#Info"
                                 type="button" role="tab" aria-controls="Info" aria-selected="true"><span
-                                    class="px-1 px-md-2 px-lg-3">About</span></button>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('About') }}</span></button>
 
                             <button class="nav-link" id="Friends-tab" data-bs-toggle="tab" data-bs-target="#Friends"
                                 type="button" role="tab" aria-controls="Friends" aria-selected="false"><span
-                                    class="px-1 px-md-2 px-lg-3">Members</span>
+                                    class="px-1 px-md-2 px-lg-3">{{ __('Members') }}</span>
                             </button>
                             @if ($page->isMainOwner($user))
                                 <button class="nav-link" id="Requests-tab" data-bs-toggle="tab" data-bs-target="#Requests"
@@ -37,7 +37,7 @@
                                     }
                                 @endphp
                                 <a href="{{ $route }}" class="btn btn-primary">
-                                    <span class="px-1 px-md-2 px-lg-3">Start Chat</span>
+                                    <span class="px-1 px-md-2 px-lg-3">{{__("Start Chat")}}</span>
                                 </a>
                             @endif
 

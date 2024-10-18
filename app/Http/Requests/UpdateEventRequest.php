@@ -23,17 +23,30 @@ class UpdateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255', Rule::unique('events', 'title')->ignore($this->event)],
             'location_id' => ['required', 'string', 'max:255', 'exists:locations,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'description' => ['required', 'string'],
-            'rules' => ['required', 'string'],
+            'rules' => ['nullable', 'string'],
             'status' => ['required', 'in:draft,published'],
             'images' => ['nullable', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'interests' => ['required', 'array', Rule::exists('interests', 'id')],
+        ];
+    }
+
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'title.unique' => 'An event with this title already exists.',
         ];
     }
 }

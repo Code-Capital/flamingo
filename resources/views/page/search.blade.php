@@ -17,10 +17,10 @@
         <div class="row mx-0 pt-5">
             <div class="col-lg-12 mb-3">
                 <div class="dashboardCard border-0">
-                    <form action="{{ route('search.events') }}" method="GET">
+                    <form action="{{ route('search.pages') }}" method="GET">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-5 col-lg-4 form-group">
-                                <select class="form-control interests w-100" name="interests[]" multiple>
+                            <div class="col-md-5 col-lg-4 outlined_select2">
+                                <select class="interests w-100" name="interests[]" multiple>
                                     @forelse($interests as $interest)
                                         <option value="{{ $interest->id }}"
                                             {{ in_array($interest->id, $selectedInterests) ? 'selected' : '' }}>
@@ -31,11 +31,11 @@
                                 </select>
                             </div>
                             <div class="col-md-4 col-lg-3 form-group">
-                                <input class="form-control w-100" type="search" placeholder="Search by name & title"
+                                <input class="form-control form-control-lg w-100" type="search" placeholder="Search by name & title"
                                     name="q" value="{{ request()->q }}">
                             </div>
-                            <div class="col-md-4 col-lg-3 form-group">
-                                <select class="form-control locations w-100" name="location_id">
+                            <div class="col-md-4 col-lg-3 outlined_select2">
+                                <select class="locations w-100" name="location_id">
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $location)
                                         <option value="{{ $location->id }}"

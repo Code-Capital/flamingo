@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\DogsInformation;
+use App\Models\Media;
 
 class ProfileController extends Controller
 {
@@ -28,6 +30,7 @@ class ProfileController extends Controller
         $countries = Country::all();
         $selectedInterests = $user->interests->pluck('id')->toArray();
         $locations = Location::all();
+        $dogs_information = DogsInformation::all();
 
         return view('profile.edit', get_defined_vars());
     }
@@ -151,5 +154,15 @@ class ProfileController extends Controller
         $user->save();
 
         return Redirect::route('profile.edit')->with('success', 'Password updated successfully');
+    }
+
+
+
+    public function deleteImage(Request $request, $id)
+    {
+        $image = Media::findOrFail($id);
+        $image->delete();
+
+        return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
     }
 }

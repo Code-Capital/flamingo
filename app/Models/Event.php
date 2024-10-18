@@ -19,6 +19,13 @@ class Event extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +38,8 @@ class Event extends Model
         'location_id',
         'start_date',
         'end_date',
+        'start_time',
+        'end_time',
         'thumbnail',
         'description',
         'rules',
@@ -247,10 +256,10 @@ class Event extends Model
     public function scopeBySearch(Builder $query, ?string $search = null): Builder
     {
         return $query->when($search, function ($q) use ($search) {
-            return $q->where('title', 'like', '%'.$search.'%')
+            return $q->where('title', 'like', '%' . $search . '%')
                 // ->orWhere('location_id', 'like', '%'.$search.'%')
-                ->orWhere('slug', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%');
+                ->orWhere('slug', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
         });
     }
 

@@ -15,7 +15,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="mb-1 required">
-                                            <span>Event Title</span>
+                                            <span>{{ __('Event Title') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
@@ -31,7 +31,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="mb-1 required">
-                                            <span>Event Location</span>
+                                            <span>{{ __('Event Location') }}</span>
                                         </label>
                                         <select class="w-100 form-control form-select location" name="location_id" required>
                                             @forelse ($locations as $location)
@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="mb-1 required">
-                                            <span>Start Datetime</span>
+                                            <span>{{ __('Start date') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
@@ -68,7 +68,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="mb-1 required">
-                                            <span>End Datetime</span>
+                                            <span>{{ __('End date') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
@@ -83,17 +83,51 @@
                                 </div>
                             </div>
 
+                            <!-- Start time and End time in a single row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-1 ">
+                                            <span>{{ __('Start time') }}</span>
+                                        </label>
+                                        <div class="form-control form-control-lg">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <input class="w-100" name="start_time" type="time" value="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-1 ">
+                                            <span>{{ __('End time') }}</span>
+                                        </label>
+                                        <div class="form-control form-control-lg">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <input class="w-100" name="end_time" type="time" value="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
                             <div class="row mb-3">
                                 <!-- Event Thumbanil -->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="mb-1 required">
-                                            <span>Event Thumbanil</span>
+                                        <label class="mb-1">
+                                            <span>{{ __('Event Thumbnail') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <input class="w-100" name="thumbnail" type="file"
-                                                    accept=".png, .jpg, .jpeg" required>
+                                                <input class="form-control" name="thumbnail" type="file"
+                                                    accept=".png, .jpg, .jpeg">
                                             </div>
                                         </div>
                                         @error('thumbnail')
@@ -105,7 +139,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="mb-1">
-                                            <span>Event Gallery</span>
+                                            <span>{{ __('Event Gallery') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
@@ -122,7 +156,7 @@
                             <!-- Event Interests -->
                             <div class="form-group mb-3">
                                 <label class="mb-1 required">
-                                    <span>Interests</span>
+                                    <span>{{ __('Select interest') }}</span>
                                 </label>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <select class="w-100 form-control form-select interests" name="interests[]" multiple
@@ -142,18 +176,19 @@
                             <!-- Event Description -->
                             <div class="form-group mb-3">
                                 <label class="mb-1 required">
-                                    <span>Event Description</span>
+                                    <span>{{ __('Event Description') }}</span>
                                 </label>
                                 <div class="form-control form-control-lg">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <textarea rows="4" name="description" class="w-100" required placeholder="Describe the event rules description">{{ old('description') }}</textarea>
+                                        <textarea rows="4" name="description" class="w-100" required
+                                            placeholder="{{ __('Describe the event rules description') }}">{{ old('description') }}</textarea>
                                     </div>
                                 </div>
                                 @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- Event Rules -->
+                            {{-- <!-- Event Rules -->
                             <div class="form-group mb-3">
                                 <label class="mb-1">
                                     <span>Event Rule and Regulations <small class="text-muted">(optional)</small></span>
@@ -166,7 +201,7 @@
                                 @error('rules')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             <!-- Event Status -->
                             <div class="form-group mb-3">
