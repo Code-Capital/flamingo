@@ -246,6 +246,10 @@
 }
 
 .messenger-messagingView {
+    @media (max-width: 768px) {
+        height: calc(100dvh - 77px) !important;
+    }
+
     @media (max-width: 680px) {
         top: 78px !important;
     }

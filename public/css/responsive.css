@@ -214,8 +214,15 @@
   }
 }
 
+@media (max-width: 768px) {
+  .messenger-messagingView {
+    height: calc(100dvh - 77px) !important;
+  }
+}
 @media (max-width: 680px) {
   .messenger-messagingView {
     top: 78px !important;
   }
-}/*# sourceMappingURL=responsive.css.map */
+}
+
+/*# sourceMappingURL=responsive.css.map */
