@@ -272,11 +272,15 @@
                                 <div class="eventCardInner p-3">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="d-flex align-items-center gap-3">
-                                            <img src=" {{ $user->avatar_url }}" class="rounded-circle">
-                                            <div>
-                                                <span class="d-block">{{ $user->user_name }}</span>
-                                                <span class="d-block">{{ $user->designation }}</span>
-                                            </div>
+                                            <a class="fw-bolder d-flex align-items-center gap-3" href="{{ route('user.users.show', $user->id) }}">
+                                                <img src=" {{ $user->avatar_url }}" class="rounded-circle">
+                                                <div>
+
+                                                    <span class="d-block">{{ $user->user_name }}</span>
+                                                    <span class="d-block">{{ $user->designation }}</span>
+                                                </div>
+                                            </a>
+
                                         </div>
                                         @if (!$user->friends->contains(auth()->user()))
                                             <h6 class="mb-0">

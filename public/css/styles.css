@@ -81,7 +81,8 @@ body {
 .navbar .navbar-brand img {
   width: 140px;
   height: 65px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .navbar .navbar-nav .nav-item .nav-link {
   color: var(--text-color);
@@ -177,6 +178,10 @@ body {
   border: 1px solid #e7e9ed;
   font-weight: 300 !important;
 }
+.newsLetter .row .col-lg-5 .row .col-8 input.newsLetterInput::-moz-placeholder {
+  color: #5c5c5c;
+  font-weight: 300 !important;
+}
 .newsLetter .row .col-lg-5 .row .col-8 input.newsLetterInput::placeholder {
   color: #5c5c5c;
   font-weight: 300 !important;
@@ -189,7 +194,8 @@ body {
 .footerWrapper .container .row .col-lg-3 .image img {
   width: 140px;
   height: 65px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .footerWrapper .container .row .col-lg-2 .footerLinks h6,
 .footerWrapper .container .row .col-lg-3 .footerLinks h6 {
@@ -422,6 +428,11 @@ body {
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
 }
+.contactWrapper .container .row .col-lg-5 .contactCard .form-group input::-moz-placeholder, .contactWrapper .container .row .col-lg-5 .contactCard .form-group textarea::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .contactWrapper .container .row .col-lg-5 .contactCard .form-group input::placeholder,
 .contactWrapper .container .row .col-lg-5 .contactCard .form-group textarea::placeholder {
   color: var(--text-color);
@@ -477,6 +488,11 @@ body {
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
 }
+.registerWrapper .container .row .col-lg-5 .registerCard .form-group input::-moz-placeholder, .registerWrapper .container .row .col-lg-5 .registerCard .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .registerWrapper .container .row .col-lg-5 .registerCard .form-group input::placeholder,
 .registerWrapper .container .row .col-lg-5 .registerCard .form-group .form-select::placeholder {
   color: var(--text-color);
@@ -519,6 +535,9 @@ body {
 .registerWrapper .chosen-container-active .chosen-choices {
   box-shadow: unset !important;
   outline: unset !important;
+}
+.registerWrapper .multipleChosen::-moz-placeholder {
+  font-weight: 300 !important;
 }
 .registerWrapper .multipleChosen::placeholder {
   font-weight: 300 !important;
@@ -573,6 +592,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.loginWrapper .container .row .col-lg-5 .loginCard .form-group input::-moz-placeholder, .loginWrapper .container .row .col-lg-5 .loginCard .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .loginWrapper .container .row .col-lg-5 .loginCard .form-group input::placeholder,
 .loginWrapper .container .row .col-lg-5 .loginCard .form-group .form-select::placeholder {
@@ -659,6 +683,11 @@ body {
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
 }
+.resetWrapper .container .row .col-lg-5 .resetCard .form-group input::-moz-placeholder, .resetWrapper .container .row .col-lg-5 .resetCard .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .resetWrapper .container .row .col-lg-5 .resetCard .form-group input::placeholder,
 .resetWrapper .container .row .col-lg-5 .resetCard .form-group .form-select::placeholder {
   color: var(--text-color);
@@ -729,6 +758,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.verificationWrapper .container .row .col-lg-5 .verificationCard .form-group input::-moz-placeholder, .verificationWrapper .container .row .col-lg-5 .verificationCard .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .verificationWrapper .container .row .col-lg-5 .verificationCard .form-group input::placeholder,
 .verificationWrapper .container .row .col-lg-5 .verificationCard .form-group .form-select::placeholder {
@@ -936,7 +970,8 @@ body {
 .dashboardWrapper .contentWrapper .hero .profile .avatar-upload .avatar-preview img {
   width: 145px;
   height: 145px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .dashboardWrapper .contentWrapper .hero .profile .form-check-input {
   border-color: var(--primary-color) !important;
@@ -1121,7 +1156,8 @@ body {
   width: 145px;
   height: 145px;
   border-radius: 50%;
-  object-fit: cover !important;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .profile .form-check-input {
   border-color: var(--primary-color) !important;
@@ -1208,6 +1244,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.dashboardWrapper .contentWrapper .dashboardCard .formContent .form-group input::-moz-placeholder, .dashboardWrapper .contentWrapper .dashboardCard .formContent .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .dashboardWrapper .contentWrapper .dashboardCard .formContent .form-group input::placeholder,
 .dashboardWrapper .contentWrapper .dashboardCard .formContent .form-group .form-select::placeholder {
@@ -1456,6 +1497,11 @@ body {
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
 }
+.dashboardWrapper .contentWrapper .dashboardCard .searchWrapper input::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 400;
+  font-size: 18px;
+}
 .dashboardWrapper .contentWrapper .dashboardCard .searchWrapper input::placeholder {
   color: var(--text-color);
   font-weight: 400;
@@ -1667,6 +1713,11 @@ body {
   box-shadow: unset !important;
   border-color: unset !important;
 }
+.dashboardWrapper .contentWrapper .profileForm .form-group .form-control input::-moz-placeholder, .dashboardWrapper .contentWrapper .profileForm .form-group .form-control textarea::-moz-placeholder, .dashboardWrapper .contentWrapper .profileForm .form-group .form-select input::-moz-placeholder, .dashboardWrapper .contentWrapper .profileForm .form-group .form-select textarea::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .dashboardWrapper .contentWrapper .profileForm .form-group .form-control input::placeholder,
 .dashboardWrapper .contentWrapper .profileForm .form-group .form-control textarea::placeholder,
 .dashboardWrapper .contentWrapper .profileForm .form-group .form-select input::placeholder,
@@ -1681,6 +1732,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.dashboardWrapper .contentWrapper .profileForm .form-group .form-control::-moz-placeholder, .dashboardWrapper .contentWrapper .profileForm .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .dashboardWrapper .contentWrapper .profileForm .form-group .form-control::placeholder,
 .dashboardWrapper .contentWrapper .profileForm .form-group .form-select::placeholder {
@@ -1806,6 +1862,11 @@ body {
   box-shadow: unset !important;
   border-color: unset !important;
 }
+.dashboardWrapper .contentWrapper .createProductForm .form-group .form-control input::-moz-placeholder, .dashboardWrapper .contentWrapper .createProductForm .form-group .form-control textarea::-moz-placeholder, .dashboardWrapper .contentWrapper .createProductForm .form-group .form-select input::-moz-placeholder, .dashboardWrapper .contentWrapper .createProductForm .form-group .form-select textarea::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .dashboardWrapper .contentWrapper .createProductForm .form-group .form-control input::placeholder,
 .dashboardWrapper .contentWrapper .createProductForm .form-group .form-control textarea::placeholder,
 .dashboardWrapper .contentWrapper .createProductForm .form-group .form-select input::placeholder,
@@ -1820,6 +1881,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.dashboardWrapper .contentWrapper .createProductForm .form-group .form-control::-moz-placeholder, .dashboardWrapper .contentWrapper .createProductForm .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .dashboardWrapper .contentWrapper .createProductForm .form-group .form-control::placeholder,
 .dashboardWrapper .contentWrapper .createProductForm .form-group .form-select::placeholder {
@@ -2126,6 +2192,11 @@ body {
   box-shadow: unset !important;
   border-color: unset !important;
 }
+.account-settings-tab .form-group .form-control input::-moz-placeholder, .account-settings-tab .form-group .form-control textarea::-moz-placeholder, .account-settings-tab .form-group .form-select input::-moz-placeholder, .account-settings-tab .form-group .form-select textarea::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
+}
 .account-settings-tab .form-group .form-control input::placeholder,
 .account-settings-tab .form-group .form-control textarea::placeholder,
 .account-settings-tab .form-group .form-select input::placeholder,
@@ -2140,6 +2211,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.account-settings-tab .form-group .form-control::-moz-placeholder, .account-settings-tab .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .account-settings-tab .form-group .form-control::placeholder,
 .account-settings-tab .form-group .form-select::placeholder {
@@ -2176,6 +2252,11 @@ body {
   outline: unset !important;
   box-shadow: unset !important;
   border-color: var(--primary-color) !important;
+}
+.passwordCard .form-group input::-moz-placeholder, .passwordCard .form-group .form-select::-moz-placeholder {
+  color: var(--text-color);
+  font-weight: 300;
+  font-size: 16px;
 }
 .passwordCard .form-group input::placeholder,
 .passwordCard .form-group .form-select::placeholder {
@@ -2225,6 +2306,11 @@ body {
 }
 #report .modal-content .modal-body textarea option:hover {
   background-color: var(--primary-color) !important;
+}
+#report .modal-content .modal-body textarea::-moz-placeholder {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 300;
 }
 #report .modal-content .modal-body textarea::placeholder {
   color: var(--text-color);
@@ -2349,7 +2435,8 @@ select.custom-select-styling:focus-visible, select.custom-select-styling:focus, 
 }
 
 .object-cover {
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .fw-medium {
@@ -2360,7 +2447,8 @@ select.custom-select-styling:focus-visible, select.custom-select-styling:focus, 
   margin: auto;
   width: 150px;
   height: 150px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 100%;
 }
 
@@ -2447,4 +2535,7 @@ select.custom-select-styling:focus-visible, select.custom-select-styling:focus, 
   font-size: 20px !important;
 }
 
-/*# sourceMappingURL=styles.css.map */
+.group-modal .app-modal-container .app-modal-card {
+  max-height: 90vh;
+  overflow: auto;
+}/*# sourceMappingURL=styles.css.map */

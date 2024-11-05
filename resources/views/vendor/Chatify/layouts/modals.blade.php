@@ -122,7 +122,7 @@
                     </label>
                     {{-- Dark/Light Mode  --}}
                     <p class="divider"></p>
-                    <p class="app-modal-header">Dark Mode <span
+                    <p class="app-modal-header">{{ __('Dark Mode') }}<span
                             class="
                         {{ Auth::user()->dark_mode > 0 ? 'fas' : 'far' }} fa-moon dark-mode-switch"
                             data-mode="{{ Auth::user()->dark_mode > 0 ? 1 : 0 }}"></span></p>
@@ -140,8 +140,8 @@
                     </div>
                 </div>
                 <div class="app-modal-footer">
-                    <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                    <input type="submit" class="app-btn a-btn-success update" value="Save Changes" />
+                    <a href="javascript:void(0)" class="app-btn cancel">{{ __('Cancel') }}</a>
+                    <input type="submit" class="app-btn a-btn-success update" value="{{__('Save Changes')}}" />
                 </div>
             </form>
         </div>

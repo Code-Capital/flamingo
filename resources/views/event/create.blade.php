@@ -67,13 +67,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="mb-1 required">
+                                        <label class="mb-1 ">
                                             <span>{{ __('End date') }}</span>
                                         </label>
                                         <div class="form-control form-control-lg">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <input class="w-100" name="end_date" type="date"
-                                                    value="{{ old('end_date') }}" required>
+                                                    value="{{ old('end_date') }}" >
                                             </div>
                                         </div>
                                         @error('end_date')
