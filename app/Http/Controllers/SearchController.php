@@ -22,10 +22,6 @@ class SearchController extends Controller
         $interests = array_merge($authUser->interests->pluck('id')->toArray());
         $selectedInterests = [];
 
-
-
-
-
         if ($request->has('find')) {
             $searchTerm = $request->input('q', '');
             $location = $request->input('location_id', '');

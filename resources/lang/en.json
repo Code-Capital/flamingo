@@ -189,5 +189,23 @@
     "End time": "End time",
 
     "Start date": "Start date",
-    "End date": "End date"
+    "End date": "End date",
+
+    "Municipality": "Municipality",
+    "Breed of dog": "Breed of dog",
+    "Dog's gender": "Dog's gender",
+    "Kennel club": "Kennel club",
+    "Working dog club": "Working dog club",
+    "Height at the withers": "Height at the withers",
+    "Weight": "Weight",
+    "Size": "Size",
+    "Castrated": "Castrated",
+    "Targeting": "Targeting",
+    "Fur": "Fur",
+    "Drawing": "Drawing",
+    "Hills": "Hills",
+    "Dark Mode": "Dark Mode",
+    "Cancel":"Cancel",
+    "Save Changes":"Save Changes",
+    "The end date must be after the start date.":"The end date must be after the start date."
 }

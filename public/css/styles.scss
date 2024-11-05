@@ -3290,3 +3290,12 @@ select.custom-select-styling {
     margin-right: 30px !important;
     font-size: 20px !important;
 }
+
+.group-modal {
+    .app-modal-container {
+        .app-modal-card {
+            max-height: 90vh;
+            overflow: auto;
+        }
+    }
+}
