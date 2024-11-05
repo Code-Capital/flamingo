@@ -37,7 +37,7 @@
     "Last name": "Efternamn",
     "User name": "Användarnamn",
     "Interest": "Intressen",
-    "Interests": "Interests",
+    "Interests": "Intressen",
     "Gender": "Kön",
     "Age": "Ålder",
     "Locations": "Län",
@@ -198,5 +198,23 @@
     "End time": "Sluttid",
 
     "Start date": "Startdatum",
-    "End date": "Slutdatum"
+    "End date": "Slutdatum",
+
+    "Municipality": "Kommun",
+    "Breed of dog": "Hundras",
+    "Dog's gender": "Hundes kön",
+    "Kennel club": "Kennelklubb",
+    "Working dog club": "Brukshundsklubb",
+    "Height at the withers": "Mankhöjd",
+    "Weight": "Vikt",
+    "Size": "Storlek",
+    "Castrated": "Kastrerad",
+    "Targeting": "Inriktning",
+    "Fur": "Päls",
+    "Drawing": "Teckning",
+    "Hills": "Kullar",
+    "Dark Mode": "Mörkt läge",
+    "Cancel": "Avboka",
+    "Save Changes": "Spara ändringar",
+    "The end date must be after the start date.": "Slutdatumet måste vara efter startdatumet."
 }
