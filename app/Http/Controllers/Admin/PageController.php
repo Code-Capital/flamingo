@@ -16,15 +16,18 @@ class PageController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('name', function ($row) {
+                    return '<a target="_blank" class="text-dark" href="' . route('pages.show', $row->slug) . '">' . $row->name . '</a>';
+                })
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button = '<button type="button" name="delete" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
 
                     return $button;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'name'])
                 ->make(true);
         }
 
@@ -38,7 +41,7 @@ class PageController extends Controller
 
             return $this->sendSuccessResponse(null, 'Page deleted successfully');
         } catch (\Throwable $th) {
-            return $this->sendErrorResponse('Error occured while deleting Page '.$th->getMessage());
+            return $this->sendErrorResponse('Error occured while deleting Page ' . $th->getMessage());
         }
     }
 }
