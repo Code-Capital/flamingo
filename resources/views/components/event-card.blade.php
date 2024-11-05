@@ -4,9 +4,11 @@
         <div class="content w-100">
             <div class="d-flex align-items-center">
                 <div>
-                    @if ($event->start_date != '' && $event->end_date)
-                        <span>{{ __('Starts from') }} :{{ $event->formatted_start_date }} {{ __('To') }}:
-                            {{ $event->formatted_end_date }} </span>
+                    @if ($event->start_date != '')
+                        <span>{{ __('Starts from') }} :{{ $event->formatted_start_date }}</span>
+                    @endif
+                    @if ($event->end_date != '')
+                        <span>{{ __('To') }} :{{ $event->formatted_end_date }}</span>
                     @endif
                     <br>
                     @if ($event->start_time != '' && $event->end_time)

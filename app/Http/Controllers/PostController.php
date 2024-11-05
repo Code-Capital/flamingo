@@ -25,7 +25,7 @@ class PostController extends Controller
 
         // Get the user's friends
         $friends = $user->acceptedFriends->pluck('id');
-
+        $friends->push(1);
         // Fetch posts by the authenticated user and their friends
         $feeds = Post::whereIn('user_id', $friends->push($user->id))
             ->byPublished()
