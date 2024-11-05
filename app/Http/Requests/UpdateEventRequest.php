@@ -26,7 +26,7 @@ class UpdateEventRequest extends FormRequest
             'title' => ['required', 'string', 'max:255', Rule::unique('events', 'title')->ignore($this->event)],
             'location_id' => ['required', 'string', 'max:255', 'exists:locations,id'],
             'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after:start_date'],
+            'end_date' => ['nullable', 'date', 'after:start_date'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'description' => ['required', 'string'],
             'rules' => ['nullable', 'string'],
@@ -47,6 +47,7 @@ class UpdateEventRequest extends FormRequest
     {
         return [
             'title.unique' => 'An event with this title already exists.',
+            'end_date.after' => __('The end date must be after the start date.'),
         ];
     }
 }
