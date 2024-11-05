@@ -61,7 +61,7 @@
                                 </div>
                                 <div class=" col-lg-6 form-group mb-3">
                                     <label class="mb-1 ">
-                                        <span>Email</span>
+                                        <span>{{__('Email')}}</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <input class="w-100" type="email" name="email" value="{{ $user->email }}"
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-lg-6  form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Municipality</span>
+                                        <span>{{ __('Municipality') }}</span>
                                     </label>
                                     <div class="form-control form-control-lg">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Breed of dog</span>
+                                        <span>{{ __('Breed of dog') }}</span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
                                     {{-- <div class="d-flex align-items-center justify-content-between"> --}}
@@ -147,7 +147,7 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Dog's gender</span>
+                                        <span>{{__("Dog's gender")}}</span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
                                     {{-- <div class="d-flex align-items-center justify-content-between">
@@ -168,7 +168,7 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Kennel club</span>
+                                        <span>{{__("Kennel club")}}</span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
                                     {{-- <div class="d-flex align-items-center justify-content-between">
@@ -187,7 +187,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Working dog club
+                                        <span>
+                                            {{__('Working dog club')}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -213,7 +214,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Height at the withers
+                                        <span>
+                                            {{__('Height at the withers')}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -234,7 +236,7 @@
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
                                         <span>
-                                            Weight
+                                            {{__('Weight')}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -253,7 +255,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Size
+                                        <span>
+                                            {{__('Size')}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -272,7 +275,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Castrated
+                                        <span>
+                                            {{__('Castrated')}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -291,7 +295,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Targeting
+                                        <span>
+                                            {{__("Targeting")}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -310,7 +315,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Fur
+                                        <span>
+                                            {{__("Furr")}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -329,7 +335,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Drawing
+                                        <span>
+                                            {{__("Drawing")}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
@@ -348,7 +355,8 @@
                                 </div>
                                 <div class="col-lg-6 form-group mb-3">
                                     <label class="mb-1 d-flex align-items-center justify-content-between">
-                                        <span>Hills
+                                        <span>
+                                            {{__("Hills")}}
                                         </span>
                                     </label>
                                     {{-- <div class="form-control form-control-lg"> --}}
