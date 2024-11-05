@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Exceptions\SubscriptionUpdateFailure;
@@ -120,7 +121,14 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        // $user = $user;
+
+        $pages = $user->pages()
+            ->whereDoesntHave('reports', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->latest()
+            ->paginate(getPaginated());
+        $remainingPagesCount = $user->getRemainingPages();
         return view('admin.users.show', get_defined_vars());
     }
 
