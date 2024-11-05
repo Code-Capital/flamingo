@@ -173,7 +173,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('dogs-information', DogsInformationController::class);
 
         Route::get('events/list', [AdminEventController::class, 'index'])->name('events.list');
-        Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
+
 
         Route::get('posts/list', [AdminPostcontroller::class, 'index'])->name('posts.list');
         Route::delete('posts/{post}/delete', [AdminPostcontroller::class, 'destroy'])->name('posts.destroy');
@@ -225,6 +225,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('events/{event:slug}/delete', [EventController::class, 'destroy'])->name('events.destroy');
         Route::get('user-detail/{user}/show', [AdminUserController::class, 'showUser'])->name('user.users.show');
     });
+});
+
+Route::middleware('role:admin')->group(function () {
+    Route::delete('events/{event}/delete', [AdminEventController::class, 'destroy'])->name('admin.events.destroy');
 });
 
 Route::get('profile-detail', function () {

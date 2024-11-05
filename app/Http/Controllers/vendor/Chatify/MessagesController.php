@@ -55,7 +55,6 @@ class MessagesController extends Controller
      */
     public function index(Request $request, $channel_id = null)
     {
-
         $user = Auth::user();
         if (!$user->isSubscribed()) {
             // abort(403, "You need to subscribe to access this page.");
@@ -468,9 +467,11 @@ class MessagesController extends Controller
         $getRecords = null;
         $input = trim(filter_var($request['input']));
         $records = User::where('id', '!=', Auth::user()->id)
-            ->orWhere('first_name', 'LIKE', "%{$input}%")
-            ->orWhere('user_name', 'LIKE', "%{$input}%")
-            ->orWhere('last_name', 'LIKE', "%{$input}%")
+            ->where(function ($query) use ($input) {
+                $query->where('first_name', 'LIKE', "%{$input}%")
+                    ->orWhere('user_name', 'LIKE', "%{$input}%")
+                    ->orWhere('last_name', 'LIKE', "%{$input}%");
+            })
             ->paginate($request->per_page ?? $this->perPage);
 
         foreach ($records->items() as $record) {
@@ -692,13 +693,18 @@ class MessagesController extends Controller
      */
     public function searchUsers(Request $request)
     {
+
         $getRecords = array();
         $input = trim(filter_var($request['input']));
+
         $records = User::where('id', '!=', Auth::user()->id)
-            ->orWhere('first_name', 'LIKE', "%{$input}%")
-            ->orWhere('user_name', 'LIKE', "%{$input}%")
-            ->orWhere('last_name', 'LIKE', "%{$input}%")
+            ->where(function ($query) use ($input) {
+                $query->where('first_name', 'LIKE', "%{$input}%")
+                    ->orWhere('user_name', 'LIKE', "%{$input}%")
+                    ->orWhere('last_name', 'LIKE', "%{$input}%");
+            })
             ->paginate($request->per_page ?? $this->perPage);
+
 
         foreach ($records->items() as $record) {
             $getRecords[] = array(
