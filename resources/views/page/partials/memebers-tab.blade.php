@@ -3,10 +3,25 @@
     <div class="bg-white p-4 dashboardCard">
         <div class="row mx-0">
             <div class="col-lg-12">
-                <div class="heading pb-4">{{__("Members")}} <span>({{ $JoinedUsers->count() }})</span></div>
+                <div class="heading pb-4">{{ __('Members') }} <span>({{ $JoinedUsers->count() }})</span></div>
             </div>
         </div>
         <div class="row mx-0">
+            {{-- Page Owner Users --}}
+            <div class="col-lg-6 mb-3 memeber-{{ $page->owner->id }}">
+                <div class="eventCardInner p-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="{{ asset($page->owner->avatar_url) }}" class="rounded-circle">
+                            <div>
+                                <span class="d-block">{{ $page->owner->user_name }} <span>(Admin)</span></span>
+                                <span class="d-block">{{ $page->owner->designation }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @forelse ($JoinedUsers as $member)
                 <div class="col-lg-6 mb-3 memeber-{{ $member->id }}">
                     <div class="eventCardInner p-3">
@@ -14,7 +29,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <img src="{{ asset($member->avatar_url) }}" class="rounded-circle">
                                 <div>
-                                    <span class="d-block">{{ $member->full_name }}</span>
+                                    <span class="d-block">{{ $member->user_name }}</span>
                                     <span class="d-block">{{ $member->designation }}</span>
                                 </div>
                             </div>
